@@ -428,14 +428,24 @@ body.nhs-report {
 .nhs-kfe-table {
   font-size: 0.875rem;
   width: 100%;
+  min-width: 60rem;
   border-collapse: collapse;
 }
 
 .nhs-kfe-table th[scope="row"] {
+  background: var(--nhs-white);
   font-weight: 600;
   color: var(--nhs-dark-blue);
+  text-align: left;
   vertical-align: top;
+  white-space: normal;
+  overflow-wrap: anywhere;
   min-width: 9rem;
+  max-width: 14rem;
+}
+
+.nhs-kfe-table tr:nth-child(even) th[scope="row"] {
+  background: #FAFBFC;
 }
 
 .nhs-kfe-table td,
