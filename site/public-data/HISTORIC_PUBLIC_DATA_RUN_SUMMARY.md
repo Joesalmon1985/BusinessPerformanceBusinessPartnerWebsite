@@ -1,6 +1,6 @@
 # Historic public data run summary
 
-Generated: 2026-06-21 18:46:35
+Generated: 2026-06-21 21:09:55
 
 > Public aggregate data only. Not official Dorset HealthCare reporting.
 > Human review and local owner confirmation required.
@@ -29,7 +29,7 @@ Generated: 2026-06-21 18:46:35
 
 ### dm01_monthly
 - Historic download attempted: yes
-- Periods downloaded: DM01-MARCH-2026; DM01-MARCH-2025; DM01-FEBRUARY-2025; DM01-JANUARY-2025; DM01-DECEMBER-2024; DM01-NOVEMBER-2024; DM01-OCTOBER-2024
+- Periods downloaded: DM01-MARCH-2026; DM01-DECEMBER-2024; DM01-FEBRUARY-2025; DM01-JANUARY-2025; DM01-MARCH-2025; DM01-NOVEMBER-2024; DM01-OCTOBER-2024
 - Trend file: trend_dm01_rdy.csv
 - Trend available: yes
 - Trend periods (distinct): 7
@@ -60,12 +60,12 @@ Generated: 2026-06-21 18:46:35
 ### mhsds_monthly
 - Historic download attempted: yes
 - Periods downloaded: performance-april-2026; performance-march-2026; performance-february-2026; performance-january-2026; performance-december-2025; performance-november-2025; performance-october-2025; performance-september-2025
-- Trend file: trend_mhs23_rdy.csv
+- Trend file: trend_mhsds_access_rdy.csv; trend_mhs23_rdy.csv
 - Trend available: yes
 - Trend periods (distinct): 8
-- RDY rows stacked: 8
+- RDY rows stacked: 32
 - Manual download needed: no
-- Caveats: MHS23 not in time-series bundle; stacked from main data monthly files only.
+- Caveats: Primary: trend_mhsds_access_rdy.csv (MHS23/MHS01/MHS29/MHS69). MHS23: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS01: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS29: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS69: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
 
 ## Rerun
 

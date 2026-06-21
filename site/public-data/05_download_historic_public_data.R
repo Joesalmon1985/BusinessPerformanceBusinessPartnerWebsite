@@ -24,15 +24,21 @@ ensure_packages(c("rvest", "readxl", "jsonlite"), root = root)
 run_date <- format(Sys.Date(), "%Y-%m-%d")
 MAX_MONTHS <- 12L
 MIN_MONTHS <- 6L
+cli_args <- commandArgs(trailingOnly = TRUE)
+DRY_RUN <- "--dry-run" %in% cli_args || "--dry-run-mhsds" %in% cli_args
+MHSDS_ONLY <- "--mhsds-only" %in% cli_args || "--dry-run-mhsds" %in% cli_args
+options(historic.root = root)
 
-append_log(root, "=== Historic public data run started ===")
+append_log(root, paste("=== Historic public data run started", if (DRY_RUN) "(dry-run)" else "", "==="))
 invisible(read_historic_register(root))
 
 historic_results <- list()
 
+skip_non_mhsds <- function() MHSDS_ONLY
+
 # --- 1. CSDS monthly history -------------------------------------------------
 
-historic_results$csds_monthly <- tryCatch({
+if (!skip_non_mhsds()) historic_results$csds_monthly <- tryCatch({
   append_log(root, "csds_monthly: starting historic download")
   index <- paste0(
     "https://digital.nhs.uk/data-and-information/publications/statistical/",
@@ -116,7 +122,7 @@ historic_results$csds_monthly <- tryCatch({
 
 # --- 2. A&E monthly history ----------------------------------------------------
 
-historic_results$ae_monthly <- tryCatch({
+if (!skip_non_mhsds()) historic_results$ae_monthly <- tryCatch({
   append_log(root, "ae_monthly: starting historic download")
   csvs <- discover_ae_monthly_csvs(MAX_MONTHS)
   if (nrow(csvs) == 0) stop("No A&E monthly CSV links found")
@@ -181,7 +187,7 @@ historic_results$ae_monthly <- tryCatch({
 
 # --- 3. DM01 monthly history ---------------------------------------------------
 
-historic_results$dm01_monthly <- tryCatch({
+if (!skip_non_mhsds()) historic_results$dm01_monthly <- tryCatch({
   append_log(root, "dm01_monthly: starting historic download")
   zips <- discover_dm01_monthly_zips(MAX_MONTHS)
   existing_full <- list.files(
@@ -268,7 +274,7 @@ historic_results$dm01_monthly <- tryCatch({
 
 # --- 4. KH03 cleanup -----------------------------------------------------------
 
-historic_results$kh03_quarterly <- tryCatch({
+if (!skip_non_mhsds()) historic_results$kh03_quarterly <- tryCatch({
   append_log(root, "kh03_quarterly: starting historic processing")
   page <- paste0(
     "https://www.england.nhs.uk/statistics/statistical-work-areas/",
@@ -383,7 +389,7 @@ historic_results$kh03_quarterly <- tryCatch({
 
 # --- 5. FFT organisation-level attempt -----------------------------------------
 
-historic_results$fft_monthly <- tryCatch({
+if (!skip_non_mhsds()) historic_results$fft_monthly <- tryCatch({
   append_log(root, "fft_monthly: starting FFT org-level search")
   index <- "https://www.england.nhs.uk/fft/friends-and-family-test-data/"
   pub_links <- scrape_links(index, pattern = "friends-and-family-test-data-[a-z]+-[0-9]{4}")
@@ -514,26 +520,19 @@ historic_results$fft_monthly <- tryCatch({
   list(ok = FALSE, error = conditionMessage(e))
 })
 
-# --- 6. MHSDS MHS23 from main data monthly files -------------------------------
+# --- 6. MHSDS access measures from main data monthly files ---------------------
 
 historic_results$mhsds_monthly <- tryCatch({
-  append_log(root, "mhsds_monthly: searching for MHS23 in time series and main data")
-
-  ts_files <- list.files(
-    file.path(root, "processed"),
-    pattern = "time_series.*\\.csv$", full.names = TRUE
-  )
-  mhs23_in_ts <- FALSE
-  for (tf in ts_files) {
-    if (any(grepl("\\bMHS23\\b", readLines(tf, n = 500, warn = FALSE)))) {
-      mhs23_in_ts <- TRUE
-      break
-    }
-  }
+  append_log(root, "mhsds_monthly: stacking MHS23/MHS01/MHS29/MHS69 from main data")
 
   index <- "https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics"
-  months <- discover_mhsds_month_pages(index, MAX_MONTHS)
-  if (nrow(months) > MAX_MONTHS) months <- months[seq_len(MAX_MONTHS), , drop = FALSE]
+  months <- discover_mhsds_month_pages(index, MAX_MONTHS, MIN_MONTHS, root = root)
+  print_mhsds_dry_run(months)
+
+  if (DRY_RUN) {
+    append_log(root, "mhsds_monthly: dry-run complete — no downloads performed")
+    list(ok = TRUE, dry_run = TRUE, periods = nrow(months))
+  } else {
 
   raw_paths <- character()
   stacked <- list()
@@ -541,18 +540,23 @@ historic_results$mhsds_monthly <- tryCatch({
 
   for (i in seq_len(nrow(months))) {
     slug <- months$slug[i]
-    zip_url <- find_mhsds_main_zip(months$href[i])
-    if (is.null(zip_url)) {
-      append_log(root, paste("mhsds_monthly: no main zip for", slug))
-      next
-    }
     dest <- raw_dest_path(root, "mhsds_monthly", paste0("historic_", slug), "main_data.zip")
-    res <- safe_download(zip_url, dest)
-    if (res$ok) raw_paths <- c(raw_paths, dest)
+    if (!file.exists(dest)) {
+      zip_url <- find_mhsds_main_zip(months$href[i])
+      if (is.null(zip_url)) {
+        append_log(root, paste("mhsds_monthly: no main zip for", slug))
+        next
+      }
+      res <- safe_download(zip_url, dest)
+      if (res$ok) raw_paths <- c(raw_paths, dest)
+    } else {
+      raw_paths <- c(raw_paths, dest)
+    }
+    if (!file.exists(dest)) next
     csv_path <- extract_zip_csv(dest, pattern = "MHSDS|Data", cache_root = root)
     if (is.null(csv_path)) next
     df <- read_tabular_historic(csv_path)
-    part <- stack_mhsds_mhs23_provider(df, slug, dest)
+    part <- stack_mhsds_access_measures(df, slug, dest)
     if (!is.null(part) && nrow(part) > 0) {
       stacked[[length(stacked) + 1]] <- part
       periods_ok <- c(periods_ok, slug)
@@ -561,41 +565,72 @@ historic_results$mhsds_monthly <- tryCatch({
 
   trend_df <- if (length(stacked) > 0) do.call(rbind, stacked) else NULL
   trend_file <- ""
-  n_periods <- count_distinct_periods(trend_df)
-  trend_avail <- if (n_periods >= 2) "yes" else "no"
-  manual_note <- file.path(root, "metadata", "mhs23_trend_not_available.md")
+  trend_avail <- "no"
+  manual_note <- file.path(root, "metadata", "mhsds_trend_gap_note.md")
 
-  if (trend_avail == "yes") {
+  measure_checks <- lapply(MHSDS_ACCESS_MEASURES, function(mid) {
+    validate_mhsds_measure_trend(trend_df, mid, MIN_MONTHS)
+  })
+  names(measure_checks) <- MHSDS_ACCESS_MEASURES
+  all_ok <- all(vapply(measure_checks, function(x) isTRUE(x$ok), logical(1)))
+  min_consecutive <- if (length(measure_checks) > 0) {
+    min(vapply(measure_checks, function(x) x$consecutive, integer(1)))
+  } else {
+    0L
+  }
+
+  check_lines <- vapply(measure_checks, function(x) {
+    paste0(
+      x$measure_id, ": ", x$consecutive, " consecutive month(s), ",
+      x$n_numeric, " numeric, ", x$n_suppressed, " suppressed, ",
+      x$n_missing, " missing — ", if (isTRUE(x$ok)) "PASS" else "FAIL"
+    )
+  }, character(1))
+
+  if (!is.null(trend_df) && nrow(trend_df) > 0 && all_ok) {
     write_trend_csv(
-      root, "trend_mhs23_rdy.csv", trend_df,
+      root, "trend_mhsds_access_rdy.csv", trend_df,
       metadata_note = c(
-        paste("MHSDS MHS23 Provider RDY trend — generated", Sys.time()),
-        "Open referrals at end of reporting period; provisional monthly data."
+        paste("MHSDS access measures Provider RDY trend — generated", Sys.time()),
+        paste("Measures:", paste(MHSDS_ACCESS_MEASURES, collapse = ", ")),
+        paste("Periods:", paste(unique(periods_ok), collapse = ", ")),
+        check_lines,
+        "Provisional monthly MHSDS; Provider breakdown only."
       )
     )
-    trend_file <- "trend_mhs23_rdy.csv"
+    mhs23_slice <- trend_df[trimws(trend_df$measure_id) == "MHS23", , drop = FALSE]
+    if (nrow(mhs23_slice) > 0) {
+      write_trend_csv(
+        root, "trend_mhs23_rdy.csv", mhs23_slice,
+        metadata_note = c(
+          paste("MHSDS MHS23 compatibility slice — generated", Sys.time()),
+          "Primary source: trend_mhsds_access_rdy.csv"
+        )
+      )
+    }
+    trend_file <- "trend_mhsds_access_rdy.csv; trend_mhs23_rdy.csv"
+    trend_avail <- "yes"
     if (file.exists(manual_note)) unlink(manual_note)
   } else {
     writeLines(c(
-      "# MHS23 trend not available from current extract",
+      "# MHSDS access trend gap",
       "",
       paste("Generated:", Sys.time()),
       "",
-      paste("MHS23 in existing time-series files:", if (mhs23_in_ts) "yes (unexpected)" else "no"),
-      paste("Main-data monthly publications processed:", length(periods_ok)),
-      paste("Distinct periods with MHS23 Provider RDY row:", n_periods),
+      paste("Publications processed:", length(periods_ok)),
+      paste("Minimum consecutive months required:", MIN_MONTHS),
       "",
-      "MHS23 (open referrals at end of reporting period) was not found across ≥2 comparable",
-      "Provider/RDY periods in downloaded MHSDS main data files.",
+      "## Per-measure validation",
+      "",
+      paste0("- ", check_lines),
       "",
       "## What would be needed",
       "",
-      "- Additional MHSDS monthly main data publications with MHS23 at Provider breakdown",
-      "- Confirmation that measure ID and breakdown are unchanged between months",
+      "- Additional MHSDS monthly main data publications with consistent Provider/RDY rows",
+      "- Confirmation that measure IDs are unchanged between months",
       "- Local MHSDS owner validation before any operational use",
       "",
-      "> Do not fabricate MHS23 trends. Latest-period commentary remains in demo_mhsds_activity.csv.",
-      "> Not official Dorset HealthCare reporting."
+      "> Do not fabricate trends. Not official Dorset HealthCare reporting."
     ), manual_note)
   }
 
@@ -605,20 +640,25 @@ historic_results$mhsds_monthly <- tryCatch({
     historic_raw_files = paste(raw_paths, collapse = "; "),
     historic_trend_file = trend_file,
     trend_available = trend_avail,
-    trend_periods_count = as.character(n_periods),
+    trend_periods_count = as.character(min_consecutive),
     rdy_rows_stacked = as.character(if (is.null(trend_df)) 0 else nrow(trend_df)),
-    trend_caveats = "MHS23 not in time-series bundle; stacked from main data monthly files only.",
-    manual_download_needed = if (trend_avail != "yes") "yes" else "no",
+    trend_caveats = paste(
+      "Primary: trend_mhsds_access_rdy.csv (MHS23/MHS01/MHS29/MHS69).",
+      paste(check_lines, collapse = " | ")
+    ),
+    manual_download_needed = if (all_ok) "no" else "yes",
     last_run_date = run_date
   ))
-  append_log(root, paste("mhsds_monthly MHS23: periods", n_periods))
-  list(ok = TRUE, periods = n_periods)
+  append_log(root, paste("mhsds_monthly access measures:", paste(check_lines, collapse = "; ")))
+  list(ok = TRUE, periods = min_consecutive, all_ok = all_ok)
+  }
+
 }, error = function(e) {
-  append_log(root, paste("mhsds_monthly MHS23 ERROR:", conditionMessage(e)))
+  append_log(root, paste("mhsds_monthly ERROR:", conditionMessage(e)))
   writeLines(c(
-    "# MHS23 trend not available",
+    "# MHSDS access trend not available",
     "", paste("Error:", conditionMessage(e))
-  ), file.path(root, "metadata", "mhs23_trend_not_available.md"))
+  ), file.path(root, "metadata", "mhsds_trend_gap_note.md"))
   update_historic_row(root, "mhsds_monthly", list(
     historic_download_attempted = "yes", trend_available = "no",
     manual_download_needed = "yes", last_run_date = run_date,

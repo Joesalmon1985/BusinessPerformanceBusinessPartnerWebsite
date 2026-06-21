@@ -1099,7 +1099,261 @@ nof_build_grouped_findings <- function(audit_source, lookup) {
 }
 
 load_mhsds_time_series <- function() {
-  load_rdy_glob("^rdy_mhsds_monthly.*time_series.*Apr2025.*Perf_2026.*\\.csv$")
+  files <- list.files(processed_dir, pattern = "^rdy_mhsds_monthly.*time_series.*\\.csv$", full.names = TRUE)
+  if (length(files) == 0) return(NULL)
+  pref <- files[grepl("Apr2025.*Perf_2026|Apr_Perf_2026", basename(files), ignore.case = TRUE)]
+  pick <- if (length(pref) > 0) pref[1] else files[1]
+  tryCatch(read.csv(pick, stringsAsFactors = FALSE, check.names = FALSE), error = function(e) NULL)
+}
+
+load_mhsds_access_trend <- function() {
+  load_trend_file("trend_mhsds_access_rdy.csv")
+}
+
+extract_mhsds_measure_series <- function(trend_df, measure_id, window_months = 6L) {
+  if (is.null(trend_df) || nrow(trend_df) == 0) return(NULL)
+  sub <- trend_df[trimws(trend_df$measure_id) == measure_id, , drop = FALSE]
+  if (nrow(sub) == 0) return(NULL)
+  sub$period <- parse_stacked_period(sub$reporting_period_start)
+  if (all(is.na(sub$period)) && "publication_period" %in% names(sub)) {
+    sub$period <- parse_stacked_period(sub$publication_period)
+  }
+  sub <- sub[!is.na(sub$period), , drop = FALSE]
+  if (nrow(sub) == 0) return(NULL)
+  sub <- sub[order(sub$period), , drop = FALSE]
+  sub <- sub[!duplicated(sub$period), , drop = FALSE]
+  if (nrow(sub) > window_months) sub <- sub[(nrow(sub) - window_months + 1L):nrow(sub), , drop = FALSE]
+  sub$value <- if ("value_status" %in% names(sub)) {
+    ifelse(sub$value_status == "numeric", to_num(sub$metric_value), NA_real_)
+  } else {
+    to_num(sub$metric_value)
+  }
+  if (!"value_status" %in% names(sub)) {
+    sub$value_status <- ifelse(is.na(sub$value), "missing", "numeric")
+  }
+  sub
+}
+
+compute_six_month_stats <- function(series, measure_id, label, note = "") {
+  empty <- list(
+    measure_id = measure_id, label = label, note = note,
+    available = FALSE, n_periods = 0L, n_numeric = 0L, n_suppressed = 0L,
+    window_start = NA_character_, window_end = NA_character_
+  )
+  if (is.null(series) || nrow(series) == 0) return(empty)
+  numeric_rows <- series[!is.na(series$value), , drop = FALSE]
+  n_supp <- sum(series$value_status == "suppressed", na.rm = TRUE)
+  n_numeric <- nrow(numeric_rows)
+  window_start <- format(min(series$period), "%b %Y")
+  window_end <- format(max(series$period), "%b %Y")
+  base <- list(
+    measure_id = measure_id,
+    label = label,
+    note = note,
+    available = n_numeric >= 2L,
+    n_periods = nrow(series),
+    n_numeric = n_numeric,
+    n_suppressed = n_supp,
+    window_start = window_start,
+    window_end = window_end,
+    series = series
+  )
+  if (n_numeric < 1L) return(c(base, list(
+    latest_value = NA_real_, latest_period = window_end,
+    previous_value = NA_real_, previous_period = NA_character_,
+    mom_abs = NA_real_, mom_pct = NA_real_,
+    six_month_abs = NA_real_, six_month_pct = NA_real_,
+    six_month_avg = NA_real_, six_month_high = NA_real_, six_month_low = NA_real_,
+    trend_reading = "unclear"
+  )))
+  latest_row <- series[nrow(series), , drop = FALSE]
+  prev_row <- if (nrow(series) >= 2L) series[nrow(series) - 1L, , drop = FALSE] else latest_row
+  first_num <- numeric_rows[1, , drop = FALSE]
+  last_num <- numeric_rows[nrow(numeric_rows), , drop = FALSE]
+  latest_val <- latest_row$value[1]
+  prev_val <- prev_row$value[1]
+  mom_abs <- if (!is.na(latest_val) && !is.na(prev_val)) latest_val - prev_val else NA_real_
+  mom_pct <- pct_change(latest_val, prev_val)
+  six_abs <- if (nrow(numeric_rows) >= 2L) last_num$value[1] - first_num$value[1] else NA_real_
+  six_pct <- pct_change(last_num$value[1], first_num$value[1])
+  c(base, list(
+    latest_value = latest_val,
+    latest_period = format(latest_row$period[1], "%b %Y"),
+    latest_status = latest_row$value_status[1],
+    previous_value = prev_val,
+    previous_period = format(prev_row$period[1], "%b %Y"),
+    previous_status = prev_row$value_status[1],
+    mom_abs = mom_abs,
+    mom_pct = mom_pct,
+    six_month_abs = six_abs,
+    six_month_pct = six_pct,
+    six_month_avg = if (n_numeric >= 1L) round(mean(numeric_rows$value), 1) else NA_real_,
+    six_month_high = if (n_numeric >= 1L) max(numeric_rows$value) else NA_real_,
+    six_month_low = if (n_numeric >= 1L) min(numeric_rows$value) else NA_real_,
+    trend_reading = classify_mhsds_trend_reading(numeric_rows)
+  ))
+}
+
+classify_mhsds_trend_reading <- function(numeric_rows) {
+  if (is.null(numeric_rows) || nrow(numeric_rows) < 2L) return("unclear")
+  vals <- numeric_rows$value
+  if (length(vals) < 2L) return("unclear")
+  first_v <- vals[1]
+  last_v <- vals[length(vals)]
+  pct <- pct_change(last_v, first_v)
+  if (is.na(pct)) return("unclear")
+  if (abs(pct) <= 3) return("broadly stable")
+  dirs <- sign(diff(vals))
+  dirs <- dirs[dirs != 0]
+  if (length(dirs) >= 3L && length(unique(dirs)) > 1L) {
+    cv <- stats::sd(vals) / mean(vals)
+    if (is.finite(cv) && cv > 0.08) return("volatile")
+  }
+  if (pct > 3) return("rising")
+  if (pct < -3) return("falling")
+  "broadly stable"
+}
+
+format_mh_value <- function(val, status = "numeric") {
+  if (identical(status, "suppressed")) return("*")
+  if (is.na(val)) return("—")
+  format(val, big.mark = ",")
+}
+
+format_mh_change <- function(abs_chg, pct_chg) {
+  if (is.na(abs_chg) && is.na(pct_chg)) return("—")
+  abs_txt <- if (is.na(abs_chg)) "—" else paste0(if (abs_chg >= 0) "+" else "", format(abs_chg, big.mark = ","))
+  pct_txt <- if (is.na(pct_chg)) "" else paste0(" (", if (pct_chg >= 0) "+" else "", pct_chg, "%)")
+  paste0(abs_txt, pct_txt)
+}
+
+mhsds_trend_reading_badge <- function(reading) {
+  css <- switch(
+    reading,
+    rising = "worsening",
+    falling = "improving",
+    "broadly stable" = "stable",
+    volatile = "unclear",
+    unclear = "unclear",
+    "unclear"
+  )
+  label <- switch(
+    reading,
+    rising = "Rising",
+    falling = "Falling",
+    "broadly stable" = "Broadly stable",
+    volatile = "Volatile",
+    unclear = "Unclear",
+    "Unclear"
+  )
+  paste0('<span class="nhs-trend-badge nhs-trend-badge--', css, '">', esc(label), '</span>')
+}
+
+MHSDS_MEASURE_META <- list(
+  MHS23 = list(
+    label = "MHS23 — Open referrals at end of reporting period",
+    note = "Stock measure (caseload-style open referrals). Higher counts are not automatically worse.",
+    stock = TRUE
+  ),
+  MHS01 = list(
+    label = "MHS01 — People in contact at end of reporting period",
+    note = "Stock measure (people in contact at month end). Movement may reflect activity, discharge or coding.",
+    stock = TRUE
+  ),
+  MHS29 = list(
+    label = "MHS29 — Contacts in reporting period",
+    note = "Activity measure (contact volume). More contacts do not automatically mean better access.",
+    stock = FALSE
+  ),
+  MHS69 = list(
+    label = "MHS69 — CYP with at least two contacts (before 18th birthday)",
+    note = "Cohort activity measure. Confirm resident vs provider scope before interpreting.",
+    stock = FALSE
+  )
+)
+
+mh_six_month_summary_table <- function(stats_list) {
+  hdr <- paste0(
+    "<th scope=\"col\">", esc(c(
+      "Measure", "Latest", "Previous month", "MoM change", "Six-month change",
+      "Six-month avg", "Six-month high", "Six-month low", "Trend reading", "Note"
+    )), "</th>", collapse = ""
+  )
+  rows <- vapply(stats_list, function(s) {
+    cells <- c(
+      esc(s$label),
+      esc(paste0(format_mh_value(s$latest_value, s$latest_status %||% "numeric"), " (", s$latest_period %||% "—", ")")),
+      esc(paste0(format_mh_value(s$previous_value, s$previous_status %||% "numeric"), " (", s$previous_period %||% "—", ")")),
+      esc(format_mh_change(s$mom_abs, s$mom_pct)),
+      esc(format_mh_change(s$six_month_abs, s$six_month_pct)),
+      esc(format_mh_value(s$six_month_avg)),
+      esc(format_mh_value(s$six_month_high)),
+      esc(format_mh_value(s$six_month_low)),
+      mhsds_trend_reading_badge(s$trend_reading %||% "unclear"),
+      esc(s$note)
+    )
+    paste0("<tr>", paste0("<td>", cells, "</td>", collapse = ""), "</tr>")
+  }, character(1))
+  paste0(
+    '<div class="nhs-table-wrap"><table><thead><tr>', hdr,
+    '</tr></thead><tbody>', paste(rows, collapse = "\n"), '</tbody></table></div>'
+  )
+}
+
+line_trend_chart <- function(series, title) {
+  if (is.null(series) || nrow(series) < 2L) {
+    return('<p><em>Insufficient periods for trend chart.</em></p>')
+  }
+  numeric_idx <- which(!is.na(series$value))
+  if (length(numeric_idx) < 2L) {
+    return('<p><em>Too few numeric months for trend chart — suppressed or missing values excluded.</em></p>')
+  }
+  labels <- format(series$period, "%b %y")
+  vals <- series$value
+  w <- 320
+  h <- 120
+  pad <- 24
+  plot_w <- w - 2 * pad
+  plot_h <- h - 2 * pad
+  mx <- max(vals[numeric_idx], na.rm = TRUE)
+  mn <- min(vals[numeric_idx], na.rm = TRUE)
+  if (!is.finite(mx) || !is.finite(mn)) return('<p><em>Insufficient numeric data for chart.</em></p>')
+  if (mx == mn) mx <- mn + 1
+  n <- nrow(series)
+  xs <- pad + (seq_len(n) - 1) * plot_w / max(1, n - 1)
+  ys <- pad + plot_h - (vals - mn) / (mx - mn) * plot_h
+  ys[!is.finite(ys)] <- NA
+  pts <- numeric_idx
+  poly <- paste(paste(xs[pts], ys[pts], sep = ","), collapse = " ")
+  circles <- mapply(function(i) {
+    if (is.na(vals[i])) return("")
+    fill <- if (identical(series$value_status[i], "suppressed")) "#ccc" else "#005eb8"
+    paste0(
+      '<circle cx="', round(xs[i], 1), '" cy="', round(ys[i], 1),
+      '" r="3" fill="', fill, '"/>'
+    )
+  }, seq_len(n), SIMPLIFY = TRUE, USE.NAMES = FALSE)
+  xlabels <- paste0(
+    '<text x="', round(xs, 1), '" y="', h - 4, '" text-anchor="middle" font-size="9">',
+    esc(labels), '</text>'
+  )
+  paste0(
+    '<div class="nhs-chart"><h3>', esc(title), '</h3>',
+    '<svg viewBox="0 0 ', w, ' ', h, '" width="100%" max-width="360" role="img" aria-label="',
+    esc(title), '">',
+    '<polyline fill="none" stroke="#005eb8" stroke-width="2" points="', poly, '"/>',
+    paste(circles[nzchar(circles)], collapse = ""),
+    paste(xlabels, collapse = ""),
+    '</svg></div>'
+  )
+}
+
+build_mhsds_six_month_stats <- function(trend_df, window_months = 6L) {
+  lapply(names(MHSDS_MEASURE_META), function(mid) {
+    meta <- MHSDS_MEASURE_META[[mid]]
+    series <- extract_mhsds_measure_series(trend_df, mid, window_months)
+    compute_six_month_stats(series, mid, meta$label, meta$note)
+  })
 }
 
 load_tt_time_series <- function() {
@@ -1827,341 +2081,192 @@ build_performance_overview <- function() {
 # --- B. Mental health access profile (MHSDS) ---------------------------------
 
 build_mh_profile <- function() {
-  mh <- load_demo("demo_mhsds_activity.csv", required = TRUE)
-  if (is.null(mh)) {
-    write_public_report("public-mh-access-profile.html", "Public Mental Health Access Profile",
-      "Source data not available", '<section class="nhs-section"><p>Missing demo_mhsds_activity.csv</p></section>')
+  access_trend <- load_mhsds_access_trend()
+  if (is.null(access_trend) || nrow(access_trend) == 0) {
+    gap <- file.path(metadata_dir, "mhsds_trend_gap_note.md")
+    gap_html <- if (file.exists(gap)) {
+      paste0("<p>See <code>", esc(path_for_display(gap)), "</code> for gap details.</p>")
+    } else {
+      "<p>Run <code>Rscript site/public-data/05_download_historic_public_data.R</code> first.</p>"
+    }
+    write_public_report(
+      "public-mh-access-profile.html",
+      "Worked example: AI-assisted MHSDS public-data briefing",
+      "MHSDS — six-month trend data not available",
+      paste0(
+        '<section class="nhs-section"><h2>Data availability</h2>',
+        "<p><code>trend_mhsds_access_rdy.csv</code> was not found or is empty.</p>",
+        gap_html, "</section>"
+      )
+    )
     return(invisible(NULL))
   }
 
-  period <- paste(unique(mh$REPORTING_PERIOD_START), unique(mh$REPORTING_PERIOD_END), sep = " to ")
-  prov <- mh[grepl("^RDY$", trimws(mh$SECONDARY_LEVEL)) | grepl("^RDY$", trimws(mh$PRIMARY_LEVEL)), , drop = FALSE]
-  if (nrow(prov) == 0) prov <- mh
+  mh <- load_demo("demo_mhsds_activity.csv", required = FALSE)
+  n_supp_demo <- if (!is.null(mh)) sum(is_suppressed(mh$MEASURE_VALUE)) else 0L
 
-  vals <- prov$MEASURE_VALUE
-  n_supp <- sum(is_suppressed(vals))
-  n_numeric <- sum(!is_suppressed(vals))
-  prov$MV <- to_num(prov$MEASURE_VALUE)
+  mh_stats <- build_mhsds_six_month_stats(access_trend, 6L)
+  names(mh_stats) <- names(MHSDS_MEASURE_META)
 
-  prov_provider <- mh[trimws(mh$PRIMARY_LEVEL) == "RDY" & trimws(mh$BREAKDOWN) == "Provider", , drop = FALSE]
-  get_prov_val <- function(mid) {
-    row <- prov_provider[trimws(prov_provider$MEASURE_ID) == mid, , drop = FALSE]
-    if (nrow(row) == 0) return(list(raw = NA, num = NA))
-    list(raw = row$MEASURE_VALUE[1], num = to_num(row$MEASURE_VALUE[1]))
-  }
-
-  mhs23 <- get_prov_val("MHS23")
-  mhs01 <- get_prov_val("MHS01")
-  mhs29 <- get_prov_val("MHS29")
-  mhs69 <- get_prov_val("MHS69")
-  cyp32a <- get_prov_val("CYP32a")
-
-  numeric_rows <- prov[!is.na(prov$MV), , drop = FALSE]
-  top_measures <- numeric_rows[order(-numeric_rows$MV), c("MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE", "BREAKDOWN")]
-  if (nrow(top_measures) > 10) top_measures <- top_measures[seq_len(10), , drop = FALSE]
-
-  ref_src <- numeric_rows[grepl("Referral", numeric_rows$MEASURE_NAME, ignore.case = TRUE), ]
-  ref_total <- if (nrow(ref_src) > 0) sum(ref_src$MV, na.rm = TRUE) else NA
-
-  chart_labels <- if (nrow(top_measures) > 0) {
-    paste0(top_measures$MEASURE_ID, ": ", substr(top_measures$MEASURE_NAME, 1, 40))
-  } else {
-    character()
-  }
-  chart_vals <- if (nrow(top_measures) > 0) top_measures$MV else numeric()
-
-  kpis <- list(
-    list(value = nrow(prov), label = "RDY measure rows"),
-    list(value = n_numeric, label = "Numeric values"),
-    list(value = n_supp, label = "Suppressed (*)"),
-    list(value = "See note", label = "Referral sum (not a valid headline KPI)")
+  trend_window <- paste0(
+    mh_stats[[1]]$window_start, " \u2013 ", mh_stats[[1]]$window_end,
+    " (", mh_stats[[1]]$n_periods, " months, provisional MHSDS, Provider/RDY)"
   )
 
-  key_figures <- paste0(
-    kpi_row(kpis),
-    '<h3>Top numeric measures (single period — provider and breakdown rows)</h3>', html_table(top_measures, 10),
-    bar_chart(chart_labels, chart_vals, "Largest numeric MHSDS values (RDY rows)")
+  rising <- vapply(mh_stats, function(s) identical(s$trend_reading, "rising"), logical(1))
+  falling <- vapply(mh_stats, function(s) identical(s$trend_reading, "falling"), logical(1))
+  stable <- vapply(mh_stats, function(s) identical(s$trend_reading, "broadly stable"), logical(1))
+  volatile <- vapply(mh_stats, function(s) identical(s$trend_reading, "volatile"), logical(1))
+  unclear_measures <- names(mh_stats)[vapply(mh_stats, function(s) {
+    s$n_numeric < 2L || identical(s$trend_reading, "unclear") || s$n_suppressed > 0L
+  }, logical(1))]
+
+  headline_bullets <- c(
+    paste0(
+      "Six-month public MHSDS brief for Dorset HealthCare (RDY as provider), covering ",
+      trend_window, "."
+    ),
+    if (any(rising)) {
+      paste0("Measures with a rising pattern over the window: ", paste(names(mh_stats)[rising], collapse = ", "), ".")
+    } else {
+      NULL
+    },
+    if (any(falling)) {
+      paste0("Measures with a falling pattern: ", paste(names(mh_stats)[falling], collapse = ", "), ".")
+    } else {
+      NULL
+    },
+    if (any(stable)) {
+      paste0("Measures broadly stable over six months: ", paste(names(mh_stats)[stable], collapse = ", "), ".")
+    } else {
+      NULL
+    },
+    if (any(volatile)) {
+      paste0("Volatile movement (no clear direction): ", paste(names(mh_stats)[volatile], collapse = ", "), ".")
+    } else {
+      NULL
+    },
+    if (length(unclear_measures) > 0) {
+      paste0(
+        "Interpret with caution (suppression, missing months or unclear direction): ",
+        paste(unclear_measures, collapse = ", "), "."
+      )
+    } else {
+      NULL
+    },
+    "Open referrals (MHS23) are a stock measure — not automatically good or bad. Contacts (MHS29) are activity volume — not proof of access improvement.",
+    "Provider and ICB-resident breakdowns must not be summed into one trust-wide headline."
+  )
+  headline_bullets <- headline_bullets[!vapply(headline_bullets, is.null, logical(1))]
+
+  summary_table_html <- paste0(
+    '<section class="nhs-section"><h2>Six-month headline measures (Provider/RDY)</h2>',
+    '<p>Trend window: <strong>', esc(trend_window), '</strong>. ',
+    "Descriptive statistics from <code>trend_mhsds_access_rdy.csv</code>; suppressed values excluded from averages and charts.</p>",
+    mh_six_month_summary_table(mh_stats),
+    "</section>"
+  )
+
+  charts_html <- paste0(
+    '<section class="nhs-section"><h2>Six-month trend charts</h2>',
+    paste(vapply(mh_stats, function(s) {
+      if (is.null(s$series) || s$n_numeric < 2L) {
+        return(paste0("<p><em>", esc(s$label), ": too few numeric months for chart.</em></p>"))
+      }
+      line_trend_chart(s$series, paste0(s$label, " (", s$window_start, " \u2013 ", s$window_end, ")"))
+    }, character(1)), collapse = "\n"),
+    "</section>"
+  )
+
+  caveats_html <- paste0(
+    '<div class="nhs-warning" role="note"><strong>Caveats (read before interpreting)</strong>',
+    "<ul class=\"nhs-list-compact\">",
+    "<li>MHSDS monthly data are <strong>provisional</strong> and may revise on final refresh.</li>",
+    "<li>Suppressed values (<code>*</code>) are not treated as zero and are excluded from averages and charts.</li>",
+    "<li>Figures are <strong>Provider/RDY</strong> rows only — not ICB-resident population views.</li>",
+    "<li>Stock measures (open referrals, in-contact counts) and activity measures (contacts) must not be read as access performance without local validation.</li>",
+    if (n_supp_demo > 0) {
+      paste0("<li>Latest-month demo extract contains ", n_supp_demo, " suppressed cells across all measures — see audit trail.</li>")
+    } else {
+      ""
+    },
+    "</ul></div>"
   )
 
   mhsds_ts <- load_mhsds_time_series()
-  ts_file_note <- if (!is.null(mhsds_ts)) {
-    basename(list.files(processed_dir, pattern = "^rdy_mhsds_monthly.*time_series.*Apr2025.*Perf_2026.*\\.csv$")[1])
-  } else {
-    "No MHSDS time-series file in processed/"
-  }
+  ts_files <- list.files(processed_dir, pattern = "^rdy_mhsds_monthly.*time_series.*\\.csv$")
+  ts_file_note <- if (length(ts_files) > 0) ts_files[1] else NULL
 
-  trend_mhs01 <- compute_period_trend(extract_mhsds_rdy_ts(mhsds_ts, "MHS01"), "MHS01 — people in contact at end of RP")
-  trend_mhs29 <- compute_period_trend(extract_mhsds_rdy_ts(mhsds_ts, "MHS29"), "MHS29 — contacts in reporting period")
-  trend_mhs69 <- compute_period_trend(extract_mhsds_rdy_ts(mhsds_ts, "MHS69"), "MHS69 — CYP with two contacts (before 18th birthday)")
-
-  mhs23_trend_df <- load_trend_file("trend_mhs23_rdy.csv")
-  trend_mhs23 <- extract_stacked_trend(mhs23_trend_df, measure_id = "MHS23", label = "MHS23 — open referrals at end of RP")
-  mhs23_gap_note <- file.path(metadata_dir, "mhs23_trend_not_available.md")
-
-  fmt_val <- function(v) {
-    if (is.na(v$num)) if (is_suppressed(v$raw)) "*" else "—" else format(v$num, big.mark = ",")
-  }
-
-  trend_note_mhs23 <- if (isTRUE(trend_mhs23$available)) {
-    paste0(
-      "Stacked from MHSDS main data monthly files (not time-series bundle): ",
-      format(trend_mhs23$latest_value, big.mark = ","), " (", trend_mhs23$latest_period, ") vs ",
-      format(trend_mhs23$previous_value, big.mark = ","), " (", trend_mhs23$previous_period, ")."
-    )
-  } else if (file.exists(mhs23_gap_note)) {
-    "MHS23 not in Provider time-series extract — see metadata/mhs23_trend_not_available.md for historic stack status."
-  } else {
-    "MHS23 (open referrals) is not present in the Provider time-series extract — trend not shown for this measure."
-  }
-  trend_line <- function(t) {
-    if (isTRUE(t$available)) {
-      paste0(
-        "Latest vs previous month: ",
-        format(t$latest_value, big.mark = ","), " (", t$latest_period, ") vs ",
-        format(t$previous_value, big.mark = ","), " (", t$previous_period, ")"
+  supporting_html <- ""
+  if (!is.null(mh)) {
+    prov <- mh[trimws(mh$PRIMARY_LEVEL) == "RDY" & trimws(mh$BREAKDOWN) == "Provider", , drop = FALSE]
+    if (nrow(prov) > 0) {
+      prov$MV <- to_num(prov$MEASURE_VALUE)
+      top_measures <- prov[!is.na(prov$MV), c("MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE", "BREAKDOWN")]
+      top_measures <- top_measures[order(-prov$MV[!is.na(prov$MV)]), ]
+      if (nrow(top_measures) > 10) top_measures <- top_measures[seq_len(10), , drop = FALSE]
+      demo_period <- paste(unique(mh$REPORTING_PERIOD_START), unique(mh$REPORTING_PERIOD_END), sep = " to ")
+      supporting_html <- collapsible_details(
+        "Technical audit — latest-month demo extract and source files",
+        paste0(
+          "<p>Latest demo month: ", esc(demo_period), ". Six-month headline table uses stacked trend file only.</p>",
+          html_table(top_measures, 10),
+          if (!is.null(ts_file_note)) paste0("<p>Time-series fallback file: <code>", esc(ts_file_note), "</code></p>") else "",
+          "<p>Pipeline: <code>site/public-data/05_download_historic_public_data.R</code>; ",
+          "render: <code>site/R/03_render_public_reports.R</code></p>"
+        )
       )
-    } else {
-      "Trend not available from current extract"
     }
   }
 
-  mhs23_latest_text <- if (isTRUE(trend_mhs23$available)) {
-    kfe_from_trend(trend_mhs23)
-  } else if (is_suppressed(mhs23$raw)) {
-    format_kfe_latest("*", period, suppressed = TRUE)
-  } else {
-    format_kfe_latest(fmt_val(mhs23), period)
-  }
-
-  commentary_cards <- c(
-    build_commentary_card(
-      "MHS23 — Open referrals at end of reporting period",
-      "Review locally", "review",
-      list(
-        "Plain-English meaning" = "Count of people with an open referral to mental health services at the last day of the month.",
-        "Latest value (provider row)" = paste0(fmt_val(mhs23), " for ", period),
-        "Comparator / trend" = paste0(trend_note_mhs23, if (!isTRUE(trend_mhs23$available)) " Demo table shows a single month only for this measure." else ""),
-        "Agent flag" = "Review locally",
-        "Cautious interpretation" = paste0(
-          "Open referrals are a caseload-style stock measure, not new demand. ",
-          "The agent would not treat ", fmt_val(mhs23), " as a headline access KPI without confirming scope."
-        ),
-        "Human check required" = "MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting."
-      )
-    ),
-    build_commentary_card(
-      "MHS01 — People in contact with services at end of reporting period",
-      if (isTRUE(trend_mhs01$available)) "Watch / clarify" else "Trend not available",
-      if (isTRUE(trend_mhs01$available)) "watch" else "definition",
-      list(
-        "Plain-English meaning" = "People actively in contact with MH services at month end.",
-        "Latest value (provider row)" = paste0(fmt_val(mhs01), " (demo month)"),
-        "Comparator / trend" = trend_line(trend_mhs01),
-        "Agent flag" = if (isTRUE(trend_mhs01$available)) "Watch / clarify" else "Trend not available",
-        "Cautious interpretation" = "Month-on-month movement may reflect activity, discharge or coding — descriptive only.",
-        "Human check required" = "Confirm whether local in-contact definition matches MHSDS."
-      )
-    ),
-    build_commentary_card(
-      "MHS29 — Contacts in reporting period",
-      if (isTRUE(trend_mhs29$available)) "Watch / clarify" else "Trend not available",
-      if (isTRUE(trend_mhs29$available)) "watch" else "definition",
-      list(
-        "Plain-English meaning" = "Total care contacts recorded in the month.",
-        "Latest value (provider row)" = if (is.na(mhs29$num)) "See time series" else fmt_val(mhs29),
-        "Comparator / trend" = trend_line(trend_mhs29),
-        "Agent flag" = if (isTRUE(trend_mhs29$available)) "Watch / clarify" else "Trend not available",
-        "Cautious interpretation" = "Contacts can rise with intensity of support or data quality.",
-        "Human check required" = "Service/BI owner to confirm contact counting rules."
-      )
-    ),
-    build_commentary_card(
-      "Suppression and breakdown mixing",
-      "Watch / clarify", "watch",
-      list(
-        "Plain-English meaning" = paste0(n_supp, " of ", nrow(prov), " RDY rows show '*'."),
-        "Latest value" = paste0(n_numeric, " numeric values published"),
-        "Comparator / trend" = "Suppression may differ by month.",
-        "Agent flag" = "Watch / clarify",
-        "Cautious interpretation" = "Provider and ICB-resident breakdowns must not be summed into one headline.",
-        "Human check required" = "Identify which suppressed measures matter for Dorset ICB (11J)."
-      )
-    )
-  )
-
-  ref_obs <- if (!is.na(ref_total)) {
-    paste0("Referral-related numeric rows sum to ", format(ref_total, big.mark = ","), " across breakdowns — not a single headline referral count.")
-  } else {
-    "Referral-related totals were not computed as a single headline figure."
-  }
-
-  mh_kfe_specs <- list(
-    list(
-      figure = "MHS23 — Open referrals at end of reporting period",
-      what = "Count of people with an open referral to mental health services at the last day of the month.",
-      latest = mhs23_latest_text,
-      comparator_type = "previous_period",
-      comparator_detail = if (isTRUE(trend_mhs23$available)) {
-        paste0(
-          "Previous period: ", format(trend_mhs23$previous_value, big.mark = ","),
-          " (", trend_mhs23$previous_period, "). ",
-          trend_mhs23$n_periods, " months in trend_mhs23_rdy.csv."
-        )
-      } else {
-        "Latest-period value only — MHS23 not in Provider time-series extract."
-      },
-      trend = trend_mhs23,
-      polarity = "unknown",
-      interpretation = "Open referrals are a stock measure — higher counts are not automatically worse. Local review needed.",
-      human_check = short_human_check("MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting.")
-    ),
-    list(
-      figure = "MHS01 — People in contact at end of reporting period",
-      what = "People actively in contact with mental health services at month end.",
-      latest = if (isTRUE(trend_mhs01$available)) kfe_from_trend(trend_mhs01) else format_kfe_latest(fmt_val(mhs01), period),
-      comparator_type = "previous_period",
-      comparator_detail = if (isTRUE(trend_mhs01$available)) {
-        paste0(
-          "Previous period: ", format(trend_mhs01$previous_value, big.mark = ","),
-          " (", trend_mhs01$previous_period, "). ",
-          trend_mhs01$n_periods, " months in Provider time series."
-        )
-      } else {
-        "Insufficient periods in Provider time-series extract."
-      },
-      trend = trend_mhs01,
-      polarity = "unknown",
-      interpretation = "Month-on-month movement may reflect activity, discharge or coding — descriptive only, not cause.",
-      human_check = short_human_check("Confirm whether local in-contact definition matches MHSDS and whether the provisional month has refreshed.")
-    ),
-    list(
-      figure = "MHS29 — Contacts in reporting period",
-      what = "Total care contacts recorded in the month — activity volume, not unique patients.",
-      latest = if (isTRUE(trend_mhs29$available)) kfe_from_trend(trend_mhs29) else format_kfe_latest(fmt_val(mhs29), period),
-      comparator_type = "previous_period",
-      comparator_detail = if (isTRUE(trend_mhs29$available)) {
-        paste0(
-          "Previous period: ", format(trend_mhs29$previous_value, big.mark = ","),
-          " (", trend_mhs29$previous_period, "). Provider RDY rows from MHSDS time series."
-        )
-      } else {
-        "Provider RDY rows from MHSDS time-series extract."
-      },
-      trend = trend_mhs29,
-      polarity = "unknown",
-      interpretation = "Contacts can rise with intensity of support or data quality — not automatically good or bad access.",
-      human_check = short_human_check("Service/BI owner to confirm contact counting rules and operational narrative.")
-    ),
-    list(
-      figure = "MHS69 — CYP with at least two contacts",
-      what = "Children and young people receiving at least two contacts where first contact was before 18th birthday.",
-      latest = if (isTRUE(trend_mhs69$available)) kfe_from_trend(trend_mhs69) else "See demo table — ICB-resident rows may be suppressed",
-      comparator_type = "previous_period",
-      comparator_detail = paste0(n_supp, " suppressed cells in demo extract — do not infer from missing values."),
-      trend = trend_mhs69,
-      polarity = "unknown",
-      interpretation = "Do not infer CYP access from suppressed ICB-resident rows alone. Interpret cautiously — confirm cohort and scope.",
-      human_check = short_human_check("CYP mental health lead to confirm resident vs provider scope.")
-    ),
-    list(
-      figure = "Suppression in RDY extract",
-      what = paste0("Measure rows where MEASURE_VALUE is '*' (withheld under disclosure rules)."),
-      latest = paste0(n_supp, " of ", nrow(prov), " rows suppressed"),
-      comparator_type = "none",
-      comparator_detail = "Suppression may differ by month.",
-      trend = NULL,
-      polarity = "validation_only",
-      trend_override = "Not available from current extract",
-      interpretation = "Summing referral-related rows across breakdowns is not a valid trust-wide headline.",
-      human_check = short_human_check("Identify which suppressed measures matter for Dorset ICB (11J).")
-    )
-  )
-
-  mh_trends <- list(trend_mhs01, trend_mhs29, trend_mhs69)
-  if (isTRUE(trend_mhs23$available)) mh_trends <- c(mh_trends, list(trend_mhs23))
-
-  supporting_html <- paste0(
-    collapsible_details("Supporting tables and charts", key_figures),
-    collapsible_details("Additional measure commentary", measure_commentary_section(commentary_cards)),
-    wrap_trend_collapsible(
-      trend_section(
-        mh_trends,
-        paste0(ts_file_note, if (!is.null(mhs23_trend_df)) "; MHS23 from trend_mhs23_rdy.csv" else ""),
-        c(
-          "MHSDS monthly data are provisional; months may revise on final refresh.",
-          "Trend labels describe direction of change only — not operational cause."
-        )
-      )
-    )
-  )
-
-  mh_kfe_html <- key_figures_explained_section(
-    mh_kfe_specs,
-    paste(
-      "Key MHSDS access and activity measures for RDY as provider.",
-      "MHS23 open referrals uses trend_mhs23_rdy.csv where available — it is not in the Provider time-series bundle.",
-      paste0(n_supp, " suppressed cells in this extract — check before using any figure operationally.")
-    ),
-    comparator_header = "Previous period / comparator"
-  )
+  mh_kfe_html <- paste0(caveats_html, summary_table_html, charts_html)
 
   config <- list(
     question = paste(
-      "From public MHSDS data for RDY, explain key access and activity measures,",
-      "where month-on-month trends are supported, and what a mental health data owner must confirm."
+      "From six months of public MHSDS Provider/RDY data, summarise access and activity measures,",
+      "describe descriptive trends, and list what a mental health data owner must confirm."
     ),
-    dataset_line = "MHSDS Monthly Statistics (RDY provider rows)",
+    dataset_line = "MHSDS Monthly Statistics — stacked Provider/RDY trend file",
     prompt_excerpt = paste(
-      "Filter provider RDY from MHSDS monthly CSV.",
-      "Compute trends from downloaded time-series file (Provider breakdown).",
-      "Do not sum incompatible breakdowns. No causal claims.",
+      "Load trend_mhsds_access_rdy.csv for MHS23, MHS01, MHS29, MHS69.",
+      "Compute six-month descriptive stats and trend readings.",
+      "No causal claims. Do not sum provider and resident breakdowns.",
       sep = "\n"
     ),
     scope = list(
       can = c(
-        "Describe key MHSDS access and activity measures for RDY as provider.",
-        "Show descriptive month-on-month trends where the public time-series or trend files support them.",
-        "Flag suppression and breakdown mixing that affects interpretation."
+        "Summarise six months of key MHSDS access and activity measures for RDY as provider.",
+        "Show latest vs previous month and six-month descriptive change.",
+        "Flag suppression, provisional data and breakdown scope limits."
       ),
       cannot = c(
-        "Support operational access conclusions or pathway performance without local MHSDS validation.",
-        "Combine provider and ICB-resident breakdowns into a single trust-wide headline.",
-        "Explain why month-on-month movement occurred."
+        "Support operational access conclusions without local MHSDS validation.",
+        "Combine provider and ICB-resident breakdowns into one headline.",
+        "Explain why trends changed or infer access improvement from contact counts alone."
       )
     ),
-    headline = c(
-      paste0("For ", period, ", ", nrow(prov), " RDY measure rows (", n_numeric, " numeric, ", n_supp, " suppressed)."),
-      if (isTRUE(trend_mhs01$available)) {
-        paste0(
-          "MHS01 in-contact counts show descriptive month-on-month movement (",
-          format(trend_mhs01$previous_value, big.mark = ","), " to ",
-          format(trend_mhs01$latest_value, big.mark = ","), ") — not cause."
-        )
-      } else {
-        "Multi-period Provider time series not available for all key measures."
-      },
-      paste0(ref_obs, " Provider and ICB-resident breakdowns must not be summed into one headline."),
-      "Open referrals (MHS23) are a stock measure — higher counts are not automatically worse without local definition checks."
-    ),
+    headline = headline_bullets,
     grouped_findings = list(
       list(
-        title = "Access and stock measures",
+        title = "Stock measures (caseload-style)",
         items = list(
           list(
-            title = "MHS23 — Open referrals at end of reporting period",
+            title = "MHS23 — Open referrals",
             body = paste0(
-              "Open referrals are a caseload-style stock measure, not new demand. Latest value: ",
-              fmt_val(mhs23), ". ", trend_note_mhs23
+              "Latest: ", format_mh_value(mh_stats$MHS23$latest_value, mh_stats$MHS23$latest_status),
+              ". Six-month reading: ", mh_stats$MHS23$trend_reading,
+              ". Open referrals are not new demand — higher counts are not automatically worse."
             ),
-            owner = "MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting."
+            owner = "MHSDS/data owner to confirm open-referral definition."
           ),
           list(
-            title = "MHS01 — People in contact at end of reporting period",
+            title = "MHS01 — People in contact",
             body = paste0(
-              "People actively in contact with MH services at month end. Latest: ", fmt_val(mhs01), ". ",
-              trend_line(trend_mhs01), " Month-on-month movement may reflect activity, discharge or coding — descriptive only."
+              "Latest: ", format_mh_value(mh_stats$MHS01$latest_value, mh_stats$MHS01$latest_status),
+              ". Six-month reading: ", mh_stats$MHS01$trend_reading,
+              ". Movement may reflect activity, discharge or coding."
             ),
-            owner = "Confirm whether local in-contact definition matches MHSDS."
+            owner = "Confirm local in-contact definition matches MHSDS."
           )
         )
       ),
@@ -2171,82 +2276,82 @@ build_mh_profile <- function() {
           list(
             title = "MHS29 — Contacts in reporting period",
             body = paste0(
-              "Total care contacts recorded in the month. ",
-              trend_line(trend_mhs29), " Contacts can rise with intensity of support or data quality."
+              "Latest: ", format_mh_value(mh_stats$MHS29$latest_value, mh_stats$MHS29$latest_status),
+              ". Six-month reading: ", mh_stats$MHS29$trend_reading,
+              ". Contact volume does not automatically mean better access."
             ),
             owner = "Service/BI owner to confirm contact counting rules."
           ),
           list(
-            title = "MHS69 — CYP with at least two contacts",
-            body = "Children and young people receiving at least two contacts where first contact was before 18th birthday. Do not infer CYP access from suppressed ICB-resident rows alone.",
-            owner = "CYP mental health lead to confirm resident vs provider scope."
-          )
-        )
-      ),
-      list(
-        title = "Data quality and suppression",
-        items = list(
-          list(
-            title = "Suppression and breakdown mixing",
+            title = "MHS69 — CYP with two contacts",
             body = paste0(
-              n_supp, " of ", nrow(prov), " RDY rows show '*'. Provider and ICB-resident breakdowns must not be summed into one headline."
+              "Latest: ", format_mh_value(mh_stats$MHS69$latest_value, mh_stats$MHS69$latest_status),
+              if (mh_stats$MHS69$n_suppressed > 0) paste0(" (", mh_stats$MHS69$n_suppressed, " suppressed month(s) in window).") else ".",
+              " Confirm cohort and resident vs provider scope."
             ),
-            owner = "Identify which suppressed measures matter for Dorset ICB (11J)."
+            owner = "CYP mental health lead."
           )
         )
       )
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
-      '<li>MHSDS (<code>demo_mhsds_activity.csv</code> — latest month slice)</li>',
-      if (!is.null(mhsds_ts)) paste0('<li>MHSDS time series (<code>', esc(ts_file_note), '</code>)</li>') else "",
-      if (!is.null(mhs23_trend_df)) '<li><code>trend_mhs23_rdy.csv</code> — MHS23 historic stack</li>' else "",
-      '</ul>'
+      '<li><strong>Primary:</strong> <code>trend_mhsds_access_rdy.csv</code> — MHS23, MHS01, MHS29, MHS69 (Provider/RDY)</li>',
+      if (!is.null(mh)) '<li><strong>Context:</strong> <code>demo_mhsds_activity.csv</code> — latest-month slice for suppression audit</li>' else "",
+      if (!is.null(ts_file_note)) paste0('<li><strong>Fallback reference:</strong> <code>', esc(ts_file_note), '</code></li>') else "",
+      "</ul>"
     ),
-    period = period,
-    trend_available = if (isTRUE(trend_mhs01$available)) {
-      paste0("Yes — MHSDS Provider time series (", trend_mhs01$n_periods, "+ months); MHS23 via trend file where stacked")
-    } else {
-      "Limited — single month in demo extract for some measures"
-    },
+    period = trend_window,
+    trend_available = paste0(
+      "Yes — six-month stacked trend (", mh_stats[[1]]$n_periods, " months per measure from trend_mhsds_access_rdy.csv)"
+    ),
     agent_summary = c(
-      paste0("For ", period, ", ", nrow(prov), " RDY measure rows (", n_numeric, " numeric, ", n_supp, " suppressed)."),
-      if (isTRUE(trend_mhs01$available)) {
-        paste0(
-          "MHS01 in-contact counts show descriptive month-on-month movement (",
-          format(trend_mhs01$previous_value, big.mark = ","), " to ",
-          format(trend_mhs01$latest_value, big.mark = ","), ") — not cause."
-        )
-      } else {
-        "Multi-period Provider time series not available for all key measures."
-      },
-      paste0(ref_obs, " Provider and ICB-resident breakdowns must not be summed into one headline."),
-      "This brief cannot support operational access conclusions without local MHSDS validation."
+      paste0("Six-month MHSDS brief (", trend_window, ") for RDY Provider rows."),
+      if (any(rising)) paste0("Rising over the window: ", paste(names(mh_stats)[rising], collapse = ", "), ".") else NULL,
+      if (any(falling)) paste0("Falling over the window: ", paste(names(mh_stats)[falling], collapse = ", "), ".") else NULL,
+      if (any(stable)) paste0("Broadly stable: ", paste(names(mh_stats)[stable], collapse = ", "), ".") else NULL,
+      "Descriptive trends only — not causal. Local MHSDS owner validation required before operational use."
     ),
     human_checks = standard_human_checks(list(
       list(
-        q = "Are suppressed cells material for Dorset ICB (11J) residents?",
-        expl = paste0(n_supp, " suppressed values — check whether key access measures are affected.")
+        q = "Does the local MHSDS definition match these public Provider/RDY measures?",
+        expl = "Confirm MHS23 open referrals and MHS01 in-contact definitions with the data owner."
+      ),
+      list(
+        q = "Are suppressed or missing months material for your reporting?",
+        expl = paste0(
+          "Check value_status in trend file — ",
+          paste(vapply(mh_stats, function(s) paste0(s$measure_id, ": ", s$n_suppressed, " suppressed"), character(1)), collapse = "; "),
+          "."
+        )
+      ),
+      list(
+        q = "Should Provider or ICB-resident breakdowns be used for this question?",
+        expl = "This brief uses Provider/RDY only — do not sum with resident breakdowns."
       )
     )),
     verify_intro = verify_intro_short(
-      '<li><a href="../public-data/processed/demo_mhsds_activity.csv">demo_mhsds_activity.csv</a></li>',
-      "Figures trace to demo_mhsds_activity.csv and MHSDS time-series files — no derived ranks or peer medians."
+      '<li><a href="../public-data/processed/trend_mhsds_access_rdy.csv">trend_mhsds_access_rdy.csv</a></li>',
+      "Six-month figures trace to stacked MHSDS main-data monthly files — no synthetic values."
     )
   )
+  config$agent_summary <- config$agent_summary[!vapply(config$agent_summary, is.null, logical(1))]
 
   verify_body <- traceability_verify_body(
-    "See linked demo CSV and filter notes. Trend deltas from time-series and trend_mhs23_rdy.csv where cited.",
-    c("demo_mhsds_activity.csv", if (!is.null(mhsds_ts)) ts_file_note else NULL, if (!is.null(mhs23_trend_df)) "trend_mhs23_rdy.csv" else NULL),
+    "Six-month statistics computed from trend_mhsds_access_rdy.csv (value_status=numeric rows only for averages/charts).",
+    c("trend_mhsds_access_rdy.csv", if (!is.null(mh)) "demo_mhsds_activity.csv" else NULL, ts_file_note),
     "mhsds_monthly",
     "mhsds_monthly"
   )
 
   body <- agent_brief_sections(config, mh_kfe_html, verify_body, supporting_html)
 
-  write_public_report("public-mh-access-profile.html",
+  write_public_report(
+    "public-mh-access-profile.html",
     "Worked example: AI-assisted MHSDS public-data briefing",
-    "MHSDS — RDY provider measures (provisional public data)", body)
+    paste0("MHSDS six-month performance brief — ", mh_stats[[1]]$window_start, " to ", mh_stats[[1]]$window_end),
+    body
+  )
 }
 
 # --- C. Community services (CSDS) --------------------------------------------

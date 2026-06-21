@@ -1,0 +1,8 @@
+MHSDS access measures Provider RDY trend — generated 2026-06-21 21:09:55.183322
+Measures: MHS23, MHS01, MHS29, MHS69
+Periods: performance-april-2026, performance-march-2026, performance-february-2026, performance-january-2026, performance-december-2025, performance-november-2025, performance-october-2025, performance-september-2025
+MHS23: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
+MHS01: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
+MHS29: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
+MHS69: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
+Provisional monthly MHSDS; Provider breakdown only.

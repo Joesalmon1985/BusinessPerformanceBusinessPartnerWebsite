@@ -1,2 +1,2 @@
-MHSDS MHS23 Provider RDY trend — generated 2026-06-21 18:46:35.596366
-Open referrals at end of reporting period; provisional monthly data.
+MHSDS MHS23 compatibility slice — generated 2026-06-21 21:09:55.190751
+Primary source: trend_mhsds_access_rdy.csv

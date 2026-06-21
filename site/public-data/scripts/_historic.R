@@ -146,12 +146,23 @@ parse_snapshot_date <- function(x) {
 TREND_STANDARD_COLS <- c(
   "source_id", "publication_period", "reporting_period_start", "reporting_period_end",
   "org_code", "org_name", "measure_id", "measure_name",
-  "metric_value", "metric_value_raw", "source_file", "caveats"
+  "metric_value", "metric_value_raw", "value_status", "source_file", "caveats"
 )
+
+classify_value_status <- function(raw_val) {
+  raw <- trimws(as.character(raw_val))
+  if (length(raw) == 0 || is.na(raw) || !nzchar(raw)) return("missing")
+  if (raw == "*") return("suppressed")
+  num <- suppressWarnings(as.numeric(raw))
+  if (!is.na(num)) return("numeric")
+  "not_applicable"
+}
 
 normalize_trend_row <- function(source_id, publication_period, r_start, r_end,
                                 org_code, org_name, measure_id, measure_name,
-                                raw_val, source_file, caveats) {
+                                raw_val, source_file, caveats,
+                                value_status = NULL) {
+  if (is.null(value_status)) value_status <- classify_value_status(raw_val)
   data.frame(
     source_id = source_id,
     publication_period = publication_period,
@@ -163,6 +174,7 @@ normalize_trend_row <- function(source_id, publication_period, r_start, r_end,
     measure_name = measure_name,
     metric_value = to_num_historic(raw_val),
     metric_value_raw = as.character(raw_val),
+    value_status = value_status,
     source_file = basename(source_file),
     caveats = caveats,
     stringsAsFactors = FALSE
@@ -213,24 +225,138 @@ stack_csds_careactivities <- function(df, publication_period, source_file) {
   do.call(rbind, rows)
 }
 
-stack_mhsds_mhs23_provider <- function(df, publication_period, source_file) {
+MHSDS_ACCESS_MEASURES <- c("MHS23", "MHS01", "MHS29", "MHS69")
+
+stack_mhsds_measure_provider <- function(df, measure_id, publication_period, source_file) {
   if (is.null(df) || nrow(df) == 0) return(NULL)
   sub <- df[
-    trimws(df$MEASURE_ID) == "MHS23" &
+    trimws(df$MEASURE_ID) == measure_id &
       trimws(df$BREAKDOWN) == "Provider" &
       trimws(df$PRIMARY_LEVEL) == "RDY",
     ,
     drop = FALSE
   ]
-  if (nrow(sub) == 0) return(NULL)
-  caveats <- "MHSDS MHS23 open referrals at end of RP; Provider breakdown; provisional monthly data."
+  if (nrow(sub) == 0) {
+    return(normalize_trend_row(
+      "mhsds_monthly", publication_period, NA_character_, NA_character_,
+      "RDY", NA_character_, measure_id, NA_character_,
+      NA_character_, source_file,
+      "MHSDS Provider/RDY row absent for this measure in this publication.",
+      value_status = "missing"
+    ))
+  }
+  caveats <- paste0(
+    "MHSDS ", measure_id, " at Provider/RDY breakdown; provisional monthly data."
+  )
   normalize_trend_row(
     "mhsds_monthly", publication_period,
     sub$REPORTING_PERIOD_START[1], sub$REPORTING_PERIOD_END[1],
     "RDY", sub$PRIMARY_LEVEL_DESCRIPTION[1],
-    "MHS23", sub$MEASURE_NAME[1],
+    measure_id, sub$MEASURE_NAME[1],
     sub$MEASURE_VALUE[1], source_file, caveats
   )
+}
+
+stack_mhsds_mhs23_provider <- function(df, publication_period, source_file) {
+  stack_mhsds_measure_provider(df, "MHS23", publication_period, source_file)
+}
+
+stack_mhsds_access_measures <- function(df, publication_period, source_file,
+                                        measures = MHSDS_ACCESS_MEASURES) {
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+  rows <- lapply(measures, function(mid) {
+    stack_mhsds_measure_provider(df, mid, publication_period, source_file)
+  })
+  do.call(rbind, rows)
+}
+
+parse_mhsds_slug_date <- function(slug) {
+  slug <- tolower(trimws(as.character(slug)))
+  m <- regmatches(slug, regexec("([a-z]+)-([0-9]{4})$", slug))[[1]]
+  if (length(m) != 3) return(as.Date(NA))
+  month_num <- match(tolower(m[2]), tolower(month.name))
+  if (is.na(month_num)) return(as.Date(NA))
+  as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num))
+}
+
+parse_trend_period_date <- function(x) {
+  x <- trimws(as.character(x))
+  d <- suppressWarnings(as.Date(x, format = "%d/%m/%Y"))
+  if (length(d) == 0 || all(is.na(d))) {
+    d <- suppressWarnings(as.Date(x, format = "%Y-%m-%d"))
+  }
+  if (length(d) == 0 || all(is.na(d))) {
+    d <- parse_mhsds_slug_date(x)
+  }
+  d
+}
+
+count_consecutive_months <- function(period_dates) {
+  d <- sort(unique(na.omit(period_dates)))
+  if (length(d) == 0) return(0L)
+  if (length(d) == 1) return(1L)
+  runs <- 1L
+  best <- 1L
+  for (i in seq_len(length(d) - 1L)) {
+    gap <- as.integer(d[i + 1] - d[i])
+    if (gap <= 31L && gap >= 27L) {
+      runs <- runs + 1L
+    } else {
+      runs <- 1L
+    }
+    if (runs > best) best <- runs
+  }
+  best
+}
+
+validate_mhsds_measure_trend <- function(trend_df, measure_id, min_months = 6L) {
+  if (is.null(trend_df) || nrow(trend_df) == 0) {
+    return(list(
+      measure_id = measure_id, n_periods = 0L, consecutive = 0L,
+      n_numeric = 0L, n_suppressed = 0L, n_missing = 0L, ok = FALSE
+    ))
+  }
+  sub <- trend_df[trimws(trend_df$measure_id) == measure_id, , drop = FALSE]
+  if (nrow(sub) == 0) {
+    return(list(
+      measure_id = measure_id, n_periods = 0L, consecutive = 0L,
+      n_numeric = 0L, n_suppressed = 0L, n_missing = 0L, ok = FALSE
+    ))
+  }
+  sub$period_date <- parse_trend_period_date(sub$reporting_period_start)
+  sub <- sub[!is.na(sub$period_date), , drop = FALSE]
+  n_periods <- length(unique(sub$period_date))
+  consecutive <- count_consecutive_months(sub$period_date)
+  n_numeric <- sum(sub$value_status == "numeric", na.rm = TRUE)
+  n_suppressed <- sum(sub$value_status == "suppressed", na.rm = TRUE)
+  n_missing <- sum(sub$value_status == "missing", na.rm = TRUE)
+  list(
+    measure_id = measure_id,
+    n_periods = n_periods,
+    consecutive = consecutive,
+    n_numeric = n_numeric,
+    n_suppressed = n_suppressed,
+    n_missing = n_missing,
+    ok = consecutive >= min_months && n_numeric >= 2L
+  )
+}
+
+print_mhsds_dry_run <- function(months) {
+  if (is.null(months) || nrow(months) == 0) {
+    cat("MHSDS dry run: no publication pages discovered.\n")
+    return(invisible(NULL))
+  }
+  cat("MHSDS dry run — discovered publication pages (newest first):\n")
+  for (i in seq_len(nrow(months))) {
+    cat(sprintf(
+      "  %2d. %s  (%s)  %s\n",
+      i, months$slug[i],
+      if (!is.na(months$pub_date[i])) format(months$pub_date[i], "%b %Y") else "?",
+      months$href[i]
+    ))
+  }
+  cat(sprintf("Total: %d publication(s)\n", nrow(months)))
+  invisible(months)
 }
 
 stack_ae_rdy_row <- function(df, source_file) {
@@ -403,14 +529,82 @@ discover_dm01_monthly_zips <- function(max_months = 12) {
   data.frame(href = hrefs, name = basename(hrefs), stringsAsFactors = FALSE)
 }
 
-discover_mhsds_month_pages <- function(index_url, max_months = 12) {
-  links <- scrape_links(index_url)
-  perf <- links[grepl("/mental-health-services-monthly-statistics/[a-z]+-[0-9]{4}$", links$href, ignore.case = TRUE), , drop = FALSE]
-  if (nrow(perf) == 0) {
-    perf <- links[grepl("performance-[a-z]+-[0-9]{4}", links$href, ignore.case = TRUE), , drop = FALSE]
+discover_mhsds_from_raw_files <- function(root, max_months = 12) {
+  raw_dir <- file.path(root, "raw")
+  if (!dir.exists(raw_dir)) return(data.frame(href = character(), slug = character(), pub_date = as.Date(character())))
+  files <- list.files(raw_dir, pattern = "^mhsds_monthly_historic_performance-[a-z]+-[0-9]{4}_main_data\\.zip$")
+  if (length(files) == 0) {
+    files <- list.files(raw_dir, pattern = "^mhsds_monthly_performance-[a-z]+-[0-9]{4}_main_data\\.zip$")
   }
+  slugs <- sub("^mhsds_monthly_(?:historic_)?", "", files)
+  slugs <- sub("_main_data\\.zip$", "", slugs)
+  pub_dates <- as.Date(vapply(slugs, function(s) {
+    d <- parse_mhsds_slug_date(s)
+    if (is.na(d)) NA_character_ else format(d, "%Y-%m-%d")
+  }, character(1)))
+  hrefs <- paste0(
+    "https://digital.nhs.uk/data-and-information/publications/statistical/",
+    "mental-health-services-monthly-statistics/", slugs
+  )
+  out <- data.frame(href = hrefs, slug = slugs, pub_date = pub_dates, stringsAsFactors = FALSE)
+  out <- out[!duplicated(out$slug), , drop = FALSE]
+  out <- out[order(out$pub_date, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  if (nrow(out) > max_months) out <- out[seq_len(max_months), , drop = FALSE]
+  out
+}
+
+discover_mhsds_month_pages <- function(index_url, max_months = 12, min_months = 6L, root = NULL) {
+  collect_perf_links <- function(url) {
+    links <- scrape_links(url)
+    perf <- links[
+      grepl("/mental-health-services-monthly-statistics/[a-z]+-[0-9]{4}$", links$href, ignore.case = TRUE),
+      ,
+      drop = FALSE
+    ]
+    if (nrow(perf) == 0) {
+      perf <- links[grepl("performance-[a-z]+-[0-9]{4}", links$href, ignore.case = TRUE), , drop = FALSE]
+    }
+    perf
+  }
+
+  perf <- collect_perf_links(index_url)
+  year_links <- scrape_links(index_url)
+  year_hrefs <- year_links$href[
+    grepl("/mental-health-services-monthly-statistics/20[0-9]{2}$", year_links$href, ignore.case = TRUE)
+  ]
+  for (yh in unique(year_hrefs)) {
+    perf <- rbind(perf, collect_perf_links(yh))
+  }
+
+  if (nrow(perf) == 0 && !is.null(root)) {
+    return(discover_mhsds_from_raw_files(root, max_months))
+  }
+
+  if (nrow(perf) == 0) {
+    return(data.frame(href = character(), slug = character(), pub_date = as.Date(character())))
+  }
+
   slugs <- gsub(".*/", "", perf$href)
-  data.frame(href = perf$href, slug = slugs, stringsAsFactors = FALSE)
+  pub_dates <- as.Date(vapply(slugs, function(s) {
+    d <- parse_mhsds_slug_date(s)
+    if (is.na(d)) NA_character_ else format(d, "%Y-%m-%d")
+  }, character(1)))
+  out <- data.frame(href = perf$href, slug = slugs, pub_date = pub_dates, stringsAsFactors = FALSE)
+  out <- out[!duplicated(out$slug), , drop = FALSE]
+  out <- out[order(out$pub_date, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  if (nrow(out) > max_months) out <- out[seq_len(max_months), , drop = FALSE]
+
+  if (nrow(out) < min_months && !is.null(root)) {
+    raw_fallback <- discover_mhsds_from_raw_files(root, max_months)
+    if (nrow(raw_fallback) > nrow(out)) out <- raw_fallback
+  }
+
+  if (nrow(out) < min_months && !is.null(getOption("historic.root"))) {
+    append_log(getOption("historic.root"), paste(
+      "mhsds_monthly: only", nrow(out), "publications discovered — need", min_months
+    ))
+  }
+  out
 }
 
 find_mhsds_main_zip <- function(pub_page) {

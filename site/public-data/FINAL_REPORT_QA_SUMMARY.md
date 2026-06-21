@@ -26,7 +26,7 @@ Rscript site/R/03_render_public_reports.R
 | Report | Current data | Historic trend | Notes |
 |--------|-------------|----------------|-------|
 | `public-performance-overview.html` | Q4 2025/26 NOF snapshot | **None** (cross-sectional) | Peer median/rank from NHS England fields |
-| `public-mh-access-profile.html` | Apr 2026 demo month | **Yes** — MHSDS time series (MHS01/29/69); `trend_mhs23_rdy.csv` (8 mo) | Heavy suppression in demo |
+| `public-mh-access-profile.html` | Nov 2025–Apr 2026 six-month brief | **Yes** — `trend_mhsds_access_rdy.csv` (8 mo stacked; 6 mo displayed) | Primary source for MHS23/MHS01/MHS29/MHS69; line charts; summary table |
 | `public-community-services-profile.html` | Mar 2026 demo month | **Yes** — `trend_csds_activity_rdy.csv` (8 mo) | Assessment & Clinical Intervention trended |
 | `public-talking-therapies-profile.html` | Apr 2026 demo month | **Yes** — IAPT time series (13 mo) | M019–M022 waiting bands latest-only |
 | `public-assurance-profile.html` | Annual snapshots | **Descriptive history only** — DSPT multi-year status | KO41a/ERIC annual; FFT gap; CQC context |
@@ -39,7 +39,7 @@ Rscript site/R/03_render_public_reports.R
 | Report | Primary comparator | Secondary |
 |--------|-------------------|-----------|
 | NOF overview | **Peer median + published rank** (NHS England, not recalculated) | None for trend |
-| MHSDS | **Previous comparable month** | None — no national target in extract |
+| MHSDS | **Six-month change + previous month** | `trend_mhsds_access_rdy.csv` (Provider/RDY) |
 | CSDS | **Previous comparable month** | No official standard stated |
 | Talking Therapies | **Previous comparable month** | M053: no verified threshold in extract |
 | Assurance | **Source validation / descriptive history** | No peer benchmarks |
@@ -59,7 +59,10 @@ Rscript site/R/03_render_public_reports.R
 | Demonstration caveat intact on all reports | **Pass** |
 | Links from `site/draft-reports.html` work | **Pass** (paths unchanged) |
 | CSDS narrative consistent with 8-month trend | **Pass** |
-| MHSDS MHS23 references `trend_mhs23_rdy.csv` when available | **Pass** |
+| MHSDS uses `trend_mhsds_access_rdy.csv` as primary six-month source | **Pass** |
+| MHSDS six-month summary table with MoM and six-month stats | **Pass** |
+| MHSDS line charts for four headline measures | **Pass** |
+| MHSDS trend readings use rising/falling/stable/volatile (not default mixed/unclear) | **Pass** |
 | Urgent A&E/DM01 trend section renders when historic files present | **Pass** |
 | Trend badges use allowed labels only | **Pass** |
 
@@ -114,3 +117,55 @@ These gaps are stated explicitly in the reports.
 **Yes — ready for final human review and site QA.**
 
 All six public reports now meet the clarity pass requirements: Key figures explained, honest comparators, standardized trend labels, enhanced agent process and verification sections. Operational use still requires local data owner confirmation and accountable sign-off.
+
+---
+
+## MHSDS six-month trend brief QA (2026-06-21)
+
+**Report:** `public-mh-access-profile.html`  
+**Primary data:** `trend_mhsds_access_rdy.csv` (8 consecutive months stacked Sep 2025–Apr 2026; six-month display window Nov 2025–Apr 2026)
+
+### Final report acceptance criteria
+
+| Criterion | Result |
+|-----------|--------|
+| Plain-English headline summary at top | **Pass** |
+| Full trend window stated (Nov 2025 – Apr 2026) | **Pass** |
+| One summary table — all four headline measures with latest, previous, MoM, six-month change, avg, high/low, trend reading, note | **Pass** |
+| Caveats block (provisional, suppression, provider scope, local validation) | **Pass** |
+| Human review checklist | **Pass** |
+| Technical audit trail at bottom (collapsible) | **Pass** |
+
+### Readability checks
+
+| Check | Result |
+|-------|--------|
+| No longer reads as latest-month extract only | **Pass** |
+| Trend readings differentiated (rising / falling / stable / volatile — not all mixed/unclear) | **Pass** |
+| Caveats not repeated in every table row | **Pass** |
+| Line charts show six-month movement | **Pass** |
+| File names in audit section only | **Pass** |
+| No synthetic values | **Pass** |
+| Suppressed values not treated as zero (`value_status` column) | **Pass** |
+| Provider/resident rows not summed | **Pass** |
+| MHS23 framed as stock measure | **Pass** |
+| MHS29 not framed as access improvement | **Pass** |
+
+### Sign-off questions
+
+| Question | Answer in report |
+|----------|------------------|
+| What changed over the last six months? | Headline reading + summary table six-month change column |
+| Which measures appear stable? | MHS29 broadly stable; MHS23 rising modestly |
+| Which measures appear rising or falling? | MHS23/MHS01 rising; MHS69 volatile (Apr 2026 step change — local review needed) |
+| Which measures are too caveated to interpret? | MHS69 flagged volatile; demo extract suppression noted in audit |
+| What should MHSDS owner check? | Human validation checklist + grouped findings owners |
+| What can/cannot be concluded? | Scope section (can/cannot) |
+
+**Pipeline commands:**
+
+```bash
+cd site/public-data
+Rscript 05_download_historic_public_data.R --mhsds-only
+Rscript ../R/03_render_public_reports.R
+```

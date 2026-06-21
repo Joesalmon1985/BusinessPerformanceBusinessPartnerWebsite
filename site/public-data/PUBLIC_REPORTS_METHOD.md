@@ -40,7 +40,7 @@ Reports are indexed on `site/draft-reports.html` as worked examples of agent-ass
 | Report | Primary demo CSV | Additional processed files |
 |--------|------------------|----------------------------|
 | `public-performance-overview.html` | `demo_nof_overview.csv` | `demo_assurance_profile.csv` |
-| `public-mh-access-profile.html` | `demo_mhsds_activity.csv` | MHSDS time series; `trend_mhs23_rdy.csv` |
+| `public-mh-access-profile.html` | `demo_mhsds_activity.csv` | `trend_mhsds_access_rdy.csv` (primary); demo slice for audit |
 | `public-community-services-profile.html` | `demo_csds_activity.csv` | `trend_csds_activity_rdy.csv` (8 months) |
 | `public-talking-therapies-profile.html` | `demo_talking_therapies.csv` | `rdy_talking_therapies_*time_series.csv` |
 | `public-assurance-profile.html` | `demo_assurance_profile.csv` | `rdy_dspt_rdy_assessment_history.csv`, CQC context note |
@@ -125,7 +125,8 @@ Historic pipeline outputs (when stacking succeeds):
 | `processed/trend_dm01_rdy.csv` | DM01 full-extract monthly |
 | `processed/trend_kh03_beds_rdy.csv` | KH03 recent snapshots (≤6 quarters, post-2020) |
 | `processed/latest_kh03_beds_rdy.csv` | KH03 latest snapshot only |
-| `processed/trend_mhs23_rdy.csv` | MHSDS MHS23 Provider from main_data monthly |
+| `processed/trend_mhsds_access_rdy.csv` | MHSDS MHS23/MHS01/MHS29/MHS69 Provider (primary six-month brief source) |
+| `processed/trend_mhs23_rdy.csv` | MHSDS MHS23 compatibility slice (deprecated — use access file) |
 | `processed/trend_fft_rdy.csv` | FFT org-level (if found) |
 
 Register and run summary: `HISTORIC_SOURCE_REGISTER.csv`, `HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md`.
