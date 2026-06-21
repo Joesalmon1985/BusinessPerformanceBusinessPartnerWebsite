@@ -40,7 +40,9 @@
 
     <section aria-labelledby="main-idea">
       <h2 id="main-idea">The main idea</h2>
-      <p>Agentic AI can help NHS business and performance teams work faster, more clearly and more consistently.</p>
+      <div class="info-box">
+        <p>While Agentic AI has some obvious benefits when it comes to writing code and creating apps it can also help NHS business and performance teams work faster, more clearly and more consistently.</p>
+      </div>
       <p>It can help with:</p>
       <ul>
         <li>drafting report text</li>
@@ -51,40 +53,88 @@
         <li>checking reporting rules</li>
         <li>organising evidence</li>
         <li>reducing admin-heavy work</li>
+        <li>answering reporting technical and definition questions from approved sources</li>
       </ul>
-      <p>However, AI cannot and should not replace professional judgement.</p>
-      <p>People must still be responsible for definitions, data checks, interpretation, decisions, escalation and sign-off.</p>
+      <div class="warning-box" role="note">
+        <p><strong>However, AI cannot and should not replace professional judgement.</strong></p>
+        <p>People must still be responsible for definitions, data checks, interpretation, decisions, escalation and sign-off.</p>
+      </div>
     </section>
 
     <section aria-labelledby="site-purpose">
       <h2 id="site-purpose">Purpose of this site</h2>
       <p>This site is a practical demonstration of how I would approach the role.</p>
       <p>It shows how performance information can be made clearer, how mandatory reporting can be checked more systematically, and how AI agents could support busy NHS teams when used safely.</p>
-      <p>The site is designed to show four things.</p>
+      <p>Each page demonstrates a different part of the work:</p>
 
-      <h3>1. How I think about performance</h3>
-      <p>Good performance reporting should explain:</p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Mandatory reporting map</h3>
+          <p class="card-purpose">How mandatory returns connect — definitions, owners and assurance checks in one place.</p>
+          <a class="card-link" href="mandatory-reporting-map.html">View page</a>
+        </article>
+        <article class="card">
+          <h3>Draft performance reports</h3>
+          <p class="card-purpose">Worked examples of agent-assisted analytical briefs from public NHS data.</p>
+          <a class="card-link" href="draft-reports.html">View page</a>
+        </article>
+        <article class="card">
+          <h3>Agent operating model</h3>
+          <p class="card-purpose">How agents could support performance work safely, with clear human accountability.</p>
+          <a class="card-link" href="agent-operating-model.html">View page</a>
+        </article>
+        <article class="card">
+          <h3>Governance and benefits</h3>
+          <p class="card-purpose">Controls, benefits and an assurance checklist for responsible AI use.</p>
+          <a class="card-link" href="governance-and-benefits.html">View page</a>
+        </article>
+      </div>
+
+      <p>Each page starts with a plain-English summary, so the site can be followed without a technical background.</p>
+    </section>
+
+    <section class="personal-block" aria-labelledby="how-built">
+      <h2 id="how-built">How this was built</h2>
+      <p>This site was built entirely by a cursor agent, using prompts and human direction while Spain beat Saudi Arabia.</p>
+      <p>I set the structure, content and tone. The agent wrote the code, created the reports and supporting documents. I reviewed the outputs and directed changes throughout.</p>
+      <p>The site uses:</p>
       <ul>
-        <li>what the figure is</li>
-        <li>what the figure should be</li>
-        <li>whether it is getting better or worse</li>
-        <li>what action may be needed</li>
+        <li>static HTML, CSS and light JavaScript</li>
+        <li>public NHS source references</li>
+        <li>sample data for demonstration</li>
+        <li>no backend database</li>
+        <li>no connection to live Trust systems (all the work was done on my personal laptop)</li>
       </ul>
-      <p>It should help people understand the position, not just give them more numbers.</p>
+    </section>
 
-      <h3>2. How I think about assurance</h3>
-      <p>Mandatory reporting needs clear definitions, source checks, trend analysis, known limitations and human sign-off.</p>
-      <p>AI can help organise and test this work, but it must be clear where the information came from and what still needs checking.</p>
+    <section aria-labelledby="designed-to-show">
+      <h2 id="designed-to-show">What this site is designed to show</h2>
 
-      <h3>3. How I think about service improvement</h3>
-      <p>Good business partnering means understanding the real pressures services face.</p>
-      <p>This includes demand, capacity, staffing, pathways, finance, quality and patient care.</p>
-      <p>Information should support improvement. It should not just create extra reporting work.</p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>1. How I think about performance</h3>
+          <p class="card-purpose">Good performance reporting should explain what the figure is, what it should be, whether it is getting better or worse, and what action may be needed.</p>
+          <p class="card-purpose">It should help people understand the position, not just give them more numbers.</p>
+        </article>
 
-      <h3>4. How I think about responsible AI</h3>
-      <p>AI should be used carefully, with clear rules, human review, audit trails, data protection safeguards and honest caveats.</p>
-      <p>The aim is not to use AI for its own sake.</p>
-      <p>The aim is to give analysts, managers and services better support.</p>
+        <article class="card">
+          <h3>2. How I think about assurance</h3>
+          <p class="card-purpose">Mandatory reporting needs clear definitions, source checks, trend analysis, known limitations and human sign-off.</p>
+          <p class="card-purpose">AI can help organise and test this work, but it must be clear where the information came from and what still needs checking.</p>
+        </article>
+
+        <article class="card">
+          <h3>3. How I think about service improvement</h3>
+          <p class="card-purpose">Good business partnering means understanding the real pressures services face — demand, capacity, staffing, pathways, finance, quality and patient care.</p>
+          <p class="card-purpose">Information should support improvement. It should not just create extra reporting work.</p>
+        </article>
+
+        <article class="card">
+          <h3>4. How I think about responsible AI</h3>
+          <p class="card-purpose">AI should be used carefully, with clear rules, human review, audit trails, data protection safeguards and honest caveats.</p>
+          <p class="card-purpose">The aim is not to use AI for its own sake. The aim is to give analysts, managers and services better support.</p>
+        </article>
+      </div>
     </section>
 
     <section aria-labelledby="bp-relevance">
@@ -96,11 +146,13 @@
         <li>data, SQL and reporting knowledge</li>
         <li>understanding of NHS reporting and assurance work</li>
         <li>ability to explain complex information clearly</li>
-        <li>practical interest in responsible AI</li>
+        <li>practical experience directing AI agents</li>
         <li>commitment to transparency, accountability and public service values</li>
       </ul>
-      <p>It is not a finished Trust product.</p>
-      <p>It is a demonstration of approach: how I would use evidence, structure, governance and new technology to support better performance work.</p>
+      <div class="info-box">
+        <p>My background combines operational leadership and hands-on data work. That matters because performance information is only useful if it connects to the real pressures services face.</p>
+        <p>This is not a finished Trust product. It is a demonstration of approach: how I would use evidence, structure, governance and new technology to support better performance work.</p>
+      </div>
     </section>
 
     <div class="caveat-box" role="note">
