@@ -169,4 +169,12 @@ Rscript 02_render_reports.R
 
 **Deploy fails on file size (25 MiB limit):** A large file under `public-data/raw/` or `metadata/historic_extract/` was committed or included in a Direct Upload. Remove it from Git tracking with `git rm --cached`, ensure `.gitignore` excludes those directories, merge to your production branch, and **Retry deployment** in Cloudflare. The live site uses `processed/demo_*.csv` and pre-rendered HTML reports, not raw downloads.
 
+**Retry still deploys an old commit (log shows `HEAD is now at c1b3ea1` or similar):** **Retry deployment** re-runs the *same* failed build — it does **not** pull latest `main`. Fix:
+
+1. Confirm **Settings → Builds → Production branch** is `main`
+2. Confirm GitHub `main` is at a commit after `3206e3f` (raw files removed): `git log -1 --oneline origin/main`
+3. Do **not** use Retry on the old failed deployment
+4. Trigger a **new** deployment: push any commit to `main`, or use **Create deployment** / **Deploy latest commit** if your dashboard offers it
+5. Open the new deployment log and verify it says `HEAD is now at 6012cce` (or newer), not `c1b3ea1`
+
 **R scripts on Cloudflare:** R is not executed during deployment. Pre-generated CSV and report HTML files must be committed to the repository before deploy.
