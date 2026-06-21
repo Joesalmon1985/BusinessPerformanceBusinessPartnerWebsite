@@ -13,6 +13,14 @@ site/public-data/metadata/historic_extract/
 # Regenerated download/audit logs
 site/public-data/metadata/download_log.txt
 
+# R session / local workspace
+.Rhistory
+.RData
+.Rproj.user/
+
+# Explicit guard for known oversized KH03 downloads
+site/public-data/raw/kh03_quarterly_*_KH03-Occupied-by-Spec-Overnight-only.csv
+
 # OS / editor
 .DS_Store
 Thumbs.db

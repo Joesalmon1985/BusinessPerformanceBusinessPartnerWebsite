@@ -29,4 +29,4 @@ Git-based Cloudflare Pages settings:
 | Build command | *(blank)* or `exit 0` |
 | Build output directory | `site` |
 
-Large raw NHS downloads under `site/public-data/raw/` are excluded from Git (25 MiB Cloudflare limit). See [`site/CLOUDFLARE_DEPLOYMENT.md`](site/CLOUDFLARE_DEPLOYMENT.md).
+Large raw NHS downloads under `site/public-data/raw/` and historic extract caches are excluded from Git (25 MiB Cloudflare limit). Git-based deploy uses tracked files only. See [`site/CLOUDFLARE_DEPLOYMENT.md`](site/CLOUDFLARE_DEPLOYMENT.md).

@@ -13,9 +13,16 @@ Best for a quick demonstration without Git integration.
 
 1. **Prepare the folder**
    - Ensure `/site` contains `index.html` at its root (not nested deeper)
-   - Optionally zip the *contents* of `/site` (not the parent folder itself):
+   - **Do not upload** local-only folders: `public-data/raw/`, `public-data/metadata/historic_extract/`, or `public-data/R_libs/` — many files exceed Cloudflare's 25 MiB limit
+   - Prefer zipping from a fresh Git clone (tracked files only), not your full local `site/` folder:
+     ```bash
+     git clone <repo-url> deploy-staging && cd deploy-staging/site
+     zip -r ../nhs-bp-microsite.zip .
+     ```
+   - Or zip only if you have confirmed no large gitignored files are present:
      ```bash
      cd site
+     find public-data/raw public-data/metadata/historic_extract -type f -size +25M 2>/dev/null | grep -q . && echo "Remove or exclude large local files first" && exit 1
      zip -r ../nhs-bp-microsite.zip .
      ```
 
@@ -77,6 +84,8 @@ Best for version control and automatic redeployment on push.
 
 5. **Deploy**
    - Cloudflare deploys on first connect and on every subsequent push to the production branch
+   - Git-based deploy publishes **only Git-tracked files** under `site/` — gitignored raw downloads and historic extract caches on your machine are not included
+   - After fixing a file-size failure, merge the fix to your production branch and use **Retry deployment** in the Cloudflare dashboard (or push a new commit)
 
 ### Custom domain (optional)
 
@@ -109,12 +118,12 @@ Before pushing, confirm no tracked file exceeds Cloudflare's 25 MiB limit:
 
 ```bash
 find site -type f -size +25M | sort
-# Should return nothing for Git-tracked deploy content
+# May list gitignored local-only files (raw/, historic_extract/) — those must not be tracked
 
 git ls-files site | while read f; do
   [ -f "$f" ] && [ "$(stat -c%s "$f")" -gt 26214400 ] && echo "FAIL: $f"
 done
-# Should print nothing
+# Must print nothing — this is the deploy safety check
 ```
 
 **Regenerate before deploy if data changed:**
@@ -158,6 +167,6 @@ Rscript 02_render_reports.R
 
 **Git deploy shows wrong content:** Verify **Build output directory** is set to `site`, not `/` or `dist`.
 
-**Deploy fails on file size (25 MiB limit):** A large file under `public-data/raw/` or `metadata/historic_extract/` was committed. Remove it from Git tracking with `git rm --cached` and ensure `.gitignore` excludes those directories. The live site uses `processed/demo_*.csv` and pre-rendered HTML reports, not raw downloads.
+**Deploy fails on file size (25 MiB limit):** A large file under `public-data/raw/` or `metadata/historic_extract/` was committed or included in a Direct Upload. Remove it from Git tracking with `git rm --cached`, ensure `.gitignore` excludes those directories, merge to your production branch, and **Retry deployment** in Cloudflare. The live site uses `processed/demo_*.csv` and pre-rendered HTML reports, not raw downloads.
 
 **R scripts on Cloudflare:** R is not executed during deployment. Pre-generated CSV and report HTML files must be committed to the repository before deploy.
