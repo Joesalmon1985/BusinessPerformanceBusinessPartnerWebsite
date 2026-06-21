@@ -368,7 +368,7 @@ audit_metric_details <- function(row) {
   }, character(1))
   paste0(
     '<details class="nhs-audit-details"><summary>', esc(row$Metric_ID), " — ",
-    esc(substr(as.character(row$Metric_description), 1, 60)), '</summary>',
+    esc(trimws(as.character(row$Metric_description))), '</summary>',
     '<dl class="nhs-audit-dl">', paste(items, collapse = ""), '</dl></details>'
   )
 }
@@ -399,10 +399,10 @@ nof_audit_verify_body <- function(audit_df, raw_display_path, raw_url) {
     '<p><strong>Raw source file</strong> (not linked — large file): <code>', esc(raw_display_path), '</code></p>',
     if (nzchar(raw_url)) paste0('<p><strong>Source URL:</strong> <a href="', esc(raw_url), '" rel="noopener">', esc(raw_url), '</a></p>') else "",
     '</div>',
-    '<details class="nhs-verify-details"><summary>Audit summary table (technical detail)</summary>',
+    '<details class="nhs-verify-details"><summary>Technical audit detail</summary>',
     '<div class="nhs-audit-summary">', html_table(summary_df, max_rows = 50), '</div>',
     '</details>',
-    '<details class="nhs-verify-details"><summary>Per-metric audit detail</summary>',
+    '<details class="nhs-verify-details"><summary>Per-metric source trace</summary>',
     details_html,
     '<p class="nhs-audit-note"><em>Tie handling follows the NHS England source Rank column — not reimplemented in this demo.</em></p>',
     '</details>'
@@ -549,6 +549,97 @@ cannot_conclude_box <- function(items) {
   )
 }
 
+short_human_check <- function(text) {
+  text <- trimws(as.character(text))
+  if (!nzchar(text)) return("")
+  parts <- strsplit(text, "\\. ", perl = TRUE)[[1]]
+  result <- if (length(parts) >= 1 && nzchar(parts[1])) parts[1] else text
+  result <- trimws(result)
+  if (!grepl("\\.$", result)) paste0(result, ".") else result
+}
+
+format_peer_position_short <- function(median, rank) {
+  median <- trimws(as.character(median))
+  rank <- trimws(as.character(rank))
+  if (is.na(to_num(median)) && is.na(to_num(rank))) {
+    return("Median and rank not published for this metric in the extract.")
+  }
+  paste0("Peer median: ", median, ". Published rank: ", rank, ". Not a local target.")
+}
+
+format_initial_reading <- function(flag_class, position_text, extra = NULL) {
+  flag_read <- switch(
+    flag_class %||% "review",
+    strength = "Confirm locally before describing as positive performance.",
+    definition = "Finance or definition check required.",
+    review = "Local review needed.",
+    watch = "Interpret cautiously — confirm cohort and scope.",
+    validation = "Source validation only — not a performance standing.",
+    "Local review needed."
+  )
+  paste0(trimws(position_text), " ", flag_read, if (!is.null(extra) && nzchar(extra)) paste0(" ", extra) else "")
+}
+
+scope_section <- function(can_items = list(), cannot_items = list()) {
+  if (length(can_items) == 0 && length(cannot_items) == 0) return("")
+  can_html <- if (length(can_items) > 0) {
+    paste0("<p><strong>This report can:</strong></p>", bullet_list(can_items))
+  } else {
+    ""
+  }
+  cannot_html <- if (length(cannot_items) > 0) {
+    paste0("<p><strong>This report cannot:</strong></p>", bullet_list(cannot_items))
+  } else {
+    ""
+  }
+  paste0(
+    '<section class="nhs-section">',
+    '<h2>What this report can and cannot tell us</h2>',
+    can_html,
+    cannot_html,
+    '<p><em>For that reason, this should be treated as a first-draft prompt for review, not a final performance judgement.</em></p>',
+    "</section>"
+  )
+}
+
+headline_reading_section <- function(bullets) {
+  if (length(bullets) == 0) return("")
+  paste0(
+    '<section class="nhs-section">',
+    "<h2>Headline reading</h2>",
+    '<div class="nhs-headline-reading">',
+    bullet_list(bullets),
+    "</div></section>"
+  )
+}
+
+findings_group_section <- function(groups) {
+  if (is.null(groups) || length(groups) == 0) return("")
+  groups_html <- paste(vapply(groups, function(g) {
+    items_html <- paste(vapply(g$items, function(item) {
+      owner <- if (!is.null(item$owner) && nzchar(item$owner)) {
+        paste0('<p class="nhs-finding-owner"><strong>Human check:</strong> ', esc(item$owner), "</p>")
+      } else {
+        ""
+      }
+      paste0(
+        '<article class="nhs-finding-item">',
+        "<h4>", esc(item$title), "</h4>",
+        "<p>", esc(item$body), "</p>",
+        owner,
+        "</article>"
+      )
+    }, character(1)), collapse = "")
+    paste0('<div class="nhs-findings-group"><h3>', esc(g$title), "</h3>", items_html, "</div>")
+  }, character(1)), collapse = "")
+  paste0(
+    '<section class="nhs-section">',
+    "<h2>Key findings by review area</h2>",
+    groups_html,
+    "</section>"
+  )
+}
+
 first_draft_analysis <- function(paragraphs) {
   paras <- paste0("<p>", esc(paragraphs), "</p>", collapse = "")
   paste0('<section class="nhs-section"><h2>First-draft analysis</h2>', paras, '</section>')
@@ -563,7 +654,7 @@ human_review_warning <- function() {
 
 verify_section <- function(intro_html, body_html) {
   paste0(
-    '<section class="nhs-section nhs-verify-block"><h2>How to verify the figures</h2>',
+    '<section class="nhs-section nhs-verify-block"><h2>Audit trail and source checks</h2>',
     '<div class="nhs-verify-intro">', intro_html, '</div>',
     body_html,
     '</section>'
@@ -603,12 +694,7 @@ wrap_trend_collapsible <- function(trend_html, summary = "Trend detail (charts a
   collapsible_details(summary, trend_html)
 }
 
-what_agent_asked_section <- function(question, dataset_line = NULL, prompt_excerpt = NULL) {
-  prompt_html <- if (!is.null(prompt_excerpt) && nzchar(prompt_excerpt)) {
-    collapsible_details("Prompt excerpt (technical detail)", agent_prompt_box(prompt_excerpt))
-  } else {
-    ""
-  }
+what_agent_asked_section <- function(question, dataset_line = NULL) {
   dataset_html <- if (!is.null(dataset_line) && nzchar(dataset_line)) {
     paste0("<p><strong>Dataset:</strong> ", esc(dataset_line), "</p>")
   } else {
@@ -621,7 +707,6 @@ what_agent_asked_section <- function(question, dataset_line = NULL, prompt_excer
     dataset_html,
     "<p>This is a <strong>first-draft analytical brief</strong> for human review — not an approved performance report.</p>",
     "</div>",
-    prompt_html,
     "</section>"
   )
 }
@@ -647,7 +732,7 @@ data_used_section <- function(config) {
 agent_summary_section <- function(bullets) {
   if (length(bullets) == 0) return("")
   paste0(
-    '<section class="nhs-section"><h2>Agent summary</h2>',
+    '<section class="nhs-section"><h2>Draft interpretation</h2>',
     bullet_list(bullets),
     "</section>"
   )
@@ -663,7 +748,7 @@ human_checks_section <- function(items) {
     bullets <- unlist(items)
   }
   paste0(
-    '<section class="nhs-section"><h2>What a human should check</h2>',
+    '<section class="nhs-section"><h2>Human validation checklist</h2>',
     bullet_list(bullets),
     "</section>"
   )
@@ -914,7 +999,7 @@ nof_metric_commentary_section <- function(ranked_df) {
 }
 
 nof_agent_reading <- function(entry, row) {
-  if (is.null(entry)) return("Definition check and local owner review needed.")
+  if (is.null(entry)) return("Definition check and local review needed.")
   val_n <- to_num(row$Value)
   med_n <- to_num(row$Median_value)
   pos <- if (!is.na(val_n) && !is.na(med_n)) {
@@ -922,7 +1007,95 @@ nof_agent_reading <- function(entry, row) {
   } else {
     ""
   }
-  paste0("Agent flag: ", entry$flag, ". ", pos, " Confirm metric polarity before interpreting.")
+  extra <- if (trimws(as.character(row$Metric_ID)) == "OF0086") {
+    "For this metric, a value of 100 is approximately expected cost."
+  } else {
+    NULL
+  }
+  format_initial_reading(entry$flag_class, pos, extra)
+}
+
+nof_position_phrase <- function(row) {
+  val_n <- to_num(row$Value)
+  med_n <- to_num(row$Median_value)
+  val <- trimws(as.character(row$Value))
+  med <- trimws(as.character(row$Median_value))
+  rank <- trimws(as.character(row$Rank))
+  if (!is.na(val_n) && !is.na(med_n)) {
+    if (val_n > med_n) pos <- "above"
+    else if (val_n < med_n) pos <- "below"
+    else pos <- "in line with"
+    paste0(
+      "RDY is shown as ", val, " against a peer median of ", med,
+      ", with a published rank of ", rank, ". RDY is ", pos, " the peer median."
+    )
+  } else {
+    paste0("RDY is shown as ", val, " with published rank ", rank, ".")
+  }
+}
+
+nof_group_item <- function(row, entry) {
+  id <- trimws(as.character(row$Metric_ID))
+  title <- if (!is.null(entry)) entry$plain_meaning else trimws(as.character(row$Metric_description))
+  body <- paste0(
+    nof_position_phrase(row), " ",
+    switch(
+      id,
+      OF0005 = "This may be a positive position, but the local owner should confirm the cohort, denominator, reporting period and whether the national definition matches local waiting list reporting.",
+      OF0079 = "This needs finance review before interpretation. The owner should confirm the sign convention, plan version and whether the public figure matches internal board reporting.",
+      OF0081 = "Finance owner should confirm Month 12 YTD basis, plan assumptions and whether amendments have been published.",
+      OF0082 = "The workforce lead should confirm the reporting period, inclusion rules and whether local sickness dashboards use the same definition.",
+      OF0041 = "The CYP mental health lead should confirm numerator, ICB/resident vs provider scope and whether local access data supports the direction of change.",
+      OF0061 = "The OD or workforce lead should confirm survey methodology, response rate, cohort and whether the difference is meaningful for local workforce planning.",
+      OF0084 = "The OD or workforce lead should confirm survey methodology, response rate, cohort and whether the difference is meaningful for local workforce planning.",
+      OF0057 = "The community urgent care owner should confirm the UCR definition, reporting period and current operational position.",
+      OF0016 = "The crisis pathway owner should confirm the cohort, face-to-face definition and alignment with local crisis standards.",
+      OF0086 = "For this metric, a value of 100 is approximately expected cost. Finance or productivity leads should confirm the cost index basis, peer group and local productivity narrative.",
+      OF0063 = "The inpatient mental health lead should confirm the definition, cohort and whether the public figure matches local bed management data.",
+      "Confirm metric definition and local owner review before operational use."
+    )
+  )
+  owner <- if (!is.null(entry)) entry$human_check else "Confirm metric definition against NHS England NOF specification."
+  list(title = title, body = body, owner = owner)
+}
+
+nof_build_grouped_findings <- function(audit_source, lookup) {
+  ids_for <- function(metric_ids) {
+    lapply(metric_ids, function(id) {
+      idx <- which(trimws(audit_source$Metric_ID) == id)
+      if (length(idx) == 0) return(NULL)
+      row <- audit_source[idx[1], , drop = FALSE]
+      entry <- lookup[[id]]
+      nof_group_item(row, entry)
+    })
+  }
+  compact_items <- function(items) {
+    items <- items[!vapply(items, is.null, logical(1))]
+    if (length(items) == 0) NULL else items
+  }
+  groups <- list(
+    list(
+      title = "Potential strengths, subject to validation",
+      items = compact_items(ids_for(c("OF0005", "OF0079")))
+    ),
+    list(
+      title = "Areas for local review",
+      items = compact_items(ids_for(c("OF0057", "OF0016", "OF0063", "OF0086")))
+    ),
+    list(
+      title = "Finance / definition checks",
+      items = compact_items(ids_for(c("OF0079", "OF0081", "OF0086")))
+    ),
+    list(
+      title = "Workforce indicators",
+      items = compact_items(ids_for(c("OF0082", "OF0061", "OF0084")))
+    ),
+    list(
+      title = "Metrics needing cautious interpretation",
+      items = compact_items(ids_for(c("OF0041")))
+    )
+  )
+  groups[vapply(groups, function(g) length(g$items %||% list()) > 0, logical(1))]
 }
 
 load_mhsds_time_series <- function() {
@@ -1086,27 +1259,19 @@ STANDARD_PROCESS_SUFFIX <- c(
 )
 
 format_comparator <- function(comparator_type, details = "") {
-  base <- switch(
+  if (nzchar(details)) {
+    return(details)
+  }
+  switch(
     comparator_type,
     official_standard = "Official standard or target from the published source (if present in extract).",
-    peer_median = paste0(
-      "Published NHS England peer median and rank in the source file. ",
-      "It should not be treated as a local target. Rank is not recalculated by this demo."
-    ),
-    previous_period = paste0(
-      "Latest period compared with the previous comparable period in the downloaded public extract. ",
-      "No official target is present in the extract."
-    ),
+    peer_median = "Peer median and published rank from NHS England source file — not a local target.",
+    previous_period = "Latest period compared with the previous comparable period in the downloaded public extract.",
     descriptive_history = "Descriptive history across multiple published rows — not a numeric performance trend.",
     none = "No verified target or comparator in the current public extract.",
     validation_only = "Source validation only — confirms RDY presence or participation, not performance standing.",
-    details
+    "No comparator in the current public extract."
   )
-  if (nzchar(details) && comparator_type != "none") {
-    paste(base, details)
-  } else {
-    base
-  }
 }
 
 trend_badge_css <- function(label) {
@@ -1235,49 +1400,66 @@ kfe_from_trend <- function(trend_obj, value_text = NULL, period_text = NULL) {
   }
 }
 
-key_figures_explained_section <- function(specs, intro = NULL, supporting_html = "") {
+key_figures_explained_section <- function(specs, intro = NULL, supporting_html = "",
+                                        title = "Main metric table", show_trend = TRUE,
+                                        show_what = FALSE, trend_note = NULL,
+                                        comparator_header = "Peer position / comparator") {
   if (length(specs) == 0) return("")
   intro_text <- intro %||%
     paste(
       "Plain-English explanation of the most useful measures in this brief.",
       "Trend direction uses downloaded public historic data only where at least two comparable periods exist."
     )
+  trend_note_html <- if (!show_trend && !is.null(trend_note) && nzchar(trend_note)) {
+    paste0("<p><em>", esc(trend_note), "</em></p>")
+  } else {
+    ""
+  }
   rows_html <- vapply(specs, function(spec) {
-    trend_info <- classify_trend_direction(
-      trend_obj = spec$trend,
-      polarity = spec$polarity %||% "unknown",
-      override_label = spec$trend_override,
-      override_note = spec$trend_note
+    cmp_text <- if (nzchar(spec$comparator_detail %||% "")) {
+      spec$comparator_detail
+    } else {
+      format_comparator(spec$comparator_type %||% "none", "")
+    }
+    row_parts <- c(
+      paste0("<th scope=\"row\">", esc(spec$figure), "</th>"),
+      if (show_what) paste0("<td>", esc(spec$what), "</td>") else character(),
+      paste0("<td>", esc(spec$latest), "</td>"),
+      paste0("<td>", esc(cmp_text), "</td>"),
+      if (show_trend) {
+        trend_info <- classify_trend_direction(
+          trend_obj = spec$trend,
+          polarity = spec$polarity %||% "unknown",
+          override_label = spec$trend_override,
+          override_note = spec$trend_note
+        )
+        paste0("<td>", trend_badge_html(trend_info), "</td>")
+      } else {
+        character()
+      },
+      paste0("<td>", esc(spec$interpretation), "</td>"),
+      paste0("<td class=\"nhs-human-check\">", esc(spec$human_check), "</td>")
     )
-    cmp_html <- paste0(
-      comparator_label_html(spec$comparator_type %||% "none"),
-      esc(format_comparator(spec$comparator_type %||% "none", spec$comparator_detail %||% ""))
-    )
-    paste0(
-      "<tr>",
-      "<th scope=\"row\">", esc(spec$figure), "</th>",
-      "<td>", esc(spec$what), "</td>",
-      "<td>", esc(spec$latest), "</td>",
-      "<td>", cmp_html, "</td>",
-      "<td>", trend_badge_html(trend_info), "</td>",
-      "<td>", esc(spec$interpretation), "</td>",
-      "<td class=\"nhs-human-check\">", esc(spec$human_check), "</td>",
-      "</tr>"
-    )
+    paste0("<tr>", paste(row_parts, collapse = ""), "</tr>")
   }, character(1))
+  header_parts <- c(
+    '<th scope="col">Figure / measure</th>',
+    if (show_what) '<th scope="col">What it means</th>' else character(),
+    '<th scope="col">Latest value</th>',
+    paste0('<th scope="col">', esc(comparator_header), '</th>'),
+    if (show_trend) '<th scope="col">Trend</th>' else character(),
+    '<th scope="col">Initial reading</th>',
+    '<th scope="col">Human check</th>'
+  )
+  table_class <- if (show_what || show_trend) "nhs-kfe-table" else "nhs-kfe-table nhs-kfe-table--brief"
   paste0(
     '<section class="nhs-section key-figures-explained">',
-    '<h2>Key findings explained</h2>',
+    '<h2>', esc(title), '</h2>',
     '<p>', intro_text, '</p>',
-    '<div class="nhs-table-wrap"><table class="nhs-kfe-table">',
+    trend_note_html,
+    '<div class="nhs-table-wrap"><table class="', table_class, '">',
     '<thead><tr>',
-    '<th scope="col">Figure / measure</th>',
-    '<th scope="col">What it means</th>',
-    '<th scope="col">Latest value</th>',
-    '<th scope="col">Comparator or expected position</th>',
-    '<th scope="col">Trend</th>',
-    '<th scope="col">Agent reading</th>',
-    '<th scope="col">Human check</th>',
+    paste(header_parts, collapse = ""),
     '</tr></thead><tbody>',
     paste(rows_html, collapse = "\n"),
     '</tbody></table></div>',
@@ -1369,14 +1551,32 @@ standard_bp_questions <- function() {
 
 agent_brief_sections <- function(config, key_findings_html, verify_body_html,
                                supporting_html = "") {
+  audit_trail_extra <- paste0(
+    if (!is.null(config$prompt_excerpt) && nzchar(config$prompt_excerpt)) {
+      collapsible_details("Prompt excerpt", agent_prompt_box(config$prompt_excerpt))
+    } else {
+      ""
+    },
+    supporting_html
+  )
+  scope <- config$scope %||% list()
   paste0(
-    what_agent_asked_section(config$question, config$dataset_line, config$prompt_excerpt),
+    what_agent_asked_section(config$question, config$dataset_line),
     data_used_section(config),
+    scope_section(scope$can %||% list(), scope$cannot %||% list()),
+    headline_reading_section(config$headline %||% list()),
+    if (!is.null(config$grouped_findings) && length(config$grouped_findings) > 0) {
+      findings_group_section(config$grouped_findings)
+    } else {
+      ""
+    },
     key_findings_html,
-    supporting_html,
     agent_summary_section(config$agent_summary),
     human_checks_section(config$human_checks),
-    verify_section(config$verify_intro %||% verify_intro_short(), verify_body_html),
+    verify_section(
+      config$verify_intro %||% verify_intro_short(),
+      paste0(verify_body_html, audit_trail_extra)
+    ),
     human_review_warning()
   )
 }
@@ -1502,22 +1702,28 @@ build_performance_overview <- function() {
     rank_txt <- trimws(as.character(row$Rank))
     median_txt <- trimws(as.character(row$Median_value))
     val_txt <- trimws(as.character(row$Value))
+    peer_pos <- if (is.na(to_num(median_txt)) && is.na(to_num(rank_txt))) {
+      "Median and rank not published for this metric in the extract."
+    } else {
+      base <- format_peer_position_short(median_txt, rank_txt)
+      if (id == "OF0086") {
+        paste0(base, " A value of 100 is approximately expected cost for this metric.")
+      } else {
+        base
+      }
+    }
     list(
-      figure = paste0(id, " — ", substr(trimws(as.character(row$Metric_description)), 1, 60)),
+      figure = paste0(id, " — ", plain),
       what = plain,
       latest = paste0(val_txt, " (", latest_q, ")"),
       comparator_type = if (is.na(to_num(median_txt)) && is.na(to_num(rank_txt))) "none" else "peer_median",
-      comparator_detail = if (is.na(to_num(median_txt)) && is.na(to_num(rank_txt))) {
-        "Median and rank not published for this metric in the extract."
-      } else {
-        paste0("Peer median ", median_txt, ". Published rank ", rank_txt, ". A value of 100 is approximately expected cost for OF0086 only — confirm per metric.")
-      },
+      comparator_detail = peer_pos,
       trend = NULL,
       polarity = "definition",
       trend_override = "Not available from current NOF extract",
       trend_note = paste0("Cross-sectional snapshot for ", latest_q, " — no historic NOF trend in this brief."),
       interpretation = nof_agent_reading(entry, row),
-      human_check = human
+      human_check = short_human_check(human)
     )
   })
 
@@ -1526,14 +1732,24 @@ build_performance_overview <- function() {
     collapsible_details("Additional metric commentary cards", commentary_html)
   )
 
+  nof_trend_note <- paste(
+    "There is no historic trend in this NOF extract, so the report cannot say whether performance is improving or worsening.",
+    "Peer median and published rank are NHS England fields — not recalculated.",
+    "The peer median is a comparator, not a local target.",
+    "Metric polarity varies — check the official specification before drawing conclusions."
+  )
+
   kfe_html <- key_figures_explained_section(
     nof_kfe_specs,
     paste(
-      "Ranked NOF metrics for RDY.",
-      "Peer median and rank are NHS England published fields — not recalculated.",
-      "Whether higher or lower is better varies by metric — confirm polarity against the official NOF specification."
+      "The detailed table below gives the full metric list.",
+      "For each metric, the peer median and published rank are taken from NHS England's source file.",
+      "They are not recalculated in this demonstration."
     ),
-    kfe_supporting
+    supporting_html = "",
+    show_trend = FALSE,
+    trend_note = nof_trend_note,
+    comparator_header = "Peer position"
   )
 
   config <- list(
@@ -1550,6 +1766,24 @@ build_performance_overview <- function() {
       "No causal claims. Include verification paths to raw rows.",
       sep = "\n"
     ),
+    scope = list(
+      can = c(
+        "Show where RDY appears to sit against published peer median and rank fields.",
+        "Help identify areas that may need local review."
+      ),
+      cannot = c(
+        "Explain why a metric is high or low.",
+        "Confirm whether the public figure matches the latest internal position, local definitions or operational context."
+      )
+    ),
+    headline = c(
+      paste0("The public NOF snapshot includes ", n_metrics, " raw RDY metrics across ", n_domains, " domains."),
+      "The strongest-looking published ranks are for community waits over 52 weeks and planned surplus/deficit — both still need definition checks before being described as positive performance.",
+      "The main areas flagged for local review are urgent community response 2-hour performance, mental health crisis face-to-face contact within 24 hours, adult mental health inpatients with length of stay over 60 days, and relative difference in costs.",
+      "Finance metrics need specific finance-owner interpretation because the public fields do not explain the local plan, sign convention or internal reporting context.",
+      "There is no historic trend in this NOF extract, so the report cannot say whether performance is improving or worsening."
+    ),
+    grouped_findings = nof_build_grouped_findings(audit_source, nof_lookup),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
       '<li>NHS Oversight Framework (<code>demo_nof_overview.csv</code> + full RDY processed extract)</li>',
@@ -1578,7 +1812,7 @@ build_performance_overview <- function() {
   verify_body <- nof_audit_verify_body(audit_df, raw_display, raw_url)
 
   body <- paste0(
-    agent_brief_sections(config, kfe_html, verify_body),
+    agent_brief_sections(config, kfe_html, verify_body, kfe_supporting),
     collapsible_details("Related assurance sources index", assurance_html)
   )
 
@@ -1768,47 +2002,66 @@ build_mh_profile <- function() {
       latest = mhs23_latest_text,
       comparator_type = "previous_period",
       comparator_detail = if (isTRUE(trend_mhs23$available)) {
-        paste0("Stacked from trend_mhs23_rdy.csv (", trend_mhs23$n_periods, " months). MHS23 is not in the Provider time-series bundle.")
+        paste0(
+          "Previous period: ", format(trend_mhs23$previous_value, big.mark = ","),
+          " (", trend_mhs23$previous_period, "). ",
+          trend_mhs23$n_periods, " months in trend_mhs23_rdy.csv."
+        )
       } else {
         "Latest-period value only — MHS23 not in Provider time-series extract."
       },
       trend = trend_mhs23,
       polarity = "unknown",
-      interpretation = "Open referrals are a stock measure — higher counts are not automatically worse. The agent flags for MHSDS owner review.",
-      human_check = "MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting."
+      interpretation = "Open referrals are a stock measure — higher counts are not automatically worse. Local review needed.",
+      human_check = short_human_check("MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting.")
     ),
     list(
       figure = "MHS01 — People in contact at end of reporting period",
       what = "People actively in contact with mental health services at month end.",
       latest = if (isTRUE(trend_mhs01$available)) kfe_from_trend(trend_mhs01) else format_kfe_latest(fmt_val(mhs01), period),
       comparator_type = "previous_period",
-      comparator_detail = paste0("MHSDS Provider time series (", if (isTRUE(trend_mhs01$available)) paste0(trend_mhs01$n_periods, " months") else "insufficient periods", ")."),
+      comparator_detail = if (isTRUE(trend_mhs01$available)) {
+        paste0(
+          "Previous period: ", format(trend_mhs01$previous_value, big.mark = ","),
+          " (", trend_mhs01$previous_period, "). ",
+          trend_mhs01$n_periods, " months in Provider time series."
+        )
+      } else {
+        "Insufficient periods in Provider time-series extract."
+      },
       trend = trend_mhs01,
       polarity = "unknown",
       interpretation = "Month-on-month movement may reflect activity, discharge or coding — descriptive only, not cause.",
-      human_check = "Confirm whether local in-contact definition matches MHSDS and whether the provisional month has refreshed."
+      human_check = short_human_check("Confirm whether local in-contact definition matches MHSDS and whether the provisional month has refreshed.")
     ),
     list(
       figure = "MHS29 — Contacts in reporting period",
       what = "Total care contacts recorded in the month — activity volume, not unique patients.",
       latest = if (isTRUE(trend_mhs29$available)) kfe_from_trend(trend_mhs29) else format_kfe_latest(fmt_val(mhs29), period),
       comparator_type = "previous_period",
-      comparator_detail = "Provider RDY rows from MHSDS time-series extract.",
+      comparator_detail = if (isTRUE(trend_mhs29$available)) {
+        paste0(
+          "Previous period: ", format(trend_mhs29$previous_value, big.mark = ","),
+          " (", trend_mhs29$previous_period, "). Provider RDY rows from MHSDS time series."
+        )
+      } else {
+        "Provider RDY rows from MHSDS time-series extract."
+      },
       trend = trend_mhs29,
       polarity = "unknown",
       interpretation = "Contacts can rise with intensity of support or data quality — not automatically good or bad access.",
-      human_check = "Service/BI owner to confirm contact counting rules and operational narrative."
+      human_check = short_human_check("Service/BI owner to confirm contact counting rules and operational narrative.")
     ),
     list(
       figure = "MHS69 — CYP with at least two contacts",
       what = "Children and young people receiving at least two contacts where first contact was before 18th birthday.",
       latest = if (isTRUE(trend_mhs69$available)) kfe_from_trend(trend_mhs69) else "See demo table — ICB-resident rows may be suppressed",
       comparator_type = "previous_period",
-      comparator_detail = paste0(n_supp, " suppressed cells in demo extract."),
+      comparator_detail = paste0(n_supp, " suppressed cells in demo extract — do not infer from missing values."),
       trend = trend_mhs69,
       polarity = "unknown",
-      interpretation = "Do not infer CYP access from suppressed ICB-resident rows alone.",
-      human_check = "CYP mental health lead to confirm resident vs provider scope."
+      interpretation = "Do not infer CYP access from suppressed ICB-resident rows alone. Interpret cautiously — confirm cohort and scope.",
+      human_check = short_human_check("CYP mental health lead to confirm resident vs provider scope.")
     ),
     list(
       figure = "Suppression in RDY extract",
@@ -1820,7 +2073,7 @@ build_mh_profile <- function() {
       polarity = "validation_only",
       trend_override = "Not available from current extract",
       interpretation = "Summing referral-related rows across breakdowns is not a valid trust-wide headline.",
-      human_check = "Identify which suppressed measures matter for Dorset ICB (11J)."
+      human_check = short_human_check("Identify which suppressed measures matter for Dorset ICB (11J).")
     )
   )
 
@@ -1846,9 +2099,10 @@ build_mh_profile <- function() {
     mh_kfe_specs,
     paste(
       "Key MHSDS access and activity measures for RDY as provider.",
-      "MHS23 open referrals uses trend_mhs23_rdy.csv where available — it is not in the Provider time-series bundle, so latest-only if that file is missing.",
+      "MHS23 open referrals uses trend_mhs23_rdy.csv where available — it is not in the Provider time-series bundle.",
       paste0(n_supp, " suppressed cells in this extract — check before using any figure operationally.")
-    )
+    ),
+    comparator_header = "Previous period / comparator"
   )
 
   config <- list(
@@ -1862,6 +2116,85 @@ build_mh_profile <- function() {
       "Compute trends from downloaded time-series file (Provider breakdown).",
       "Do not sum incompatible breakdowns. No causal claims.",
       sep = "\n"
+    ),
+    scope = list(
+      can = c(
+        "Describe key MHSDS access and activity measures for RDY as provider.",
+        "Show descriptive month-on-month trends where the public time-series or trend files support them.",
+        "Flag suppression and breakdown mixing that affects interpretation."
+      ),
+      cannot = c(
+        "Support operational access conclusions or pathway performance without local MHSDS validation.",
+        "Combine provider and ICB-resident breakdowns into a single trust-wide headline.",
+        "Explain why month-on-month movement occurred."
+      )
+    ),
+    headline = c(
+      paste0("For ", period, ", ", nrow(prov), " RDY measure rows (", n_numeric, " numeric, ", n_supp, " suppressed)."),
+      if (isTRUE(trend_mhs01$available)) {
+        paste0(
+          "MHS01 in-contact counts show descriptive month-on-month movement (",
+          format(trend_mhs01$previous_value, big.mark = ","), " to ",
+          format(trend_mhs01$latest_value, big.mark = ","), ") — not cause."
+        )
+      } else {
+        "Multi-period Provider time series not available for all key measures."
+      },
+      paste0(ref_obs, " Provider and ICB-resident breakdowns must not be summed into one headline."),
+      "Open referrals (MHS23) are a stock measure — higher counts are not automatically worse without local definition checks."
+    ),
+    grouped_findings = list(
+      list(
+        title = "Access and stock measures",
+        items = list(
+          list(
+            title = "MHS23 — Open referrals at end of reporting period",
+            body = paste0(
+              "Open referrals are a caseload-style stock measure, not new demand. Latest value: ",
+              fmt_val(mhs23), ". ", trend_note_mhs23
+            ),
+            owner = "MHSDS/data owner to confirm open-referral definition and alignment with local caseload reporting."
+          ),
+          list(
+            title = "MHS01 — People in contact at end of reporting period",
+            body = paste0(
+              "People actively in contact with MH services at month end. Latest: ", fmt_val(mhs01), ". ",
+              trend_line(trend_mhs01), " Month-on-month movement may reflect activity, discharge or coding — descriptive only."
+            ),
+            owner = "Confirm whether local in-contact definition matches MHSDS."
+          )
+        )
+      ),
+      list(
+        title = "Activity measures",
+        items = list(
+          list(
+            title = "MHS29 — Contacts in reporting period",
+            body = paste0(
+              "Total care contacts recorded in the month. ",
+              trend_line(trend_mhs29), " Contacts can rise with intensity of support or data quality."
+            ),
+            owner = "Service/BI owner to confirm contact counting rules."
+          ),
+          list(
+            title = "MHS69 — CYP with at least two contacts",
+            body = "Children and young people receiving at least two contacts where first contact was before 18th birthday. Do not infer CYP access from suppressed ICB-resident rows alone.",
+            owner = "CYP mental health lead to confirm resident vs provider scope."
+          )
+        )
+      ),
+      list(
+        title = "Data quality and suppression",
+        items = list(
+          list(
+            title = "Suppression and breakdown mixing",
+            body = paste0(
+              n_supp, " of ", nrow(prov), " RDY rows show '*'. Provider and ICB-resident breakdowns must not be summed into one headline."
+            ),
+            owner = "Identify which suppressed measures matter for Dorset ICB (11J)."
+          )
+        )
+      )
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
@@ -2017,22 +2350,36 @@ build_csds_profile <- function() {
       what = "Count of assessment-type care activities recorded in CSDS for the month (CareActivities / ActivityType).",
       latest = if (is.na(assess_n)) "—" else format_kfe_latest(format(assess_n, big.mark = ","), "March 2026"),
       comparator_type = "previous_period",
-      comparator_detail = "No official standard in public CSDS extract; descriptive month-on-month trend from historic stack.",
+      comparator_detail = if (isTRUE(trend_assess$available)) {
+        paste0(
+          "Previous period: ", format(trend_assess$previous_value, big.mark = ","),
+          " (", trend_assess$previous_period, "). No official standard in public CSDS extract."
+        )
+      } else {
+        "Latest month only — no multi-period trend for Assessment."
+      },
       trend = trend_assess,
       polarity = "unknown",
       interpretation = "Activity counts reflect coded CSDS submissions — not unique patients or completed care pathways.",
-      human_check = "Community services/BI owner to confirm activity coding and whether this matches local community dashboards."
+      human_check = short_human_check("Community services/BI owner to confirm activity coding and whether this matches local community dashboards.")
     ),
     list(
       figure = "Care activities — Clinical Intervention",
       what = "Direct clinical intervention activities in community services for the month.",
       latest = if (is.na(clin_n)) "—" else format_kfe_latest(format(clin_n, big.mark = ","), "March 2026"),
       comparator_type = "previous_period",
-      comparator_detail = csds_trend_note,
+      comparator_detail = if (isTRUE(trend_clin$available)) {
+        paste0(
+          "Previous period: ", format(trend_clin$previous_value, big.mark = ","),
+          " (", trend_clin$previous_period, "). Historic stack: trend_csds_activity_rdy.csv."
+        )
+      } else {
+        csds_trend_note
+      },
       trend = trend_clin,
       polarity = "unknown",
-      interpretation = "Largest activity type where numeric — confirm service scope (community vs specialist) locally before review use.",
-      human_check = "Directorate lead to confirm which services feed this measure and coding QA for March 2026."
+      interpretation = "Largest activity type where numeric — confirm service scope locally before review use.",
+      human_check = short_human_check("Directorate lead to confirm which services feed this measure and coding QA for March 2026.")
     ),
     list(
       figure = "Total care activities (ActivityType slice)",
@@ -2045,7 +2392,7 @@ build_csds_profile <- function() {
       trend_override = if (csds_has_trend) "Mixed / unclear" else "Not available from current extract",
       trend_note = if (csds_has_trend) "Total not trended — see Assessment and Clinical Intervention rows for month-on-month change." else "Historic stack missing or insufficient periods.",
       interpretation = "Public CSDS aggregates cannot support team-level or pathway conclusions without local drill-down.",
-      human_check = "Confirm full RDY processed extract contains all measures needed — demo slice may not surface every row."
+      human_check = short_human_check("Confirm full RDY processed extract contains all measures needed — demo slice may not surface every row.")
     ),
     list(
       figure = "Age-band columns (0–18, 19–64, 65+)",
@@ -2057,7 +2404,7 @@ build_csds_profile <- function() {
       polarity = "definition",
       trend_override = "Not available from current extract",
       interpretation = "Age splits help directorate review but may not match local age definitions or service lines.",
-      human_check = "Validate CYP vs adult splits with the CSDS return owner before directorate use."
+      human_check = short_human_check("Validate CYP vs adult splits with the CSDS return owner before directorate use.")
     )
   )
 
@@ -2067,7 +2414,8 @@ build_csds_profile <- function() {
       "March 2026 community activity for RDY.",
       if (csds_has_trend) paste0("Assessment and Clinical Intervention trends use ", trend_assess$n_periods %||% trend_clin$n_periods, "-month historic stack.") else "Historic trend limited or not available — latest month only for some measures.",
       "Public aggregate CSDS cannot support team-level or pathway conclusions."
-    )
+    ),
+    comparator_header = "Previous period / comparator"
   )
 
   csds_trend_html <- if (isTRUE(trend_assess$available) || isTRUE(trend_clin$available)) {
@@ -2104,6 +2452,60 @@ build_csds_profile <- function() {
       "Use trend_csds_activity_rdy.csv for month-on-month trends where ≥2 periods exist.",
       "No causal language.",
       sep = "\n"
+    ),
+    scope = list(
+      can = c(
+        "Describe March 2026 community activity totals and key activity types for RDY.",
+        "Show descriptive month-on-month trends for Assessment and Clinical Intervention where the historic stack supports them."
+      ),
+      cannot = c(
+        "Prove referral demand, waiting times or team performance from public aggregate CSDS.",
+        "Support pathway or team-level conclusions without local drill-down."
+      )
+    ),
+    headline = c(
+      paste0("For ", period, ", care activity totals sum to ", format(total_contacts, big.mark = ","), " in the ActivityType slice."),
+      if (csds_has_trend) "Historic CSDS stack supports descriptive month-on-month comparison for Assessment and Clinical Intervention — not causal conclusions." else "Trend analysis not available from current extract.",
+      "Public aggregate CSDS cannot prove referral demand, waiting times or team performance.",
+      "Sparse or zero activity in the demo slice needs local coding confirmation."
+    ),
+    grouped_findings = list(
+      list(
+        title = "Activity with trend support",
+        items = list(
+          list(
+            title = "Care activities — Assessment",
+            body = paste0(
+              "Assessment-type care activities for March 2026: ",
+              if (is.na(assess_n)) "—" else format(assess_n, big.mark = ","), ". ",
+              csds_trend_line(trend_assess)
+            ),
+            owner = "Community services/BI owner to confirm activity coding."
+          ),
+          list(
+            title = "Care activities — Clinical Intervention",
+            body = paste0(
+              "Direct clinical intervention activities: ",
+              if (is.na(clin_n)) "—" else format(clin_n, big.mark = ","), ". ",
+              csds_trend_line(trend_clin)
+            ),
+            owner = "Directorate lead to confirm which services feed this measure."
+          )
+        )
+      ),
+      list(
+        title = "Aggregate limits",
+        items = list(
+          list(
+            title = "Total care activities and age bands",
+            body = paste0(
+              "Total ActivityType slice sums to ", format(total_contacts, big.mark = ","),
+              ". Age-band splits vary by activity type and are not trended in the current stack."
+            ),
+            owner = "Validate CYP vs adult splits with the CSDS return owner before directorate use."
+          )
+        )
+      )
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
@@ -2240,22 +2642,37 @@ build_talking_therapies <- function() {
       what = "Count of new referrals received in the month — inflow measure, not caseload.",
       latest = if (isTRUE(trend_m001$available)) kfe_from_trend(trend_m001) else format_kfe_latest(if (is.na(refs_n)) "—" else format(refs_n, big.mark = ","), period),
       comparator_type = "previous_period",
-      comparator_detail = paste0("IAPT Provider time series (", if (isTRUE(trend_m001$available)) paste0(trend_m001$n_periods, " months") else "insufficient periods", ")."),
+      comparator_detail = if (isTRUE(trend_m001$available)) {
+        paste0(
+          "Previous period: ", format(trend_m001$previous_value, big.mark = ","),
+          " (", trend_m001$previous_period, "). ",
+          trend_m001$n_periods, " months in Provider time series."
+        )
+      } else {
+        "Insufficient periods in Provider time-series extract."
+      },
       trend = trend_m001,
       polarity = "unknown",
       interpretation = "Referral counts move with demand, pathways and recording — month-on-month change is descriptive only.",
-      human_check = "IAPT/data owner to confirm M001 matches local referrals reporting for the same period."
+      human_check = short_human_check("IAPT/data owner to confirm M001 matches local referrals reporting for the same period.")
     ),
     list(
       figure = "M031 — People accessing services",
       what = "People who accessed talking therapies services during the month.",
       latest = if (isTRUE(trend_m031$available)) kfe_from_trend(trend_m031) else format_kfe_latest(if (is.na(accessing_n)) "—" else format(accessing_n, big.mark = ","), period),
       comparator_type = "previous_period",
-      comparator_detail = "No verified access standard in downloaded extract.",
+      comparator_detail = if (isTRUE(trend_m031$available)) {
+        paste0(
+          "Previous period: ", format(trend_m031$previous_value, big.mark = ","),
+          " (", trend_m031$previous_period, "). No verified access standard in extract."
+        )
+      } else {
+        "No verified access standard in downloaded extract."
+      },
       trend = trend_m031,
       polarity = "unknown",
       interpretation = "Access counts differ from referrals received and from people finishing treatment — do not conflate.",
-      human_check = "Confirm access definition and whether self-referral surge affects month-on-month movement."
+      human_check = short_human_check("Confirm access definition and whether self-referral surge affects month-on-month movement.")
     ),
     list(
       figure = "M053 — Six-week access (finished course)",
@@ -2267,8 +2684,8 @@ build_talking_therapies <- function() {
       comparator_detail = "No verified national threshold present in the downloaded public extract for this demo.",
       trend = trend_m053,
       polarity = "higher_better",
-      interpretation = "Percentage measures need denominator checks — high values may still mask subgroup gaps. Not clinical quality without outcome definitions.",
-      human_check = "Confirm national IAPT access definition and whether local enter-treatment waits use the same cohort."
+      interpretation = "Percentage measures need denominator checks — high values may still mask subgroup gaps. Finance or definition check required.",
+      human_check = short_human_check("Confirm national IAPT access definition and whether local enter-treatment waits use the same cohort.")
     ),
     list(
       figure = "M019–M022 — Open referrals with no activity (waiting bands)",
@@ -2281,7 +2698,7 @@ build_talking_therapies <- function() {
       trend_override = "Not available from current extract",
       trend_note = "Waiting-band measures shown as latest-period values only.",
       interpretation = "Large 'no activity' counts may reflect pathway recording, not necessarily clinical risk — local validation required.",
-      human_check = "Pathway owner to confirm how 'no activity' is coded vs local waiting list and enter-treatment tracking."
+      human_check = short_human_check("Pathway owner to confirm how 'no activity' is coded vs local waiting list and enter-treatment tracking.")
     ),
     list(
       figure = "Suppression (Provider RDY rows)",
@@ -2293,7 +2710,7 @@ build_talking_therapies <- function() {
       polarity = "validation_only",
       trend_override = "Not available from current extract",
       interpretation = "Do not infer from missing cells; small-number referral sources are often suppressed.",
-      human_check = "Review monthly IAPT DQ report and whether suppressed measures matter for your question."
+      human_check = short_human_check("Review monthly IAPT DQ report and whether suppressed measures matter for your question.")
     )
   )
 
@@ -2303,7 +2720,8 @@ build_talking_therapies <- function() {
       "Access and waiting measures for RDY as provider.",
       paste0(n_supp, " suppressed cells — do not infer from missing values."),
       "Recovery/outcome measures (e.g. M192, M186) exist in the full CSV but are not inferred in this access brief."
-    )
+    ),
+    comparator_header = "Previous period / comparator"
   )
 
   supporting_html <- paste0(
@@ -2331,6 +2749,72 @@ build_talking_therapies <- function() {
       "Filter IAPT monthly CSV to ORG_CODE2=RDY, Provider group.",
       "Trend from downloaded time-series file only. No recovery inference. No causal claims.",
       sep = "\n"
+    ),
+    scope = list(
+      can = c(
+        "Describe referrals, access and waiting measures for RDY as provider.",
+        "Show descriptive month-on-month trends where the Provider time series supports them."
+      ),
+      cannot = c(
+        "Infer recovery or clinical outcomes from access measures alone.",
+        "Draw conclusions from suppressed cells or missing values."
+      )
+    ),
+    headline = c(
+      if (!is.na(refs_n)) paste0(format(refs_n, big.mark = ","), " referrals received (M001) for ", period, " — local validation required.") else "M001 referrals not numeric in extract.",
+      if (!is.na(wait_total)) paste0("Open referral 'no activity' bands total ", format(wait_total, big.mark = ","), " — pathway owner confirmation needed.") else "Waiting bands need local pathway definitions.",
+      paste0(n_supp, " suppressed measures — do not infer from missing cells."),
+      "Recovery/outcome analysis requires separate definition checks — not included in this access brief."
+    ),
+    grouped_findings = list(
+      list(
+        title = "Access and waiting",
+        items = list(
+          list(
+            title = "M001 — Referrals received",
+            body = paste0(
+              "New referrals received in the month. Latest: ",
+              if (is.na(refs_n)) "—" else format(refs_n, big.mark = ","), ". ",
+              trend_line(trend_m001)
+            ),
+            owner = "IAPT/data owner to confirm M001 matches local reporting."
+          ),
+          list(
+            title = "M031 — People accessing services",
+            body = paste0(
+              "People who accessed talking therapies during the month. ",
+              trend_line(trend_m031), " Access counts differ from referrals received — do not conflate."
+            ),
+            owner = "Confirm access definition and whether self-referral surge affects month-on-month movement."
+          ),
+          list(
+            title = "M053 — Six-week access (finished course)",
+            body = paste0(
+              "Percentage accessing within 6 weeks among those finishing treatment. Latest: ",
+              if (is.na(m053_val)) "—" else paste0(m053_val, "%"), ". Denominator checks required."
+            ),
+            owner = "Confirm national IAPT access definition locally."
+          )
+        )
+      ),
+      list(
+        title = "Suppression and outcomes gap",
+        items = list(
+          list(
+            title = "Waiting bands and suppression",
+            body = paste0(
+              "M019–M021 sum: ", if (is.na(wait_total)) "—" else format(wait_total, big.mark = ","),
+              ". ", n_supp, " suppressed provider rows — do not infer from missing cells."
+            ),
+            owner = "Pathway owner to confirm 'no activity' coding vs local waiting lists."
+          ),
+          list(
+            title = "Recovery/outcome measures not inferred",
+            body = "Recovery/outcome measures (e.g. M192, M186) exist in the full CSV but are not inferred in this access brief.",
+            owner = "Separate outcome analysis requires definition checks with the IAPT lead."
+          )
+        )
+      )
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
@@ -2452,13 +2936,13 @@ build_assurance_profile <- function() {
       what = "Annual statutory return confirming RDY submitted written complaints data for 2024-25.",
       latest = "RDY org-level row present (2024-25 extract)",
       comparator_type = "validation_only",
-      comparator_detail = "Presence confirms participation — complaint volumes and themes need the complaints team.",
+      comparator_detail = "Source validation — presence confirms participation, not complaints performance standing.",
       trend = NULL,
       polarity = "validation_only",
       trend_override = "Not available from current extract",
       trend_note = "Single annual snapshot — complaints trends need multiple years or local data.",
       interpretation = "The agent confirms source presence, not complaints performance standing.",
-      human_check = "Complaints team to confirm 2024-25 figures, PALS themes and whether public row matches internal reporting."
+      human_check = short_human_check("Complaints team to confirm 2024-25 figures, PALS themes and whether public row matches internal reporting.")
     ),
     list(
       figure = "ERIC — Estates returns (annual)",
@@ -2471,20 +2955,24 @@ build_assurance_profile <- function() {
       trend_override = "Not available from current extract",
       trend_note = "Latest annual only — trend requires multiple ERIC years or local estates dashboards.",
       interpretation = "ERIC supports facilities benchmarking conversations — not a simple good/bad performance score.",
-      human_check = "Estates/facilities owner to confirm amendments file and whether board reporting uses the same year."
+      human_check = short_human_check("Estates/facilities owner to confirm amendments file and whether board reporting uses the same year.")
     ),
     list(
       figure = "DSPT — Data Security and Protection Toolkit",
       what = "Annual IG assurance assessment status published on the DSPT organisation page.",
       latest = dspt_latest,
       comparator_type = "descriptive_history",
-      comparator_detail = dspt_history_note,
+      comparator_detail = if (dspt_n >= 2) {
+        paste0("Latest: ", dspt$Status[1], " (", dspt$`Date Published`[1], "). ", dspt_n, " published assessment rows — descriptive history only.")
+      } else {
+        dspt_history_note
+      },
       trend = NULL,
       polarity = "validation_only",
       trend_override = "Source validation only",
       trend_note = "Multi-year status history is descriptive assurance context — not Improving/Worsening performance trend.",
       interpretation = "'Standards met' is an annual assurance label — it does not prove day-to-day operational IG compliance.",
-      human_check = "IG/calendar owner to confirm current-year submission status and internal IG audit programme."
+      human_check = short_human_check("IG/calendar owner to confirm current-year submission status and internal IG audit programme.")
     ),
     list(
       figure = "FFT — Friends and Family Test (org-level gap)",
@@ -2497,7 +2985,7 @@ build_assurance_profile <- function() {
       trend_override = "Not available from current extract",
       trend_note = "Missing org-level FFT is a workflow gap for analysts — not evidence of poor experience.",
       interpretation = "The agent documents the gap for patient experience lead follow-up.",
-      human_check = "Patient experience lead to confirm whether setting-level XLSX download fills the gap."
+      human_check = short_human_check("Patient experience lead to confirm whether setting-level XLSX download fills the gap.")
     ),
     list(
       figure = "CQC — Regulatory context",
@@ -2509,13 +2997,16 @@ build_assurance_profile <- function() {
       polarity = "validation_only",
       trend_override = "Source validation only",
       interpretation = "CQC information supports assurance conversations — it must not be treated as a league table or performance proxy.",
-      human_check = "Quality/governance lead to confirm latest inspection status and internal action plans."
+      human_check = short_human_check("Quality/governance lead to confirm latest inspection status and internal action plans.")
     )
   )
 
   assurance_kfe_html <- key_figures_explained_section(
     assurance_kfe_specs,
-    "Assurance sources are indexed for appropriate use — not combined into a performance score."
+    "Assurance sources are indexed for appropriate use — not combined into a performance score.",
+    show_trend = FALSE,
+    trend_note = "Assurance sources are mostly annual snapshots or descriptive history — not numeric performance trends.",
+    comparator_header = "Source position / comparator"
   )
 
   commentary_cards <- c(
@@ -2664,6 +3155,64 @@ build_assurance_profile <- function() {
       "Appropriate-use language only — no operational IG or complaints performance conclusions.",
       sep = "\n"
     ),
+    scope = list(
+      can = c(
+        "Confirm which public assurance sources contain RDY rows and what each is useful for.",
+        "Document gaps such as missing org-level FFT rows or non-statistical CQC context."
+      ),
+      cannot = c(
+        "Combine assurance sources into a performance score or league table.",
+        "Draw operational IG, complaints or patient experience conclusions without local owner validation."
+      )
+    ),
+    headline = c(
+      "Public data confirms RDY participation in KO41a complaints and ERIC estates returns.",
+      paste0("Latest DSPT public assessment: ", dspt_latest, " — annual assurance label, not operational IG detail."),
+      "FFT org-level rows were absent in the downloaded summary file — patient experience lead follow-up needed.",
+      "CQC provides regulatory context only — not a performance score or league table."
+    ),
+    grouped_findings = list(
+      list(
+        title = "Statutory participation confirmed",
+        items = list(
+          list(
+            title = "KO41a — Written complaints (annual)",
+            body = "RDY org-level row present in 2024-25 extract. Presence confirms participation — volume and themes need the complaints team.",
+            owner = "Complaints team to confirm 2024-25 figures and whether public row matches internal reporting."
+          ),
+          list(
+            title = "ERIC — Estates returns (annual)",
+            body = "RDY trust row in 2024/25 ERIC extract. Supports facilities benchmarking — not a simple good/bad score.",
+            owner = "Estates/facilities owner to confirm amendments file and board reporting year."
+          )
+        )
+      ),
+      list(
+        title = "IG and patient experience",
+        items = list(
+          list(
+            title = "DSPT — Data Security and Protection Toolkit",
+            body = paste0("Latest public assessment: ", dspt_latest, ". ", dspt_history_note),
+            owner = "IG/calendar owner to confirm current-year submission status."
+          ),
+          list(
+            title = "FFT — Friends and Family Test (org-level gap)",
+            body = "No org-level RDY rows in downloaded FFT summary XLSX — workflow gap for analysts, not evidence of poor experience.",
+            owner = "Patient experience lead to confirm whether setting-level XLSX download fills the gap."
+          )
+        )
+      ),
+      list(
+        title = "Regulatory context",
+        items = list(
+          list(
+            title = "CQC — Regulatory context",
+            body = "Care Quality Commission provider page captured as context note — inspection and regulatory background only.",
+            owner = "Quality/governance lead to confirm latest inspection status and internal action plans."
+          )
+        )
+      )
+    ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
       '<li><code>demo_assurance_profile.csv</code></li>',
@@ -2809,31 +3358,47 @@ build_urgent_diagnostics <- function() {
       trend_override = "Source validation only",
       trend_note = "Type 1/2 attendances remain zero across historic stack — expected for RDY service model.",
       interpretation = "Zero ED attendances reflect coding/service-model context — do not overinterpret as urgent care performance.",
-      human_check = "Urgent/emergency care lead to confirm service model and what is coded in A&E returns."
+      human_check = short_human_check("Urgent/emergency care lead to confirm service model and what is coded in A&E returns.")
     ),
     list(
       figure = "A&E — Other emergency admissions",
       what = "Count of other emergency admissions recorded in the monthly A&E provider file for RDY.",
       latest = if (!is.na(ae_other_adm)) paste0(ae_other_adm, " (May 2026)") else "See A&E extract",
       comparator_type = "previous_period",
-      comparator_detail = if (!is.null(ae_trend)) "Historic stack in trend_ae_rdy.csv — source validation context only." else "Single month only.",
+      comparator_detail = if (isTRUE(trend_ae_other$available)) {
+        paste0(
+          "Previous period: ", format(trend_ae_other$previous_value, big.mark = ","),
+          " (", trend_ae_other$previous_period, "). Historic stack: trend_ae_rdy.csv."
+        )
+      } else if (!is.null(ae_trend)) {
+        "Historic stack in trend_ae_rdy.csv — source validation context only."
+      } else {
+        "Single month only."
+      },
       trend = trend_ae_other,
       polarity = "validation_only",
       trend_override = "Source validation only",
       trend_note = "Small counts (0–4/month) need service-owner confirmation of what is included.",
-      interpretation = "The agent flags for review, not because it proves a problem, but because the public figure needs local explanation.",
-      human_check = "Confirm what 'other emergency admissions' represents for RDY in the national return."
+      interpretation = "The public figure needs local explanation — source validation only, not proof of a problem.",
+      human_check = short_human_check("Confirm what 'other emergency admissions' represents for RDY in the national return.")
     ),
     list(
       figure = paste0("DM01 — ", dm01_top_test, " total activity"),
       what = "Monthly diagnostic waiting list and activity by test type/modality for RDY as provider.",
       latest = if (!is.na(dm01_mar_activity)) paste0(format(dm01_mar_activity, big.mark = ","), " (Mar 2026)") else paste0("See DM01 extract — top test: ", dm01_top_test),
       comparator_type = "previous_period",
-      comparator_detail = if (isTRUE(trend_dm01_activity$available)) "trend_dm01_rdy.csv — provisional monthly DM01 full extract." else "No multi-month trend for top test.",
+      comparator_detail = if (isTRUE(trend_dm01_activity$available)) {
+        paste0(
+          "Previous period: ", format(trend_dm01_activity$previous_value, big.mark = ","),
+          " (", trend_dm01_activity$previous_period, "). trend_dm01_rdy.csv."
+        )
+      } else {
+        "No multi-month trend for top test."
+      },
       trend = trend_dm01_activity,
       polarity = "unknown",
       interpretation = "Audiology/community diagnostics may dominate activity — do not infer national waiting position without local validation.",
-      human_check = "Diagnostics service owner to confirm DM01 mapping to local community diagnostic pathways."
+      human_check = short_human_check("Diagnostics service owner to confirm DM01 mapping to local community diagnostic pathways.")
     ),
     list(
       figure = "KH03 — Mental illness overnight beds",
@@ -2844,17 +3409,25 @@ build_urgent_diagnostics <- function() {
         "See KH03 extract — verify latest quarter on NHS England site"
       },
       comparator_type = "previous_period",
-      comparator_detail = "trend_kh03_beds_rdy.csv — recent quarterly stack only (script 05); may lag A&E/DM01 publication dates.",
+      comparator_detail = if (isTRUE(kh03_trend$available)) {
+        paste0(
+          "Previous snapshot: ", format(kh03_trend$previous_value, big.mark = ","),
+          " (", kh03_trend$previous_period, "). trend_kh03_beds_rdy.csv."
+        )
+      } else {
+        "trend_kh03_beds_rdy.csv — recent quarterly stack only; may lag A&E/DM01 publication dates."
+      },
       trend = kh03_trend,
       polarity = "unknown",
       interpretation = "KH03 trend uses recent quarterly snapshots only — not mixed with pre-2023 raw history unless clearly labelled.",
-      human_check = "Bed management/estates lead to confirm latest KH03 quarter and alignment with internal bed state."
+      human_check = short_human_check("Bed management/estates lead to confirm latest KH03 quarter and alignment with internal bed state.")
     )
   )
 
   urgent_kfe_html <- key_figures_explained_section(
     urgent_kfe_specs,
-    "Source validation and descriptive trends from downloaded public files — RDY rows confirmed where stated."
+    "Source validation and descriptive trends from downloaded public files — RDY rows confirmed where stated.",
+    comparator_header = "Previous period / comparator"
   )
 
   kh03_mi <- NULL
@@ -3041,6 +3614,72 @@ build_urgent_diagnostics <- function() {
       "Confirm RDY row presence per source. Report zero ED attendances explicitly.",
       "No ED performance claims. No causal language.",
       sep = "\n"
+    ),
+    scope = list(
+      can = c(
+        "Confirm RDY row presence in public A&E, DM01 and KH03 files.",
+        "Show descriptive trends where stacked historic files support them.",
+        "Explain what each source can safely support for a trust without a Type 1/2 emergency department."
+      ),
+      cannot = c(
+        "Prove urgent care or diagnostic performance standing from source validation alone.",
+        "Make ED performance claims — RDY shows zero Type 1/2 A&E attendances by service model."
+      )
+    ),
+    headline = c(
+      paste0(
+        "RDY appears in public A&E, DM01 and KH03 files — interpretation needs service-owner confirmation.",
+        if (ae_ed_zero) " A&E shows zero Type 1/2 ED attendances (expected for RDY service model)." else ""
+      ),
+      if (!is.null(dm01)) paste0("DM01: ", nrow(dm01), " test rows for March 2026 — ", dm01_top_test, " has highest activity in extract.") else "DM01 extract not summarised.",
+      if (isTRUE(kh03_trend$available)) paste0("KH03: ", kh03_trend$n_periods, " mental illness snapshots — verify latest quarter on NHS England site.") else "KH03: confirm latest quarter before capacity discussions.",
+      "This brief validates source presence — it does not prove urgent care or diagnostic performance standing."
+    ),
+    grouped_findings = list(
+      list(
+        title = "A&E source validation",
+        items = list(
+          list(
+            title = "A&E — RDY row and zero Type 1/2 attendances",
+            body = paste0(
+              "RDY row present in May 2026 A&E extract. Type 1/2 attendances = 0 — expected for RDY service model.",
+              if (!is.na(ae_other_adm)) paste0(" Other emergency admissions: ", ae_other_adm, ".") else ""
+            ),
+            owner = "Urgent/emergency care lead to confirm service model and A&E return coding."
+          )
+        )
+      ),
+      list(
+        title = "DM01 diagnostics",
+        items = list(
+          list(
+            title = paste0("DM01 — ", dm01_top_test),
+            body = paste0(
+              if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for March 2026. ") else "",
+              if (!is.na(dm01_mar_activity)) paste0("Top test activity: ", format(dm01_mar_activity, big.mark = ","), ". ") else "",
+              "Audiology/community diagnostics may dominate — local validation required."
+            ),
+            owner = "Diagnostics service owner to confirm DM01 mapping to local pathways."
+          )
+        )
+      ),
+      list(
+        title = "KH03 bed snapshots",
+        items = list(
+          list(
+            title = "KH03 — Mental illness overnight beds",
+            body = if (isTRUE(kh03_trend$available)) {
+              paste0(
+                "Latest snapshot: ", format(kh03_trend$latest_value, big.mark = ","), " beds (",
+                kh03_trend$latest_period, "). Quarterly stack only — verify latest quarter on NHS England site."
+              )
+            } else {
+              "KH03 extract present — confirm latest quarter before capacity discussions."
+            },
+            owner = "Bed management/estates lead to confirm alignment with internal bed state."
+          )
+        )
+      )
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',

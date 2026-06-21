@@ -79,6 +79,58 @@ body.nhs-report {
   border-radius: 0 4px 4px 0;
 }
 
+.nhs-headline-reading {
+  background: #E8F4FD;
+  border-left: 4px solid var(--nhs-bright-blue);
+  padding: 1rem 1.25rem;
+  margin: 0.5rem 0 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.nhs-headline-reading .nhs-list-compact {
+  margin: 0;
+}
+
+.nhs-findings-group {
+  margin: 1.25rem 0 0;
+}
+
+.nhs-findings-group h3 {
+  color: var(--nhs-blue);
+  font-size: 1.05rem;
+  margin: 0 0 0.75rem;
+}
+
+.nhs-finding-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nhs-finding-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.nhs-finding-item h4 {
+  color: var(--text);
+  font-size: 1rem;
+  margin: 0 0 0.35rem;
+}
+
+.nhs-finding-owner {
+  font-size: 0.925rem;
+  margin: 0.5rem 0 0;
+  color: var(--nhs-grey);
+}
+
+.nhs-kfe-table--brief th,
+.nhs-kfe-table--brief td {
+  font-size: 0.925rem;
+  vertical-align: top;
+}
+
 .nhs-section {
   background: var(--nhs-white);
   border: 1px solid var(--border);

@@ -18,14 +18,16 @@ Each public report follows this simplified structure (rendered by `agent_brief_s
 
 1. Title and short subtitle (report header)
 2. Public-data caveat box
-3. **What the agent was asked to do** (business question, dataset, first-draft note; prompt excerpt in collapsible `<details>`)
+3. **What the agent was asked to do** (business question, dataset, first-draft note)
 4. **Data used** (sources, period, RDY filter, historic trend availability)
-5. **Key findings explained** (plain-English table: figure, meaning, latest value, comparator, trend, agent reading, human check)
-6. Supporting detail in collapsible `<details>` blocks: raw tables/KPIs, optional commentary cards, trend charts
-7. **Agent summary** (3–5 bullets: notable findings, local review needs, limits)
-8. **What a human should check** (4–6 plain-English bullets)
-9. **How to verify the figures** (short intro + links; audit detail in collapsible `<details>`)
-10. Human review footer
+5. **What this report can and cannot tell us** (scope and limits)
+6. **Headline reading** (3–5 plain-English takeaways)
+7. **Key findings by review area** (grouped narrative blocks with owner checks)
+8. **Main metric table** (figure, latest value, peer position/comparator, initial reading, human check; trend column when data supports it)
+9. **Draft interpretation** (3–5 bullets: notable findings, local review needs, limits)
+10. **Human validation checklist** (4–6 plain-English bullets)
+11. **Audit trail and source checks** (short intro + links; prompt excerpt, supporting tables and technical audit in collapsible `<details>`)
+12. Human review footer
 
 Trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Source validation only, Definition check required.
 

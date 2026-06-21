@@ -70,3 +70,17 @@ All six `site/reports/public-*.html` files regenerated with the new template. To
 ## Ready for final manual review?
 
 **Yes** — all six reports regenerate cleanly, use the simplified structure, and retain trend/audit detail in secondary collapsible blocks. Suitable for final human review before deployment.
+
+## Readability reframe addendum (2026-06-21)
+
+Second pass to address feedback that reports read like audit extracts rather than human performance briefs:
+
+| Change | Detail |
+|--------|--------|
+| Headline reading | 3–5 takeaways in highlighted box before detail |
+| Scope section | **What this report can and cannot tell us** restored as explicit section |
+| Grouped findings | **Key findings by review area** — narrative blocks before main table |
+| Main metric table | Slim 5-column table (no “What it means”; trend column only when data supports it) |
+| Section renames | Draft interpretation, Human validation checklist, Audit trail and source checks |
+| Prompt excerpt | Moved from agent question to audit trail collapsible |
+| NOF fixes | OF0086 cost-index note only on OF0086; full metric names; short peer position text |
