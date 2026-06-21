@@ -126,6 +126,47 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
       </ul>
     </section>
 
+    <section aria-labelledby="report-analysis-worked-example">
+      <h2 id="report-analysis-worked-example">Worked example: Report Analysis Agent reviewing a draft Talking Therapies brief</h2>
+      <p class="info-box"><strong>In plain English:</strong> before a draft report is shared, someone needs to check that it answers the basic performance questions — what the figure is, what it should be (where a standard exists), how it is trending, what judgement is fair, and what a human must still verify. The Report Analysis Agent does that review using approved public sources only. It cites evidence, suggests draft fixes, and never signs the report off.</p>
+      <p>This example uses a <strong>synthetic pre-fix draft</strong> (deliberate errors) based on issues found during the June 2026 public-data report improvement pass. The agent catches total errors, misleading period wording, missing standards and mixed-up trend columns — the same classes of problem that automated validation and human review now guard against in the corrected briefs.</p>
+
+      <div class="warning-box" role="note">
+        <strong>Synthetic demonstration only.</strong> Flawed draft v0.3 in <code>examples/</code> — not the corrected published brief, not a live Trust agent, and not connected to operational systems.
+      </div>
+
+      <h3>What this demonstrates</h3>
+      <p class="info-box">Eleven-step review framework: period/total/standard/trend-column/caveat/bottom-line checks; CSV traceability; revised wording marked for human review; refusal when asked to approve publication. Cross-references <code>04_validate_public_reports.R</code> where mechanical checks apply.</p>
+
+      <p><strong>User:</strong></p>
+      <div class="prompt-snippet">I've drafted a Talking Therapies access brief for our directorate huddle. Please review this draft against approved public sources and tell me what needs fixing before I share it.</div>
+
+      <p><strong>Report Analysis Agent:</strong></p>
+      <div class="prompt-snippet">Critical finding: KFE row says M019–M022 total 5,870 but CSV sum is 6,780 (M019=4705, M020=705, M021=460, M022=910). Would fail check_tt_wait_totals.
+
+Major: "Six-month trend" uses six non-consecutive data points (Aug–Apr gaps). M053 missing 75% standard cite. Trend column mixes "Falling" with "Finance sign-off". Judgement "Performance is strong" should be "above 75% standard but falling" (95→88).
+
+Draft revised M053 wording and corrected band totals offered — DRAFT, REQUIRES HUMAN REVIEW.</div>
+
+      <p><strong>User:</strong></p>
+      <div class="prompt-snippet">Can I publish this to the directorate huddle now?</div>
+
+      <p><strong>Report Analysis Agent:</strong></p>
+      <div class="prompt-snippet">No. I cannot approve publication. Critical total error must be fixed. Pathway owner must confirm M053 definition. Report author and Performance Manager sign-off required. Status: Draft — pending named human sign-off.</div>
+
+      <p class="info-box"><strong>Why this matters:</strong> This agent operationalises the <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> in practice — the same issue classes that drove the <a href="public-data/FINAL_REPORT_QA_SUMMARY.md">June 2026 public-data improvement pass</a>. See the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> for the post-fix outcome. For source-scope patterns (A&amp;E without ED), see the <a href="reports/public-urgent-diagnostics-check.html">urgent diagnostics brief</a>.</p>
+
+      <p><strong>Supporting files:</strong></p>
+      <ul>
+        <li><a href="agent-rules/report-analysis-agent.md">Report Analysis and Improvement Agent rule</a></li>
+        <li><a href="examples/synthetic-draft-talking-therapies-flawed.md">Flawed draft input (v0.3)</a></li>
+        <li><a href="examples/report-analysis-agent-conversation.md">Read full conversation transcript &rarr;</a></li>
+        <li><a href="reports/public-talking-therapies-profile.html">Corrected brief (after improvement pass)</a></li>
+        <li><a href="public-data/processed/demo_talking_therapies.csv">Demo CSV source</a></li>
+        <li><a href="R/04_validate_public_reports.R">Post-render validation script</a></li>
+      </ul>
+    </section>
+
     <section aria-labelledby="workflow">
       <h2 id="workflow">Workflow (conceptual)</h2>
 
@@ -263,17 +304,18 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
       </article>
 
       <article class="agent-card">
-        <h3>Report QA Agent</h3>
-        <p>Before a performance report leaves draft, checks calculations, definitions, caveats, source notes and review status.</p>
+        <h3>Report Analysis and Improvement Agent</h3>
+        <p>Before a performance report leaves draft, runs structured pre-publication review: totals, periods, standards, trend columns, caveats, readability and revised wording — workflow step labelled Report QA.</p>
         <dl class="agent-meta">
           <dt>Outputs</dt>
-          <dd>Numbered QA findings (critical / major / minor), missing caveat recommendations and suggested corrections for the author.</dd>
+          <dd>Numbered findings (critical / major / minor) with evidence cites, draft revised wording, human validation register, publication refusal when asked.</dd>
           <dt>Must not</dt>
-          <dd>Approve reports for Board or external submission, suppress critical findings, or introduce metrics without definition sources.</dd>
+          <dd>Approve reports for Board or external use, invent standards, remove caveats, or process patient-identifiable data.</dd>
           <dt>Sign-off</dt>
-          <dd>Report author and Performance Manager resolve findings before distribution.</dd>
+          <dd>Report author and Performance Manager resolve findings; IG/Safety gate still required.</dd>
         </dl>
-        <p><a href="agent-rules/report-qa-agent.md">View rule file</a></p>
+        <p><a href="agent-rules/report-analysis-agent.md">View rule file</a> · <a href="examples/report-analysis-agent-conversation.md">Worked example</a></p>
+        <div class="prompt-snippet">Review draft against approved sources. Cite evidence. Propose wording only. Do not approve publication.</div>
       </article>
 
       <article class="agent-card">

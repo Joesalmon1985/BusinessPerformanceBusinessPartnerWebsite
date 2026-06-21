@@ -19,7 +19,7 @@ Answer only from approved sources with citations.
 |-------|------|
 | Performance Manager | [performance-manager-agent.md](performance-manager-agent.md) |
 | Demand & Capacity | [demand-capacity-agent.md](demand-capacity-agent.md) |
-| Report QA | [report-qa-agent.md](report-qa-agent.md) |
+| Report Analysis and Improvement | [report-analysis-agent.md](report-analysis-agent.md) — [worked example](../examples/report-analysis-agent-conversation.md) (workflow alias: [Report QA](report-qa-agent.md)) |
 | Executive Summary | [executive-summary-agent.md](executive-summary-agent.md) |
 
 ### C. Admin and delivery

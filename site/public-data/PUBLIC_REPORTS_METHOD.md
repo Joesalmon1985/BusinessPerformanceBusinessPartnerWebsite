@@ -188,6 +188,8 @@ After each render, the pipeline checks all six `public-*.html` files for:
 
 Validation fails the render with a numbered issue list if any check fails. Add new `check_*()` functions as failure modes are discovered.
 
+The [Report Analysis and Improvement Agent](../agent-rules/report-analysis-agent.md) provides a human-judgement layer above this script — standards interpretation, readability, revised wording and publication refusal — with a [worked example](../examples/report-analysis-agent-conversation.md) on the operating model page.
+
 ## Known limitations in this run
 
 - **FFT**: org-level RDY rows not found in downloaded summary XLSX — see `metadata/fft_manual_download_needed.md`

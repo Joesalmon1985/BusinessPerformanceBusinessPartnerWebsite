@@ -15,7 +15,7 @@ Hard boundary agent. Blocks patient-identifiable data, unsafe claims, over-autom
 
 ## Allowed inputs
 
-- Outputs from all other agents in the workflow
+- Outputs from all other agents in the workflow (including [Report Analysis Agent](report-analysis-agent.md) content-review findings)
 - Trust IG policy summaries (user-provided, cited)
 - Data classification labels (synthetic, public, approved aggregate)
 - Report and prompt metadata

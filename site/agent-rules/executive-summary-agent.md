@@ -8,7 +8,7 @@ Converts validated analysis into a clear, proportionate narrative for Board, cli
 
 ## Allowed inputs
 
-- QA-reviewed draft analysis (not raw unverified data)
+- QA-reviewed draft analysis (not raw unverified data) — findings from [Report Analysis Agent](report-analysis-agent.md) must be addressed first
 - Audience specification (Board, directorate, operational huddle)
 - Approved key messages from the Business Partner
 - Synthetic or approved aggregate metrics with linked definitions
