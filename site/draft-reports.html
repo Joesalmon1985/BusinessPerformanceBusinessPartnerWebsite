@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Draft reports — Agent-assisted analytical briefs (public data)</title>
-  <meta name="description" content="Worked examples showing how agentic AI can turn public aggregate NHS data into cautious, reviewable first-draft briefs — with human review, caveats and reproducible R scripts. Not official Trust reporting.">
+  <meta name="description" content="Six worked examples showing how agentic AI can turn public aggregate NHS data into cautious, reviewable first-draft briefs. Not official Trust reporting.">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -30,220 +30,107 @@
   <main id="main-content">
     <div class="hero">
       <h1>Draft reports</h1>
-      <p class="hero-lead">These worked examples show how an AI agent can turn public aggregate NHS data into cautious, reviewable first-draft briefs. Each follows a governed workflow — question, data, analysis, caveats, human review — and is <strong>not</strong> official Dorset HealthCare performance reporting.</p>
+      <p class="hero-lead">Six worked examples of agent-assisted analytical briefs using public aggregate NHS data for Dorset HealthCare (RDY). Each is a first draft for human review — <strong>not</strong> official Trust reporting.</p>
     </div>
 
     <div class="caveat-box" role="note">
-      <strong>Demonstration caveat:</strong> These are agent-assisted analytical briefs using public aggregate data only. They are not official Dorset HealthCare reports. They require human review, subject matter input and local owner confirmation before any operational use.
+      <strong>Demonstration caveat:</strong> Public aggregate data only. Not official Dorset HealthCare reports. Human review and local owner confirmation required before any operational use.
     </div>
 
     <section aria-labelledby="public-data-reports">
       <h2 id="public-data-reports">Public-data agent workflow examples</h2>
-      <p>"Aggregate public data" means published NHS figures that are already grouped to organisation level — counts and rates, never individual patients. A "first-draft brief" is exactly that: a starting point an analyst would refine, not a finished report. Drafting still needs a person because definitions vary, data can be provisional or incomplete, and figures only mean something once they are read alongside local context and judgement.</p>
-      <p>Each brief below demonstrates how a governed agent interprets a business question, locates public aggregate data for Dorset HealthCare — identified by its Organisation Data Service (ODS) code <strong>RDY</strong> — produces a cautious first-draft analysis, and surfaces what a human reviewer must still check. The workflow is always the same: <strong>question → data → analysis → caveats → human review</strong>. See also the <a href="agent-operating-model.html">agent operating model</a>.</p>
-      <p>Reports are rendered from <code>public-data/processed/demo_*.csv</code> by <code>R/03_render_public_reports.R</code>. Source catalogue: <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</p>
+      <p>Each brief follows the same spine: <strong>question → data → key findings → agent summary → human checks → verify</strong>. Regenerate with <code>Rscript site/R/03_render_public_reports.R</code>. Source catalogue: <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</p>
     </section>
 
     <section class="card-grid" aria-label="Agent-assisted public-data briefs">
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted NHS Oversight Framework analysis</h3>
-        <p class="card-purpose">Worked example: turning a public NOF file into a cautious first-draft performance brief.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>Which NOF raw metrics exist for RDY, what do published median/rank fields show, and what must a human verify?</dd>
-          <dt>Agent produced</dt>
-          <dd>First-draft NOF brief with ranked metrics, domain summary and verification appendix.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Interpreting a performance question, using public NOF data without recalculating league tables, and inviting human review.</dd>
-          <dt>Human review needed</dt>
-          <dd>Metric definitions, rank polarity, provisional/final status and local owner sign-off.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-performance-overview.html">View NOF worked example</a>
+        <h3>NHS Oversight Framework</h3>
+        <p class="card-purpose">First-draft performance brief from public NOF data — peer median and rank, not recalculated.</p>
+        <a class="card-link" href="reports/public-performance-overview.html">View worked example</a>
       </article>
 
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted MHSDS public-data briefing</h3>
-        <p class="card-purpose">Worked example: summarising mental health access/activity data and caveats from one provisional month.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>What MHSDS access and activity measures exist for RDY as provider, and what prevents treating this as an operational dashboard?</dd>
-          <dt>Agent produced</dt>
-          <dd>Key figures explained table, MHSDS time-series trends, MHS23 historic stack and suppression caveats.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Bounded descriptive analysis with previous-period comparators and explicit non-claims.</dd>
-          <dt>Human review needed</dt>
-          <dd>Local MHSDS validation, breakdown definitions and provisional vs final refresh.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-mh-access-profile.html">View MHSDS worked example</a>
+        <h3>MHSDS mental health access</h3>
+        <p class="card-purpose">Access and activity measures with monthly trends where the public time series supports them.</p>
+        <a class="card-link" href="reports/public-mh-access-profile.html">View worked example</a>
       </article>
 
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted CSDS community services briefing</h3>
-        <p class="card-purpose">Worked example: structured community services briefing including when public data is sparse.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>What CSDS community activity measures exist for RDY in March 2026, and what should be validated locally?</dd>
-          <dt>Agent produced</dt>
-          <dd>Key figures explained table, 8-month CSDS activity trends and verification links.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Descriptive month-on-month trends from historic public stack with honest limits.</dd>
-          <dt>Human review needed</dt>
-          <dd>Service definitions, coding quality assurance (QA) and directorate-level confirmation.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-community-services-profile.html">View CSDS worked example</a>
+        <h3>CSDS community services</h3>
+        <p class="card-purpose">Community activity briefing with descriptive trends from the historic CSDS stack.</p>
+        <a class="card-link" href="reports/public-community-services-profile.html">View worked example</a>
       </article>
 
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted Talking Therapies briefing</h3>
-        <p class="card-purpose">Worked example: access and waiting measures without overclaiming recovery or pathway performance.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>What referrals and waiting-band measures exist for RDY, and what outcome analysis would require beyond this extract?</dd>
-          <dt>Agent produced</dt>
-          <dd>Key figures explained table, 13-month Talking Therapies (formerly IAPT — Improving Access to Psychological Therapies) trends and explicit outcome gaps.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Summarising Talking Therapies public data with previous-period comparators — no recovery claims.</dd>
-          <dt>Human review needed</dt>
-          <dd>Local reporting alignment, pathway definitions and data quality (DQ) findings.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-talking-therapies-profile.html">View Talking Therapies worked example</a>
+        <h3>Talking Therapies (IAPT)</h3>
+        <p class="card-purpose">Referrals, access and waiting measures — no recovery or outcome claims.</p>
+        <a class="card-link" href="reports/public-talking-therapies-profile.html">View worked example</a>
       </article>
 
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted assurance and statutory reporting brief</h3>
-        <p class="card-purpose">Worked example: KO41a, ERIC, DSPT and CQC context as an assurance briefing — not a scorecard.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>Which assurance artefacts contain RDY rows, what is their cadence, and where are gaps (FFT, CQC)?</dd>
-          <dt>Agent produced</dt>
-          <dd>Assurance theme summary, DSPT history and documented source gaps.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Assembling statutory/assurance public sources with appropriate use boundaries.</dd>
-          <dt>Human review needed</dt>
-          <dd>Named return owners, IG/complaints team input and FFT manual download if needed.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-assurance-profile.html">View assurance worked example</a>
+        <h3>Assurance and statutory returns</h3>
+        <p class="card-purpose">Assurance source map (KO41a, ERIC, DSPT, FFT gap, CQC context) — not a scorecard.</p>
+        <a class="card-link" href="reports/public-assurance-profile.html">View worked example</a>
       </article>
 
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>AI-assisted urgent care and diagnostics source check</h3>
-        <p class="card-purpose">Worked example: checking RDY presence in accident and emergency (A&amp;E), DM01 and KH03 data before any interpretation.</p>
-        <dl class="card-meta">
-          <dt>Question asked</dt>
-          <dd>Does RDY appear in A&amp;E, DM01 and KH03 public files, and what can safely be interpreted for a trust without an emergency department (ED)?</dd>
-          <dt>Agent produced</dt>
-          <dd>Source presence table, Key figures explained, A&amp;E/DM01 historic trends and KH03 snapshot history.</dd>
-          <dt>Demonstrates</dt>
-          <dd>Source validation plus descriptive trends — preventing ED misinterpretation at RDY.</dd>
-          <dt>Human review needed</dt>
-          <dd>Service-owner confirmation, KH03 snapshot dates and diagnostics pathway ownership.</dd>
-        </dl>
-        <a class="card-link" href="reports/public-urgent-diagnostics-check.html">View urgent/diagnostics worked example</a>
+        <h3>Urgent care and diagnostics check</h3>
+        <p class="card-purpose">Source-validation brief — RDY presence in A&amp;E, DM01 and KH03 with cautious interpretation.</p>
+        <a class="card-link" href="reports/public-urgent-diagnostics-check.html">View worked example</a>
       </article>
     </section>
 
     <section aria-labelledby="how-created">
       <h2 id="how-created">How these briefs were created</h2>
       <ul>
-        <li>A Cursor agent discovered and downloaded official public aggregate NHS sources — catalogued in <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</li>
-        <li>R scripts preserved raw files, inspected fields, filtered RDY/Dorset HealthCare rows, and created <code>public-data/processed/demo_*.csv</code> extracts.</li>
-        <li><code>R/03_render_public_reports.R</code> renders each brief using a shared agent-assisted analytical template: question, prompt excerpt, process steps, Key figures explained, first-draft analysis, figures, caveats and verification appendix.</li>
-        <li>Agentic AI accelerated discovery, drafting and checking; R produces reproducible tables and charts from bounded public data only.</li>
-        <li>Every brief ends with explicit non-claims and a human review gate — no operational use without local owner sign-off.</li>
+        <li>Public NHS sources downloaded and catalogued in <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</li>
+        <li>R scripts filter RDY rows and create <code>public-data/processed/demo_*.csv</code> extracts.</li>
+        <li><code>R/03_render_public_reports.R</code> renders each brief: question, data used, Key findings explained, agent summary, human checks, verify appendix.</li>
+        <li>Every brief ends with explicit caveats and a human review gate.</li>
       </ul>
       <p>Supporting documentation:</p>
       <ul>
-        <li><a href="public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a> — pipeline and agent brief template</li>
-        <li><a href="public-data/AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md">AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md</a> — reframe specification</li>
-        <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">FINAL_REPORT_QA_SUMMARY.md</a> — final report clarity/trend QA pass</li>
-        <li><a href="public-data/PUBLIC_DATA_RUN_SUMMARY.md">PUBLIC_DATA_RUN_SUMMARY.md</a> — run summary and source status</li>
-        <li><a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a> — public source catalogue</li>
-      </ul>
-      <p>Regenerate public reports with: <code>Rscript site/R/03_render_public_reports.R</code> (after running the public-data pipeline).</p>
-    </section>
-
-    <section aria-labelledby="why-bp-role">
-      <h2 id="why-bp-role">Why this matters for the Business &amp; Performance Business Partner role</h2>
-      <p>Read as examples rather than claims, these briefs show practical skills the business-partner role relies on:</p>
-      <ul>
-        <li><strong>Turning a question into a reviewable first draft</strong> — each brief shows the question asked, the process followed, and the output a reviewer would receive.</li>
-        <li><strong>Interpreting public datasets cautiously</strong> — suppression, provisional data, comparator limits and explicit non-claims are surfaced rather than hidden.</li>
-        <li><strong>Spotting data quality and definitional risks</strong> — organisation matching, source availability and metric directionality are flagged before any narrative is written.</li>
-        <li><strong>Communicating analysis clearly to non-analysts</strong> — a consistent structure makes complex performance information readable for services and senior leaders.</li>
-        <li><strong>Using agentic AI within governance boundaries</strong> — AI accelerates discovery, drafting and checking, but humans stay accountable: no brief is presented as approved, and local owner sign-off is required before operational use.</li>
+        <li><a href="public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a></li>
+        <li><a href="public-data/FINAL_SIMPLIFICATION_SUMMARY.md">FINAL_SIMPLIFICATION_SUMMARY.md</a></li>
+        <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">FINAL_REPORT_QA_SUMMARY.md</a></li>
       </ul>
     </section>
 
     <section aria-labelledby="synthetic-reports">
       <h2 id="synthetic-reports">Earlier synthetic proof-of-concept reports</h2>
-      <p>The briefs below were useful early prototypes for layout and AI-assisted draft commentary. They use <strong>synthetic aggregate data only</strong>. The agent-assisted public-data briefs above are the stronger evidence of the full governed workflow.</p>
-      <p>Synthetic reports are rendered by <code>R/02_render_reports.R</code> from CSVs in <code>data/</code>. Regenerate with: <code>Rscript site/R/01_generate_synthetic_data.R</code> then <code>Rscript site/R/02_render_reports.R</code>.</p>
+      <p>Earlier prototypes use synthetic aggregate data only. The public-data briefs above are the stronger evidence of the governed workflow.</p>
     </section>
 
     <section class="card-grid" aria-label="Earlier synthetic proof-of-concept reports">
       <article class="card">
         <h3>CYP Waiting List Overview</h3>
-        <p>Synthetic waiting list, long waits, median wait, referrals, appointments and discharges.</p>
-        <ul>
-          <li>Includes draft AI-style commentary (demonstration text)</li>
-          <li>Review status: <strong>not approved</strong></li>
-          <li>Data: synthetic only</li>
-        </ul>
-        <p><strong>Operational use:</strong> Supports huddles on long waits and referral/discharge balance — after human validation.</p>
+        <p>Synthetic waiting list demonstration — not approved for operational use.</p>
         <a class="card-link" href="reports/cyp-waiting-list-overview.html">View report</a>
       </article>
-
       <article class="card">
         <h3>All Age Mental Health Access Dashboard</h3>
-        <p>Referrals, caseload, contacts, waits, DNA rate and capacity pressure index.</p>
-        <ul>
-          <li>Includes draft AI-style commentary (demonstration text)</li>
-          <li>Review status: <strong>not approved</strong></li>
-          <li>Data: synthetic only</li>
-        </ul>
-        <p><strong>Operational use:</strong> Access pressure and DNA impact discussions — after human validation.</p>
+        <p>Synthetic access dashboard demonstration.</p>
         <a class="card-link" href="reports/all-age-mental-health-access.html">View report</a>
       </article>
-
       <article class="card">
         <h3>Learning Disability Performance Summary</h3>
-        <p>Caseload, health checks, contacts, long waits and safeguarding flags — aggregate synthetic data.</p>
-        <ul>
-          <li>Includes draft AI-style commentary (demonstration text)</li>
-          <li>Review status: <strong>not approved</strong></li>
-          <li>Data: synthetic only</li>
-        </ul>
-        <p><strong>Operational use:</strong> Health check recovery and caseload review — with small-number caution in real use.</p>
+        <p>Synthetic LD performance demonstration.</p>
         <a class="card-link" href="reports/learning-disability-performance.html">View report</a>
       </article>
-
       <article class="card">
         <h3>Demand and Capacity Prototype</h3>
-        <p>Weekly demand, capacity, backlog and forecast clearance time.</p>
-        <ul>
-          <li>Includes draft AI-style commentary (demonstration text)</li>
-          <li>Review status: <strong>not approved</strong></li>
-          <li>Data: synthetic only</li>
-        </ul>
-        <p><strong>Operational use:</strong> Capacity planning conversations — assumptions must be validated.</p>
+        <p>Synthetic demand/capacity prototype.</p>
         <a class="card-link" href="reports/demand-and-capacity-prototype.html">View report</a>
       </article>
-
       <article class="card">
         <h3>Mandatory Returns Assurance Log</h3>
-        <p>Due dates, owners, assurance status, issues and escalation routes from the demo register.</p>
-        <ul>
-          <li>Includes draft AI-style commentary (demonstration text)</li>
-          <li>Review status: <strong>not approved</strong></li>
-          <li>Metadata: synthetic / demo only</li>
-        </ul>
-        <p><strong>Operational use:</strong> Pre-deadline assurance — owners must confirm in production.</p>
+        <p>Synthetic assurance log demonstration.</p>
         <a class="card-link" href="reports/mandatory-returns-assurance-log.html">View report</a>
       </article>
     </section>

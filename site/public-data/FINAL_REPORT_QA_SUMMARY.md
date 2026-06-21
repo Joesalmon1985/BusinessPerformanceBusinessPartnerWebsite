@@ -1,12 +1,13 @@
 # Final Report QA Summary
 
-**Generated:** 2026-06-21 (after final clarity, trend and explanation pass)
+**Generated:** 2026-06-21 (after final clarity, trend, explanation and simplification passes)
 
 > Public-data demonstration only — not official Dorset HealthCare reporting. All figures require human review and local owner confirmation.
 
 ## Scope of this pass
 
-- Added **Key figures explained** section to all six public HTML reports
+- **Simplification pass (latest):** merged overlapping sections into Key findings explained, Agent summary, and What a human should check; demoted tables/commentary/trends to collapsible details. See [FINAL_SIMPLIFICATION_SUMMARY.md](FINAL_SIMPLIFICATION_SUMMARY.md).
+- Added **Key findings explained** section to all six public HTML reports (formerly Key figures explained)
 - Standardized **trend direction** labels and **comparator** wording
 - Fixed narrative contradictions where historic trend files now exist (CSDS, MHSDS MHS23, urgent/diagnostics)
 - Enhanced agent process and verification copy
@@ -50,7 +51,7 @@ Rscript site/R/03_render_public_reports.R
 
 | Check | Result |
 |-------|--------|
-| All six reports contain "Key figures explained" | **Pass** |
+| All six reports contain "Key findings explained" | **Pass** |
 | Each key figure has what / compare / trend / human-check columns | **Pass** |
 | No trend inferred from single data point | **Pass** |
 | No fabricated targets or peer medians (except NOF pass-through) | **Pass** |

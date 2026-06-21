@@ -14,26 +14,24 @@ See also: [AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md](AGENT_ANALYTICAL_BRIEF_REFRAM
 
 ## Agent-assisted analytical brief template
 
-Each public report follows this workflow spine (rendered by `agent_brief_sections()`):
+Each public report follows this simplified structure (rendered by `agent_brief_sections()`):
 
-1. What this report demonstrates
-2. The question given to the agent
-3. Prompt excerpt
-4. Data used (sources, period, RDY filter)
-5. Agent process demonstrated (numbered steps)
-6. **Key figures explained** (plain-English table: what each figure is, latest value, comparator, trend direction, agent interpretation, human check)
-7. Key figures from the agent’s first draft (tables, KPIs, charts)
-8. **How to read this report** (plain-English field and period guidance)
-9. **Agent commentary on selected measures** (metric/theme cards with agent flags)
-10. **Trend analysis** or **Trend analysis not available from current extract** (where multi-period public data exists)
-11. First-draft analysis (cautious narrative)
-12. Agent-generated observations
-13. What cannot be concluded from this data
-14. Questions for a Business & Performance Partner (plain-English with short explanations)
-15. How to verify the figures (traceability / audit appendix)
-16. Human review required
+1. Title and short subtitle (report header)
+2. Public-data caveat box
+3. **What the agent was asked to do** (business question, dataset, first-draft note; prompt excerpt in collapsible `<details>`)
+4. **Data used** (sources, period, RDY filter, historic trend availability)
+5. **Key findings explained** (plain-English table: figure, meaning, latest value, comparator, trend, agent reading, human check)
+6. Supporting detail in collapsible `<details>` blocks: raw tables/KPIs, optional commentary cards, trend charts
+7. **Agent summary** (3–5 bullets: notable findings, local review needs, limits)
+8. **What a human should check** (4–6 plain-English bullets)
+9. **How to verify the figures** (short intro + links; audit detail in collapsible `<details>`)
+10. Human review footer
 
-The primary output is the **demonstrated workflow**, not the data table alone. Reports are indexed on `site/draft-reports.html` by question asked and workflow capability.
+Trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Source validation only, Definition check required.
+
+Comparator priority: official standard (if in source) → published peer median/rank (NOF only) → previous comparable period → none stated honestly.
+
+Reports are indexed on `site/draft-reports.html` as worked examples of agent-assisted analytical briefs.
 
 ## Demo CSVs used
 

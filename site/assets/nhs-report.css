@@ -352,6 +352,45 @@ body.nhs-report {
   color: var(--nhs-dark-blue);
 }
 
+details.nhs-support-details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--nhs-white);
+}
+
+details.nhs-support-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+  font-size: 0.95rem;
+}
+
+.nhs-support-details-body {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.nhs-support-details-body .nhs-section {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nhs-data-meta {
+  margin-top: 0.75rem;
+}
+
+.nhs-agent-box p {
+  margin: 0 0 0.65rem;
+}
+
+.nhs-agent-box p:last-child {
+  margin-bottom: 0;
+}
+
 .nhs-metric-commentary {
   display: grid;
   gap: 1rem;
