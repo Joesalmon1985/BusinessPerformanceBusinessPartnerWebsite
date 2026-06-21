@@ -1,11 +1,11 @@
-Filter note: ae_monthly - ae_monthly__May-2026-CSV-F4flrg
-Generated: 2026-06-21 17:00:20.585247
+Filter note: ae_monthly - ae_monthly_September-2025-CSV-revised.csv_September-2025-CSV-revised
+Generated: 2026-06-21 21:09:12.499959
 Publication period: May-2026-CSV-F4flrg.csv
 
-Input rows: 193
+Input rows: 202
 RDY matching rows: 1
 
-Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_ae_monthly_ae_monthly__May-2026-CSV-F4flrg.csv
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_ae_monthly_ae_monthly_September-2025-CSV-revised.csv_September-2025-CSV-revised.csv
 Columns: Period; Org Code; Parent Org; Org name; A&E attendances Type 1; A&E attendances Type 2; A&E attendances Other A&E Department; A&E attendances Booked Appointments Type 1; A&E attendances Booked Appointments Type 2; A&E attendances Booked Appointments Other Department; Attendances over 4hrs Type 1; Attendances over 4hrs Type 2; Attendances over 4hrs Other Department; Attendances over 4hrs Booked Appointments Type 1; Attendances over 4hrs Booked Appointments Type 2; Attendances over 4hrs Booked Appointments Other Department; Patients who have waited 4-12 hs from DTA to admission; Patients who have waited 12+ hrs from DTA to admission; Emergency admissions via A&E - Type 1; Emergency admissions via A&E - Type 2; Emergency admissions via A&E - Other A&E department; Other emergency admissions
 
 Caveats: RDY has no ED; may have zero or minimal rows; revised data possible

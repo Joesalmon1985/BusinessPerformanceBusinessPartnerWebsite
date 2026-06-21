@@ -1,2 +1,104 @@
 Inspection report: dm01_monthly
-Generated: 2026-06-21 17:02:36.251795
+Generated: 2026-06-21 21:03:50.331146
+Files inspected: 25
+
+--- dm01_monthly__DM01-MARCH-2026-full-extract_32W3L.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_dh_134560.zip_dh_134560.zip ---
+Type: zip
+RDY signal: no
+
+--- dm01_monthly_dh_134738.zip_dh_134738.zip ---
+Type: zip
+RDY signal: no
+
+--- dm01_monthly_DM01-DECEMBER-2024-full-extract-CDC_WBJ074.zip_DM01-DECEMBER-2024-full-extract-CDC_WBJ074.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-DECEMBER-2024-full-extract.zip_DM01-DECEMBER-2024-full-extract.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-FEBRUARY-2025-full-extract_M0N7G.zip_DM01-FEBRUARY-2025-full-extract_M0N7G.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-FEBRUARY-2025-full-extract-CDC_FT49R.zip_DM01-FEBRUARY-2025-full-extract-CDC_FT49R.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-JANUARY-2025-full-extract_M0N7G.zip_DM01-JANUARY-2025-full-extract_M0N7G.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-JANUARY-2025-full-extract-CDC_SDM38.zip_DM01-JANUARY-2025-full-extract-CDC_SDM38.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-MARCH-2025-full-extract_M0N7G.zip_DM01-MARCH-2025-full-extract_M0N7G.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-MARCH-2025-full-extract-CDC_SW40K.zip_DM01-MARCH-2025-full-extract-CDC_SW40K.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-JULY-12.zip_DM01-Monthly-Diagnostics-EXTRACTS-JULY-12.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-JUNE-12-Revised.zip_DM01-Monthly-Diagnostics-EXTRACTS-JUNE-12-Revised.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-Revised-Aug-13.zip_DM01-Monthly-Diagnostics-EXTRACTS-Revised-Aug-13.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-Revised.zip_DM01-Monthly-Diagnostics-EXTRACTS-Revised.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-REVISED.zip_DM01-Monthly-Diagnostics-EXTRACTS-REVISED.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-REVISED1.zip_DM01-Monthly-Diagnostics-EXTRACTS-REVISED1.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-REVISED2.zip_DM01-Monthly-Diagnostics-EXTRACTS-REVISED2.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-REVISED3.zip_DM01-Monthly-Diagnostics-EXTRACTS-REVISED3.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS-REVISED4.zip_DM01-Monthly-Diagnostics-EXTRACTS-REVISED4.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-Monthly-Diagnostics-EXTRACTS.zip_DM01-Monthly-Diagnostics-EXTRACTS.zip ---
+Type: ?
+RDY signal: no
+
+--- dm01_monthly_DM01-NOVEMBER-2024-full-extract-CDC_13CLR.zip_DM01-NOVEMBER-2024-full-extract-CDC_13CLR.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-NOVEMBER-2024-full-extract.zip_DM01-NOVEMBER-2024-full-extract.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-OCTOBER-2024-full-extract-CDC_1LT0P.zip_DM01-OCTOBER-2024-full-extract-CDC_1LT0P.zip ---
+Type: zip
+RDY signal: yes
+
+--- dm01_monthly_DM01-OCTOBER-2024-full-extract.zip_DM01-OCTOBER-2024-full-extract.zip ---
+Type: zip
+RDY signal: yes
+

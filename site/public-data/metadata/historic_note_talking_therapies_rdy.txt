@@ -1,0 +1,4 @@
+Talking Therapies RDY access trend — generated 2026-06-21 21:44:03.423233
+Measures: M001, M031, M053
+Periods: 9 distinct months
+Provisional IAPT monthly data; Provider/RDY rows only.

@@ -1,5 +1,5 @@
 Filter note: kh03_quarterly - kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only
-Generated: 2026-06-21 17:00:29.502458
+Generated: 2026-06-21 21:09:55.109722
 Publication period: Latest quarter on overnight page
 
 Input rows: 56528

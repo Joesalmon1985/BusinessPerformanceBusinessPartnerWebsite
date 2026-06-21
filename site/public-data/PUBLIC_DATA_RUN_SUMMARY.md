@@ -1,6 +1,6 @@
 # Public Data Run Summary
 
-**Generated:** 2026-06-21 18:46:36
+**Generated:** 2026-06-21 21:36:48
 
 > **DISCLAIMER:** These are public-data demonstration outputs. They are NOT official Dorset HealthCare reports.
 > All figures require human review and local owner confirmation before operational use.
@@ -73,45 +73,6 @@ Sources marked `checked_no_rdy_rows` were inspected but contained no matching or
 - demo_dm01_diagnostics.csv
 - demo_assurance_profile.csv
 
-## Historic trend files (script 05)
-
-See [HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md](HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md) and [HISTORIC_SOURCE_REGISTER.csv](HISTORIC_SOURCE_REGISTER.csv).
-
-| Trend file | Used in report |
-|------------|----------------|
-| `trend_csds_activity_rdy.csv` | CSDS community services |
-| `trend_mhs23_rdy.csv` | MHSDS (MHS23 open referrals) |
-| `trend_ae_rdy.csv` | Urgent/diagnostics (source validation) |
-| `trend_dm01_rdy.csv` | Urgent/diagnostics |
-| `trend_kh03_beds_rdy.csv` | Urgent/diagnostics |
-
-MHSDS MHS01/MHS29/MHS69 and Talking Therapies M001/M031/M053 use Provider time-series globs (not separate `trend_*.csv` files).
-
-## HTML reports (built)
-
-All six public briefs are rendered by `site/R/03_render_public_reports.R`. Each includes a **Key figures explained** section. See [FINAL_REPORT_QA_SUMMARY.md](FINAL_REPORT_QA_SUMMARY.md).
-
-| Report | Demo CSV | HTML page |
-|--------|----------|-----------|
-| NHS Oversight Framework overview | demo_nof_overview.csv | reports/public-performance-overview.html |
-| MHSDS access profile | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |
-| CSDS community services | demo_csds_activity.csv | reports/public-community-services-profile.html |
-| Talking Therapies | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |
-| Assurance profile | demo_assurance_profile.csv | reports/public-assurance-profile.html |
-| Urgent/diagnostics check | demo_dm01_diagnostics.csv + demo_kh03_beds.csv | reports/public-urgent-diagnostics-check.html |
-
-Each report states: *public-data demonstration report; not an official Trust report; requires human review and local owner confirmation.*
-
-## Recommended next agent run — R report pages (NOT YET BUILT)
-
-~~When instructed, create `site/R/03_render_public_reports.R` reading from `site/public-data/processed/demo_*.csv`:~~
-
-**Completed.** Regenerate with:
-
-```bash
-Rscript site/R/03_render_public_reports.R
-```
-
 ## Run commands
 
 ```bash
@@ -119,5 +80,12 @@ cd site/public-data
 Rscript 01_download_public_data.R
 Rscript 02_inspect_public_data.R
 Rscript 03_filter_dorset_healthcare.R
+Rscript 05_download_historic_public_data.R
 Rscript 04_create_demo_extracts.R
+Rscript ../R/03_render_public_reports.R
 ```
+
+## Historic trend pipeline (script 05)
+
+See [HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md](HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md) for latest historic download/stack results.
+

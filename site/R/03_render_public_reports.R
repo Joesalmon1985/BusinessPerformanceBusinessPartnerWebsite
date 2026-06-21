@@ -62,31 +62,48 @@ load_trend_file <- function(filename) {
 }
 
 parse_stacked_period <- function(x) {
-  x <- trimws(as.character(x))
-  d <- parse_period_start(x)
-  if (length(d) > 0 && !all(is.na(d))) return(d)
-  m <- regmatches(x, regexec("MSitAE-([A-Za-z]+)-([0-9]{4})", x, ignore.case = TRUE))[[1]]
-  if (length(m) == 3) {
-    month_num <- match(tolower(m[2]), tolower(month.name))
-    if (!is.na(month_num)) {
-      return(as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num)))
+  as.Date(vapply(x, function(xi) {
+    xi <- trimws(as.character(xi))
+    d <- parse_period_start(xi)
+    if (length(d) > 0 && !is.na(d)) return(unclass(d))
+    m <- regmatches(xi, regexec("MSitAE-([A-Za-z]+)-([0-9]{4})", xi, ignore.case = TRUE))[[1]]
+    if (length(m) == 3) {
+      month_num <- match(tolower(m[2]), tolower(month.name))
+      if (!is.na(month_num)) {
+        return(unclass(as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num))))
+      }
     }
-  }
-  m2 <- regmatches(x, regexec("DM01-([A-Za-z]+)-([0-9]{4})", x, ignore.case = TRUE))[[1]]
-  if (length(m2) == 3) {
-    month_num <- match(tolower(m2[2]), tolower(month.name))
-    if (!is.na(month_num)) {
-      return(as.Date(sprintf("%04d-%02d-01", as.integer(m2[3]), month_num)))
+    m2 <- regmatches(xi, regexec("DM01-([A-Za-z]+)-([0-9]{4})", xi, ignore.case = TRUE))[[1]]
+    if (length(m2) == 3) {
+      month_num <- match(tolower(m2[2]), tolower(month.name))
+      if (!is.na(month_num)) {
+        return(unclass(as.Date(sprintf("%04d-%02d-01", as.integer(m2[3]), month_num))))
+      }
     }
-  }
-  m3 <- regmatches(x, regexec("([a-z]+)-([0-9]{4})$", x, ignore.case = TRUE))[[1]]
-  if (length(m3) == 3) {
-    month_num <- match(tolower(m3[2]), tolower(month.name))
-    if (!is.na(month_num)) {
-      return(as.Date(sprintf("%04d-%02d-01", as.integer(m3[3]), month_num)))
+    m3 <- regmatches(xi, regexec("([a-z]+)-([0-9]{4})$", xi, ignore.case = TRUE))[[1]]
+    if (length(m3) == 3) {
+      month_num <- match(tolower(m3[2]), tolower(month.name))
+      if (!is.na(month_num)) {
+        return(unclass(as.Date(sprintf("%04d-%02d-01", as.integer(m3[3]), month_num))))
+      }
     }
-  }
-  as.Date(NA)
+    m_nof <- regmatches(xi, regexec("Q([1-4])\\s+([0-9]{4})/([0-9]{2})", xi, ignore.case = TRUE))[[1]]
+    if (length(m_nof) == 4) {
+      qn <- as.integer(m_nof[2])
+      fy <- as.integer(m_nof[3])
+      if (qn == 4L) {
+        return(unclass(as.Date(sprintf("%04d-%02d-01", fy + 1L, 1L))))
+      }
+      return(unclass(as.Date(sprintf("%04d-%02d-01", fy, (qn - 1L) * 3L + 4L))))
+    }
+    m4 <- regmatches(xi, regexec("Q([1-4])\\s+([0-9]{4})", xi, ignore.case = TRUE))[[1]]
+    if (length(m4) == 3) {
+      qn <- as.integer(m4[2])
+      yr <- as.integer(m4[3])
+      return(unclass(as.Date(sprintf("%04d-%02d-01", yr, (qn - 1L) * 3L + 1L))))
+    }
+    NA_real_
+  }, numeric(1)), origin = "1970-01-01")
 }
 
 extract_stacked_trend <- function(df, measure_id = NULL, measure_name = NULL, label = NULL) {
@@ -186,7 +203,13 @@ read_register_row <- function(source_id) {
 load_nof_full_rdy <- function() {
   files <- list.files(processed_dir, pattern = "^rdy_nof_mh_community.*-data\\.csv$", full.names = TRUE)
   if (length(files) == 0) return(NULL)
-  tryCatch(read.csv(files[1], stringsAsFactors = FALSE, check.names = FALSE), error = function(e) NULL)
+  pick <- files[which.max(vapply(files, function(f) {
+    bn <- tolower(basename(f))
+    m <- regmatches(bn, regexec("q([1-4])[_-]([0-9]{4})", bn))[[1]]
+    if (length(m) != 3) return(0)
+    as.numeric(m[3]) * 10 + as.numeric(m[2])
+  }, numeric(1)))]
+  tryCatch(read.csv(pick, stringsAsFactors = FALSE, check.names = FALSE), error = function(e) NULL)
 }
 
 load_nof_raw <- function() {
@@ -1110,30 +1133,6 @@ load_mhsds_access_trend <- function() {
   load_trend_file("trend_mhsds_access_rdy.csv")
 }
 
-extract_mhsds_measure_series <- function(trend_df, measure_id, window_months = 6L) {
-  if (is.null(trend_df) || nrow(trend_df) == 0) return(NULL)
-  sub <- trend_df[trimws(trend_df$measure_id) == measure_id, , drop = FALSE]
-  if (nrow(sub) == 0) return(NULL)
-  sub$period <- parse_stacked_period(sub$reporting_period_start)
-  if (all(is.na(sub$period)) && "publication_period" %in% names(sub)) {
-    sub$period <- parse_stacked_period(sub$publication_period)
-  }
-  sub <- sub[!is.na(sub$period), , drop = FALSE]
-  if (nrow(sub) == 0) return(NULL)
-  sub <- sub[order(sub$period), , drop = FALSE]
-  sub <- sub[!duplicated(sub$period), , drop = FALSE]
-  if (nrow(sub) > window_months) sub <- sub[(nrow(sub) - window_months + 1L):nrow(sub), , drop = FALSE]
-  sub$value <- if ("value_status" %in% names(sub)) {
-    ifelse(sub$value_status == "numeric", to_num(sub$metric_value), NA_real_)
-  } else {
-    to_num(sub$metric_value)
-  }
-  if (!"value_status" %in% names(sub)) {
-    sub$value_status <- ifelse(is.na(sub$value), "missing", "numeric")
-  }
-  sub
-}
-
 compute_six_month_stats <- function(series, measure_id, label, note = "") {
   empty <- list(
     measure_id = measure_id, label = label, note = note,
@@ -1216,7 +1215,7 @@ classify_mhsds_trend_reading <- function(numeric_rows) {
 
 format_mh_value <- function(val, status = "numeric") {
   if (identical(status, "suppressed")) return("*")
-  if (is.na(val)) return("—")
+  if (length(val) == 0L || is.na(val)) return("—")
   format(val, big.mark = ",")
 }
 
@@ -1349,11 +1348,213 @@ line_trend_chart <- function(series, title) {
 }
 
 build_mhsds_six_month_stats <- function(trend_df, window_months = 6L) {
-  lapply(names(MHSDS_MEASURE_META), function(mid) {
-    meta <- MHSDS_MEASURE_META[[mid]]
-    series <- extract_mhsds_measure_series(trend_df, mid, window_months)
-    compute_six_month_stats(series, mid, meta$label, meta$note)
+  build_window_stats(trend_df, MHSDS_MEASURE_META, window_months)
+}
+
+extract_windowed_series <- function(trend_df, measure_id = NULL, measure_name = NULL,
+                                    window_months = 6L) {
+  if (is.null(trend_df) || nrow(trend_df) == 0) return(NULL)
+  sub <- trend_df
+  if (!is.null(measure_id) && "measure_id" %in% names(sub)) {
+    sub <- sub[trimws(sub$measure_id) == measure_id, , drop = FALSE]
+  }
+  if (!is.null(measure_name) && "measure_name" %in% names(sub)) {
+    sub <- sub[grepl(measure_name, sub$measure_name, fixed = TRUE), , drop = FALSE]
+  }
+  if (nrow(sub) == 0) return(NULL)
+  sub$period <- parse_stacked_period(sub$reporting_period_start)
+  if (all(is.na(sub$period)) && "publication_period" %in% names(sub)) {
+    sub$period <- parse_stacked_period(sub$publication_period)
+  }
+  sub <- sub[!is.na(sub$period), , drop = FALSE]
+  if (nrow(sub) == 0) return(NULL)
+  sub <- sub[order(sub$period), , drop = FALSE]
+  sub <- sub[!duplicated(sub$period), , drop = FALSE]
+  if (nrow(sub) > window_months) {
+    sub <- sub[(nrow(sub) - window_months + 1L):nrow(sub), , drop = FALSE]
+  }
+  sub$value <- if ("value_status" %in% names(sub)) {
+    ifelse(sub$value_status == "numeric", to_num(sub$metric_value), NA_real_)
+  } else {
+    to_num(sub$metric_value)
+  }
+  if (!"value_status" %in% names(sub)) {
+    sub$value_status <- ifelse(is.na(sub$value), "missing", "numeric")
+  }
+  sub
+}
+
+extract_mhsds_measure_series <- function(trend_df, measure_id, window_months = 6L) {
+  extract_windowed_series(trend_df, measure_id = measure_id, window_months = window_months)
+}
+
+build_window_stats <- function(trend_df, measure_specs, window_months = 6L) {
+  stats <- lapply(names(measure_specs), function(key) {
+    meta <- measure_specs[[key]]
+    mid <- meta$measure_id %||% key
+    use_measure_id <- if (!is.null(meta$measure_id)) {
+      meta$measure_id
+    } else if (is.null(meta$measure_name) || !nzchar(meta$measure_name)) {
+      key
+    } else {
+      NULL
+    }
+    series <- extract_windowed_series(
+      trend_df,
+      measure_id = use_measure_id,
+      measure_name = meta$measure_name %||% NULL,
+      window_months = window_months
+    )
+    compute_six_month_stats(series, mid, meta$label, meta$note %||% "")
   })
+  names(stats) <- names(measure_specs)
+  stats
+}
+
+trend_reading_badge <- function(reading) {
+  mhsds_trend_reading_badge(reading)
+}
+
+window_summary_table <- function(stats_list, window_label = "Six-month") {
+  hdr <- paste0(
+    "<th scope=\"col\">", esc(c(
+      "Measure", "Latest", "Previous period", "Period-on-period change",
+      paste0(window_label, " change"),
+      paste0(window_label, " avg"), paste0(window_label, " high"),
+      paste0(window_label, " low"), "Trend reading", "Note"
+    )), "</th>", collapse = ""
+  )
+  rows <- vapply(stats_list, function(s) {
+    cells <- c(
+      esc(s$label),
+      esc(paste0(format_mh_value(s$latest_value, s$latest_status %||% "numeric"), " (", s$latest_period %||% "—", ")")),
+      esc(paste0(format_mh_value(s$previous_value, s$previous_status %||% "numeric"), " (", s$previous_period %||% "—", ")")),
+      esc(format_mh_change(s$mom_abs, s$mom_pct)),
+      esc(format_mh_change(s$six_month_abs, s$six_month_pct)),
+      esc(format_mh_value(s$six_month_avg)),
+      esc(format_mh_value(s$six_month_high)),
+      esc(format_mh_value(s$six_month_low)),
+      trend_reading_badge(s$trend_reading %||% "unclear"),
+      esc(s$note)
+    )
+    paste0("<tr>", paste0("<td>", cells, "</td>", collapse = ""), "</tr>")
+  }, character(1))
+  paste0(
+    '<div class="nhs-table-wrap"><table><thead><tr>', hdr,
+    '</tr></thead><tbody>', paste(rows, collapse = "\n"), '</tbody></table></div>'
+  )
+}
+
+window_stats_charts <- function(stats_list) {
+  paste(vapply(stats_list, function(s) {
+    if (is.null(s$series) || nrow(s$series) < 2L) return("")
+    line_trend_chart(
+      s$series,
+      paste0(s$label, " (", s$window_start, " \u2013 ", s$window_end, ")")
+    )
+  }, character(1)), collapse = "")
+}
+
+window_stats_section <- function(stats_list, source_note, window_label = "Six-month",
+                                 caveats = character()) {
+  if (length(stats_list) == 0 || !any(vapply(stats_list, function(s) isTRUE(s$available), logical(1)))) {
+    return(trend_not_available_section(source_note))
+  }
+  caveat_html <- if (length(caveats) > 0) {
+    paste0("<ul>", paste0("<li>", esc(caveats), "</li>", collapse = ""), "</ul>")
+  } else ""
+  paste0(
+    '<section class="nhs-section"><h2>', esc(window_label), ' trend summary</h2>',
+    '<p>', esc(source_note), '</p>',
+    window_summary_table(stats_list, window_label),
+    window_stats_charts(stats_list),
+    caveat_html,
+    '</section>'
+  )
+}
+
+latest_from_trend <- function(trend_df, measure_id = NULL, measure_name = NULL) {
+  series <- extract_windowed_series(trend_df, measure_id, measure_name, window_months = 999L)
+  if (is.null(series) || nrow(series) == 0) return(NULL)
+  latest <- series[nrow(series), , drop = FALSE]
+  list(
+    value = latest$value[1],
+    period = format(latest$period[1], "%b %Y"),
+    status = latest$value_status[1]
+  )
+}
+
+CSDS_WINDOW_MEASURES <- list(
+  assess = list(
+    measure_name = "Assessment",
+    label = "CSDS — Assessment (CareActivities)",
+    note = "Activity counts reflect coded CSDS submissions — not unique patients."
+  ),
+  clin = list(
+    measure_name = "Clinical Intervention",
+    label = "CSDS — Clinical Intervention (CareActivities)",
+    note = "Largest activity type where numeric — confirm service scope locally."
+  )
+)
+
+TT_WINDOW_MEASURES <- list(
+  M001 = list(
+    label = "M001 — Referrals received",
+    note = "Referral counts move with demand and recording — descriptive only."
+  ),
+  M031 = list(
+    label = "M031 — People accessing services",
+    note = "Access counts differ from referrals received — do not conflate."
+  ),
+  M053 = list(
+    label = "M053 — % accessing within 6 weeks (finished course)",
+    note = "Percentage measure — denominator checks required."
+  )
+)
+
+NOF_TREND_METRICS_META <- list(
+  OF0005 = list(label = "OF0005 — % waiting over 52 weeks (community)", note = "Lower is better; check cohort definition."),
+  OF0057 = list(label = "OF0057 — Urgent community response within 2 hours", note = "Higher is better; Q4 metric."),
+  OF0016 = list(label = "OF0016 — MH crisis face-to-face within 24 hours", note = "Higher is better."),
+  OF0086 = list(label = "OF0086 — Relative difference in costs", note = "Finance metric — local interpretation required.")
+)
+
+load_tt_trend <- function() {
+  tt <- load_trend_file("trend_talking_therapies_rdy.csv")
+  if (!is.null(tt) && nrow(tt) > 0) return(tt)
+  ts <- load_tt_time_series()
+  if (is.null(ts)) return(NULL)
+  stacked <- list()
+  for (mid in names(TT_WINDOW_MEASURES)) {
+    sub <- extract_tt_rdy_ts(ts, mid)
+    if (is.null(sub) || nrow(sub) < 2L) next
+    if (nrow(sub) > 6L) sub <- sub[(nrow(sub) - 5L):nrow(sub), , drop = FALSE]
+    for (i in seq_len(nrow(sub))) {
+      r <- sub[i, , drop = FALSE]
+      stacked[[length(stacked) + 1]] <- data.frame(
+        source_id = "talking_therapies_monthly",
+        publication_period = format(r$period[1], "%Y-%m"),
+        reporting_period_start = r$REPORTING_PERIOD_START[1],
+        reporting_period_end = r$REPORTING_PERIOD_END[1],
+        org_code = "RDY",
+        org_name = r$ORG_NAME2[1],
+        measure_id = mid,
+        measure_name = r$MEASURE_NAME[1],
+        metric_value = r$value[1],
+        metric_value_raw = as.character(r$value[1]),
+        value_status = "numeric",
+        source_file = "time_series_fallback",
+        caveats = "From bundled time-series extract.",
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+  if (length(stacked) == 0) return(NULL)
+  do.call(rbind, stacked)
+}
+
+load_nof_trend <- function() {
+  load_trend_file("trend_nof_rdy.csv")
 }
 
 load_tt_time_series <- function() {
@@ -1475,10 +1676,12 @@ trend_section <- function(trends_list, source_note, caveats = character()) {
     bar_chart(labels, t$series$value, paste0(t$measure_label, " — monthly trend (descriptive)"))
   }, character(1))
   roll_notes <- vapply(trends_list, function(t) {
-    if (is.null(t) || !isTRUE(t$available) || is.na(t$rolling_mean)) return("")
+    if (is.null(t) || !isTRUE(t$available)) return("")
+    rm <- t$rolling_mean %||% NA_real_
+    if (is.na(rm)) return("")
     paste0(
       t$measure_label, ": rolling mean across ", t$n_periods,
-      " months = ", format(t$rolling_mean, big.mark = ","),
+      " months = ", format(rm, big.mark = ","),
       " (descriptive only — not a performance target)."
     )
   }, character(1))
@@ -1935,6 +2138,27 @@ build_performance_overview <- function() {
 
   period_text <- paste(latest_q, "raw metrics (OF0xxx); reporting dates vary by metric (see Reporting_date column).")
 
+  nof_trend <- load_nof_trend()
+  nof_q_stats <- if (!is.null(nof_trend) && nrow(nof_trend) > 0) {
+    build_window_stats(nof_trend, NOF_TREND_METRICS_META, 3L)
+  } else {
+    list()
+  }
+  nof_has_q_trend <- length(nof_q_stats) > 0 &&
+    any(vapply(nof_q_stats, function(s) isTRUE(s$available), logical(1)))
+  nof_trend_window <- if (nof_has_q_trend) {
+    paste0(nof_q_stats[[1]]$window_start, " \u2013 ", nof_q_stats[[1]]$window_end)
+  } else {
+    latest_q
+  }
+
+  nof_trend_for_metric <- function(metric_id) {
+    if (is.null(nof_trend)) return(list(available = FALSE, n_periods = 0L))
+    meta <- NOF_TREND_METRICS_META[[metric_id]]
+    label <- if (!is.null(meta)) meta$label else metric_id
+    extract_stacked_trend(nof_trend, measure_id = metric_id, label = paste0(label, " (quarterly)"))
+  }
+
   key_figures <- paste0(
     kpi_row(kpis),
     '<p><em>Mean published rank uses NHS England Rank column — not recomputed. See &ldquo;How to read this table&rdquo; below for column definitions.</em></p>',
@@ -1966,16 +2190,21 @@ build_performance_overview <- function() {
         base
       }
     }
+    nof_trend_obj <- if (id %in% names(NOF_TREND_METRICS_META)) nof_trend_for_metric(id) else list(available = FALSE)
     list(
       figure = paste0(id, " — ", plain),
       what = plain,
       latest = paste0(val_txt, " (", latest_q, ")"),
       comparator_type = if (is.na(to_num(median_txt)) && is.na(to_num(rank_txt))) "none" else "peer_median",
       comparator_detail = peer_pos,
-      trend = NULL,
+      trend = if (isTRUE(nof_trend_obj$available)) nof_trend_obj else NULL,
       polarity = "definition",
-      trend_override = "Not available from current NOF extract",
-      trend_note = paste0("Cross-sectional snapshot for ", latest_q, " — no historic NOF trend in this brief."),
+      trend_override = if (isTRUE(nof_trend_obj$available)) NULL else "Not available from current NOF extract",
+      trend_note = if (isTRUE(nof_trend_obj$available)) {
+        paste0("Quarter-over-quarter from trend_nof_rdy.csv (", nof_trend_window, ") — descriptive only.")
+      } else {
+        paste0("Cross-sectional snapshot for ", latest_q, " — no historic NOF trend for this metric.")
+      },
       interpretation = nof_agent_reading(entry, row),
       human_check = short_human_check(human)
     )
@@ -1983,15 +2212,36 @@ build_performance_overview <- function() {
 
   kfe_supporting <- paste0(
     collapsible_details("Full metric table and domain summary", key_figures),
-    collapsible_details("Additional metric commentary cards", commentary_html)
+    collapsible_details("Additional metric commentary cards", commentary_html),
+    if (nof_has_q_trend) {
+      wrap_trend_collapsible(
+        window_stats_section(
+          nof_q_stats,
+          paste0("Quarter-over-quarter Value trends from trend_nof_rdy.csv (", nof_trend_window, "). Median/rank not trended."),
+          "Quarter-over-quarter",
+          c(
+            "NOF quarterly league table metrics; reporting_date may vary within quarter.",
+            "Descriptive quarter-on-quarter change only — not causal."
+          )
+        ),
+        "Quarter-over-quarter headline metrics"
+      )
+    } else ""
   )
 
-  nof_trend_note <- paste(
-    "There is no historic trend in this NOF extract, so the report cannot say whether performance is improving or worsening.",
-    "Peer median and published rank are NHS England fields — not recalculated.",
-    "The peer median is a comparator, not a local target.",
-    "Metric polarity varies — check the official specification before drawing conclusions."
-  )
+  nof_trend_note <- if (nof_has_q_trend) {
+    paste(
+      "Quarter-over-quarter Value trends for headline metrics use trend_nof_rdy.csv.",
+      "Peer median and published rank remain latest-quarter pass-through fields.",
+      "Metric polarity varies — check the official specification before drawing conclusions."
+    )
+  } else {
+    paste(
+      "There is no multi-quarter NOF trend in the current extract.",
+      "Peer median and published rank are NHS England fields — not recalculated.",
+      "Metric polarity varies — check the official specification before drawing conclusions."
+    )
+  }
 
   kfe_html <- key_figures_explained_section(
     nof_kfe_specs,
@@ -2001,7 +2251,7 @@ build_performance_overview <- function() {
       "They are not recalculated in this demonstration."
     ),
     supporting_html = "",
-    show_trend = FALSE,
+    show_trend = nof_has_q_trend,
     trend_note = nof_trend_note,
     comparator_header = "Peer position"
   )
@@ -2035,17 +2285,26 @@ build_performance_overview <- function() {
       "The strongest-looking published ranks are for community waits over 52 weeks and planned surplus/deficit — both still need definition checks before being described as positive performance.",
       "The main areas flagged for local review are urgent community response 2-hour performance, mental health crisis face-to-face contact within 24 hours, adult mental health inpatients with length of stay over 60 days, and relative difference in costs.",
       "Finance metrics need specific finance-owner interpretation because the public fields do not explain the local plan, sign convention or internal reporting context.",
-      "There is no historic trend in this NOF extract, so the report cannot say whether performance is improving or worsening."
+      if (nof_has_q_trend) {
+        paste0("Quarter-over-quarter trends for headline metrics (", nof_trend_window, ") are available from trend_nof_rdy.csv — descriptive Value movement only; median/rank remain latest-quarter snapshots.")
+      } else {
+        "There is no multi-quarter NOF trend in this extract, so the report cannot say whether performance is improving or worsening over time."
+      }
     ),
     grouped_findings = nof_build_grouped_findings(audit_source, nof_lookup),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
       '<li>NHS Oversight Framework (<code>demo_nof_overview.csv</code> + full RDY processed extract)</li>',
+      if (nof_has_q_trend) '<li><code>trend_nof_rdy.csv</code> — quarter-over-quarter headline metrics</li>' else "",
       '<li>Assurance index (<code>demo_assurance_profile.csv</code>) where available</li>',
       '</ul>'
     ),
-    period = period_text,
-    trend_available = "Not available — cross-sectional NOF snapshot only",
+    period = if (nof_has_q_trend) paste0(latest_q, " snapshot; quarter-over-quarter trend ", nof_trend_window) else period_text,
+    trend_available = if (nof_has_q_trend) {
+      paste0("Yes — quarter-over-quarter Value trends (", nof_trend_window, " from trend_nof_rdy.csv); median/rank latest quarter only")
+    } else {
+      "Not available — cross-sectional NOF snapshot only"
+    },
     agent_summary = c(
       paste0("Across ", latest_q, ", ", n_metrics, " raw NOF metrics span ", n_domains, " domains — several show strong published ranks (e.g. OF0005, OF0079) but need definition checks."),
       "The agent flags OF0063, OF0057, OF0016 and OF0086 for local review where RDY sits below peer median on access/long-stay or above on cost index.",
@@ -2385,12 +2644,34 @@ build_csds_profile <- function() {
   clin_n <- get_act("Clinical Intervention")
 
   csds_trend <- load_trend_file("trend_csds_activity_rdy.csv")
+  csds_window_stats <- if (!is.null(csds_trend)) build_window_stats(csds_trend, CSDS_WINDOW_MEASURES, 6L) else list()
+  assess_latest <- latest_from_trend(csds_trend, measure_name = "Assessment")
+  clin_latest <- latest_from_trend(csds_trend, measure_name = "Clinical Intervention")
+  if (!is.null(assess_latest) && !is.na(assess_latest$value)) assess_n <- assess_latest$value
+  if (!is.null(clin_latest) && !is.na(clin_latest$value)) clin_n <- clin_latest$value
+  latest_month_label <- if (!is.null(assess_latest)) assess_latest$period else {
+    if (!is.null(clin_latest)) clin_latest$period else format(parse_period_start(unique(csds$REPORTING_PERIOD_START)[1]), "%b %Y")
+  }
+
   trend_assess <- extract_stacked_trend(csds_trend, measure_name = "Assessment", label = "CSDS — Assessment (CareActivities)")
   trend_clin <- extract_stacked_trend(csds_trend, measure_name = "Clinical Intervention", label = "CSDS — Clinical Intervention (CareActivities)")
   csds_trend_note <- if (!is.null(csds_trend)) {
-    "trend_csds_activity_rdy.csv (historic stack from script 05)"
+    paste0(
+      "trend_csds_activity_rdy.csv (",
+      if (length(csds_window_stats) > 0 && isTRUE(csds_window_stats[[1]]$available)) {
+        paste0(csds_window_stats[[1]]$window_start, " \u2013 ", csds_window_stats[[1]]$window_end)
+      } else {
+        "historic stack from script 05"
+      },
+      ")"
+    )
   } else {
     "Historic CSDS trend file not found — run site/public-data/05_download_historic_public_data.R"
+  }
+  trend_window <- if (length(csds_window_stats) > 0 && nzchar(csds_window_stats[[1]]$window_start %||% "")) {
+    paste0(csds_window_stats[[1]]$window_start, " \u2013 ", csds_window_stats[[1]]$window_end)
+  } else {
+    latest_month_label
   }
   csds_trend_line <- function(t) {
     if (isTRUE(t$available)) {
@@ -2406,13 +2687,14 @@ build_csds_profile <- function() {
     }
   }
 
-  csds_has_trend <- isTRUE(trend_assess$available) || isTRUE(trend_clin$available)
+  csds_has_trend <- isTRUE(trend_assess$available) || isTRUE(trend_clin$available) ||
+    any(vapply(csds_window_stats, function(s) isTRUE(s$available), logical(1)))
 
   kpis <- list(
-    list(value = format(total_contacts, big.mark = ","), label = "Care activity total (Mar 2026)"),
+    list(value = format(total_contacts, big.mark = ","), label = paste("Care activity total (", latest_month_label, ")", sep = "")),
     list(value = nrow(activity), label = "Activity type rows"),
     list(value = n_rows, label = "Total RDY rows in extract"),
-    list(value = "March 2026", label = "Publication month")
+    list(value = latest_month_label, label = "Latest publication month")
   )
 
   key_figures <- paste0(
@@ -2453,7 +2735,7 @@ build_csds_profile <- function() {
     list(
       figure = "Care activities — Assessment",
       what = "Count of assessment-type care activities recorded in CSDS for the month (CareActivities / ActivityType).",
-      latest = if (is.na(assess_n)) "—" else format_kfe_latest(format(assess_n, big.mark = ","), "March 2026"),
+      latest = if (is.na(assess_n)) "—" else format_kfe_latest(format(assess_n, big.mark = ","), latest_month_label),
       comparator_type = "previous_period",
       comparator_detail = if (isTRUE(trend_assess$available)) {
         paste0(
@@ -2471,7 +2753,7 @@ build_csds_profile <- function() {
     list(
       figure = "Care activities — Clinical Intervention",
       what = "Direct clinical intervention activities in community services for the month.",
-      latest = if (is.na(clin_n)) "—" else format_kfe_latest(format(clin_n, big.mark = ","), "March 2026"),
+      latest = if (is.na(clin_n)) "—" else format_kfe_latest(format(clin_n, big.mark = ","), latest_month_label),
       comparator_type = "previous_period",
       comparator_detail = if (isTRUE(trend_clin$available)) {
         paste0(
@@ -2484,12 +2766,12 @@ build_csds_profile <- function() {
       trend = trend_clin,
       polarity = "unknown",
       interpretation = "Largest activity type where numeric — confirm service scope locally before review use.",
-      human_check = short_human_check("Directorate lead to confirm which services feed this measure and coding QA for March 2026.")
+      human_check = short_human_check(paste("Directorate lead to confirm which services feed this measure and coding QA for", latest_month_label, "."))
     ),
     list(
       figure = "Total care activities (ActivityType slice)",
-      what = "Sum of numeric CareActivities rows in the ActivityType dimension for March 2026 demo month.",
-      latest = format_kfe_latest(format(total_contacts, big.mark = ","), "March 2026"),
+      what = "Sum of numeric CareActivities rows in the ActivityType dimension for the latest demo month.",
+      latest = format_kfe_latest(format(total_contacts, big.mark = ","), latest_month_label),
       comparator_type = "none",
       comparator_detail = "Aggregate sum for one month — not trended as a single total in historic stack.",
       trend = NULL,
@@ -2516,17 +2798,18 @@ build_csds_profile <- function() {
   csds_kfe_html <- key_figures_explained_section(
     csds_kfe_specs,
     paste(
-      "March 2026 community activity for RDY.",
-      if (csds_has_trend) paste0("Assessment and Clinical Intervention trends use ", trend_assess$n_periods %||% trend_clin$n_periods, "-month historic stack.") else "Historic trend limited or not available — latest month only for some measures.",
+      "Latest community activity for RDY (", latest_month_label, ").",
+      if (csds_has_trend) paste0("Six-month trends use ", trend_window, " from trend_csds_activity_rdy.csv.") else "Historic trend limited or not available.",
       "Public aggregate CSDS cannot support team-level or pathway conclusions."
     ),
     comparator_header = "Previous period / comparator"
   )
 
-  csds_trend_html <- if (isTRUE(trend_assess$available) || isTRUE(trend_clin$available)) {
-    trend_section(
-      list(trend_assess, trend_clin),
-      csds_trend_note,
+  csds_window_html <- if (length(csds_window_stats) > 0 && csds_has_trend) {
+    window_stats_section(
+      csds_window_stats,
+      paste("Descriptive six-month statistics from trend_csds_activity_rdy.csv (", trend_window, ").", sep = ""),
+      "Six-month",
       c(
         "Provisional CSDS monthly data; ActivityType/CareActivities slice only.",
         "Trend describes direction of change only — not operational cause."
@@ -2539,16 +2822,30 @@ build_csds_profile <- function() {
     ))
   }
 
+  csds_trend_html <- if (isTRUE(trend_assess$available) || isTRUE(trend_clin$available)) {
+    trend_section(
+      list(trend_assess, trend_clin),
+      csds_trend_note,
+      c(
+        "Provisional CSDS monthly data; ActivityType/CareActivities slice only.",
+        "Trend describes direction of change only — not operational cause."
+      )
+    )
+  } else {
+    ""
+  }
+
   supporting_html <- paste0(
     collapsible_details("Supporting tables and charts", key_figures),
     collapsible_details("Additional measure commentary", measure_commentary_section(commentary_cards)),
-    wrap_trend_collapsible(csds_trend_html)
+    wrap_trend_collapsible(csds_window_html),
+    if (nzchar(csds_trend_html)) wrap_trend_collapsible(csds_trend_html) else ""
   )
 
   config <- list(
     question = paste(
-      "Using public CSDS for March 2026, explain community activity measures,",
-      "show descriptive trends where the historic stack supports them,",
+      "Using public CSDS for", latest_month_label, ", explain community activity measures,",
+      "show descriptive six-month trends where the historic stack supports them,",
       "and what a business partner should validate locally."
     ),
     dataset_line = "CSDS Monthly Statistics (RDY provider rows)",
@@ -2560,8 +2857,8 @@ build_csds_profile <- function() {
     ),
     scope = list(
       can = c(
-        "Describe March 2026 community activity totals and key activity types for RDY.",
-        "Show descriptive month-on-month trends for Assessment and Clinical Intervention where the historic stack supports them."
+        paste("Describe", latest_month_label, "community activity totals and key activity types for RDY."),
+        "Show descriptive six-month trends for Assessment and Clinical Intervention where the historic stack supports them."
       ),
       cannot = c(
         "Prove referral demand, waiting times or team performance from public aggregate CSDS.",
@@ -2570,7 +2867,7 @@ build_csds_profile <- function() {
     ),
     headline = c(
       paste0("For ", period, ", care activity totals sum to ", format(total_contacts, big.mark = ","), " in the ActivityType slice."),
-      if (csds_has_trend) "Historic CSDS stack supports descriptive month-on-month comparison for Assessment and Clinical Intervention — not causal conclusions." else "Trend analysis not available from current extract.",
+      if (csds_has_trend) paste0("Historic CSDS stack (", trend_window, ") supports six-month descriptive comparison for Assessment and Clinical Intervention — not causal conclusions.") else "Trend analysis not available from current extract.",
       "Public aggregate CSDS cannot prove referral demand, waiting times or team performance.",
       "Sparse or zero activity in the demo slice needs local coding confirmation."
     ),
@@ -2581,7 +2878,7 @@ build_csds_profile <- function() {
           list(
             title = "Care activities — Assessment",
             body = paste0(
-              "Assessment-type care activities for March 2026: ",
+              "Assessment-type care activities for ", latest_month_label, ": ",
               if (is.na(assess_n)) "—" else format(assess_n, big.mark = ","), ". ",
               csds_trend_line(trend_assess)
             ),
@@ -2614,26 +2911,26 @@ build_csds_profile <- function() {
     ),
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
-      '<li>CSDS (<code>demo_csds_activity.csv</code> — March 2026)</li>',
+      '<li>CSDS (<code>demo_csds_activity.csv</code> — ', esc(latest_month_label), ')</li>',
       if (!is.null(csds_trend)) '<li><code>trend_csds_activity_rdy.csv</code> — historic CareActivities stack</li>' else "",
       '</ul>'
     ),
-    period = period,
+    period = if (csds_has_trend) paste0(trend_window, " (six-month trend); latest month ", latest_month_label) else period,
     trend_available = if (csds_has_trend) {
-      paste0("Yes — ", trend_assess$n_periods %||% trend_clin$n_periods, "-month historic stack for key activity types")
+      paste0("Yes — six-month historic stack (", csds_window_stats[[1]]$n_periods %||% trend_assess$n_periods, " months in trend_csds_activity_rdy.csv)")
     } else {
       "Limited — latest month only or insufficient comparable periods"
     },
     agent_summary = c(
       paste0("For ", period, ", care activity totals sum to ", format(total_contacts, big.mark = ","), " in the ActivityType slice."),
-      if (csds_has_trend) "Historic CSDS stack supports descriptive month-on-month comparison for Assessment and Clinical Intervention — not causal conclusions." else "Trend analysis not available from current extract.",
+      if (csds_has_trend) paste0("Historic CSDS stack (", trend_window, ") supports six-month descriptive comparison for Assessment and Clinical Intervention — not causal conclusions.") else "Trend analysis not available from current extract.",
       "Public aggregate CSDS cannot prove referral demand, waiting times or team performance.",
       "Sparse or zero activity in the demo slice needs local coding confirmation."
     ),
     human_checks = standard_human_checks(),
     verify_intro = verify_intro_short(
       '<li><a href="../public-data/processed/demo_csds_activity.csv">demo_csds_activity.csv</a></li>',
-      "March 2026 values from demo CSV; trend deltas from trend_csds_activity_rdy.csv where cited."
+      paste0("Latest values from trend file where available; demo CSV period ", period, ". Trend deltas from trend_csds_activity_rdy.csv.")
     )
   )
 
@@ -2647,7 +2944,7 @@ build_csds_profile <- function() {
 
   write_public_report("public-community-services-profile.html",
     "Worked example: AI-assisted CSDS community services briefing",
-    "CSDS — RDY community activity (March 2026)", body)
+    paste0("CSDS — RDY community activity (", latest_month_label, ")"), body)
 }
 
 # --- D. Talking Therapies ------------------------------------------------------
@@ -2676,18 +2973,84 @@ build_talking_therapies <- function() {
   wait_rows <- prov[prov$MEASURE_ID %in% c("M019", "M020", "M021"), ]
   wait_total <- sum(to_num(wait_rows$MEASURE_VALUE_SUPPRESSED), na.rm = TRUE)
 
+  tt_trend <- load_tt_trend()
   tt_ts <- load_tt_time_series()
-  ts_file_note <- if (!is.null(tt_ts)) {
+  ts_file_note <- if (!is.null(tt_trend) && nrow(tt_trend) > 0) {
+    "trend_talking_therapies_rdy.csv (or time-series fallback)"
+  } else if (!is.null(tt_ts)) {
     basename(list.files(processed_dir, pattern = "^rdy_talking_therapies.*time_series\\.csv$")[1])
   } else {
-    "No Talking Therapies time-series file in processed/"
+    "No Talking Therapies trend or time-series file in processed/"
   }
+
+  tt_window_stats <- if (!is.null(tt_trend) && nrow(tt_trend) > 0) {
+    build_window_stats(tt_trend, TT_WINDOW_MEASURES, 6L)
+  } else {
+    list()
+  }
+  trend_window <- if (length(tt_window_stats) > 0 && nzchar(tt_window_stats[[1]]$window_start %||% "")) {
+    paste0(tt_window_stats[[1]]$window_start, " \u2013 ", tt_window_stats[[1]]$window_end)
+  } else {
+    period
+  }
+
+  m001_latest <- latest_from_trend(tt_trend, measure_id = "M001")
+  m031_latest <- latest_from_trend(tt_trend, measure_id = "M031")
+  m053_latest <- latest_from_trend(tt_trend, measure_id = "M053")
+  if (!is.null(m001_latest) && !is.na(m001_latest$value)) refs_n <- m001_latest$value
+  if (!is.null(m031_latest) && !is.na(m031_latest$value)) accessing_n <- m031_latest$value
+  if (!is.null(m053_latest) && !is.na(m053_latest$value)) m053_val <- m053_latest$value
 
   trend_m001 <- compute_period_trend(extract_tt_rdy_ts(tt_ts, "M001"), "M001 — referrals received")
   trend_m031 <- compute_period_trend(extract_tt_rdy_ts(tt_ts, "M031"), "M031 — people accessing services")
   trend_m053 <- compute_period_trend(extract_tt_rdy_ts(tt_ts, "M053"), "M053 — % accessing within 6 weeks (finished course)")
+  if (length(tt_window_stats) > 0) {
+    if (isTRUE(tt_window_stats$M001$available)) {
+      trend_m001 <- list(
+        available = TRUE,
+        n_periods = tt_window_stats$M001$n_periods,
+        measure_label = "M001 — referrals received",
+        latest_period = tt_window_stats$M001$latest_period,
+        previous_period = tt_window_stats$M001$previous_period,
+        latest_value = tt_window_stats$M001$latest_value,
+        previous_value = tt_window_stats$M001$previous_value,
+        absolute_change = tt_window_stats$M001$mom_abs,
+        percent_change = tt_window_stats$M001$mom_pct,
+        series = tt_window_stats$M001$series
+      )
+    }
+    if (isTRUE(tt_window_stats$M031$available)) {
+      trend_m031 <- list(
+        available = TRUE,
+        n_periods = tt_window_stats$M031$n_periods,
+        measure_label = "M031 — people accessing services",
+        latest_period = tt_window_stats$M031$latest_period,
+        previous_period = tt_window_stats$M031$previous_period,
+        latest_value = tt_window_stats$M031$latest_value,
+        previous_value = tt_window_stats$M031$previous_value,
+        absolute_change = tt_window_stats$M031$mom_abs,
+        percent_change = tt_window_stats$M031$mom_pct,
+        series = tt_window_stats$M031$series
+      )
+    }
+    if (isTRUE(tt_window_stats$M053$available)) {
+      trend_m053 <- list(
+        available = TRUE,
+        n_periods = tt_window_stats$M053$n_periods,
+        measure_label = "M053 — % accessing within 6 weeks (finished course)",
+        latest_period = tt_window_stats$M053$latest_period,
+        previous_period = tt_window_stats$M053$previous_period,
+        latest_value = tt_window_stats$M053$latest_value,
+        previous_value = tt_window_stats$M053$previous_value,
+        absolute_change = tt_window_stats$M053$mom_abs,
+        percent_change = tt_window_stats$M053$mom_pct,
+        series = tt_window_stats$M053$series
+      )
+    }
+  }
 
   m053_val <- to_num(prov[prov$MEASURE_ID == "M053", "MEASURE_VALUE_SUPPRESSED"][1])
+  if (!is.null(m053_latest) && !is.na(m053_latest$value)) m053_val <- m053_latest$value
 
   trend_line <- function(t) {
     if (isTRUE(t$available)) {
@@ -2829,9 +3192,25 @@ build_talking_therapies <- function() {
     comparator_header = "Previous period / comparator"
   )
 
+  tt_has_window <- length(tt_window_stats) > 0 &&
+    any(vapply(tt_window_stats, function(s) isTRUE(s$available), logical(1)))
+  rising <- if (tt_has_window) vapply(tt_window_stats, function(s) identical(s$trend_reading, "rising"), logical(1)) else logical()
+  falling <- if (tt_has_window) vapply(tt_window_stats, function(s) identical(s$trend_reading, "falling"), logical(1)) else logical()
+
   supporting_html <- paste0(
     collapsible_details("Supporting tables and charts", key_figures),
     collapsible_details("Additional measure commentary", measure_commentary_section(commentary_cards)),
+    if (tt_has_window) {
+      wrap_trend_collapsible(window_stats_section(
+        tt_window_stats,
+        paste0("Six-month IAPT statistics from ", ts_file_note, " (", trend_window, ")."),
+        "Six-month",
+        c(
+          "IAPT monthly statistics are provisional and may revise.",
+          "Trend descriptions are not causal — pathway and recording changes may explain movement."
+        )
+      ))
+    } else "",
     wrap_trend_collapsible(
       trend_section(
         list(trend_m001, trend_m031, trend_m053),
@@ -2866,7 +3245,9 @@ build_talking_therapies <- function() {
       )
     ),
     headline = c(
-      if (!is.na(refs_n)) paste0(format(refs_n, big.mark = ","), " referrals received (M001) for ", period, " — local validation required.") else "M001 referrals not numeric in extract.",
+      if (!is.na(refs_n)) paste0(format(refs_n, big.mark = ","), " referrals received (M001) for ", trend_window, " latest month — local validation required.") else "M001 referrals not numeric in extract.",
+      if (tt_has_window && any(rising)) paste0("Six-month window: rising — ", paste(names(tt_window_stats)[rising], collapse = ", "), ".") else NULL,
+      if (tt_has_window && any(falling)) paste0("Six-month window: falling — ", paste(names(tt_window_stats)[falling], collapse = ", "), ".") else NULL,
       if (!is.na(wait_total)) paste0("Open referral 'no activity' bands total ", format(wait_total, big.mark = ","), " — pathway owner confirmation needed.") else "Waiting bands need local pathway definitions.",
       paste0(n_supp, " suppressed measures — do not infer from missing cells."),
       "Recovery/outcome analysis requires separate definition checks — not included in this access brief."
@@ -2924,20 +3305,24 @@ build_talking_therapies <- function() {
     data_used_html = paste0(
       '<ul class="nhs-list-compact">',
       '<li>NHS Talking Therapies (<code>demo_talking_therapies.csv</code>)</li>',
+      if (tt_has_window) '<li><code>trend_talking_therapies_rdy.csv</code> — six-month access stack</li>' else "",
       if (!is.null(tt_ts)) paste0('<li>Time series (<code>', esc(ts_file_note), '</code>)</li>') else "",
       '</ul>'
     ),
-    period = period,
-    trend_available = if (isTRUE(trend_m001$available)) {
+    period = if (tt_has_window) paste0(trend_window, " (six-month trend); latest month ", period) else period,
+    trend_available = if (tt_has_window) {
+      paste0("Yes — six-month stacked trend (", tt_window_stats[[1]]$n_periods, " months from ", ts_file_note, ")")
+    } else if (isTRUE(trend_m001$available)) {
       paste0("Yes — ", trend_m001$n_periods, "+ months in Provider time series")
     } else {
       "Limited — insufficient periods in extract"
     },
     agent_summary = c(
-      if (!is.na(refs_n)) paste0(format(refs_n, big.mark = ","), " referrals received (M001) for ", period, " — local validation required.") else "M001 referrals not numeric in extract.",
-      if (!is.na(wait_total)) paste0("Open referral 'no activity' bands total ", format(wait_total, big.mark = ","), " — pathway owner confirmation needed.") else "Waiting bands need local pathway definitions.",
-      paste0(n_supp, " suppressed measures — do not infer from missing cells."),
-      "Recovery/outcome analysis requires separate definition checks — not included in this access brief."
+      if (!is.na(refs_n)) paste0(format(refs_n, big.mark = ","), " referrals received (M001) — six-month window ", trend_window, ".") else "M001 referrals not numeric in extract.",
+      if (tt_has_window && any(rising)) paste0("Rising over six months: ", paste(names(tt_window_stats)[rising], collapse = ", "), ".") else NULL,
+      if (tt_has_window && any(falling)) paste0("Falling over six months: ", paste(names(tt_window_stats)[falling], collapse = ", "), ".") else NULL,
+      if (!is.na(wait_total)) paste0("Open referral 'no activity' bands total ", format(wait_total, big.mark = ","), ".") else NULL,
+      paste0(n_supp, " suppressed measures — do not infer from missing cells.")
     ),
     human_checks = standard_human_checks(),
     verify_intro = verify_intro_short(
@@ -2946,9 +3331,12 @@ build_talking_therapies <- function() {
     )
   )
 
+  config$headline <- config$headline[!vapply(config$headline, is.null, logical(1))]
+  config$agent_summary <- config$agent_summary[!vapply(config$agent_summary, is.null, logical(1))]
+
   verify_body <- traceability_verify_body(
-    "See linked demo CSV and filter notes.",
-    c("demo_talking_therapies.csv", if (!is.null(tt_ts)) ts_file_note else NULL),
+    "See linked demo CSV and trend/time-series files.",
+    c("demo_talking_therapies.csv", if (tt_has_window) "trend_talking_therapies_rdy.csv" else NULL, if (!is.null(tt_ts)) ts_file_note else NULL),
     "talking_therapies"
   )
 
@@ -2956,7 +3344,7 @@ build_talking_therapies <- function() {
 
   write_public_report("public-talking-therapies-profile.html",
     "Worked example: AI-assisted Talking Therapies public-data briefing",
-    "IAPT monthly activity — RDY (April 2026)", body)
+    paste0("IAPT six-month access brief — ", if (tt_has_window) trend_window else period), body)
 }
 
 # --- E. Assurance profile ----------------------------------------------------
@@ -3325,7 +3713,7 @@ build_assurance_profile <- function() {
       '<li>CQC context note (regulatory background only)</li></ul>'
     ),
     period = "KO41a 2024-25; ERIC 2024/25; DSPT public history; FFT/CQC as noted.",
-    trend_available = if (dspt_n >= 2) "Descriptive DSPT history only — not numeric performance trend" else "Annual snapshots only",
+    trend_available = if (dspt_n >= 2) "Descriptive DSPT history only — not numeric performance trend" else "Annual snapshots only — KO41a/ERIC/FFT cannot support six-month numeric trends",
     agent_summary = c(
       "Public data confirms RDY participation in KO41a complaints and ERIC estates returns.",
       paste0("Latest DSPT public assessment: ", dspt_latest, " — annual assurance label, not operational IG detail."),
@@ -3388,18 +3776,6 @@ build_urgent_diagnostics <- function() {
     }
   }
 
-  source_check <- data.frame(
-    Source = c("A&E monthly provider", "DM01 diagnostics", "KH03 overnight beds"),
-    RDY_present = c(!is.null(ae), !is.null(dm01), !is.null(kh03)),
-    Notes = c(
-      if (!is.null(ae)) paste0("Other emergency admissions: ", if (is.na(ae_other_adm)) "?" else ae_other_adm, "; 0 Type 1/2 A&E attendances") else "Extract not found",
-      if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for RDY (Mar 2026)") else "Extract not found",
-      if (!is.null(kh03)) paste0(nrow(kh03), " bed rows — latest snapshot from historic pipeline") else "Extract not found"
-    ),
-    stringsAsFactors = FALSE
-  )
-  source_check$RDY_present <- ifelse(source_check$RDY_present, "Yes", "No")
-
   dm01_summary <- NULL
   dm01_top_test <- "n/a"
   trend_dm01_activity <- list(available = FALSE, n_periods = 0L)
@@ -3449,13 +3825,76 @@ build_urgent_diagnostics <- function() {
     label = "KH03 — Mental illness overnight beds (recent snapshots)"
   )
 
-  urgent_has_ae_dm01_trend <- isTRUE(trend_ae_other$available) || isTRUE(trend_dm01_activity$available)
+  ae_latest_period <- if (isTRUE(trend_ae_other$available)) trend_ae_other$latest_period else "latest A&E extract"
+  dm01_latest <- latest_from_trend(dm01_trend, measure_name = dm01_top_test)
+  if (!is.null(dm01_latest) && !is.na(dm01_latest$value)) dm01_mar_activity <- dm01_latest$value
+  dm01_latest_period <- if (!is.null(dm01_latest)) dm01_latest$period else if (isTRUE(trend_dm01_activity$available)) trend_dm01_activity$latest_period else "latest DM01 extract"
+
+  dm01_window_spec <- setNames(
+    list(list(
+      measure_name = dm01_top_test,
+      label = paste0("DM01 — ", dm01_top_test, " total activity"),
+      note = "Provisional DM01 monthly diagnostics; audiology may dominate activity counts."
+    )),
+    "dm01_top"
+  )
+  dm01_window_stats <- if (!is.null(dm01_trend) && dm01_top_test != "n/a") {
+    build_window_stats(dm01_trend, dm01_window_spec, 6L)
+  } else {
+    list()
+  }
+  ae_window_spec <- list(
+    other_adm = list(
+      measure_id = "OTHER_EM_ADM",
+      label = "A&E — other emergency admissions (source validation)",
+      note = "Source validation only — small counts need service-owner confirmation."
+    )
+  )
+  ae_window_stats <- if (!is.null(ae_trend)) build_window_stats(ae_trend, ae_window_spec, 6L) else list()
+  dm01_trend_window <- if (length(dm01_window_stats) > 0 && nzchar(dm01_window_stats[[1]]$window_start %||% "")) {
+    paste0(dm01_window_stats[[1]]$window_start, " \u2013 ", dm01_window_stats[[1]]$window_end)
+  } else if (isTRUE(trend_dm01_activity$available)) {
+    paste0(trend_dm01_activity$previous_period, " to ", trend_dm01_activity$latest_period)
+  } else {
+    dm01_latest_period
+  }
+  ae_trend_window <- if (length(ae_window_stats) > 0 && nzchar(ae_window_stats[[1]]$window_start %||% "")) {
+    paste0(ae_window_stats[[1]]$window_start, " \u2013 ", ae_window_stats[[1]]$window_end)
+  } else if (isTRUE(trend_ae_other$available)) {
+    paste0(trend_ae_other$n_periods, " months in trend_ae_rdy.csv")
+  } else {
+    ae_latest_period
+  }
+  kh03_stale_note <- if (isTRUE(kh03_trend$available)) {
+    paste0(
+      "Public KH03 overnight CSV snapshots span ", kh03_trend$n_periods,
+      " quarters (", kh03_trend$previous_period, " to ", kh03_trend$latest_period,
+      ") — may lag monthly A&E/DM01 publication dates."
+    )
+  } else {
+    "KH03 quarterly trend not available from current extract."
+  }
+
+  urgent_has_ae_dm01_trend <- isTRUE(trend_ae_other$available) || isTRUE(trend_dm01_activity$available) ||
+    any(vapply(dm01_window_stats, function(s) isTRUE(s$available), logical(1)))
+
+  source_check <- data.frame(
+    Source = c("A&E monthly provider", "DM01 diagnostics", "KH03 overnight beds"),
+    RDY_present = c(!is.null(ae), !is.null(dm01), !is.null(kh03)),
+    Notes = c(
+      if (!is.null(ae)) paste0("Other emergency admissions: ", if (is.na(ae_other_adm)) "?" else ae_other_adm, "; 0 Type 1/2 A&E attendances") else "Extract not found",
+      if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for RDY (", dm01_latest_period, ")") else "Extract not found",
+      if (!is.null(kh03)) paste0(nrow(kh03), " bed rows — latest snapshot from historic pipeline") else "Extract not found"
+    ),
+    stringsAsFactors = FALSE
+  )
+  source_check$RDY_present <- ifelse(source_check$RDY_present, "Yes", "No")
 
   urgent_kfe_specs <- list(
     list(
       figure = "A&E — RDY row and Type 1/2 attendances",
       what = "Monthly A&E provider statistics confirming RDY appears in the public file; Type 1 and Type 2 attendance columns.",
-      latest = paste0("RDY present; Type 1/2 A&E attendances = 0 (May 2026 extract)"),
+      latest = paste0("RDY present; Type 1/2 A&E attendances = 0 (", ae_latest_period, " extract)"),
       comparator_type = "validation_only",
       comparator_detail = "Source validation — RDY does not operate a Type 1/2 emergency department.",
       trend = trend_ae_type12,
@@ -3468,7 +3907,7 @@ build_urgent_diagnostics <- function() {
     list(
       figure = "A&E — Other emergency admissions",
       what = "Count of other emergency admissions recorded in the monthly A&E provider file for RDY.",
-      latest = if (!is.na(ae_other_adm)) paste0(ae_other_adm, " (May 2026)") else "See A&E extract",
+      latest = if (!is.na(ae_other_adm)) paste0(ae_other_adm, " (", ae_latest_period, ")") else "See A&E extract",
       comparator_type = "previous_period",
       comparator_detail = if (isTRUE(trend_ae_other$available)) {
         paste0(
@@ -3490,7 +3929,7 @@ build_urgent_diagnostics <- function() {
     list(
       figure = paste0("DM01 — ", dm01_top_test, " total activity"),
       what = "Monthly diagnostic waiting list and activity by test type/modality for RDY as provider.",
-      latest = if (!is.na(dm01_mar_activity)) paste0(format(dm01_mar_activity, big.mark = ","), " (Mar 2026)") else paste0("See DM01 extract — top test: ", dm01_top_test),
+      latest = if (!is.na(dm01_mar_activity)) paste0(format(dm01_mar_activity, big.mark = ","), " (", dm01_latest_period, ")") else paste0("See DM01 extract — top test: ", dm01_top_test),
       comparator_type = "previous_period",
       comparator_detail = if (isTRUE(trend_dm01_activity$available)) {
         paste0(
@@ -3524,7 +3963,7 @@ build_urgent_diagnostics <- function() {
       },
       trend = kh03_trend,
       polarity = "unknown",
-      interpretation = "KH03 trend uses recent quarterly snapshots only — not mixed with pre-2023 raw history unless clearly labelled.",
+      interpretation = paste0(kh03_stale_note, " Not mixed with pre-2023 raw history unless clearly labelled."),
       human_check = short_human_check("Bed management/estates lead to confirm latest KH03 quarter and alignment with internal bed state.")
     )
   )
@@ -3563,7 +4002,7 @@ build_urgent_diagnostics <- function() {
     list(value = if (!is.null(ae)) "Yes" else "No", label = "RDY in A&E file"),
     list(value = if (!is.null(dm01)) nrow(dm01) else 0, label = "DM01 RDY rows"),
     list(value = if (!is.null(kh03)) nrow(kh03) else 0, label = "KH03 RDY rows"),
-    list(value = "Mar 2026", label = "DM01 period")
+    list(value = dm01_latest_period, label = "DM01 latest period")
   )
 
   key_figures <- paste0(
@@ -3605,7 +4044,7 @@ build_urgent_diagnostics <- function() {
       )
     ),
     build_commentary_card(
-      "DM01 — Diagnostic tests (March 2026)",
+      paste0("DM01 — Diagnostic tests (", dm01_latest_period, ")"),
       "Review locally", "review",
       list(
         "Plain-English meaning" = "Monthly diagnostic waiting list and activity by test type for RDY as provider.",
@@ -3648,7 +4087,7 @@ build_urgent_diagnostics <- function() {
           "Insufficient comparable snapshots for trend in current slice."
         },
         "Agent flag" = if (isTRUE(kh03_trend$available)) "Watch / clarify" else "Trend not available",
-        "Cautious interpretation" = "KH03 trend uses recent quarterly snapshots only (script 05) — not the full 2007–2024 raw history mixed in older demo files.",
+        "Cautious interpretation" = kh03_stale_note,
         "Human check required" = "Bed management/ estates lead to confirm latest KH03 quarter and alignment with internal bed state."
       )
     )
@@ -3690,9 +4129,32 @@ build_urgent_diagnostics <- function() {
     ))
   }
 
+  urgent_window_stats <- c(
+    if (length(ae_window_stats) > 0) ae_window_stats else list(),
+    if (length(dm01_window_stats) > 0) dm01_window_stats else list()
+  )
+  urgent_window_html <- if (length(urgent_window_stats) > 0 &&
+      any(vapply(urgent_window_stats, function(s) isTRUE(s$available), logical(1)))) {
+    window_stats_section(
+      urgent_window_stats,
+      paste0(
+        "Six-month descriptive trends from trend_ae_rdy.csv (", ae_trend_window,
+        ") and trend_dm01_rdy.csv (", dm01_trend_window, ")."
+      ),
+      "Six-month",
+      c(
+        "A&E trends are source validation only — zero Type 1/2 ED attendances expected at RDY.",
+        "DM01 provisional monthly data — validate with diagnostics service owner."
+      )
+    )
+  } else {
+    ""
+  }
+
   supporting_html <- paste0(
     collapsible_details("Source presence tables and charts", key_figures),
     collapsible_details("Additional source commentary", theme_commentary_section(commentary_cards)),
+    if (nzchar(urgent_window_html)) wrap_trend_collapsible(urgent_window_html, "Six-month trend summary") else "",
     wrap_trend_collapsible(ae_dm01_trend, "A&E and DM01 trend detail"),
     wrap_trend_collapsible(kh03_trend_html, "KH03 bed snapshot trend detail")
   )
@@ -3736,8 +4198,8 @@ build_urgent_diagnostics <- function() {
         "RDY appears in public A&E, DM01 and KH03 files — interpretation needs service-owner confirmation.",
         if (ae_ed_zero) " A&E shows zero Type 1/2 ED attendances (expected for RDY service model)." else ""
       ),
-      if (!is.null(dm01)) paste0("DM01: ", nrow(dm01), " test rows for March 2026 — ", dm01_top_test, " has highest activity in extract.") else "DM01 extract not summarised.",
-      if (isTRUE(kh03_trend$available)) paste0("KH03: ", kh03_trend$n_periods, " mental illness snapshots — verify latest quarter on NHS England site.") else "KH03: confirm latest quarter before capacity discussions.",
+      if (!is.null(dm01)) paste0("DM01: ", nrow(dm01), " test rows for ", dm01_latest_period, " — ", dm01_top_test, " has highest activity; six-month window ", dm01_trend_window, ".") else "DM01 extract not summarised.",
+      if (isTRUE(kh03_trend$available)) paste0("KH03: ", kh03_stale_note) else "KH03: confirm latest quarter before capacity discussions.",
       "This brief validates source presence — it does not prove urgent care or diagnostic performance standing."
     ),
     grouped_findings = list(
@@ -3747,7 +4209,7 @@ build_urgent_diagnostics <- function() {
           list(
             title = "A&E — RDY row and zero Type 1/2 attendances",
             body = paste0(
-              "RDY row present in May 2026 A&E extract. Type 1/2 attendances = 0 — expected for RDY service model.",
+              "RDY row present in ", ae_latest_period, " A&E extract. Type 1/2 attendances = 0 — expected for RDY service model.",
               if (!is.na(ae_other_adm)) paste0(" Other emergency admissions: ", ae_other_adm, ".") else ""
             ),
             owner = "Urgent/emergency care lead to confirm service model and A&E return coding."
@@ -3760,7 +4222,7 @@ build_urgent_diagnostics <- function() {
           list(
             title = paste0("DM01 — ", dm01_top_test),
             body = paste0(
-              if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for March 2026. ") else "",
+              if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for ", dm01_latest_period, ". ") else "",
               if (!is.na(dm01_mar_activity)) paste0("Top test activity: ", format(dm01_mar_activity, big.mark = ","), ". ") else "",
               "Audiology/community diagnostics may dominate — local validation required."
             ),
@@ -3795,9 +4257,9 @@ build_urgent_diagnostics <- function() {
       if (!is.null(dm01_trend)) '<li><code>trend_dm01_rdy.csv</code></li>' else "",
       '</ul>'
     ),
-    period = "A&E May 2026; DM01 March 2026; KH03 quarterly snapshots to Jun 2024 in trend file.",
+    period = paste0("A&E ", ae_trend_window, "; DM01 ", dm01_trend_window, "; KH03 quarterly snapshots (", if (isTRUE(kh03_trend$available)) paste0(kh03_trend$previous_period, " to ", kh03_trend$latest_period) else "see trend file", ")."),
     trend_available = if (urgent_has_ae_dm01_trend || isTRUE(kh03_trend$available)) {
-      "Yes — descriptive A&E/DM01 and/or KH03 snapshot trends where stacked files exist"
+      paste0("Yes — six-month A&E/DM01 stacks where available; KH03 quarterly snapshots (", kh03_stale_note, ")")
     } else {
       "Limited — source validation only for some sources"
     },
@@ -3806,8 +4268,8 @@ build_urgent_diagnostics <- function() {
         "RDY appears in public A&E, DM01 and KH03 files — interpretation needs service-owner confirmation.",
         if (ae_ed_zero) " A&E shows zero Type 1/2 ED attendances (expected for RDY service model)." else ""
       ),
-      if (!is.null(dm01)) paste0("DM01: ", nrow(dm01), " test rows for March 2026 — ", dm01_top_test, " has highest activity in extract.") else "DM01 extract not summarised.",
-      if (isTRUE(kh03_trend$available)) paste0("KH03: ", kh03_trend$n_periods, " mental illness snapshots — verify latest quarter on NHS England site.") else "KH03: confirm latest quarter before capacity discussions.",
+      if (!is.null(dm01)) paste0("DM01: ", nrow(dm01), " test rows for ", dm01_latest_period, " — ", dm01_top_test, " has highest activity; six-month window ", dm01_trend_window, ".") else "DM01 extract not summarised.",
+      if (isTRUE(kh03_trend$available)) paste0("KH03: ", kh03_stale_note) else "KH03: confirm latest quarter before capacity discussions.",
       "This brief validates source presence — it does not prove urgent care or diagnostic performance standing."
     ),
     human_checks = standard_human_checks(list(

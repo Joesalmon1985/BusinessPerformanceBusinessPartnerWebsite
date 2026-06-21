@@ -1,6 +1,25 @@
 {
   "eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv": {
     "file": "eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv",
-    "error": "input string 1 is invalid UTF-8"
+    "type": "csv",
+    "size_bytes": 73087,
+    "columns": null,
+    "row_count": 207,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Trust Code": 1
+      },
+      "name_matches": {
+        "Trust Name": 1
+      },
+      "rdy_any": {
+        "Trust Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 207,
+      "search_method": "full_file"
+    }
   }
 }

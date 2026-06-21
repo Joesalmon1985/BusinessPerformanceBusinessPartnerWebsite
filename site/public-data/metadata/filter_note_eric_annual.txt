@@ -1,5 +1,14 @@
-Filter note: eric_annual
-RDY matching rows: 1
-Output: processed/rdy_eric_annual_trust_data.csv
+Filter note: eric_annual - eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data
+Generated: 2026-06-21 21:09:55.46708
+Publication period: 2024/25
 
-DISCLAIMER: Public-data demonstration output.
+Input rows: 207
+RDY matching rows: 1
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_eric_annual_eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv
+Columns: Trust Code; Trust Name; Commissioning Region; Trust Type; Number of sites - General acute hospital (No.); Number of sites - Specialist hospital (acute only) (No.); Number of sites - Mixed service hospital (No.); Number of sites - Mental Health (including Specialist services) (No.); Number of sites - Learning Disabilities (No.); Number of sites - Mental Health and Learning Disabilities (No.); Number of sites - Community hospital (with inpatient beds) (No.); Number of sites - Other inpatient (No.); Number of sites - Non inpatient (No.); Number of sites - Support facilities (No.); Number of sites - Unoccupied (No.); Total number of sites (No.); Sites included above that are unreported (No.); Sites leased from NHS Property Services (No.); Sites occupied without charges (No.); Estates Development Strategy (Yes/No); Energy managers (WTE)u; Does the trust have a waste reuse scheme (Yes/No); Waste re-use scheme - Cost savings (£); Waste re-use scheme - Carbon savings (Tonnes CO2e); Waste managers (WTE); WEEE waste cost (£); WEEE waste weight (Tonnes); Estates and Facilities staff employed by an NHS wholly owned subsidiary company (WTE); Estates and facilities staff enrolled on an apprenticeship programme (No.); Capital investment for new build (£); Capital investment for changing/improving existing buildings (£); Capital investment for maintaining (lifecycle) existing buildings (£); Capital investment for equipment (£); Private sector funding investment (£); Public sector funding investment (£); Charity and/or grant investment (£); Number of energy efficient schemes (No); Energy efficient schemes costs (£); Carbon savings from investment in energy efficient schemes (Tonnes CO2e); Contribution to costs from areas leased out for retail sales (£); Contribution to costs from non NHS organisations (£); Contribution to costs from NHS organisations (£); Contribution to costs from local authorities (£); Income from car parking - patients and visitors (£); Income from car parking - staff (£); Total contributions (£); Fires recorded (No.); False alarms - No call out (No.); False alarms - Call out (No.); Deaths resulting from fires (No.); Injuries resulting from fires (No.); Patients sustaining injuries during evacuation (No.); Medical Records cost - Onsite (£); Medical Records cost - Offsite (£); Type of Medical Records (Select); Medical Records service provision (Select)
+
+Caveats: Annual estates; check amendments file for revisions
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

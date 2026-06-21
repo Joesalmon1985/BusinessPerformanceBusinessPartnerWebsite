@@ -1,0 +1,4 @@
+NOF RDY headline metrics trend — generated 2026-06-21 21:43:32.226585
+Metrics: OF0005, OF0057, OF0016, OF0086
+Quarters: q4_2025_26, nhs-oversight-framework-mental-health-and-community-trust-data.csv, nhs-oversight-framework-mental-health-and-community-trust-data
+Quarterly NOF league table; Value only — median/rank remain in latest-quarter snapshot.

@@ -189,7 +189,7 @@ if (!skip_non_mhsds()) historic_results$ae_monthly <- tryCatch({
 
 if (!skip_non_mhsds()) historic_results$dm01_monthly <- tryCatch({
   append_log(root, "dm01_monthly: starting historic download")
-  zips <- discover_dm01_monthly_zips(MAX_MONTHS)
+  zips <- discover_dm01_monthly_zips(MAX_MONTHS, root = root)
   existing_full <- list.files(
     file.path(root, "raw"),
     pattern = "dm01.*full-extract.*\\.zip$",
@@ -218,9 +218,14 @@ if (!skip_non_mhsds()) historic_results$dm01_monthly <- tryCatch({
 
   for (i in seq_len(max(0L, nrow(zips)))) {
     slug <- gsub("[^a-zA-Z0-9._-]+", "_", zips$name[i])
-    dest <- raw_dest_path(root, "dm01_monthly", slug, zips$name[i])
-    res <- safe_download(zips$href[i], dest)
-    if (res$ok) raw_paths <- c(raw_paths, dest)
+    is_local <- grepl("^/", zips$href[i]) || grepl("^\\\\", zips$href[i])
+    if (is_local) {
+      dest <- zips$href[i]
+    } else {
+      dest <- raw_dest_path(root, "dm01_monthly", slug, zips$name[i])
+      res <- safe_download(zips$href[i], dest)
+      if (res$ok) raw_paths <- c(raw_paths, dest)
+    }
   }
 
   for (dest in unique(c(existing_full, raw_paths))) {
@@ -292,12 +297,14 @@ if (!skip_non_mhsds()) historic_results$kh03_quarterly <- tryCatch({
     if (res$ok) raw_paths <- c(raw_paths, dest)
   }
 
-  # Also use existing raw/processed KH03 files
+  # Also use existing raw/processed KH03 files — prefer latest_quarter over historic
   existing <- c(
+    list.files(file.path(root, "raw"), pattern = "^kh03_quarterly_latest_quarter_.*\\.csv$", full.names = TRUE),
     list_raw_files(root, "kh03_quarterly"),
     list.files(file.path(root, "processed"), pattern = "^rdy_kh03.*Available.*\\.csv$", full.names = TRUE)
   )
   existing <- unique(existing[file.exists(existing)])
+  existing <- existing[order(grepl("latest_quarter", basename(existing), ignore.case = TRUE), decreasing = TRUE)]
 
   all_long <- list()
   for (f in unique(c(raw_paths, existing))) {
@@ -342,12 +349,21 @@ if (!skip_non_mhsds()) historic_results$kh03_quarterly <- tryCatch({
       if (n_periods >= 2) {
         write_trend_csv(
           root, "trend_kh03_beds_rdy.csv", recent_df[, TREND_STANDARD_COLS, drop = FALSE],
-          metadata_note = c(
-            paste("KH03 recent snapshots for RDY — generated", Sys.time()),
-            "Excludes pre-2020 rows from trend; full raw NHS file may contain older dates.",
-            paste("Latest snapshot date:", format(latest_date, "%d/%m/%Y")),
-            "Not current operational capacity without local bed management confirmation."
-          )
+        metadata_note = c(
+          paste("KH03 recent snapshots for RDY — generated", Sys.time()),
+          "Excludes pre-2020 rows from trend; full raw NHS file may contain older dates.",
+          paste("Latest snapshot date:", format(latest_date, "%d/%m/%Y")),
+          if (latest_date < Sys.Date() - 365) {
+            paste(
+              "CAUTION: public KH03 overnight CSV latest snapshot is",
+              format(latest_date, "%b %Y"),
+              "— verify NHS England publication page for newer quarters."
+            )
+          } else {
+            NULL
+          },
+          "Not current operational capacity without local bed management confirmation."
+        )
         )
         trend_file <- "trend_kh03_beds_rdy.csv"
         trend_avail <- "yes"
@@ -660,6 +676,175 @@ historic_results$mhsds_monthly <- tryCatch({
     "", paste("Error:", conditionMessage(e))
   ), file.path(root, "metadata", "mhsds_trend_gap_note.md"))
   update_historic_row(root, "mhsds_monthly", list(
+    historic_download_attempted = "yes", trend_available = "no",
+    manual_download_needed = "yes", last_run_date = run_date,
+    trend_caveats = conditionMessage(e)
+  ))
+  list(ok = FALSE, error = conditionMessage(e))
+})
+
+# --- 7. NOF quarterly history --------------------------------------------------
+
+if (!skip_non_mhsds()) historic_results$nof_quarterly <- tryCatch({
+  append_log(root, "nof_quarterly: stacking NOF MH/community quarters")
+  quarters <- discover_nof_quarter_csvs(root, max_quarters = 4L)
+  raw_paths <- character()
+  stacked <- list()
+  periods_ok <- character()
+
+  for (i in seq_len(nrow(quarters))) {
+    slug <- quarters$slug[i]
+    href <- quarters$href[i]
+    is_local <- grepl("^/", href) || !grepl("^https?://", href)
+    if (is_local) {
+      dest <- href
+    } else {
+      dest <- raw_dest_path(root, "nof_mh_community", slug, basename(href))
+      if (!file.exists(dest)) {
+        res <- safe_download(href, dest)
+        if (res$ok) raw_paths <- c(raw_paths, dest)
+      } else {
+        raw_paths <- c(raw_paths, dest)
+      }
+    }
+    if (!file.exists(dest)) next
+    df <- read_tabular_historic(dest)
+    part <- stack_nof_rdy(df, slug, dest)
+    if (!is.null(part) && nrow(part) > 0) {
+      stacked[[length(stacked) + 1]] <- part
+      periods_ok <- c(periods_ok, slug)
+    }
+  }
+
+  trend_df <- if (length(stacked) > 0) do.call(rbind, stacked) else NULL
+  if (!is.null(trend_df) && nrow(trend_df) > 0) {
+    trend_df <- trend_df[order(trend_df$source_file, decreasing = TRUE), , drop = FALSE]
+    trend_df <- trend_df[!duplicated(trend_df[, c("measure_id", "reporting_period_start"), drop = FALSE]), , drop = FALSE]
+  }
+  trend_file <- ""
+  n_periods <- count_distinct_periods(trend_df, "reporting_period_start")
+  trend_avail <- if (n_periods >= 2) "yes" else "no"
+
+  if (!is.null(trend_df) && nrow(trend_df) > 0) {
+    write_trend_csv(
+      root, "trend_nof_rdy.csv", trend_df,
+      metadata_note = c(
+        paste("NOF RDY headline metrics trend — generated", Sys.time()),
+        paste("Metrics:", paste(NOF_TREND_METRICS, collapse = ", ")),
+        paste("Quarters:", paste(unique(periods_ok), collapse = ", ")),
+        "Quarterly NOF league table; Value only — median/rank remain in latest-quarter snapshot."
+      )
+    )
+    trend_file <- "trend_nof_rdy.csv"
+  }
+
+  update_historic_row(root, "nof_quarterly", list(
+    historic_download_attempted = "yes",
+    historic_periods_downloaded = paste(unique(periods_ok), collapse = "; "),
+    historic_raw_files = paste(raw_paths, collapse = "; "),
+    historic_trend_file = trend_file,
+    trend_available = trend_avail,
+    trend_periods_count = as.character(n_periods),
+    rdy_rows_stacked = as.character(if (is.null(trend_df)) 0 else nrow(trend_df)),
+    trend_caveats = "Quarterly NOF; metric definitions may vary by reporting_date within quarter.",
+    manual_download_needed = if (n_periods < 2) "yes" else "no",
+    last_run_date = run_date
+  ))
+  append_log(root, paste("nof_quarterly: done — periods", n_periods))
+  list(ok = TRUE, periods = n_periods)
+}, error = function(e) {
+  append_log(root, paste("nof_quarterly ERROR:", conditionMessage(e)))
+  update_historic_row(root, "nof_quarterly", list(
+    historic_download_attempted = "yes", trend_available = "no",
+    manual_download_needed = "yes", last_run_date = run_date,
+    trend_caveats = conditionMessage(e)
+  ))
+  list(ok = FALSE, error = conditionMessage(e))
+})
+
+# --- 8. Talking Therapies monthly history --------------------------------------
+
+if (!skip_non_mhsds()) historic_results$talking_therapies_monthly <- tryCatch({
+  append_log(root, "talking_therapies_monthly: stacking IAPT access measures")
+  index <- paste0(
+    "https://digital.nhs.uk/data-and-information/publications/statistical/",
+    "nhs-talking-therapies-monthly-statistics-including-employment-advisors"
+  )
+  months <- discover_talking_therapies_month_pages(index, MAX_MONTHS)
+  raw_paths <- character()
+  stacked <- list()
+  periods_ok <- character()
+
+  if (nrow(months) > 0) {
+    for (i in seq_len(nrow(months))) {
+      slug <- months$slug[i]
+      csv_url <- find_tt_activity_csv(months$href[i])
+      if (is.null(csv_url)) {
+        append_log(root, paste("talking_therapies_monthly: no activity CSV for", slug))
+        next
+      }
+      dest <- raw_dest_path(root, "talking_therapies", slug, "activity.csv")
+      if (!file.exists(dest)) {
+        res <- safe_download(csv_url, dest)
+        if (res$ok) raw_paths <- c(raw_paths, dest)
+      } else {
+        raw_paths <- c(raw_paths, dest)
+      }
+      if (!file.exists(dest)) next
+      df <- read_tabular_historic(dest)
+      part <- stack_tt_activity_rdy(df, slug, dest)
+      if (!is.null(part) && nrow(part) > 0) {
+        stacked[[length(stacked) + 1]] <- part
+        periods_ok <- c(periods_ok, slug)
+      }
+    }
+  }
+
+  trend_df <- if (length(stacked) > 0) do.call(rbind, stacked) else NULL
+
+  if (is.null(trend_df) || nrow(trend_df) == 0 ||
+      count_distinct_periods(trend_df) < 2L) {
+    append_log(root, "talking_therapies_monthly: falling back to processed time-series file")
+    trend_df <- stack_tt_from_processed_time_series(root, window_months = MAX_MONTHS)
+    if (!is.null(trend_df) && nrow(trend_df) > 0) {
+      periods_ok <- unique(trend_df$publication_period)
+    }
+  }
+
+  trend_file <- ""
+  n_periods <- count_distinct_periods(trend_df)
+  trend_avail <- if (n_periods >= 2) "yes" else "no"
+
+  if (!is.null(trend_df) && nrow(trend_df) > 0 && n_periods >= 2) {
+    write_trend_csv(
+      root, "trend_talking_therapies_rdy.csv", trend_df,
+      metadata_note = c(
+        paste("Talking Therapies RDY access trend — generated", Sys.time()),
+        paste("Measures:", paste(TT_TREND_MEASURES, collapse = ", ")),
+        paste("Periods:", length(unique(trend_df$reporting_period_start)), "distinct months"),
+        "Provisional IAPT monthly data; Provider/RDY rows only."
+      )
+    )
+    trend_file <- "trend_talking_therapies_rdy.csv"
+  }
+
+  update_historic_row(root, "talking_therapies_monthly", list(
+    historic_download_attempted = "yes",
+    historic_periods_downloaded = paste(unique(periods_ok), collapse = "; "),
+    historic_raw_files = paste(raw_paths, collapse = "; "),
+    historic_trend_file = trend_file,
+    trend_available = trend_avail,
+    trend_periods_count = as.character(n_periods),
+    rdy_rows_stacked = as.character(if (is.null(trend_df)) 0 else nrow(trend_df)),
+    trend_caveats = "Provisional IAPT; M053 denominator is finished-course cohort.",
+    manual_download_needed = if (n_periods < 2) "yes" else "no",
+    last_run_date = run_date
+  ))
+  append_log(root, paste("talking_therapies_monthly: done — periods", n_periods))
+  list(ok = TRUE, periods = n_periods)
+}, error = function(e) {
+  append_log(root, paste("talking_therapies_monthly ERROR:", conditionMessage(e)))
+  update_historic_row(root, "talking_therapies_monthly", list(
     historic_download_attempted = "yes", trend_available = "no",
     manual_download_needed = "yes", last_run_date = run_date,
     trend_caveats = conditionMessage(e)

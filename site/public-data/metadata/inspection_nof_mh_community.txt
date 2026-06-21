@@ -1,5 +1,5 @@
 Inspection report: nof_mh_community
-Generated: 2026-06-21 16:49:56.904703
+Generated: 2026-06-21 20:55:43.729204
 Files inspected: 2
 
 --- nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv ---

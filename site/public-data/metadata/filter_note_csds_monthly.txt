@@ -1,12 +1,12 @@
-Filter note: csds_monthly - csds_monthly_march-2026_data_quality
-Generated: 2026-06-21 17:00:15.842319
+Filter note: csds_monthly - csds_monthly_september-2025_csds_data_csds-sep25-exp-core-data
+Generated: 2026-06-21 21:09:05.78246
 Publication period: march-2026
 
-Input rows: 53776
-RDY matching rows: 266
+Input rows: 276464
+RDY matching rows: 581
 
-Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_csds_monthly_csds_monthly_march-2026_data_quality.csv
-Columns: ReportingPeriodStartDate; ReportingPeriodEndDate; Org_Code; DataTable; UID; DataItem; Valid; Default; Invalid; Missing; Denominator
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_csds_monthly_csds_monthly_september-2025_csds_data_csds-sep25-exp-core-data.csv
+Columns: REPORTING_PERIOD_START; REPORTING_PERIOD_END; ORG_CODE; ORG_NAME; ORG_LEVEL; DIMENSION; COUNT_OF; MEASURE; MEASURE_DESC; MEASURE_2; MEASURE_2_DESC; MEASURE_VALUE; MEASURE_VALUE_0_18; MEASURE_VALUE_19_64; MEASURE_VALUE_65_PLUS
 
 Caveats: Provisional monthly data; data quality file should be reviewed
 

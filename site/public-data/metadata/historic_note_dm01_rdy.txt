@@ -1,2 +1,2 @@
-DM01 RDY diagnostics trend — generated 2026-06-21 18:45:02.190934
+DM01 RDY diagnostics trend — generated 2026-06-21 21:41:33.021047
 Provisional monthly data; validate with diagnostics service owner.

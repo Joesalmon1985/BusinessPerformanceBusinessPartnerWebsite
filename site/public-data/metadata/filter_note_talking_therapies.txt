@@ -1,5 +1,5 @@
 Filter note: talking_therapies - talking_therapies_performance-april-2026_time_series
-Generated: 2026-06-21 17:00:20.544973
+Generated: 2026-06-21 21:09:12.243651
 Publication period: performance-april-2026
 
 Input rows: 181522

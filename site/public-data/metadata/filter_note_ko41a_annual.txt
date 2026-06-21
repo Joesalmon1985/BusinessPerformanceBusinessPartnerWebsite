@@ -1,5 +1,5 @@
 Filter note: ko41a_annual - ko41a_annual_2024_25_ko41a_2024_25_Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Site Level
-Generated: 2026-06-21 17:00:29.686254
+Generated: 2026-06-21 21:09:55.431284
 Publication period: 2024-25
 
 Input rows: 2869

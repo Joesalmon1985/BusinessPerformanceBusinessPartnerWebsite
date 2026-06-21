@@ -1,5 +1,5 @@
 Filter note: nof_mh_community - nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table
-Generated: 2026-06-21 16:58:24.334955
+Generated: 2026-06-21 21:03:57.668087
 Publication period: Q4 2025/26
 
 Input rows: 61

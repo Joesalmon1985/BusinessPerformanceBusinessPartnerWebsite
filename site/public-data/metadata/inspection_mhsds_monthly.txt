@@ -1,6 +1,38 @@
 Inspection report: mhsds_monthly
-Generated: 2026-06-21 16:52:26.217366
-Files inspected: 5
+Generated: 2026-06-21 21:01:58.787344
+Files inspected: 13
+
+--- mhsds_monthly_historic_performance-april-2026_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-december-2025_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-february-2026_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-january-2026_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-march-2026_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-november-2025_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-october-2025_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_historic_performance-september-2025_main_data.zip ---
+Type: zip
+RDY signal: yes
 
 --- mhsds_monthly_performance-april-2026_data_coverage.csv ---
 Type: ?

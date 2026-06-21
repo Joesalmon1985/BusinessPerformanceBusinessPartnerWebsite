@@ -1,4 +1,5 @@
-KH03 recent snapshots for RDY — generated 2026-06-21 18:45:31.730933
+KH03 recent snapshots for RDY — generated 2026-06-21 21:41:59.055487
 Excludes pre-2020 rows from trend; full raw NHS file may contain older dates.
 Latest snapshot date: 30/06/2024
+CAUTION: public KH03 overnight CSV latest snapshot is Jun 2024 — verify NHS England publication page for newer quarters.
 Not current operational capacity without local bed management confirmation.

@@ -1,4 +1,4 @@
-KH03 latest snapshot for RDY — generated 2026-06-21 18:45:31.69026
+KH03 latest snapshot for RDY — generated 2026-06-21 21:41:59.028991
 Latest snapshot date: 30/06/2024
 Single snapshot only — use trend_kh03_beds_rdy.csv for recent quarter comparison.
 Not current operational capacity without local bed management confirmation.

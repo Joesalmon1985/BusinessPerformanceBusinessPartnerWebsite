@@ -1,4 +1,4 @@
 "source","label","rdy_rows","columns","_demo_source","_synthetic"
-"ko41a_annual","Written complaints (KO41a)",1,"Year; NHS_England_Region_Code; NHS_England_Region_Name; ICS_Code; ICS_Name; Organisation_Code; Organisation_Name; Organisation_Type","assurance_combined",FALSE
+"ko41a_annual","Written complaints (KO41a)",12,"Year; NHS_England_Region_Code; NHS_England_Region_Name; ICS_Code; ICS_Name; Organisation_Code; Organisation_Name; Site_Code","assurance_combined",FALSE
 "eric_annual","ERIC estates",1,"Trust Code; Trust Name; Commissioning Region; Trust Type; Number of sites - General acute hospital (No.); Number of sites - Specialist hospital (acute only) (No.); Number of sites - Mixed service hospital (No.); Number of sites - Mental Health (including Specialist services) (No.)","assurance_combined",FALSE
 "dspt_rdy","DSPT assessment history",16,"Status; Date Published","assurance_combined",FALSE

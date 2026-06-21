@@ -1,5 +1,5 @@
 Inspection report: talking_therapies
-Generated: 2026-06-21 16:52:39.260264
+Generated: 2026-06-21 21:02:50.437004
 Files inspected: 3
 
 --- talking_therapies_performance-april-2026_activity.csv ---

@@ -380,6 +380,102 @@ write_json_metadata <- function(path, obj) {
   }
 }
 
+parse_month_year_slug <- function(slug) {
+  slug <- tolower(trimws(as.character(slug)))
+  m <- regmatches(slug, regexec("([a-z]+)-([0-9]{4})$", slug))[[1]]
+  if (length(m) != 3) return(as.Date(NA))
+  month_num <- match(tolower(m[2]), tolower(month.name))
+  if (is.na(month_num)) return(as.Date(NA))
+  as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num))
+}
+
+parse_nof_quarter_slug <- function(slug) {
+  slug <- tolower(trimws(as.character(slug)))
+  m <- regmatches(slug, regexec("q([1-4])[_-]([0-9]{4})", slug))[[1]]
+  if (length(m) != 3) return(as.Date(NA))
+  qn <- as.integer(m[2])
+  yr <- as.integer(m[3])
+  month <- (qn - 1L) * 3L + 1L
+  as.Date(sprintf("%04d-%02d-01", yr, month))
+}
+
+parse_dm01_period_slug <- function(text) {
+  text <- toupper(trimws(as.character(text)))
+  m <- regmatches(text, regexec("DM01-([A-Z]+)-([0-9]{4})", text))[[1]]
+  if (length(m) != 3) return(as.Date(NA))
+  month_num <- match(tolower(m[2]), tolower(month.name))
+  if (is.na(month_num)) return(as.Date(NA))
+  as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num))
+}
+
+processed_file_sort_key <- function(path) {
+  bn <- tolower(basename(path))
+  dates <- as.Date(character())
+
+  month_matches <- gregexpr("[a-z]+-[0-9]{4}", bn, perl = TRUE)[[1]]
+  if (month_matches[1] != -1) {
+    for (i in seq_along(month_matches)) {
+      slug <- substr(bn, month_matches[i], month_matches[i] + attr(month_matches, "match.length")[i] - 1L)
+      d <- parse_month_year_slug(slug)
+      if (!is.na(d)) dates <- c(dates, d)
+    }
+  }
+
+  dm01_matches <- gregexpr("dm01-([a-z]+)-([0-9]{4})", bn, perl = TRUE)[[1]]
+  if (dm01_matches[1] != -1) {
+    for (i in seq_along(dm01_matches)) {
+      chunk <- substr(bn, dm01_matches[i], dm01_matches[i] + attr(dm01_matches, "match.length")[i] - 1L)
+      d <- parse_dm01_period_slug(toupper(chunk))
+      if (!is.na(d)) dates <- c(dates, d)
+    }
+  }
+
+  q_matches <- gregexpr("q([1-4])[_-]([0-9]{4})", bn, perl = TRUE)[[1]]
+  if (q_matches[1] != -1) {
+    for (i in seq_along(q_matches)) {
+      chunk <- substr(bn, q_matches[i], q_matches[i] + attr(q_matches, "match.length")[i] - 1L)
+      d <- parse_nof_quarter_slug(chunk)
+      if (!is.na(d)) dates <- c(dates, d)
+    }
+  }
+
+  if (length(dates) > 0) return(as.numeric(max(dates)))
+  file_mtime <- suppressWarnings(file.info(path)$mtime)
+  if (length(file_mtime) == 1 && !is.na(file_mtime)) return(as.numeric(file_mtime))
+  0
+}
+
+pick_latest_processed <- function(files, prefer_pattern = NULL, exclude_pattern = NULL) {
+  if (length(files) == 0) return(character())
+  if (!is.null(prefer_pattern)) {
+    pref <- files[grepl(prefer_pattern, basename(files), ignore.case = TRUE)]
+    if (length(pref) > 0) files <- pref
+  }
+  if (!is.null(exclude_pattern)) {
+    files <- files[!grepl(exclude_pattern, basename(files), ignore.case = TRUE)]
+  }
+  if (length(files) == 0) return(character())
+  scores <- vapply(files, processed_file_sort_key, numeric(1))
+  files[which.max(scores)]
+}
+
+nof_quarter_sort_key_common <- function(q) {
+  q <- trimws(as.character(q))
+  m <- regmatches(q, regexpr("Q[1-4]", q))
+  if (length(m) == 0) return(0)
+  qn <- as.integer(sub("Q", "", m))
+  y <- suppressWarnings(as.integer(sub(".*([0-9]{4}).*", "\\1", q)))
+  if (is.na(y)) y <- 0
+  y * 10 + qn
+}
+
+nof_latest_quarter_rows <- function(df) {
+  if (is.null(df) || nrow(df) == 0 || !"Quarter" %in% names(df)) return(df)
+  qs <- unique(trimws(df$Quarter))
+  latest <- qs[which.max(vapply(qs, nof_quarter_sort_key_common, numeric(1)))]
+  df[trimws(df$Quarter) == latest, , drop = FALSE]
+}
+
 init_source_register <- function(root) {
   sources <- data.frame(
     source_id = c(

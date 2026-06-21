@@ -19,7 +19,7 @@ init_historic_register <- function(root) {
   df <- data.frame(
     source_id = c(
       "csds_monthly", "ae_monthly", "dm01_monthly", "kh03_quarterly",
-      "fft_monthly", "mhsds_monthly"
+      "fft_monthly", "mhsds_monthly", "nof_quarterly", "talking_therapies_monthly"
     ),
     historic_download_attempted = "no",
     historic_periods_downloaded = "",
@@ -457,6 +457,191 @@ filter_kh03_recent_snapshots <- function(df, max_snapshots = 6, min_year = 2020)
   df
 }
 
+NOF_TREND_METRICS <- c("OF0005", "OF0057", "OF0016", "OF0086")
+TT_TREND_MEASURES <- c("M001", "M031", "M053")
+
+discover_nof_quarter_csvs <- function(root, max_quarters = 4L) {
+  hrefs <- character()
+  slugs <- character()
+  tryCatch({
+    page <- "https://www.england.nhs.uk/long-read/nhs-oversight-framework-csv-metadata-file/"
+    links <- scrape_links(page, pattern = "mental-health-and-community-trust")
+    links <- links[grepl("-data\\.csv", links$href, ignore.case = TRUE), , drop = FALSE]
+    if (nrow(links) > 0) {
+      hrefs <- links$href
+      slugs <- gsub(".*/", "", links$href)
+      slugs <- gsub("_nhs-oversight-framework.*", "", slugs)
+      slugs <- gsub("^nof_mh_community_", "", slugs)
+    }
+  }, error = function(e) NULL)
+
+  raw_files <- list_raw_files(root, "nof_mh_community")
+  raw_data <- raw_files[grepl("-data\\.csv", raw_files, ignore.case = TRUE)]
+  for (f in raw_data) {
+    bn <- basename(f)
+    slug <- gsub("_nhs-oversight-framework.*", "", gsub("^nof_mh_community_", "", bn))
+    slug <- gsub("\\.csv$", "", slug)
+    if (!slug %in% slugs) {
+      slugs <- c(slugs, slug)
+      hrefs <- c(hrefs, f)
+    }
+  }
+
+  if (length(slugs) == 0) {
+    return(data.frame(href = character(), slug = character(), pub_date = as.Date(character())))
+  }
+
+  pub_dates <- as.Date(vapply(slugs, function(s) {
+    d <- parse_nof_quarter_slug(s)
+    if (is.na(d)) NA_character_ else format(d, "%Y-%m-%d")
+  }, character(1)))
+  out <- data.frame(href = hrefs, slug = slugs, pub_date = pub_dates, stringsAsFactors = FALSE)
+  out <- out[!duplicated(out$slug), , drop = FALSE]
+  out <- out[order(out$pub_date, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  if (nrow(out) > max_quarters) out <- out[seq_len(max_quarters), , drop = FALSE]
+  out
+}
+
+stack_nof_rdy <- function(df, publication_slug, source_file,
+                          metrics = NOF_TREND_METRICS) {
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+  code_col <- if ("Trust_code" %in% names(df)) "Trust_code" else NA_character_
+  if (is.na(code_col)) return(NULL)
+  rdy <- df[trimws(df[[code_col]]) == "RDY", , drop = FALSE]
+  if (nrow(rdy) == 0) return(NULL)
+  rdy <- rdy[trimws(rdy$Metric_ID) %in% metrics, , drop = FALSE]
+  if (nrow(rdy) == 0) return(NULL)
+  caveats <- "NOF quarterly league table; median/rank not stacked — Value only."
+  rows <- lapply(seq_len(nrow(rdy)), function(i) {
+    r <- rdy[i, , drop = FALSE]
+    quarter <- trimws(as.character(r$Quarter[1]))
+    normalize_trend_row(
+      "nof_quarterly", publication_slug,
+      quarter, quarter,
+      "RDY", trimws(as.character(r$Trust_name[1])),
+      trimws(as.character(r$Metric_ID[1])),
+      trimws(as.character(r$Metric_description[1])),
+      r$Value[1], source_file, caveats
+    )
+  })
+  do.call(rbind, rows)
+}
+
+discover_talking_therapies_month_pages <- function(index_url, max_months = 12L) {
+  links <- scrape_links(index_url)
+  perf <- links[
+    grepl("/nhs-talking-therapies-monthly-statistics-including-employment-advisors/[a-z]+-[0-9]{4}$", links$href, ignore.case = TRUE) |
+      grepl("performance-[a-z]+-[0-9]{4}", links$href, ignore.case = TRUE),
+    ,
+    drop = FALSE
+  ]
+  year_links <- links$href[
+    grepl("/nhs-talking-therapies-monthly-statistics-including-employment-advisors/20[0-9]{2}$", links$href, ignore.case = TRUE)
+  ]
+  for (yh in unique(year_links)) {
+    perf <- rbind(perf, scrape_links(yh)[
+      grepl("performance-[a-z]+-[0-9]{4}", scrape_links(yh)$href, ignore.case = TRUE),
+      ,
+      drop = FALSE
+    ])
+  }
+  if (nrow(perf) == 0) {
+    return(data.frame(href = character(), slug = character(), pub_date = as.Date(character())))
+  }
+  slugs <- gsub(".*/", "", perf$href)
+  pub_dates <- as.Date(vapply(slugs, function(s) {
+    d <- parse_mhsds_slug_date(s)
+    if (is.na(d)) NA_character_ else format(d, "%Y-%m-%d")
+  }, character(1)))
+  out <- data.frame(href = perf$href, slug = slugs, pub_date = pub_dates, stringsAsFactors = FALSE)
+  out <- out[!duplicated(out$slug), , drop = FALSE]
+  out <- out[order(out$pub_date, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  if (nrow(out) > max_months) out <- out[seq_len(max_months), , drop = FALSE]
+  out
+}
+
+find_tt_activity_csv <- function(pub_page) {
+  all_links <- scrape_links(pub_page)
+  m <- all_links[grepl("activity\\.csv|Activity", all_links$text, ignore.case = TRUE) |
+    grepl("activity\\.csv", all_links$href, ignore.case = TRUE), , drop = FALSE]
+  if (nrow(m) == 0) return(NULL)
+  m$href[1]
+}
+
+stack_tt_activity_rdy <- function(df, publication_period, source_file,
+                                  measures = TT_TREND_MEASURES) {
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+  val_col <- if ("MEASURE_VALUE_SUPPRESSED" %in% names(df)) {
+    "MEASURE_VALUE_SUPPRESSED"
+  } else if ("MEASURE_VALUE" %in% names(df)) {
+    "MEASURE_VALUE"
+  } else {
+    return(NULL)
+  }
+  rows <- lapply(measures, function(mid) {
+    sub <- df[
+      trimws(df$MEASURE_ID) == mid &
+        trimws(df$ORG_CODE2) == "RDY" &
+        trimws(df$GROUP_TYPE) == "Provider",
+      ,
+      drop = FALSE
+    ]
+    if (nrow(sub) == 0) return(NULL)
+    r <- sub[1, , drop = FALSE]
+    caveats <- "Provisional IAPT monthly data; Provider/RDY rows only."
+    normalize_trend_row(
+      "talking_therapies_monthly", publication_period,
+      r$REPORTING_PERIOD_START[1], r$REPORTING_PERIOD_END[1],
+      "RDY", r$ORG_NAME2[1],
+      mid, r$MEASURE_NAME[1],
+      r[[val_col]][1], source_file, caveats
+    )
+  })
+  rows <- rows[!vapply(rows, is.null, logical(1))]
+  if (length(rows) == 0) return(NULL)
+  do.call(rbind, rows)
+}
+
+stack_tt_from_processed_time_series <- function(root, window_months = 12L) {
+  processed_dir <- file.path(root, "processed")
+  ts_files <- list.files(processed_dir, pattern = "^rdy_talking_therapies.*time_series\\.csv$", full.names = TRUE)
+  if (length(ts_files) == 0) return(NULL)
+  f <- ts_files[1]
+  df <- read_tabular_historic(f)
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+  val_col <- if ("MEASURE_VALUE" %in% names(df)) "MEASURE_VALUE" else "MEASURE_VALUE_SUPPRESSED"
+  stacked <- list()
+  for (mid in TT_TREND_MEASURES) {
+    sub <- df[
+      trimws(df$MEASURE_ID) == mid &
+        trimws(df$ORG_CODE2) == "RDY" &
+        trimws(df$GROUP_TYPE) == "Provider",
+      ,
+      drop = FALSE
+    ]
+    if (nrow(sub) == 0) next
+    sub$period <- parse_trend_period_date(sub$REPORTING_PERIOD_START)
+    sub <- sub[!is.na(sub$period), , drop = FALSE]
+    sub <- sub[order(sub$period), , drop = FALSE]
+    sub <- sub[!duplicated(sub$period), , drop = FALSE]
+    if (nrow(sub) > window_months) sub <- sub[(nrow(sub) - window_months + 1L):nrow(sub), , drop = FALSE]
+    for (i in seq_len(nrow(sub))) {
+      r <- sub[i, , drop = FALSE]
+      slug <- format(r$period[1], "%Y-%m")
+      stacked[[length(stacked) + 1]] <- normalize_trend_row(
+        "talking_therapies_monthly", slug,
+        r$REPORTING_PERIOD_START[1], r$REPORTING_PERIOD_END[1],
+        "RDY", r$ORG_NAME2[1],
+        mid, r$MEASURE_NAME[1],
+        r[[val_col]][1], basename(f),
+        "Stacked from bundled time-series file; provisional IAPT monthly data."
+      )
+    }
+  }
+  if (length(stacked) == 0) return(NULL)
+  do.call(rbind, stacked)
+}
+
 discover_csds_month_pages <- function(index_url, max_months = 12) {
   links <- scrape_links(index_url)
   month_links <- links[grepl(
@@ -492,7 +677,7 @@ discover_ae_monthly_csvs <- function(max_months = 12) {
   data.frame(href = hrefs, name = basename(hrefs), stringsAsFactors = FALSE)
 }
 
-discover_dm01_monthly_zips <- function(max_months = 12) {
+discover_dm01_monthly_zips <- function(max_months = 12, root = NULL) {
   index <- paste0(
     "https://www.england.nhs.uk/statistics/statistical-work-areas/",
     "diagnostics-waiting-times-and-activity/monthly-diagnostics-waiting-times-and-activity/"
@@ -505,7 +690,6 @@ discover_dm01_monthly_zips <- function(max_months = 12) {
     zip_links <- scrape_links(fy)
     zip_links <- zip_links[!is.na(zip_links$href), , drop = FALSE]
     zip_links <- zip_links[grepl("\\.zip", zip_links$href, ignore.case = TRUE), , drop = FALSE]
-    # Prefer monthly provider full-extract files (not aggregate REVISED bundles)
     full <- zip_links[
       grepl("full-extract|full_extract|DM01-[A-Z]+-[0-9]{4}-full", zip_links$href, ignore.case = TRUE) |
         grepl("full-extract|full extract", zip_links$text, ignore.case = TRUE),
@@ -522,11 +706,35 @@ discover_dm01_monthly_zips <- function(max_months = 12) {
       zip_links <- zip_links[!bad, , drop = FALSE]
       hrefs <- c(hrefs, zip_links$href)
     }
-    if (length(unique(hrefs)) >= max_months) break
   }
   hrefs <- unique(hrefs[!is.na(hrefs)])
-  if (length(hrefs) > max_months) hrefs <- hrefs[seq_len(max_months)]
-  data.frame(href = hrefs, name = basename(hrefs), stringsAsFactors = FALSE)
+
+  if (!is.null(root)) {
+    local_zips <- list.files(
+      file.path(root, "raw"),
+      pattern = "dm01.*full-extract.*\\.zip$",
+      full.names = TRUE,
+      ignore.case = TRUE
+    )
+    for (lz in local_zips) {
+      hrefs <- c(hrefs, lz)
+    }
+  }
+
+  hrefs <- unique(hrefs)
+  if (length(hrefs) == 0) {
+    return(data.frame(href = character(), name = character(), period_date = as.Date(character())))
+  }
+
+  out <- data.frame(href = hrefs, name = basename(hrefs), stringsAsFactors = FALSE)
+  out$period_date <- vapply(out$name, function(n) {
+    d <- parse_dm01_period_slug(n)
+    if (is.na(d)) as.Date(NA) else d
+  }, as.Date(NA))
+  out <- out[order(out$period_date, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  out <- out[!duplicated(out$name), , drop = FALSE]
+  if (nrow(out) > max_months) out <- out[seq_len(max_months), , drop = FALSE]
+  out
 }
 
 discover_mhsds_from_raw_files <- function(root, max_months = 12) {

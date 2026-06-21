@@ -21,5 +21,281 @@
       "row_count": 193,
       "search_method": "full_file"
     }
+  },
+  "ae_monthly_April-2026-CSV-QD21vf.csv_April-2026-CSV-QD21vf.csv": {
+    "file": "ae_monthly_April-2026-CSV-QD21vf.csv_April-2026-CSV-QD21vf.csv",
+    "type": "csv",
+    "size_bytes": 27915,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 191,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 191,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_August-2025-CSV-revised.csv_August-2025-CSV-revised.csv": {
+    "file": "ae_monthly_August-2025-CSV-revised.csv_August-2025-CSV-revised.csv",
+    "type": "csv",
+    "size_bytes": 29338,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 202,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 202,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_February-2026-CSV-Dl8t54.csv_February-2026-CSV-Dl8t54.csv": {
+    "file": "ae_monthly_February-2026-CSV-Dl8t54.csv_February-2026-CSV-Dl8t54.csv",
+    "type": "csv",
+    "size_bytes": 29315,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 198,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 198,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_July-2025-CSV-revised.csv_July-2025-CSV-revised.csv": {
+    "file": "ae_monthly_July-2025-CSV-revised.csv_July-2025-CSV-revised.csv",
+    "type": "csv",
+    "size_bytes": 28992,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 202,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 202,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_June-2025-CSV-revised.csv_June-2025-CSV-revised.csv": {
+    "file": "ae_monthly_June-2025-CSV-revised.csv_June-2025-CSV-revised.csv",
+    "type": "csv",
+    "size_bytes": 28968,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 202,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 202,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_May-2026-CSV-F4flrg.csv_May-2026-CSV-F4flrg.csv": {
+    "file": "ae_monthly_May-2026-CSV-F4flrg.csv_May-2026-CSV-F4flrg.csv",
+    "type": "csv",
+    "size_bytes": 27775,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 193,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 193,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_Monthly-AE-December-2025-revised-g9Hy6.csv_Monthly-AE-December-2025-revised-g9Hy6.csv": {
+    "file": "ae_monthly_Monthly-AE-December-2025-revised-g9Hy6.csv_Monthly-AE-December-2025-revised-g9Hy6.csv",
+    "type": "csv",
+    "size_bytes": 29351,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 198,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 198,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_Monthly-AE-January-2026-revised-3dker.csv_Monthly-AE-January-2026-revised-3dker.csv": {
+    "file": "ae_monthly_Monthly-AE-January-2026-revised-3dker.csv_Monthly-AE-January-2026-revised-3dker.csv",
+    "type": "csv",
+    "size_bytes": 29188,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 198,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 198,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_Monthly-AE-March-2026-revised-flkg42.csv_Monthly-AE-March-2026-revised-flkg42.csv": {
+    "file": "ae_monthly_Monthly-AE-March-2026-revised-flkg42.csv_Monthly-AE-March-2026-revised-flkg42.csv",
+    "type": "csv",
+    "size_bytes": 28953,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 200,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 200,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_Monthly-AE-Nov-25-CSV-revised.csv_Monthly-AE-Nov-25-CSV-revised.csv": {
+    "file": "ae_monthly_Monthly-AE-Nov-25-CSV-revised.csv_Monthly-AE-Nov-25-CSV-revised.csv",
+    "type": "csv",
+    "size_bytes": 29327,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 198,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 198,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_Monthly-AE-October-2025-revised-fly02sk.csv_Monthly-AE-October-2025-revised-fly02sk.csv": {
+    "file": "ae_monthly_Monthly-AE-October-2025-revised-fly02sk.csv_Monthly-AE-October-2025-revised-fly02sk.csv",
+    "type": "csv",
+    "size_bytes": 29143,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 198,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 198,
+      "search_method": "full_file"
+    }
+  },
+  "ae_monthly_September-2025-CSV-revised.csv_September-2025-CSV-revised.csv": {
+    "file": "ae_monthly_September-2025-CSV-revised.csv_September-2025-CSV-revised.csv",
+    "type": "csv",
+    "size_bytes": 29977,
+    "columns": ["Period", "Org Code", "Parent Org", "Org name", "A&E attendances Type 1", "A&E attendances Type 2", "A&E attendances Other A&E Department", "A&E attendances Booked Appointments Type 1", "A&E attendances Booked Appointments Type 2", "A&E attendances Booked Appointments Other Department", "Attendances over 4hrs Type 1", "Attendances over 4hrs Type 2", "Attendances over 4hrs Other Department", "Attendances over 4hrs Booked Appointments Type 1", "Attendances over 4hrs Booked Appointments Type 2", "Attendances over 4hrs Booked Appointments Other Department", "Patients who have waited 4-12 hs from DTA to admission", "Patients who have waited 12+ hrs from DTA to admission", "Emergency admissions via A&E - Type 1", "Emergency admissions via A&E - Type 2", "Emergency admissions via A&E - Other A&E department", "Other emergency admissions"],
+    "row_count": 202,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org Code": 1
+      },
+      "name_matches": {
+        "Org name": 1
+      },
+      "rdy_any": {
+        "Org Code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 202,
+      "search_method": "full_file"
+    }
   }
 }

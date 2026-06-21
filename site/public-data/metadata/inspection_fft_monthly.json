@@ -70,5 +70,41 @@
       "total_code_matches": 0,
       "total_name_matches": 0
     }
+  },
+  "fft_monthly__ftt-summary-apr-26.xlsx": {
+    "file": "fft_monthly__ftt-summary-apr-26.xlsx",
+    "type": "xlsx",
+    "size_bytes": 18863,
+    "sheets": ["Notes", "Headline figures"],
+    "sheet_info": {
+      "Notes": {
+        "row_count_sample": 0,
+        "columns": "Friends and Family Test - April 2026",
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 0
+        }
+      },
+      "Headline figures": {
+        "row_count_sample": 17,
+        "columns": ["Friends and Family Test - April 2026", "...2", "...3", "...4", "...5", "...6", "...7", "...8", "...9"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 17
+        }
+      }
+    },
+    "rdy_search": {
+      "total_code_matches": 0,
+      "total_name_matches": 0
+    }
   }
 }

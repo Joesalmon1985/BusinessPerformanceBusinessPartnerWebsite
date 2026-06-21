@@ -1,5 +1,5 @@
 Inspection report: ko41a_annual
-Generated: 2026-06-21 16:52:43.672031
+Generated: 2026-06-21 21:03:56.887305
 Files inspected: 1
 
 --- ko41a_annual_2024_25_ko41a_2024_25.zip ---

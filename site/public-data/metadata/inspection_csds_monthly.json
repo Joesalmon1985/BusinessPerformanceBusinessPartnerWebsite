@@ -1,4 +1,128 @@
 {
+  "csds_monthly_august-2025_csds_data.zip": {
+    "file": "csds_monthly_august-2025_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2845540,
+    "contents": {
+      "csds-aug25-exp-core-data.csv": {
+        "file": "csds-aug25-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 49601502,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 268488,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 50000,
+          "search_method": "first_n_rows",
+          "grep": {
+            "found": true,
+            "rdy_count": 598,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_december-2025_csds_data.zip": {
+    "file": "csds_monthly_december-2025_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2912738,
+    "contents": {
+      "csds-dec25-exp-core-data.csv": {
+        "file": "csds-dec25-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51462700,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 277865,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 598,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_february-2026_csds_data.zip": {
+    "file": "csds_monthly_february-2026_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2906438,
+    "contents": {
+      "csds-feb26-exp-core-data.csv": {
+        "file": "csds-feb26-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51138610,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 275979,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 593,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_january-2026_csds_data.zip": {
+    "file": "csds_monthly_january-2026_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2945864,
+    "contents": {
+      "csds-jan26-exp-core-data.csv": {
+        "file": "csds-jan26-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51924791,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 280123,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 589,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
   "csds_monthly_march-2026_csds_data.zip": {
     "file": "csds_monthly_march-2026_csds_data.zip",
     "type": "zip",
@@ -230,5 +354,98 @@
       "total_code_matches": 0,
       "total_name_matches": 0
     }
+  },
+  "csds_monthly_november-2025_csds_data.zip": {
+    "file": "csds_monthly_november-2025_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2906121,
+    "contents": {
+      "csds-nov25-exp-core-data.csv": {
+        "file": "csds-nov25-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51356197,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 277304,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 605,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_october-2025_csds_data.zip": {
+    "file": "csds_monthly_october-2025_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2964101,
+    "contents": {
+      "csds-oct25-exp-core-data.csv": {
+        "file": "csds-oct25-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 52240947,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 281747,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 605,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_september-2025_csds_data.zip": {
+    "file": "csds_monthly_september-2025_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2905345,
+    "contents": {
+      "csds-sep25-exp-core-data.csv": {
+        "file": "csds-sep25-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51153774,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 276464,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 581,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
   }
 }

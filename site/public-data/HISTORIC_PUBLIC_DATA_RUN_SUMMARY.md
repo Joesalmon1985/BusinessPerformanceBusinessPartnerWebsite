@@ -1,6 +1,6 @@
 # Historic public data run summary
 
-Generated: 2026-06-21 21:09:55
+Generated: 2026-06-21 21:44:03
 
 > Public aggregate data only. Not official Dorset HealthCare reporting.
 > Human review and local owner confirmation required.
@@ -29,11 +29,11 @@ Generated: 2026-06-21 21:09:55
 
 ### dm01_monthly
 - Historic download attempted: yes
-- Periods downloaded: DM01-MARCH-2026; DM01-DECEMBER-2024; DM01-FEBRUARY-2025; DM01-JANUARY-2025; DM01-MARCH-2025; DM01-NOVEMBER-2024; DM01-OCTOBER-2024
+- Periods downloaded: DM01-MARCH-2026; DM01-APRIL-2026; DM01-AUGUST-2025; DM01-DECEMBER-2024; DM01-DECEMBER-2025; DM01-FEBRUARY-2025; DM01-FEBRUARY-2026; DM01-JANUARY-2025; DM01-JANUARY-2026; DM01-JULY-2025; DM01-JUNE-2025; DM01-MARCH-2025; DM01-NOVEMBER-2024; DM01-NOVEMBER-2025; DM01-OCTOBER-2024; DM01-OCTOBER-2025; DM01-SEPTEMBER-2025
 - Trend file: trend_dm01_rdy.csv
 - Trend available: yes
-- Trend periods (distinct): 7
-- RDY rows stacked: 112
+- Trend periods (distinct): 17
+- RDY rows stacked: 288
 - Manual download needed: no
 - Caveats: Provisional DM01; audiology may dominate activity counts.
 
@@ -43,7 +43,7 @@ Generated: 2026-06-21 21:09:55
 - Trend file: trend_kh03_beds_rdy.csv; latest_kh03_beds_rdy.csv
 - Trend available: yes
 - Trend periods (distinct): 6
-- RDY rows stacked: 9078
+- RDY rows stacked: 9306
 - Manual download needed: no
 - Caveats: Quarterly snapshots; raw file mixes historic dates — trend uses recent quarters only.
 
@@ -66,6 +66,26 @@ Generated: 2026-06-21 21:09:55
 - RDY rows stacked: 32
 - Manual download needed: no
 - Caveats: Primary: trend_mhsds_access_rdy.csv (MHS23/MHS01/MHS29/MHS69). MHS23: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS01: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS29: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS | MHS69: 8 consecutive month(s), 8 numeric, 0 suppressed, 0 missing — PASS
+
+### nof_quarterly
+- Historic download attempted: yes
+- Periods downloaded: q4_2025_26; nhs-oversight-framework-mental-health-and-community-trust-data.csv; nhs-oversight-framework-mental-health-and-community-trust-data
+- Trend file: trend_nof_rdy.csv
+- Trend available: yes
+- Trend periods (distinct): 4
+- RDY rows stacked: 16
+- Manual download needed: no
+- Caveats: Quarterly NOF; metric definitions may vary by reporting_date within quarter.
+
+### talking_therapies_monthly
+- Historic download attempted: yes
+- Periods downloaded: performance-april-2026; performance-february-2026; performance-january-2026; performance-november-2025; performance-october-2025; performance-august-2025; performance-july-2025; performance-may-2025; performance-april-2025
+- Trend file: trend_talking_therapies_rdy.csv
+- Trend available: yes
+- Trend periods (distinct): 9
+- RDY rows stacked: 27
+- Manual download needed: no
+- Caveats: Provisional IAPT; M053 denominator is finished-course cohort.
 
 ## Rerun
 

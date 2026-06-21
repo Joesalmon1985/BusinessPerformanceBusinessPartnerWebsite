@@ -1,6 +1,22 @@
 Inspection report: csds_monthly
-Generated: 2026-06-21 16:52:36.041488
-Files inspected: 3
+Generated: 2026-06-21 21:02:46.873208
+Files inspected: 10
+
+--- csds_monthly_august-2025_csds_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- csds_monthly_december-2025_csds_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- csds_monthly_february-2026_csds_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- csds_monthly_january-2026_csds_data.zip ---
+Type: zip
+RDY signal: yes
 
 --- csds_monthly_march-2026_csds_data.zip ---
 Type: zip
@@ -16,4 +32,16 @@ RDY signal: yes
 Type: xlsx
 Sheets: Cover, Notes, Version History, Monthly Core Data Measures, Table 1a Field names, Table 1b Dimensions, Table 1c Counts, Monthly HV Data Measures, Data Quality Measures, Glossary, Monthly Core Data Measures old, Table 1b Dimensions old, Table 3, Table 4 Counts wking
 RDY signal: no
+
+--- csds_monthly_november-2025_csds_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- csds_monthly_october-2025_csds_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- csds_monthly_september-2025_csds_data.zip ---
+Type: zip
+RDY signal: yes
 

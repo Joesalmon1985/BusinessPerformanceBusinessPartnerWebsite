@@ -1,6 +1,6 @@
 # FFT manual download needed
 
-Generated: 2026-06-21 18:45:33.13766
+Generated: 2026-06-21 21:41:59.851675
 
 Public FFT summary XLSX files inspected did not yield org-level RDY rows suitable for trend analysis.
 

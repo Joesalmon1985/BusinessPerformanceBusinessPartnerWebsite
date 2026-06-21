@@ -38,7 +38,6 @@ read_proc <- function(path, n = 500) {
 subset_cols <- function(df, max_cols = 15) {
   if (is.null(df)) return(NULL)
   if (ncol(df) <= max_cols) return(df)
-  # Keep org identifiers + first numeric-ish columns
   keep <- c(
     which(grepl("org|provider|trust|name|code|period|month|year|measure|value|count|rate", names(df), ignore.case = TRUE)),
     seq_len(min(max_cols, ncol(df)))
@@ -59,35 +58,45 @@ write_demo <- function(name, df, source_label) {
   invisible(TRUE)
 }
 
-# demo_nof_overview
-nof_files <- find_processed("nof_mh_community")
+# demo_nof_overview — latest quarter only
+nof_files <- find_processed("nof_mh_community", pattern = "-data\\.csv$")
+if (length(nof_files) == 0) nof_files <- find_processed("nof_mh_community")
 if (length(nof_files) > 0) {
-  df <- read_proc(nof_files[1], 50)
-  write_demo("demo_nof_overview.csv", subset_cols(df, 20), "nof_mh_community")
+  f <- pick_latest_processed(nof_files, prefer_pattern = "-data\\.csv$")
+  df <- read_proc(f, 5000)
+  if (!is.null(df)) {
+    df <- nof_latest_quarter_rows(df)
+    if (nrow(df) > 50) df <- df[seq_len(50), , drop = FALSE]
+    write_demo("demo_nof_overview.csv", subset_cols(df, 20), "nof_mh_community")
+  }
 }
 
-# demo_mhsds_activity
+# demo_mhsds_activity — latest main data month (not oldest historic)
 mhsds_files <- find_processed("mhsds_monthly")
 if (length(mhsds_files) > 0) {
-  # Prefer time series or main data
-  pref <- mhsds_files[grepl("time_series|main", basename(mhsds_files), ignore.case = TRUE)]
-  f <- if (length(pref) > 0) pref[1] else mhsds_files[1]
+  pref <- mhsds_files[grepl("main_data|MHSDS Data", basename(mhsds_files), ignore.case = TRUE)]
+  pref <- pref[!grepl("time_series|data_quality|out_of_area", basename(pref), ignore.case = TRUE)]
+  f <- if (length(pref) > 0) pick_latest_processed(pref) else pick_latest_processed(mhsds_files)
   df <- read_proc(f, 200)
   write_demo("demo_mhsds_activity.csv", subset_cols(df, 15), "mhsds_monthly")
 }
 
-# demo_csds_activity
+# demo_csds_activity — latest month core data
 csds_files <- find_processed("csds_monthly")
 if (length(csds_files) > 0) {
-  df <- read_proc(csds_files[1], 200)
+  pref <- csds_files[grepl("core-data|exp-core", basename(csds_files), ignore.case = TRUE)]
+  pref <- pref[!grepl("data_quality", basename(pref), ignore.case = TRUE)]
+  f <- if (length(pref) > 0) pick_latest_processed(pref) else pick_latest_processed(csds_files)
+  df <- read_proc(f, 200)
   write_demo("demo_csds_activity.csv", subset_cols(df, 15), "csds_monthly")
 }
 
-# demo_talking_therapies
+# demo_talking_therapies — latest activity month (not time series)
 tt_files <- find_processed("talking_therapies")
 if (length(tt_files) > 0) {
-  pref <- tt_files[grepl("activity|time_series", basename(tt_files), ignore.case = TRUE)]
-  f <- if (length(pref) > 0) pref[1] else tt_files[1]
+  pref <- tt_files[grepl("activity", basename(tt_files), ignore.case = TRUE)]
+  pref <- pref[!grepl("time_series|data_quality", basename(pref), ignore.case = TRUE)]
+  f <- if (length(pref) > 0) pick_latest_processed(pref) else pick_latest_processed(tt_files)
   df <- read_proc(f, 200)
   write_demo("demo_talking_therapies.csv", subset_cols(df, 15), "talking_therapies")
 }
@@ -99,14 +108,17 @@ if (file.exists(latest_kh03)) {
   df <- read_proc(latest_kh03, 50)
   write_demo("demo_kh03_beds.csv", subset_cols(df, 20), "kh03_quarterly")
 } else if (length(kh03_files) > 0) {
-  df <- read_proc(kh03_files[1], 50)
+  f <- pick_latest_processed(kh03_files)
+  df <- read_proc(f, 50)
   write_demo("demo_kh03_beds.csv", subset_cols(df, 20), "kh03_quarterly")
 }
 
-# demo_dm01_diagnostics
+# demo_dm01_diagnostics — latest month full extract
 dm01_files <- find_processed("dm01_monthly")
 if (length(dm01_files) > 0) {
-  df <- read_proc(dm01_files[1], 200)
+  pref <- dm01_files[grepl("full-extract|DM01-", basename(dm01_files), ignore.case = TRUE)]
+  f <- if (length(pref) > 0) pick_latest_processed(pref) else pick_latest_processed(dm01_files)
+  df <- read_proc(f, 200)
   write_demo("demo_dm01_diagnostics.csv", subset_cols(df, 15), "dm01_monthly")
 }
 
@@ -114,7 +126,8 @@ if (length(dm01_files) > 0) {
 assurance_rows <- list()
 add_assurance <- function(source_id, label, files) {
   if (length(files) == 0) return()
-  df <- read_proc(files[1], 20)
+  f <- pick_latest_processed(files)
+  df <- read_proc(f, 20)
   if (is.null(df) || nrow(df) == 0) return()
   assurance_rows[[length(assurance_rows) + 1]] <<- data.frame(
     source = source_id,
@@ -138,7 +151,6 @@ if (length(assurance_rows) > 0) {
 }
 
 # Synthetic placeholder for A&E where RDY unlikely
-ae_row <- register[register$source_id == "ae_monthly", , drop = FALSE]
 ae_has_rdy <- length(find_processed("ae_monthly")) > 0
 if (!ae_has_rdy) {
   placeholder <- data.frame(
@@ -269,21 +281,6 @@ if (length(demo_written) > 0) {
 
 summary_lines <- c(summary_lines,
   "",
-  "## Recommended next agent run — R report pages (NOT YET BUILT)",
-  "",
-  "When instructed, create `site/R/03_render_public_reports.R` reading from `site/public-data/processed/demo_*.csv`:",
-  "",
-  "| Report | Demo CSV | Proposed HTML page |",
-  "|--------|----------|-------------------|",
-  "| Dorset HealthCare public performance overview | demo_nof_overview.csv | reports/public-performance-overview.html |",
-  "| Mental health access and activity public profile | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |",
-  "| Community services public profile | demo_csds_activity.csv | reports/public-community-services-profile.html |",
-  "| NHS Talking Therapies public profile | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |",
-  "| Public assurance and statutory reporting profile | demo_assurance_profile.csv | reports/public-assurance-profile.html |",
-  "| Urgent care / diagnostics public data check | demo_dm01_diagnostics.csv + synthetic_demo_ae_placeholder.csv | reports/public-urgent-diagnostics-check.html |",
-  "",
-  "Each report must state: *public-data demonstration report; not an official Trust report; requires human review and local owner confirmation.*",
-  "",
   "## Run commands",
   "",
   "```bash",
@@ -291,7 +288,9 @@ summary_lines <- c(summary_lines,
   "Rscript 01_download_public_data.R",
   "Rscript 02_inspect_public_data.R",
   "Rscript 03_filter_dorset_healthcare.R",
+  "Rscript 05_download_historic_public_data.R",
   "Rscript 04_create_demo_extracts.R",
+  "Rscript ../R/03_render_public_reports.R",
   "```"
 )
 
