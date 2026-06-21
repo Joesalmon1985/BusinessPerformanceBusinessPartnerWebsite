@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Draft reports — Agent-assisted analytical briefs (public data)</title>
-  <meta name="description" content="Six worked examples showing how agentic AI can turn public aggregate NHS data into cautious, reviewable first-draft briefs. Not official Trust reporting.">
+  <meta name="description" content="Six worked examples showing how agentic AI can turn public aggregate NHS data into cautious, reviewable first-draft briefs with clear sources, caveats and human sign-off.">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
   <header class="site-header">
     <div class="header-inner">
       <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
-      <p class="site-subtitle">Public aggregate and synthetic demonstration reports</p>
+      <p class="site-subtitle">Public aggregate demonstration reports</p>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
     </div>
     <nav class="nav" id="main-nav" aria-label="Main navigation">
@@ -30,115 +30,124 @@
   <main id="main-content">
     <div class="hero">
       <h1>Draft reports</h1>
-      <p class="hero-lead">Six worked examples of agent-assisted analytical briefs using public aggregate NHS data for Dorset HealthCare (RDY). Each is a first draft for human review — <strong>not</strong> official Trust reporting.</p>
+      <p class="hero-lead">Six worked examples of agent-assisted analytical briefs using <strong>public aggregate NHS data</strong> for Dorset HealthCare.</p>
+      <p>Each brief is a first draft for human review. They are not official Dorset HealthCare reports and should not be used for operational decision-making.</p>
+      <p>The purpose of this page is to show how agentic AI could support business and performance work when it is used with clear sources, reproducible scripts, explicit caveats and human sign-off.</p>
     </div>
 
     <div class="caveat-box" role="note">
-      <strong>Demonstration caveat:</strong> Public aggregate data only. Not official Dorset HealthCare reports. Human review and local owner confirmation required before any operational use.
+      <strong>Demonstration caveat:</strong> These reports use public aggregate data only. They are not official Dorset HealthCare reports. They have not been operationally validated. Human review and local owner confirmation would be required before any operational use.
     </div>
+
+    <section aria-labelledby="what-demonstrates">
+      <h2 id="what-demonstrates">What this page demonstrates</h2>
+      <p>A Business &amp; Performance Business Partner needs to turn data into clear, useful performance intelligence.</p>
+      <p>That means more than producing numbers. It means explaining:</p>
+      <ul>
+        <li>what the figure is</li>
+        <li>what it should be, where a target or comparator exists</li>
+        <li>whether it is improving, worsening or stable</li>
+        <li>what caveats affect the interpretation</li>
+        <li>what questions need human review</li>
+        <li>what action or escalation may be needed</li>
+      </ul>
+      <p>These examples show how an AI agent could help produce a structured first draft, while keeping the human responsible for validation, judgement and sign-off.</p>
+    </section>
 
     <section aria-labelledby="public-data-reports">
       <h2 id="public-data-reports">Public-data agent workflow examples</h2>
-      <p>Each brief follows the same spine: <strong>question → data → key findings → agent summary → human checks → verify</strong>. Regenerate with <code>Rscript site/R/03_render_public_reports.R</code>. Source catalogue: <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</p>
-    </section>
-
-    <section class="card-grid" aria-label="Agent-assisted public-data briefs">
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>NHS Oversight Framework</h3>
-        <p class="card-purpose">First-draft performance brief from public NOF data — peer median and rank, not recalculated.</p>
-        <a class="card-link" href="reports/public-performance-overview.html">View worked example</a>
-      </article>
-
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>MHSDS mental health access</h3>
-        <p class="card-purpose">Access and activity measures with monthly trends where the public time series supports them.</p>
-        <a class="card-link" href="reports/public-mh-access-profile.html">View worked example</a>
-      </article>
-
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>CSDS community services</h3>
-        <p class="card-purpose">Community activity briefing with descriptive trends from the historic CSDS stack.</p>
-        <a class="card-link" href="reports/public-community-services-profile.html">View worked example</a>
-      </article>
-
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>Talking Therapies (IAPT)</h3>
-        <p class="card-purpose">Referrals, access and waiting measures — no recovery or outcome claims.</p>
-        <a class="card-link" href="reports/public-talking-therapies-profile.html">View worked example</a>
-      </article>
-
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>Assurance and statutory returns</h3>
-        <p class="card-purpose">Assurance source map (KO41a, ERIC, DSPT, FFT gap, CQC context) — not a scorecard.</p>
-        <a class="card-link" href="reports/public-assurance-profile.html">View worked example</a>
-      </article>
-
-      <article class="card card--public">
-        <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-        <h3>Urgent care and diagnostics check</h3>
-        <p class="card-purpose">Source-validation brief — RDY presence in A&amp;E, DM01 and KH03 with cautious interpretation.</p>
-        <a class="card-link" href="reports/public-urgent-diagnostics-check.html">View worked example</a>
-      </article>
-    </section>
-
-    <section aria-labelledby="how-created">
-      <h2 id="how-created">How these briefs were created</h2>
+      <p>Each brief follows the same structure:</p>
       <ul>
-        <li>Public NHS sources downloaded and catalogued in <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</li>
-        <li>R scripts filter RDY rows and create <code>public-data/processed/demo_*.csv</code> extracts.</li>
-        <li><code>R/03_render_public_reports.R</code> renders each brief: question, data used, Key findings explained, agent summary, human checks, verify appendix.</li>
-        <li>Every brief ends with explicit caveats and a human review gate.</li>
+        <li><strong>Question</strong> — what the brief is trying to answer</li>
+        <li><strong>Data used</strong> — which public source was used</li>
+        <li><strong>Key findings explained</strong> — the main figures, trends and caveats</li>
+        <li><strong>Agent summary</strong> — first-draft narrative for review</li>
+        <li><strong>Human checks</strong> — what a person must confirm</li>
+        <li><strong>Verify appendix</strong> — source and processing notes</li>
       </ul>
-      <p>Supporting documentation:</p>
+      <p>This creates a clear audit trail from public data to draft narrative.</p>
+    </section>
+
+    <section aria-labelledby="worked-examples">
+      <h2 id="worked-examples">Worked examples</h2>
+      <div class="card-grid">
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>NHS Oversight Framework</h3>
+          <p class="card-purpose">First-draft performance brief from public NHS Oversight Framework data. This uses published peer median and rank information. The figures are not recalculated.</p>
+          <a class="card-link" href="reports/public-performance-overview.html">View worked example</a>
+        </article>
+
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>MHSDS mental health access</h3>
+          <p class="card-purpose">Access and activity measures using public Mental Health Services Data Set data. This includes monthly trends where the public time series supports them.</p>
+          <a class="card-link" href="reports/public-mh-access-profile.html">View worked example</a>
+        </article>
+
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>CSDS community services</h3>
+          <p class="card-purpose">Community services activity briefing using public Community Services Data Set data. This shows how historic public data can support trend commentary.</p>
+          <a class="card-link" href="reports/public-community-services-profile.html">View worked example</a>
+        </article>
+
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>Talking Therapies</h3>
+          <p class="card-purpose">Referrals, access and waiting measures from public NHS Talking Therapies data. This avoids recovery or outcome claims where the public extract does not support them.</p>
+          <a class="card-link" href="reports/public-talking-therapies-profile.html">View worked example</a>
+        </article>
+
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>Assurance and statutory returns</h3>
+          <p class="card-purpose">A source map for selected assurance and statutory reporting areas. This includes KO41a, ERIC, DSPT, FFT gaps and CQC context. It is not a scorecard.</p>
+          <a class="card-link" href="reports/public-assurance-profile.html">View worked example</a>
+        </article>
+
+        <article class="card card--public">
+          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
+          <h3>Urgent care and diagnostics check</h3>
+          <p class="card-purpose">A source-validation brief covering RDY presence in A&amp;E, DM01 and KH03 public data. This is deliberately cautious and focuses on what the public sources can and cannot support.</p>
+          <a class="card-link" href="reports/public-urgent-diagnostics-check.html">View worked example</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="personal-block" aria-labelledby="how-created">
+      <h2 id="how-created">How these briefs were created</h2>
+      <p>The briefs were created using a human-directed agent workflow.</p>
+      <p>Public NHS sources were downloaded and catalogued in <a href="public-data/DATA_SOURCE_REGISTER.csv"><code>DATA_SOURCE_REGISTER.csv</code></a>.</p>
+      <p>R scripts filtered the relevant Dorset HealthCare rows and created processed public-data extracts.</p>
+      <p>The report rendering script then produced each brief using the same structure: question, data used, key findings, agent summary, human checks and verification notes.</p>
+      <p>This means the reports are not just manually written text. They are part of a repeatable workflow that links source data, processing and narrative.</p>
+      <p>Every brief ends with caveats and a human review gate.</p>
+      <p class="info-box" style="margin-bottom:0;">Supporting evidence: regenerate briefs with <code>Rscript site/R/03_render_public_reports.R</code> after updating processed extracts in <code>public-data/processed/</code>.</p>
+    </section>
+
+    <section aria-labelledby="why-matters">
+      <h2 id="why-matters">Why this matters</h2>
+      <p>Performance reports are most useful when they are clear, accurate and honest about uncertainty.</p>
+      <p>Agentic AI can help with the first draft: organising the data, structuring the findings, drafting the narrative and highlighting caveats.</p>
+      <p>But the value comes from the governed workflow around it.</p>
+      <p>In a live NHS setting, an accountable person would still need to confirm the data source, check the definitions, validate the figures, agree the interpretation and decide what action is needed.</p>
+      <p>This page shows how AI could support that process without replacing professional judgement.</p>
+    </section>
+
+    <section aria-labelledby="supporting-docs">
+      <h2 id="supporting-docs">Supporting documentation</h2>
       <ul>
         <li><a href="public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a></li>
         <li><a href="public-data/FINAL_SIMPLIFICATION_SUMMARY.md">FINAL_SIMPLIFICATION_SUMMARY.md</a></li>
         <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">FINAL_REPORT_QA_SUMMARY.md</a></li>
       </ul>
     </section>
-
-    <section aria-labelledby="synthetic-reports">
-      <h2 id="synthetic-reports">Earlier synthetic proof-of-concept reports</h2>
-      <p>Earlier prototypes use synthetic aggregate data only. The public-data briefs above are the stronger evidence of the governed workflow.</p>
-    </section>
-
-    <section class="card-grid" aria-label="Earlier synthetic proof-of-concept reports">
-      <article class="card">
-        <h3>CYP Waiting List Overview</h3>
-        <p>Synthetic waiting list demonstration — not approved for operational use.</p>
-        <a class="card-link" href="reports/cyp-waiting-list-overview.html">View report</a>
-      </article>
-      <article class="card">
-        <h3>All Age Mental Health Access Dashboard</h3>
-        <p>Synthetic access dashboard demonstration.</p>
-        <a class="card-link" href="reports/all-age-mental-health-access.html">View report</a>
-      </article>
-      <article class="card">
-        <h3>Learning Disability Performance Summary</h3>
-        <p>Synthetic LD performance demonstration.</p>
-        <a class="card-link" href="reports/learning-disability-performance.html">View report</a>
-      </article>
-      <article class="card">
-        <h3>Demand and Capacity Prototype</h3>
-        <p>Synthetic demand/capacity prototype.</p>
-        <a class="card-link" href="reports/demand-and-capacity-prototype.html">View report</a>
-      </article>
-      <article class="card">
-        <h3>Mandatory Returns Assurance Log</h3>
-        <p>Synthetic assurance log demonstration.</p>
-        <a class="card-link" href="reports/mandatory-returns-assurance-log.html">View report</a>
-      </article>
-    </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <p class="footer-caveat">Personal demonstration site — public aggregate and synthetic data only. Not an official Dorset HealthCare report or website.</p>
+      <p class="footer-caveat">Personal demonstration site using public aggregate data only. Not an official Dorset HealthCare report or website. No confidential, unpublished internal or patient-identifiable information is included.</p>
     </div>
   </footer>
 
