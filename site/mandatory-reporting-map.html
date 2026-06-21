@@ -36,6 +36,22 @@
     <div class="warning-box" role="alert">
       <strong>Illustrative metadata:</strong> Owners, due dates, assurance statuses and local source labels are synthetic or partly fabricated for demonstration. Reference links marked <span class="badge badge-confirmed">Pub</span> point to public NHS sources. An agent could help draft and maintain this register; humans must validate against local standard operating procedures (SOPs) and named owners before any operational use.
     </div>
+    <section class="personal-block" aria-labelledby="how-created">
+      <h2 id="how-created">How this page was created by agentic AI</h2>
+      <p>This page is a worked example of how a Cursor agent, directed by a human, could draft and maintain a mandatory reporting overview. It was not copied from a live Trust register. The process had three stages.</p>
+      <ol>
+        <li>
+          <strong>Searching for information.</strong> The agent was asked to identify common NHS mandatory and statutory returns relevant to a mental health and community trust. It searched public NHS England and NHS Digital pages — for example MHSDS, CSDS, RTT, KO41a and DSPT guidance — and cross-checked names against the public source catalogue in <code>public-data/DATA_SOURCE_REGISTER.csv</code>. Where a verified public reference URL existed, it was kept. Returns without a reliable public link were omitted from the demo table.
+        </li>
+        <li>
+          <strong>Deciding how to present it.</strong> The agent proposed a layout a Business &amp; Performance Business Partner would actually use: one filterable table showing return name, owner, frequency, next due date, assurance status, risk and issues, with a plain-English glossary for the return codes. The underlying data was stored in <code>data/mandatory_returns_register.csv</code> and synced into this page by <code>R/03_sync_mandatory_register_html.R</code>, so the HTML table stays aligned with the CSV. Filter controls in <code>assets/site.js</code> were added so the register can be searched by owner, risk and assurance status.
+        </li>
+        <li>
+          <strong>Adding fabricated demonstration data.</strong> Public specifications do not include local owners, due dates, assurance statuses or internal source-system labels. Those fields were therefore synthetic: plausible team names, demo due dates, illustrative risk ratings and notes such as “coding QA pending” or “needs local confirmation”. Source systems are labelled “(demo)” in the CSV. Confidence levels (confirmed, likely, conditional, needs owner confirmation) flag what would need human validation in a real Trust. A human reviewed the draft, directed changes, and would be the named owner sign-off point before any operational use.
+        </li>
+      </ol>
+      <p class="info-box" style="margin-bottom:0;">In a live setting, an agent could repeat steps one and two when national specifications change — drafting updates and flagging gaps — but step three must always be completed by named local owners against SOPs and validated systems, not invented by AI.</p>
+    </section>
     <section aria-labelledby="what-is-mandatory">
       <h2 id="what-is-mandatory">What "mandatory reporting" means</h2>
       <p>NHS trusts are required to submit a number of national data returns — standard datasets sent to national bodies on fixed timetables, covering things like waiting times, bed occupancy, complaints and workforce equality. Each return has rules about what to count, who owns it and when it is due. Missing a deadline or submitting poor-quality data carries real consequences, so keeping a reliable grip on every return is core business-partner work.</p>
