@@ -14,7 +14,7 @@ See also: [AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md](AGENT_ANALYTICAL_BRIEF_REFRAM
 
 ## Agent-assisted analytical brief template
 
-Each public report follows this simplified structure (rendered by `agent_brief_sections()`):
+Each public report follows this review-first structure (rendered by `agent_brief_sections()`):
 
 1. Title and short subtitle (report header)
 2. Public-data caveat box
@@ -22,16 +22,51 @@ Each public report follows this simplified structure (rendered by `agent_brief_s
 4. **Data used** (sources, period, RDY filter, historic trend availability)
 5. **What this report can and cannot tell us** (scope and limits)
 6. **Headline reading** (3–5 plain-English takeaways)
-7. **Key findings by review area** (grouped narrative blocks with owner checks)
-8. **Main metric table** (figure, latest value, peer position/comparator, initial reading, human check; trend column when data supports it)
-9. **Draft interpretation** (3–5 bullets: notable findings, local review needs, limits)
-10. **Human validation checklist** (4–6 plain-English bullets)
-11. **Audit trail and source checks** (short intro + links; prompt excerpt, supporting tables and technical audit in collapsible `<details>`)
-12. Human review footer
+7. **Provider / RDY scope badge** (MHSDS, CSDS, Talking Therapies only)
+8. **Priority callout** (top 1–3 review flags where applicable)
+9. **Key findings explained** — enriched table with period caption (see column model below)
+10. **Trend summary** (unique headings per source where historic data exists)
+11. **Human validation checklist** (4–6 plain-English bullets)
+12. **Bottom line** — one paragraph for non-technical readers
+13. **Why this is useful** — short box on agent triangulation value
+14. **Audit trail and source checks** (collapsible: prompt excerpt, grouped findings, draft interpretation, supporting tables)
 
-Trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Source validation only, Definition check required.
+Grouped findings and draft interpretation are collapsed into the audit trail to reduce repetition above the fold.
+
+### Key findings explained — column model
+
+| Column | Spec field | Content |
+|--------|-----------|---------|
+| Figure / measure | `figure` | Metric name and ID |
+| Latest value | `latest` | RDY value for reporting period |
+| Standard / expected | `standard_detail` + `standard_metadata` | National target or scoring threshold with traceable cite |
+| Peer median | `peer_detail` | Published peer median/rank (NOF) or previous-period comparator |
+| Trend | `trend` / `trend_label` | Direction only — Rising, Falling, Stable, Not available, etc. |
+| Validation status | `validation_status` | Definition check / Finance sign-off / Local owner confirmation |
+| Judgement | `judgement` | Sharp "so what?" one-liner |
+| Human check | `human_check` | Named owner or review action |
+
+Trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Rising, Falling, Stable, Volatile. Validation statuses use a separate badge column — never mixed into Trend.
 
 Comparator priority: official standard (if in source) → published peer median/rank (NOF only) → previous comparable period → none stated honestly.
+
+### Source metadata for curated standards
+
+Manually curated standards and enriched public context include:
+
+| Field | Purpose |
+|-------|---------|
+| `source_url` | Reader can trace the standard |
+| `source_title` | Avoids mystery hardcoding |
+| `source_publication_date` | Shows whether the standard is current |
+| `accessed_date` | Public demo audit trail |
+| `confidence` | `confirmed` / `inferred` / `needs_owner_check` |
+
+Applied to `NOF_METRIC_SPEC`, Talking Therapies 75%/95% standards, CSDS CHS waiting-list signpost and CQC context. Rendered as inline `<cite class="nhs-standard-cite">` in the standard column.
+
+### Period label convention
+
+Every main table and trend chart includes an explicit reporting period or trend window via `period_caption_html()`. Where headline window differs from supporting extract window, both are stated (e.g. six-month display vs eight-month stacked extract).
 
 Reports are indexed on `site/draft-reports.html` as worked examples of agent-assisted analytical briefs.
 
@@ -134,7 +169,24 @@ Register and run summary: `HISTORIC_SOURCE_REGISTER.csv`, `HISTORIC_PUBLIC_DATA_
 ```bash
 # 2. Render public HTML reports (offline OK if CSVs exist)
 Rscript site/R/03_render_public_reports.R
+
+# 2b. Standalone post-render validation (also runs automatically at end of step 2)
+Rscript site/R/04_validate_public_reports.R
 ```
+
+### Post-render validation (`04_validate_public_reports.R`)
+
+After each render, the pipeline checks all six `public-*.html` files for:
+
+- Duplicate `<h2>` section headings within a file
+- Validation wording misplaced in the Trend column (Definition check, Finance, Source validation only)
+- Talking Therapies M019–M021 and M019–M022 totals vs `demo_talking_therapies.csv`
+- Chronological order of month labels in time-series bar charts
+- Missing period captions on Key findings explained sections
+- Missing bottom-line and why-this-is-useful sections
+- KH03 quarterly snapshot wording on the urgent-care report
+
+Validation fails the render with a numbered issue list if any check fails. Add new `check_*()` functions as failure modes are discovered.
 
 ## Known limitations in this run
 

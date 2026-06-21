@@ -1,90 +1,86 @@
 # Final Report QA Summary
 
-**Generated:** 2026-06-21 (after final clarity, trend, explanation and simplification passes)
+**Generated:** 2026-06-21 (public-data report improvement plan — full implementation pass)
 
 > Public-data demonstration only — not official Dorset HealthCare reporting. All figures require human review and local owner confirmation.
 
 ## Scope of this pass
 
-- **Simplification pass (latest):** merged overlapping sections into Key findings explained, Agent summary, and What a human should check; demoted tables/commentary/trends to collapsible details. See [FINAL_SIMPLIFICATION_SUMMARY.md](FINAL_SIMPLIFICATION_SUMMARY.md).
-- Added **Key findings explained** section to all six public HTML reports (formerly Key figures explained)
-- Standardized **trend direction** labels and **comparator** wording
-- Fixed narrative contradictions where historic trend files now exist (CSDS, MHSDS MHS23, urgent/diagnostics)
-- Enhanced agent process and verification copy
-- No new data downloads; uses existing `demo_*.csv`, time-series globs and `trend_*.csv` files
+Implementation of the **public-data report improvement plan**:
+
+- **Data-error fixes:** TT M019–M022 totals (5,870 and 6,780), KH03 quarter wording, DM01 period labels, CSDS 6/8-month distinction, chronological trend charts, unique section headings
+- **Enriched KFE table:** Standard/expected, peer median, trend, validation status and judgement columns with source metadata cites
+- **Per-report content:** NOF spec enrichment and priority callouts; MHSDS/CSDS/TT access-activity profiles; assurance source map; urgent-care applicability check
+- **Layout slimming:** Collapsed grouped findings and draft interpretation into audit trail; bottom line and why-this-is-useful sections; provider scope badges
+- **Automated validation:** `site/R/04_validate_public_reports.R` wired to render pipeline
+- **CSS:** Priority callout, scope badge, bottom line, validation badges, period captions, mobile KFE stacking
 
 **Regenerate reports:**
 
 ```bash
 Rscript site/R/03_render_public_reports.R
+Rscript site/R/04_validate_public_reports.R
 ```
 
 ---
 
-## Reports by trend data availability
-
-| Report | Current data | Historic trend | Notes |
-|--------|-------------|----------------|-------|
-| `public-performance-overview.html` | Q4 2025/26 NOF snapshot | **None** (cross-sectional) | Peer median/rank from NHS England fields |
-| `public-mh-access-profile.html` | Nov 2025–Apr 2026 six-month brief | **Yes** — `trend_mhsds_access_rdy.csv` (8 mo stacked; 6 mo displayed) | Primary source for MHS23/MHS01/MHS29/MHS69; line charts; summary table |
-| `public-community-services-profile.html` | Mar 2026 demo month | **Yes** — `trend_csds_activity_rdy.csv` (8 mo) | Assessment & Clinical Intervention trended |
-| `public-talking-therapies-profile.html` | Apr 2026 demo month | **Yes** — IAPT time series (13 mo) | M019–M022 waiting bands latest-only |
-| `public-assurance-profile.html` | Annual snapshots | **Descriptive history only** — DSPT multi-year status | KO41a/ERIC annual; FFT gap; CQC context |
-| `public-urgent-diagnostics-check.html` | May 2026 A&E; Mar 2026 DM01 | **Yes** — `trend_ae_rdy.csv`, `trend_dm01_rdy.csv`, `trend_kh03_beds_rdy.csv` | A&E = source validation; KH03 to Jun 2024 |
-
----
-
-## Comparator types by report
-
-| Report | Primary comparator | Secondary |
-|--------|-------------------|-----------|
-| NOF overview | **Peer median + published rank** (NHS England, not recalculated) | None for trend |
-| MHSDS | **Six-month change + previous month** | `trend_mhsds_access_rdy.csv` (Provider/RDY) |
-| CSDS | **Previous comparable month** | No official standard stated |
-| Talking Therapies | **Previous comparable month** | M053: no verified threshold in extract |
-| Assurance | **Source validation / descriptive history** | No peer benchmarks |
-| Urgent/diagnostics | **Previous period** (DM01, KH03); **validation only** (A&E) | No national comparators |
-
----
-
-## Key figures explained — validation checklist
+## Automated validation
 
 | Check | Result |
 |-------|--------|
-| All six reports contain "Key findings explained" | **Pass** |
-| Each key figure has what / compare / trend / human-check columns | **Pass** |
-| No trend inferred from single data point | **Pass** |
-| No fabricated targets or peer medians (except NOF pass-through) | **Pass** |
-| No causal claims introduced | **Pass** |
-| Demonstration caveat intact on all reports | **Pass** |
-| Links from `site/draft-reports.html` work | **Pass** (paths unchanged) |
-| CSDS narrative consistent with 8-month trend | **Pass** |
-| MHSDS uses `trend_mhsds_access_rdy.csv` as primary six-month source | **Pass** |
-| MHSDS six-month summary table with MoM and six-month stats | **Pass** |
-| MHSDS line charts for four headline measures | **Pass** |
-| MHSDS trend readings use rising/falling/stable/volatile (not default mixed/unclear) | **Pass** |
-| Urgent A&E/DM01 trend section renders when historic files present | **Pass** |
-| Trend badges use allowed labels only | **Pass** |
+| All six `public-*.html` files regenerate without error | **Pass** |
+| Post-render validation script passes | **Pass** (6 files) |
+| No duplicate `<h2>` headings within any report | **Pass** |
+| Trend column free of validation-status wording | **Pass** |
+| TT M019–M021 (5,870) and M019–M022 (6,780) in HTML | **Pass** |
+| Time-series chart labels in chronological order | **Pass** |
+| Period captions on Key findings explained sections | **Pass** |
+| Bottom line and why-this-is-useful on all reports | **Pass** |
 
 ---
 
-## Figures where trend or comparator remains unavailable
+## Acceptance criteria (content and structure)
 
-| Figure | Limitation |
-|--------|------------|
-| All NOF metrics | Cross-sectional Q4 2025/26 only; median/rank often NA |
-| MHSDS suppressed cells | `*` — trend N/A for those cells |
-| MHSDS CYP32a | Not in Provider time-series bundle used here |
-| CSDS age bands | No multi-period age-band trend in extract |
-| IAPT M019–M022 waiting bands | Latest-period values only in Key figures explained |
-| IAPT M192/M186 outcomes | Deferred — definition/suppression; not key figures |
-| KO41a / ERIC | Single annual snapshot each |
-| FFT | No org-level RDY rows in downloaded summary XLSX |
-| CQC | Context note only — not numeric performance |
-| A&E Type 1/2 attendances | Always zero — Source validation only |
-| KH03 | Quarterly snapshots to Jun 2024; may lag NHS England latest page |
+| Criterion | Result |
+|-----------|--------|
+| No contradictory totals (M019–M022, DM01 periods, KH03 quarter count) | **Pass** |
+| Trend column shows direction only; validation in separate column | **Pass** |
+| NOF table: figure, standard, peer, trend, judgement, human check | **Pass** |
+| OF0063 and UCR prominently flagged in NOF headline/callout | **Pass** |
+| MHS69 April spike as validation priority with FY-reset explanation | **Pass** |
+| M053 75% standard + falling judgement; 18-week standard included | **Pass** |
+| CSDS MoM-up / 6-month-down headline; Other category flagged | **Pass** |
+| Assurance traceable KO41a/ERIC values; source map with currentness-risk | **Pass** |
+| Urgent-care chronological charts; grouping rationale stated | **Pass** |
+| Each report has bottom line paragraph | **Pass** |
+| MHSDS, CSDS, TT show Provider/RDY scope badge | **Pass** |
+| No duplicate section headings within any report | **Pass** |
 
-These gaps are stated explicitly in the reports.
+---
+
+## Visual QA (desktop and mobile)
+
+**Desktop (≥1024px):**
+
+| Check | Result |
+|-------|--------|
+| KFE table columns readable with horizontal scroll wrapper | **Pass** |
+| Priority callouts visually distinct | **Pass** |
+| Validation badges legible in separate column | **Pass** |
+| Collapsed audit sections use `<details>` | **Pass** |
+| No oversized coloured cells / blue-blob regression | **Pass** |
+| Standard cites render as inline footnotes | **Pass** |
+
+**Mobile (≤480px):**
+
+| Check | Result |
+|-------|--------|
+| KFE table stacks per-row (thead hidden, block layout) | **Pass** |
+| Chart labels readable; chronological order preserved | **Pass** |
+| Scope badge and bottom line visible without excessive scroll | **Pass** |
+| Collapsible summaries present and tappable | **Pass** |
+
+Visual inspection completed on all six reports: `public-performance-overview.html`, `public-mh-access-profile.html`, `public-community-services-profile.html`, `public-talking-therapies-profile.html`, `public-assurance-profile.html`, `public-urgent-diagnostics-check.html`.
 
 ---
 
@@ -92,11 +88,11 @@ These gaps are stated explicitly in the reports.
 
 | File | Change |
 |------|--------|
-| `site/R/03_render_public_reports.R` | Key figures explained helpers; all six `build_*()` functions; extended process steps |
-| `site/assets/nhs-report.css` | `.key-figures-explained`, trend badges, comparator labels |
-| `site/public-data/PUBLIC_REPORTS_METHOD.md` | Template, trend rules, historic file references |
-| `site/public-data/PUBLIC_DATA_RUN_SUMMARY.md` | Historic trend cross-refs; reports marked built |
-| `site/draft-reports.html` | Card copy updates for Key figures explained / trends |
+| `site/R/03_render_public_reports.R` | Shared helpers, enriched KFE, per-report content, slim layout, validation wiring |
+| `site/R/04_validate_public_reports.R` | New post-render validation checks |
+| `site/assets/nhs-report.css` | New component styles; mobile KFE stacking |
+| `site/draft-reports.html` | Revised card titles, descriptions, structure note |
+| `site/public-data/PUBLIC_REPORTS_METHOD.md` | KFE column model, metadata schema, validation usage |
 | `site/public-data/FINAL_REPORT_QA_SUMMARY.md` | This document |
 | `site/reports/public-*.html` | Regenerated (six files) |
 
@@ -116,56 +112,4 @@ These gaps are stated explicitly in the reports.
 
 **Yes — ready for final human review and site QA.**
 
-All six public reports now meet the clarity pass requirements: Key figures explained, honest comparators, standardized trend labels, enhanced agent process and verification sections. Operational use still requires local data owner confirmation and accountable sign-off.
-
----
-
-## MHSDS six-month trend brief QA (2026-06-21)
-
-**Report:** `public-mh-access-profile.html`  
-**Primary data:** `trend_mhsds_access_rdy.csv` (8 consecutive months stacked Sep 2025–Apr 2026; six-month display window Nov 2025–Apr 2026)
-
-### Final report acceptance criteria
-
-| Criterion | Result |
-|-----------|--------|
-| Plain-English headline summary at top | **Pass** |
-| Full trend window stated (Nov 2025 – Apr 2026) | **Pass** |
-| One summary table — all four headline measures with latest, previous, MoM, six-month change, avg, high/low, trend reading, note | **Pass** |
-| Caveats block (provisional, suppression, provider scope, local validation) | **Pass** |
-| Human review checklist | **Pass** |
-| Technical audit trail at bottom (collapsible) | **Pass** |
-
-### Readability checks
-
-| Check | Result |
-|-------|--------|
-| No longer reads as latest-month extract only | **Pass** |
-| Trend readings differentiated (rising / falling / stable / volatile — not all mixed/unclear) | **Pass** |
-| Caveats not repeated in every table row | **Pass** |
-| Line charts show six-month movement | **Pass** |
-| File names in audit section only | **Pass** |
-| No synthetic values | **Pass** |
-| Suppressed values not treated as zero (`value_status` column) | **Pass** |
-| Provider/resident rows not summed | **Pass** |
-| MHS23 framed as stock measure | **Pass** |
-| MHS29 not framed as access improvement | **Pass** |
-
-### Sign-off questions
-
-| Question | Answer in report |
-|----------|------------------|
-| What changed over the last six months? | Headline reading + summary table six-month change column |
-| Which measures appear stable? | MHS29 broadly stable; MHS23 rising modestly |
-| Which measures appear rising or falling? | MHS23/MHS01 rising; MHS69 volatile (Apr 2026 step change — local review needed) |
-| Which measures are too caveated to interpret? | MHS69 flagged volatile; demo extract suppression noted in audit |
-| What should MHSDS owner check? | Human validation checklist + grouped findings owners |
-| What can/cannot be concluded? | Scope section (can/cannot) |
-
-**Pipeline commands:**
-
-```bash
-cd site/public-data
-Rscript 05_download_historic_public_data.R --mhsds-only
-Rscript ../R/03_render_public_reports.R
-```
+All six public reports meet the improvement plan acceptance criteria. Automated validation passes on regenerate. Operational use still requires local data owner confirmation and accountable sign-off.

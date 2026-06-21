@@ -56,17 +56,19 @@
 
     <section aria-labelledby="public-data-reports">
       <h2 id="public-data-reports">Public-data agent workflow examples</h2>
-      <p>Each brief follows the same structure:</p>
+      <p>Each brief follows a slimmed, review-first structure:</p>
       <ul>
         <li><strong>Question</strong> — what the brief is trying to answer</li>
         <li><strong>Data used</strong> — which public source was used</li>
         <li><strong>What this report can and cannot tell us</strong> — scope and limits</li>
         <li><strong>Headline reading</strong> — plain-English takeaways before the detail</li>
-        <li><strong>Key findings by review area</strong> — grouped narrative for local owners</li>
-        <li><strong>Main metric table</strong> — figures, comparators and initial readings</li>
-        <li><strong>Draft interpretation</strong> — first-draft narrative for review</li>
+        <li><strong>Priority flags</strong> — top review items where applicable</li>
+        <li><strong>Key findings explained</strong> — figure, standard, peer position, trend, validation status and judgement</li>
+        <li><strong>Trend summary</strong> — where historic extracts support it</li>
         <li><strong>Human validation checklist</strong> — what a person must confirm</li>
-        <li><strong>Audit trail and source checks</strong> — prompt excerpt, CSV paths and technical trace</li>
+        <li><strong>Bottom line</strong> — one paragraph for non-technical readers</li>
+        <li><strong>Why this is useful</strong> — how the agent triangulated public sources</li>
+        <li><strong>Audit trail and source checks</strong> — prompt excerpt, CSV paths and technical trace (collapsible)</li>
       </ul>
       <p>This creates a clear audit trail from public data to draft narrative.</p>
     </section>
@@ -77,42 +79,42 @@
         <article class="card card--public">
           <p class="card-badge card-badge--agent">Agent-assisted brief</p>
           <h3>NHS Oversight Framework</h3>
-          <p class="card-purpose">First-draft performance brief from public NHS Oversight Framework data. This uses published peer median and rank information. The figures are not recalculated.</p>
+          <p class="card-purpose">First-draft performance brief from public NHS Oversight Framework data with enriched standard/peer/trend/validation columns. Priority flags for long-stay inpatients, UCR, crisis access and cost index.</p>
           <a class="card-link" href="reports/public-performance-overview.html">View worked example</a>
         </article>
 
         <article class="card card--public">
           <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-          <h3>MHSDS mental health access</h3>
-          <p class="card-purpose">Access and activity measures using public Mental Health Services Data Set data. This includes monthly trends where the public time series supports them.</p>
+          <h3>MHSDS access and activity profile</h3>
+          <p class="card-purpose">Six-month MHSDS access and activity profile (Provider/RDY rows only). Stock-vs-activity insight, MHS69 validation flag and desired-direction column in the trend summary.</p>
           <a class="card-link" href="reports/public-mh-access-profile.html">View worked example</a>
         </article>
 
         <article class="card card--public">
           <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-          <h3>CSDS community services</h3>
-          <p class="card-purpose">Community services activity briefing using public Community Services Data Set data. This shows how historic public data can support trend commentary.</p>
+          <h3>CSDS community activity profile</h3>
+          <p class="card-purpose">CSDS community activity profile with MoM-up / six-month-down headline pattern, &ldquo;Other&rdquo; category data-quality flag and CHS waiting-list signpost.</p>
           <a class="card-link" href="reports/public-community-services-profile.html">View worked example</a>
         </article>
 
         <article class="card card--public">
           <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-          <h3>Talking Therapies</h3>
-          <p class="card-purpose">Referrals, access and waiting measures from public NHS Talking Therapies data. This avoids recovery or outcome claims where the public extract does not support them.</p>
+          <h3>NHS Talking Therapies access and waits</h3>
+          <p class="card-purpose">NHS Talking Therapies access and waits brief with 75% six-week and 95% eighteen-week standards, self-referral insight and corrected M019&ndash;M022 waiting-band totals.</p>
           <a class="card-link" href="reports/public-talking-therapies-profile.html">View worked example</a>
         </article>
 
         <article class="card card--public">
-          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-          <h3>Assurance and statutory returns</h3>
-          <p class="card-purpose">A source map for selected assurance and statutory reporting areas. This includes KO41a, ERIC, DSPT, FFT gaps and CQC context. It is not a scorecard.</p>
+          <p class="card-badge card-badge--agent">Source map</p>
+          <h3>Public statutory assurance source map</h3>
+          <p class="card-purpose">A source applicability map for KO41a, ERIC, DSPT, FFT and CQC context — not a scorecard. Traceable KO41a/ERIC values, currentness-risk column and who-to-contact guidance.</p>
           <a class="card-link" href="reports/public-assurance-profile.html">View worked example</a>
         </article>
 
         <article class="card card--public">
-          <p class="card-badge card-badge--agent">Agent-assisted brief</p>
-          <h3>Urgent care and diagnostics check</h3>
-          <p class="card-purpose">A source-validation brief covering RDY presence in A&amp;E, DM01 and KH03 public data. This is deliberately cautious and focuses on what the public sources can and cannot support.</p>
+          <p class="card-badge card-badge--agent">Applicability check</p>
+          <h3>Urgent care, diagnostics and beds source check</h3>
+          <p class="card-purpose">Public source applicability check for A&amp;E, DM01 and KH03. Explains grouping rationale, audiology waiting-list dominance and why A&E rows validate service model rather than ED performance.</p>
           <a class="card-link" href="reports/public-urgent-diagnostics-check.html">View worked example</a>
         </article>
       </div>
@@ -126,7 +128,7 @@
       <p>The report rendering script then produced each brief using the same structure: question, data used, key findings, agent summary, human checks and verification notes.</p>
       <p>This means the reports are not just manually written text. They are part of a repeatable workflow that links source data, processing and narrative.</p>
       <p>Every brief ends with caveats and a human review gate.</p>
-      <p class="info-box" style="margin-bottom:0;">Supporting evidence: regenerate briefs with <code>Rscript site/R/03_render_public_reports.R</code> after updating processed extracts in <code>public-data/processed/</code>.</p>
+      <p class="info-box" style="margin-bottom:0;">Supporting evidence: regenerate briefs with <code>Rscript site/R/03_render_public_reports.R</code> (runs post-render validation automatically). Update processed extracts in <code>public-data/processed/</code> first. Standalone validation: <code>Rscript site/R/04_validate_public_reports.R</code> after sourcing from the render script.</p>
     </section>
 
     <section aria-labelledby="why-matters">
