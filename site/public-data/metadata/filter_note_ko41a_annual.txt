@@ -1,0 +1,14 @@
+Filter note: ko41a_annual - ko41a_annual_2024_25_ko41a_2024_25_Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Site Level
+Generated: 2026-06-21 17:00:29.686254
+Publication period: 2024-25
+
+Input rows: 2869
+RDY matching rows: 12
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_ko41a_annual_ko41a_annual_2024_25_ko41a_2024_25_Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Site Level.csv
+Columns: Year; NHS_England_Region_Code; NHS_England_Region_Name; ICS_Code; ICS_Name; Organisation_Code; Organisation_Name; Site_Code; Site_Name; Organisation_Type; Complaints_Total_Brought_Forward; Complaints_Total_New; Complaints_Total_Resolved; Complaints_Number_Upheld; Complaints_Number_Partially_Upheld; Complaints_Number_Not_Upheld; Complaints_Total_Carried_Forward; Age_0_5; Age_6_17; Age_18_25; Age_26_55; Age_56_64; Age_65_74; Age_75_And_Over; Age_Unknown; Age_Total; Status_Patient; Status_Parent; Status_Guardian; Status_Carer; Status_Other; Status_Total; Service_Ambulance; Service_Inpatient; Service_Outpatient; Service_Emergency; Service_Other_Community_Healthcare; Service_Commissioning; Service_Mental_Health; Service_Maternity; Service_Other; Service_Total; Clinical_Treatment_Accident_And_Emergency; Clinical_Treatment_Anaesthetics; Clinical_Treatment_Clinical_Oncology; Clinical_Treatment_Dental_Group; Clinical_Treatment_General_Medicine_Group; Clinical_Treatment_Obstetrics_And_Gynaecology; Clinical_Treatment_Paediatric_Group; Clinical_Treatment_Pathology_Group; Clinical_Treatment_PHM_And_CHS_Group; Clinical_Treatment_Psychiatry_Group; Clinical_Treatment_Radiology_Group; Clinical_Treatment_Surgical_Group; Clinical_Treatment_Sub_Total; Subject_Area_Access_To_Treatment_Or_Drugs; Subject_Area_Admissions_Discharge_And_Transfers; Subject_Area_Appointments; Subject_Area_Commissioning_Services; Subject_Area_Communications; Subject_Area_Consent_To_Treatment; Subject_Area_End_Of_Life_Care; Subject_Area_Facilities_Services; Subject_Area_Integrated_Care; Subject_Area_Patient_Care_Including_Nutrition_Hydration; Subject_Area_Mortuary_And_Post_Mortem_Arrangements; Subject_Area_Prescribing_Errors; Subject_Area_Privacy_Dignity_And_Wellbeing; Subject_Area_Restraint; Subject_Area_Staffing_Numbers; Subject_Area_Transport; Subject_Area_Trust_Administration; Subject_Area_Values_And_Behaviours; Subject_Area_Waiting_Times; Subject_Area_Other; Subject_Area_Sub_Total; Subject_Area_Total; Profession_Medical; Profession_Dental; Profession_Nursing; Profession_Midwifery; Profession_Health_Visiting_Staff; Profession_Scientific_Therapeutic_And_Technical; Profession_Ambulance; Profession_Support_To_Clinical_Staff; Profession_NHS_Infrastructure_Support; Profession_Other; Profession_Total
+
+Caveats: Annual HCHS complaints; KO41a only for secondary/community
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

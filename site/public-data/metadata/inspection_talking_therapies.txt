@@ -1,0 +1,22 @@
+Inspection report: talking_therapies
+Generated: 2026-06-21 16:52:39.260264
+Files inspected: 3
+
+--- talking_therapies_performance-april-2026_activity.csv ---
+Type: csv
+Columns: REPORTING_PERIOD_START; REPORTING_PERIOD_END; GROUP_TYPE; ORG_CODE1; ORG_NAME1; ORG_CODE2; ORG_NAME2; MEASURE_ID; MEASURE_NAME; MEASURE_VALUE_SUPPRESSED
+Row count: 296326
+RDY signal: yes
+
+--- talking_therapies_performance-april-2026_data_quality.csv ---
+Type: csv
+Columns: ReportingPeriodStartDate; ReportingPeriodEndDate; Org_Code; DataTable; UID; DataItem; Valid_suppressed; Default_suppressed; Invalid_suppressed; Missing_suppressed; Denominator_suppressed
+Row count: 22578
+RDY signal: yes
+
+--- talking_therapies_performance-april-2026_time_series.csv ---
+Type: csv
+Columns: REPORTING_PERIOD_START; REPORTING_PERIOD_END; GROUP_TYPE; ORG_CODE1; ORG_NAME1; ORG_CODE2; ORG_NAME2; MEASURE_ID; MEASURE_NAME; MEASURE_VALUE
+Row count: 181522
+RDY signal: yes
+

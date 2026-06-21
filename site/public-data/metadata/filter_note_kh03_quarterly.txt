@@ -1,0 +1,14 @@
+Filter note: kh03_quarterly - kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only
+Generated: 2026-06-21 17:00:29.502458
+Publication period: Latest quarter on overnight page
+
+Input rows: 56528
+RDY matching rows: 228
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_kh03_quarterly_kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv
+Columns: Organisation_Code; Sector; Number_Of_Beds; Effective_Snapshot_Date
+
+Caveats: Quarterly snapshot; specialty coding; wide format
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

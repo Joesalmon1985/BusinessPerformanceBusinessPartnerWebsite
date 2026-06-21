@@ -1,0 +1,5 @@
+Filter note: cqc_rdy
+Context only — no tabular data to filter.
+See metadata/cqc_rdy_context_note.txt
+
+DISCLAIMER: Not an official Dorset HealthCare report.

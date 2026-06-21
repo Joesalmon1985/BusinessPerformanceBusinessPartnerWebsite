@@ -1,0 +1,16 @@
+CQC Dorset HealthCare provider page — CONTEXT ONLY
+================================================
+
+DISCLAIMER: This is a public-data demonstration note. It is NOT an official Dorset HealthCare report.
+Outputs require human review and local owner confirmation before operational use.
+
+URL: https://www.cqc.org.uk/provider/RDY
+Page title: Dorset Healthcare University NHS Foundation Trust
+Captured: 2026-06-21
+
+This source provides regulatory context (ratings, regulated activities, inspection links).
+It is not a statistical aggregate dataset and was not bulk-downloaded.
+Do not scrape or infer confidential service-sensitive information.
+
+Provider ID: RDY
+Organisation: Dorset HealthCare University NHS Foundation Trust

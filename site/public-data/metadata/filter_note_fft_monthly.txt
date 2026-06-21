@@ -1,0 +1,3 @@
+Filter note: fft_monthly
+No raw files available to filter.
+Download status: manual_download_needed

@@ -1,0 +1,16 @@
+Inspection report: nof_mh_community
+Generated: 2026-06-21 16:49:56.904703
+Files inspected: 2
+
+--- nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv ---
+Type: csv
+Columns: Quarter; Region; Trust_type; Trust_subtype; Trust_code; Trust_name; Domain; Sub-domain; Metric_ID; Metric_description; Reporting_date; Units; Value; Median_value; Lower_quartile; Upper_quartile; Rank
+Row count: 8771
+RDY signal: yes
+
+--- nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv ---
+Type: csv
+Columns: Quarter; Region; Trust_type; Trust_subtype; Trust_code; Trust_name; Average_score; Likely_range_of_average_score; Segment; Trust_in_financial_deficit; Rank; Likely_range_of_rank
+Row count: 61
+RDY signal: yes
+

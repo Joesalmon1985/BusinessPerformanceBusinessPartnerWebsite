@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Governance and Benefits — Responsible AI for Performance</title>
+  <meta name="description" content="Benefits, controls and AI assurance checklist for responsible use of agentic AI in NHS performance management.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Governance and benefits</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="draft-reports.html">Draft reports</a></li>
+        <li><a href="agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="governance-and-benefits.html" aria-current="page">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div class="hero">
+      <h1>Governance and benefits</h1>
+      <p class="hero-lead">Responsible use of agentic AI — including building this demonstration site with a Cursor agent under human direction. Clear benefits, hard controls, and a practical assurance checklist.</p>
+    </div>
+
+    <div class="caveat-box" role="note">
+      <strong>Demonstration caveat:</strong> This is a personal demonstration site using synthetic data. It is not an official Dorset HealthCare report and does not contain confidential or patient-identifiable information.
+    </div>
+
+    <div class="two-col">
+      <section aria-labelledby="benefits">
+        <h2 id="benefits">Benefits</h2>
+        <ul>
+          <li><strong>Faster first drafts</strong> of reports and briefing notes — humans edit rather than start from blank</li>
+          <li><strong>More consistent report structure</strong> across services and shared targets</li>
+          <li><strong>Reusable subject matter rules</strong> for MHSDS, CSDS, QA and IG — captured once, version controlled</li>
+          <li><strong>Clearer caveats and data quality warnings</strong> — harder to accidentally omit</li>
+          <li><strong>Better translation from analysis to action</strong> — draft narratives tested against operational questions</li>
+          <li><strong>Better onboarding</strong> for analysts and performance managers joining complex portfolios</li>
+          <li><strong>Improved assurance</strong> before reports go to services or Board</li>
+          <li><strong>Reduced single-person dependency</strong> on tacit knowledge held by one individual</li>
+          <li><strong>Admin and delivery support</strong> — project alignment, backlog sync and activity logging with human approval</li>
+          <li><strong>More time for human judgement</strong>, stakeholder engagement and improvement work</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="controls">
+        <h2 id="controls">Controls</h2>
+        <ul>
+          <li><strong>No patient-identifiable data</strong> in AI workflows without explicit IG approval</li>
+          <li><strong>Synthetic data for demonstration</strong> — this site uses fabricated aggregates only</li>
+          <li><strong>Human approval before use</strong> — named owner sign-off on every output</li>
+          <li><strong>Source-linked definitions</strong> — metrics traceable to authoritative guidance</li>
+          <li><strong>Public sources only unless explicitly approved</strong> — no unpublished internal documents in AI workflows</li>
+          <li><strong>Version-controlled agent rules and prompts</strong> — auditable change history</li>
+          <li><strong>Audit log of agent outputs</strong> — what was asked, what was produced, who reviewed</li>
+          <li><strong>Clear confidence levels</strong> — confirmed, likely, conditional, needs owner confirmation</li>
+          <li><strong>Report QA checklist</strong> — mandatory before distribution</li>
+          <li><strong>Escalation where data quality affects interpretation</strong> — do not quietly publish uncertain figures</li>
+        </ul>
+      </section>
+    </div>
+
+    <section aria-labelledby="checklist">
+      <h2 id="checklist">AI assurance checklist</h2>
+      <p>Before any AI-assisted performance output is shared with services, directors or Board, a human owner should confirm:</p>
+      <div class="table-wrap">
+        <table class="checklist-table">
+          <thead>
+            <tr>
+              <th scope="col">Done</th>
+              <th scope="col">Check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" id="chk1" aria-label="Is the data synthetic, public or approved?"></td>
+              <td><label for="chk1">Is the data synthetic, public or approved?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk2" aria-label="Is the metric definition linked to a source?"></td>
+              <td><label for="chk2">Is the metric definition linked to a source?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk3" aria-label="Has the denominator been checked?"></td>
+              <td><label for="chk3">Has the denominator been checked?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk4" aria-label="Are date ranges clear?"></td>
+              <td><label for="chk4">Are date ranges clear?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk5" aria-label="Are caveats visible?"></td>
+              <td><label for="chk5">Are caveats visible?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk6" aria-label="Has a human owner reviewed the output?"></td>
+              <td><label for="chk6">Has a human owner reviewed the output?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk7" aria-label="Could the output be misread by a service or Board audience?"></td>
+              <td><label for="chk7">Could the output be misread by a service or Board audience?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk8" aria-label="Is there any risk of patient, staff or service confidentiality breach?"></td>
+              <td><label for="chk8">Is there any risk of patient, staff or service confidentiality breach?</label></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" id="chk9" aria-label="Are specification citations included and checkable?"></td>
+              <td><label for="chk9">Are specification citations included and checkable at source?</label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box">
+        <strong>Remember:</strong> Building this site with AI is itself an example of governed use — human direction, synthetic/public data only, and no implication of official Trust status. See the <a href="index.html">Home</a> page and <a href="agent-operating-model.html">operating model</a>. If any checklist item raises doubt, escalate to the Information Lead before sign-off.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic data. It is not an official Dorset HealthCare report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

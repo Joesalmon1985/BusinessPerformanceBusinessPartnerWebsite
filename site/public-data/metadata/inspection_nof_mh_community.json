@@ -1,0 +1,48 @@
+{
+  "nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv": {
+    "file": "nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv",
+    "type": "csv",
+    "size_bytes": 2272363,
+    "columns": ["Quarter", "Region", "Trust_type", "Trust_subtype", "Trust_code", "Trust_name", "Domain", "Sub-domain", "Metric_ID", "Metric_description", "Reporting_date", "Units", "Value", "Median_value", "Lower_quartile", "Upper_quartile", "Rank"],
+    "row_count": 8771,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Trust_code": 156
+      },
+      "name_matches": {
+        "Trust_name": 156
+      },
+      "rdy_any": {
+        "Trust_code": 156
+      },
+      "total_code_matches": 156,
+      "total_name_matches": 156,
+      "row_count": 8771,
+      "search_method": "full_file"
+    }
+  },
+  "nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv": {
+    "file": "nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv",
+    "type": "csv",
+    "size_bytes": 10926,
+    "columns": ["Quarter", "Region", "Trust_type", "Trust_subtype", "Trust_code", "Trust_name", "Average_score", "Likely_range_of_average_score", "Segment", "Trust_in_financial_deficit", "Rank", "Likely_range_of_rank"],
+    "row_count": 61,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Trust_code": 1
+      },
+      "name_matches": {
+        "Trust_name": 1
+      },
+      "rdy_any": {
+        "Trust_code": 1
+      },
+      "total_code_matches": 1,
+      "total_name_matches": 1,
+      "row_count": 61,
+      "search_method": "full_file"
+    }
+  }
+}

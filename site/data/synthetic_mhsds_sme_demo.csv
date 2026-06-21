@@ -1,0 +1,7 @@
+reporting_month,service_group,referrals_received,attended_contacts,first_attended_contacts,dna_contacts,median_wait_days,late_recorded_contacts,notes
+2026-02,All age MH access (combined),920,1240,680,142,18,45,Synthetic aggregate demo total for worked example
+2026-03,All age MH access (combined),985,1610,710,138,17,180,Synthetic aggregate demo total; sharp increase driven partly by late-recorded contacts
+2026-03,Demo Community MH Access Team,420,720,310,58,16,95,Synthetic service group; includes backlog clearance activity
+2026-03,Demo All Age Crisis Resolution Team,285,490,220,42,12,55,Synthetic service group; additional clinic capacity in demo scenario
+2026-03,Demo Primary Care Liaison MH Service,280,400,180,38,21,30,Synthetic service group; stable demand in demo scenario
+2026-02,All age MH access (combined) — rate inputs,920,1240,680,142,18,45,Used for Synthetic First Attended Contact Rate: 680/920 = 73.9% (demo only)

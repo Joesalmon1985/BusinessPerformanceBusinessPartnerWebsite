@@ -1,0 +1,14 @@
+Filter note: dm01_monthly - dm01_monthly__DM01-MARCH-2026-full-extract_32W3L_DM01-MARCH-2026-full-extract
+Generated: 2026-06-21 17:00:24.142288
+Publication period: 
+
+Input rows: 149056
+RDY matching rows: 16
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_dm01_monthly_dm01_monthly__DM01-MARCH-2026-full-extract_32W3L_DM01-MARCH-2026-full-extract.csv
+Columns: Period; Provider Parent Org Code; Provider Parent Name; Provider Org Code; Provider Org Name; Commissioner Parent Org Code; Commissioner Parent Name; Commissioner Org Code; Commissioner Org Name; Diagnostic Tests Sort Order; Diagnostic Tests; 00 < 01 Week; 01 < 02 Weeks; 02 < 03 Weeks; 03 < 04 Weeks; 04 < 05 Weeks; 05 < 06 Weeks; 06 < 07 Weeks; 07 < 08 Weeks; 08 < 09 Weeks; 09 < 10 Weeks; 10 < 11 Weeks; 11 < 12 Weeks; 12 < 13 Weeks; 13+ Weeks; Total WL; Waiting List Activity; Planned Activity; Unscheduled Activity; Total Activity
+
+Caveats: Provisional monthly; 15 test types; commissioner splits
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

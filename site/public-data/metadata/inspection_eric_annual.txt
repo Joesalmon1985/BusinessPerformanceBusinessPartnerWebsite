@@ -1,0 +1,8 @@
+Inspection report: eric_annual
+Generated: 2026-06-21 16:52:43.692068
+Files inspected: 1
+
+--- eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv ---
+Type: ?
+RDY signal: no
+

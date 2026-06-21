@@ -1,0 +1,175 @@
+{
+  "ko41a_annual_2024_25_ko41a_2024_25.zip": {
+    "file": "ko41a_annual_2024_25_ko41a_2024_25.zip",
+    "type": "zip",
+    "size_bytes": 508559,
+    "contents": {
+      "Data on Written Complaints in the NHS 2024-25 - Meta data.xlsx": {
+        "file": "Data on Written Complaints in the NHS 2024-25 - Meta data.xlsx",
+        "type": "xlsx",
+        "size_bytes": 41246,
+        "sheets": ["Title", "KO41a - Org Level", "KO41a - Site Level", "KO41b - Sub ICB Level", "KO41b - Practice Level"],
+        "sheet_info": {
+          "Title": {
+            "row_count_sample": 10,
+            "columns": "Data on Written Complaints in the NHS, 2024-25",
+            "rdy": {
+              "code_matches": [],
+              "name_matches": [],
+              "rdy_any": [],
+              "total_code_matches": 0,
+              "total_name_matches": 0,
+              "row_count": 10
+            }
+          },
+          "KO41a - Org Level": {
+            "row_count_sample": 86,
+            "columns": ["Column", "Description"],
+            "rdy": {
+              "code_matches": [],
+              "name_matches": [],
+              "rdy_any": [],
+              "total_code_matches": 0,
+              "total_name_matches": 0,
+              "row_count": 86
+            }
+          },
+          "KO41a - Site Level": {
+            "row_count_sample": 88,
+            "columns": ["Column", "Description"],
+            "rdy": {
+              "code_matches": [],
+              "name_matches": [],
+              "rdy_any": [],
+              "total_code_matches": 0,
+              "total_name_matches": 0,
+              "row_count": 88
+            }
+          },
+          "KO41b - Sub ICB Level": {
+            "row_count_sample": 75,
+            "columns": ["Column", "Description"],
+            "rdy": {
+              "code_matches": [],
+              "name_matches": [],
+              "rdy_any": [],
+              "total_code_matches": 0,
+              "total_name_matches": 0,
+              "row_count": 75
+            }
+          },
+          "KO41b - Practice Level": {
+            "row_count_sample": 18,
+            "columns": ["Column", "Description"],
+            "rdy": {
+              "code_matches": [],
+              "name_matches": [],
+              "rdy_any": [],
+              "total_code_matches": 0,
+              "total_name_matches": 0,
+              "row_count": 18
+            }
+          }
+        },
+        "rdy_search": {
+          "total_code_matches": 0,
+          "total_name_matches": 0
+        }
+      },
+      "Data on Written Complaints in the NHS 2024-25 Primary Care KO41b - Practice Level.csv": {
+        "file": "Data on Written Complaints in the NHS 2024-25 Primary Care KO41b - Practice Level.csv",
+        "type": "csv",
+        "size_bytes": 2499931,
+        "columns": ["Year", "Return", "NHS England region code", "NHS England region name", "ICS Code", "ICS Name", "Sub ICB Code", "Sub ICB Name", "Organisation Code", "Organisation Name", "Contract Number", "1.3 Total Brought Forward", "1.4 Total New", "1.5 Total Resolved", "1.6 Number Upheld", "1.7 Number Partially Upheld", "1.8 Number Not Upheld", "1.9 Total Carried Forward"],
+        "row_count": 12757,
+        "row_count_note": "full count",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 12757,
+          "search_method": "full_file",
+          "grep": {
+            "found": true,
+            "rdy_count": 0,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "Data on Written Complaints in the NHS 2024-25 Primary Care KO41b - Sub ICB Level.csv": {
+        "file": "Data on Written Complaints in the NHS 2024-25 Primary Care KO41b - Sub ICB Level.csv",
+        "type": "csv",
+        "size_bytes": 75140,
+        "columns": ["Year", "Return", "NHS England region code", "NHS England region name", "ICS Code", "ICS Name", "Sub ICB Code", "Sub ICB Name", "1.3 Total Brought Forward", "1.4 Total New", "1.5 Total Resolved", "1.6 Number Upheld", "1.7 Number Partially Upheld", "1.8 Number Not Upheld", "1.9 Total Carried Forward", "2.1 Age 0-19", "2.2 Age 20-59", "2.3 Age 60 and above", "2.4 Age Unknown", "2.5 Total all ages", "3.1 Patient/Parent/Guardian", "3.2 Carer", "3.3 Other", "3.4 Complainant Status Total", "4.1 Anaesthesia", "4.2 Appointment (Obtaining inc 0844 numbers)", "4.3 Appointment Availability/Length", "4.4 Care Planning", "4.5 Charging / Costs", "4.6 Clinical Treatment (inc Errors)", "4.7 Communications", "4.8 Confidentiality (Breach etc)", "4.9 Consent to Treatment", "4.10 Delay in Diagnosis", "4.11 Delay in Failure to Refer", "4.12 Disability Issues (Access etc)", "4.13 End of Life Care", "4.14 Equipment (Quality)", "4.15 Failure to Diagnose", "4.16 Follow-up Care", "4.17 Hygiene (Equipment)", "4.18 Hygiene (Hand etc)", "4.19 Inaccurate/Incorrect Records", "4.20 Loss of Records", "4.21 Loss of/Failure to Send Sample", "4.22 Misdiagnosis", "4.23 Out of Hours and other remote service provision", "4.24 Practice Management", "4.25 Premises (inc. Cleanliness", " Condition)", "4.26 Prescribing Error", "4.27 Prescription Issues", "4.28 Privacy and dignity", "4.29 Refusal to Allow Access to Records", "4.30 Refusal to Prescribe", "4.31 Refusal to Refer", "4.32 Refusal to Visit", "4.33 Removal from List", "4.34 Repeat Prescription Process", "4.35 Staff Attitude/Behaviour/Values", "4.36 Surgery Hours", "4.37 Treatment Not Available", "4.38 Waiting Time for Appointment", "4.39 Other", "4.40 Subject Total", "5.1 Admin Staff inc Receptionist", "5.2 Healthcare Assistant", "5.3 Locum Practitioner", "5.4 Other/No staff involved", "5.5 Pharmacist", "5.6 Podiatrist", "5.7 Practice Manager", "5.8 Practice Nurse", "5.9 Practitioner", "5.10 Therapist", "5.11 Staff Group Total"],
+        "row_count": 254,
+        "row_count_note": "full count",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 254,
+          "search_method": "full_file",
+          "grep": {
+            "found": true,
+            "rdy_count": 0,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Org Level.csv": {
+        "file": "Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Org Level.csv",
+        "type": "csv",
+        "size_bytes": 90757,
+        "columns": ["Year", "NHS_England_Region_Code", "NHS_England_Region_Name", "ICS_Code", "ICS_Name", "Organisation_Code", "Organisation_Name", "Organisation_Type", "Complaints_Total_Brought_Forward", "Complaints_Total_New", "Complaints_Total_Resolved", "Complaints_Number_Upheld", "Complaints_Number_Partially_Upheld", "Complaints_Number_Not_Upheld", "Complaints_Total_Carried_Forward", "Age_0_5", "Age_6_17", "Age_18_25", "Age_26_55", "Age_56_64", "Age_65_74", "Age_75_And_Over", "Age_Unknown", "Age_Total", "Status_Patient", "Status_Parent", "Status_Guardian", "Status_Carer", "Status_Other", "Status_Total", "Service_Ambulance", "Service_Inpatient", "Service_Outpatient", "Service_Emergency", "Service_Other_Community_Healthcare", "Service_Commissioning", "Service_Mental_Health", "Service_Maternity", "Service_Other", "Service_Total", "Clinical_Treatment_Accident_And_Emergency", "Clinical_Treatment_Anaesthetics", "Clinical_Treatment_Clinical_Oncology", "Clinical_Treatment_Dental_Group", "Clinical_Treatment_General_Medicine_Group", "Clinical_Treatment_Obstetrics_And_Gynaecology", "Clinical_Treatment_Paediatric_Group", "Clinical_Treatment_Pathology_Group", "Clinical_Treatment_PHM_And_CHS_Group", "Clinical_Treatment_Psychiatry_Group", "Clinical_Treatment_Radiology_Group", "Clinical_Treatment_Surgical_Group", "Clinical_Treatment_Sub_Total", "Subject_Area_Access_To_Treatment_Or_Drugs", "Subject_Area_Admissions_Discharge_And_Transfers", "Subject_Area_Appointments", "Subject_Area_Commissioning_Services", "Subject_Area_Communications", "Subject_Area_Consent_To_Treatment", "Subject_Area_End_Of_Life_Care", "Subject_Area_Facilities_Services", "Subject_Area_Integrated_Care", "Subject_Area_Patient_Care_Including_Nutrition_Hydration", "Subject_Area_Mortuary_And_Post_Mortem_Arrangements", "Subject_Area_Prescribing_Errors", "Subject_Area_Privacy_Dignity_And_Wellbeing", "Subject_Area_Restraint", "Subject_Area_Staffing_Numbers", "Subject_Area_Transport", "Subject_Area_Trust_Administration", "Subject_Area_Values_And_Behaviours", "Subject_Area_Waiting_Times", "Subject_Area_Other", "Subject_Area_Sub_Total", "Subject_Area_Total", "Profession_Medical", "Profession_Dental", "Profession_Nursing", "Profession_Midwifery", "Profession_Health_Visiting_Staff", "Profession_Scientific_Therapeutic_And_Technical", "Profession_Ambulance", "Profession_Support_To_Clinical_Staff", "Profession_NHS_Infrastructure_Support", "Profession_Other", "Profession_Total"],
+        "row_count": 279,
+        "row_count_note": "full count",
+        "rdy_search": {
+          "code_matches": {
+            "Organisation_Code": 1
+          },
+          "name_matches": {
+            "Organisation_Name": 1
+          },
+          "rdy_any": {
+            "Organisation_Code": 1
+          },
+          "total_code_matches": 1,
+          "total_name_matches": 1,
+          "row_count": 279,
+          "search_method": "full_file"
+        }
+      },
+      "Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Site Level.csv": {
+        "file": "Data on Written Complaints in the NHS 2024-25 Secondary Care KO41a - Site Level.csv",
+        "type": "csv",
+        "size_bytes": 889142,
+        "columns": ["Year", "NHS_England_Region_Code", "NHS_England_Region_Name", "ICS_Code", "ICS_Name", "Organisation_Code", "Organisation_Name", "Site_Code", "Site_Name", "Organisation_Type", "Complaints_Total_Brought_Forward", "Complaints_Total_New", "Complaints_Total_Resolved", "Complaints_Number_Upheld", "Complaints_Number_Partially_Upheld", "Complaints_Number_Not_Upheld", "Complaints_Total_Carried_Forward", "Age_0_5", "Age_6_17", "Age_18_25", "Age_26_55", "Age_56_64", "Age_65_74", "Age_75_And_Over", "Age_Unknown", "Age_Total", "Status_Patient", "Status_Parent", "Status_Guardian", "Status_Carer", "Status_Other", "Status_Total", "Service_Ambulance", "Service_Inpatient", "Service_Outpatient", "Service_Emergency", "Service_Other_Community_Healthcare", "Service_Commissioning", "Service_Mental_Health", "Service_Maternity", "Service_Other", "Service_Total", "Clinical_Treatment_Accident_And_Emergency", "Clinical_Treatment_Anaesthetics", "Clinical_Treatment_Clinical_Oncology", "Clinical_Treatment_Dental_Group", "Clinical_Treatment_General_Medicine_Group", "Clinical_Treatment_Obstetrics_And_Gynaecology", "Clinical_Treatment_Paediatric_Group", "Clinical_Treatment_Pathology_Group", "Clinical_Treatment_PHM_And_CHS_Group", "Clinical_Treatment_Psychiatry_Group", "Clinical_Treatment_Radiology_Group", "Clinical_Treatment_Surgical_Group", "Clinical_Treatment_Sub_Total", "Subject_Area_Access_To_Treatment_Or_Drugs", "Subject_Area_Admissions_Discharge_And_Transfers", "Subject_Area_Appointments", "Subject_Area_Commissioning_Services", "Subject_Area_Communications", "Subject_Area_Consent_To_Treatment", "Subject_Area_End_Of_Life_Care", "Subject_Area_Facilities_Services", "Subject_Area_Integrated_Care", "Subject_Area_Patient_Care_Including_Nutrition_Hydration", "Subject_Area_Mortuary_And_Post_Mortem_Arrangements", "Subject_Area_Prescribing_Errors", "Subject_Area_Privacy_Dignity_And_Wellbeing", "Subject_Area_Restraint", "Subject_Area_Staffing_Numbers", "Subject_Area_Transport", "Subject_Area_Trust_Administration", "Subject_Area_Values_And_Behaviours", "Subject_Area_Waiting_Times", "Subject_Area_Other", "Subject_Area_Sub_Total", "Subject_Area_Total", "Profession_Medical", "Profession_Dental", "Profession_Nursing", "Profession_Midwifery", "Profession_Health_Visiting_Staff", "Profession_Scientific_Therapeutic_And_Technical", "Profession_Ambulance", "Profession_Support_To_Clinical_Staff", "Profession_NHS_Infrastructure_Support", "Profession_Other", "Profession_Total"],
+        "row_count": 2869,
+        "row_count_note": "full count",
+        "rdy_search": {
+          "code_matches": {
+            "Organisation_Code": 12
+          },
+          "name_matches": {
+            "Organisation_Name": 12
+          },
+          "rdy_any": {
+            "Organisation_Code": 12,
+            "Site_Code": 1
+          },
+          "total_code_matches": 12,
+          "total_name_matches": 12,
+          "row_count": 2869,
+          "search_method": "full_file"
+        }
+      }
+    },
+    "any_rdy_signal": true
+  }
+}

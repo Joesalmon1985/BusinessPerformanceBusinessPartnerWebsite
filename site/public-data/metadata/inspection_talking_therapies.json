@@ -1,0 +1,69 @@
+{
+  "talking_therapies_performance-april-2026_activity.csv": {
+    "file": "talking_therapies_performance-april-2026_activity.csv",
+    "type": "csv",
+    "size_bytes": 45311374,
+    "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "GROUP_TYPE", "ORG_CODE1", "ORG_NAME1", "ORG_CODE2", "ORG_NAME2", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE_SUPPRESSED"],
+    "row_count": 296326,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "ORG_CODE2": 229
+      },
+      "name_matches": {
+        "ORG_NAME2": 229
+      },
+      "rdy_any": {
+        "ORG_CODE2": 229
+      },
+      "total_code_matches": 229,
+      "total_name_matches": 229,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  },
+  "talking_therapies_performance-april-2026_data_quality.csv": {
+    "file": "talking_therapies_performance-april-2026_data_quality.csv",
+    "type": "csv",
+    "size_bytes": 2647467,
+    "columns": ["ReportingPeriodStartDate", "ReportingPeriodEndDate", "Org_Code", "DataTable", "UID", "DataItem", "Valid_suppressed", "Default_suppressed", "Invalid_suppressed", "Missing_suppressed", "Denominator_suppressed"],
+    "row_count": 22578,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": {
+        "Org_Code": 172
+      },
+      "name_matches": [],
+      "rdy_any": {
+        "Org_Code": 172
+      },
+      "total_code_matches": 172,
+      "total_name_matches": 0,
+      "row_count": 22578,
+      "search_method": "full_file"
+    }
+  },
+  "talking_therapies_performance-april-2026_time_series.csv": {
+    "file": "talking_therapies_performance-april-2026_time_series.csv",
+    "type": "csv",
+    "size_bytes": 28399803,
+    "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "GROUP_TYPE", "ORG_CODE1", "ORG_NAME1", "ORG_CODE2", "ORG_NAME2", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+    "row_count": 181522,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "ORG_CODE2": 132
+      },
+      "name_matches": {
+        "ORG_NAME2": 132
+      },
+      "rdy_any": {
+        "ORG_CODE2": 132
+      },
+      "total_code_matches": 132,
+      "total_name_matches": 132,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+Filter note: mhsds_monthly - mhsds_monthly_performance-april-2026_time_series_MHSDS Time_Series_data_Apr2025_Mar_Perf_2026_v2
+Generated: 2026-06-21 17:00:11.208236
+Publication period: performance-april-2026
+
+Input rows: 644400
+RDY matching rows: 1502
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_mhsds_monthly_mhsds_monthly_performance-april-2026_time_series_MHSDS Time_Series_data_Apr2025_Mar_Perf_2026_v2.csv
+Columns: REPORTING_PERIOD_START; REPORTING_PERIOD_END; STATUS; BREAKDOWN; PRIMARY_LEVEL; PRIMARY_LEVEL_DESCRIPTION; SECONDARY_LEVEL; SECONDARY_LEVEL_DESCRIPTION; MEASURE_ID; MEASURE_NAME; MEASURE_VALUE
+
+Caveats: Provisional monthly data; large files; VODIM/DQM caveats; possible suppression
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

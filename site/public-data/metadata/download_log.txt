@@ -1,0 +1,96 @@
+2026-06-21 16:43:33 | === Download run started ===
+2026-06-21 16:43:34 | nof_mh_community ERROR: No NOF CSV links found on publication page
+2026-06-21 16:43:37 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_main_data.zip - Downloaded successfully
+2026-06-21 16:43:38 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_time_series.zip - Downloaded successfully
+2026-06-21 16:43:38 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_coverage.csv - Downloaded successfully
+2026-06-21 16:43:39 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_quality.csv - Downloaded successfully
+2026-06-21 16:43:40 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_out_of_area.zip - Downloaded successfully
+2026-06-21 16:43:41 | csds_monthly ERROR: No CSDS resource links found
+2026-06-21 16:43:44 | talking_therapies OK: talking_therapies_performance-april-2026_activity.csv - Downloaded successfully
+2026-06-21 16:43:44 | talking_therapies OK: talking_therapies_performance-april-2026_data_quality.csv - Downloaded successfully
+2026-06-21 16:43:46 | talking_therapies OK: talking_therapies_performance-april-2026_time_series.csv - Downloaded successfully
+2026-06-21 16:43:46 | ae_monthly OK: ae_monthly__May-2026-CSV-F4flrg.csv - Downloaded successfully
+2026-06-21 16:43:47 | dm01_monthly ERROR: No DM01 ZIP found
+2026-06-21 16:43:49 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv - Downloaded successfully
+2026-06-21 16:43:49 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv - Downloaded successfully
+2026-06-21 16:43:50 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv - Downloaded successfully
+2026-06-21 16:43:50 | fft_monthly ERROR: No FFT XLSX links found
+2026-06-21 16:43:51 | ko41a_annual OK: ko41a_annual_2024_25_ko41a_2024_25.zip - Downloaded successfully
+2026-06-21 16:43:52 | eric_annual OK: eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv - Downloaded successfully
+2026-06-21 16:43:53 | dspt_rdy OK: parsed HTML table to dspt_rdy_public_dspt_rdy_assessment_history.csv
+2026-06-21 16:43:53 | cqc_rdy: context note written
+2026-06-21 16:43:53 | === Download run completed ===
+2026-06-21 16:44:07 | inspect: nof_mh_community - no raw files
+2026-06-21 16:46:26 | inspect: csds_monthly - no raw files
+2026-06-21 16:46:29 | inspect: dm01_monthly - no raw files
+2026-06-21 16:46:32 | inspect: fft_monthly - no raw files
+2026-06-21 16:46:34 | filter error mhsds_monthly invalid multibyte string at '<94><d5><f7><f3>¯<89><68><95>'
+2026-06-21 16:48:05 | filter error ko41a_annual `n_max` must be a positive integer
+2026-06-21 16:48:05 | filter error eric_annual input string 1 is invalid UTF-8
+2026-06-21 16:49:45 | === Download run started ===
+2026-06-21 16:49:47 | nof_mh_community OK: nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv - Downloaded successfully
+2026-06-21 16:49:47 | nof_mh_community OK: nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv - Downloaded successfully
+2026-06-21 16:49:48 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_main_data.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:49:48 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_time_series.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:49:48 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_coverage.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:48 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_quality.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:48 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_out_of_area.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:49:50 | csds_monthly OK: csds_monthly_march-2026_csds_data.zip - Downloaded successfully
+2026-06-21 16:49:51 | csds_monthly OK: csds_monthly_march-2026_data_quality.csv - Downloaded successfully
+2026-06-21 16:49:51 | csds_monthly OK: csds_monthly_march-2026_metadata.xlsx - Downloaded successfully
+2026-06-21 16:49:52 | talking_therapies OK: talking_therapies_performance-april-2026_activity.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:52 | talking_therapies OK: talking_therapies_performance-april-2026_data_quality.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:52 | talking_therapies OK: talking_therapies_performance-april-2026_time_series.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:53 | ae_monthly OK: ae_monthly__May-2026-CSV-F4flrg.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:54 | dm01_monthly ERROR: No DM01 ZIP found
+2026-06-21 16:49:54 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:54 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:54 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:54 | fft_monthly OK: fft_monthly__fft_1_ftt-summary-apr-26.xlsx - Downloaded successfully
+2026-06-21 16:49:54 | fft_monthly OK: fft_monthly__fft_2_ftt-summary-apr-26.xlsx - Downloaded successfully
+2026-06-21 16:49:55 | ko41a_annual OK: ko41a_annual_2024_25_ko41a_2024_25.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:49:55 | eric_annual OK: eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:49:56 | cqc_rdy: context note written
+2026-06-21 16:49:56 | === Download run completed ===
+2026-06-21 16:52:39 | inspect: dm01_monthly - no raw files
+2026-06-21 16:54:24 | filter error csds_monthly `n_max` must be a positive integer
+2026-06-21 16:54:32 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 16:54:32 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 16:55:19 | === Download run started ===
+2026-06-21 16:55:20 | nof_mh_community OK: nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-data.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:20 | nof_mh_community OK: nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:21 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_main_data.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:55:21 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_time_series.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:55:21 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_coverage.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:21 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_data_quality.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:21 | mhsds_monthly OK: mhsds_monthly_performance-april-2026_out_of_area.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | csds_monthly OK: csds_monthly_march-2026_csds_data.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | csds_monthly OK: csds_monthly_march-2026_data_quality.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | csds_monthly OK: csds_monthly_march-2026_metadata.xlsx - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | talking_therapies OK: talking_therapies_performance-april-2026_activity.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | talking_therapies OK: talking_therapies_performance-april-2026_data_quality.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:23 | talking_therapies OK: talking_therapies_performance-april-2026_time_series.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:24 | ae_monthly OK: ae_monthly__May-2026-CSV-F4flrg.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:24 | dm01_monthly OK: dm01_monthly__DM01-MARCH-2026-full-extract_32W3L.zip - Downloaded successfully
+2026-06-21 16:55:25 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:25 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:25 | kh03_quarterly OK: kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:25 | fft_monthly OK: fft_monthly__ftt-summary-apr-26.xlsx - Downloaded successfully
+2026-06-21 16:55:25 | ko41a_annual OK: ko41a_annual_2024_25_ko41a_2024_25.zip - File already exists (preserved, not overwritten)
+2026-06-21 16:55:25 | eric_annual OK: eric_annual_2024_25_ERIC_20-_202024_25_20-_20Trust_20data.csv - File already exists (preserved, not overwritten)
+2026-06-21 16:55:26 | cqc_rdy: context note written
+2026-06-21 16:55:26 | === Download run completed ===
+2026-06-21 16:55:27 | filter error mhsds_monthly invalid multibyte string at '<94><d5><f7><f3>¯<89><68><95>'
+2026-06-21 16:56:42 | filter error csds_monthly `n_max` must be a positive integer
+2026-06-21 16:56:50 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 16:56:50 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 16:56:50 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 16:56:50 | filter error eric_annual input string 1 is invalid UTF-8
+2026-06-21 16:57:03 | filter error mhsds_monthly invalid multibyte string at '<94><d5><f7><f3>¯<89><68><95>'
+2026-06-21 16:58:24 | filter error mhsds_monthly invalid multibyte string at '<94><d5><f7><f3>¯<89><68><95>'
+2026-06-21 16:58:25 | filter error csds_monthly `n_max` must be a positive integer
+2026-06-21 17:00:15 | filter error csds_monthly `n_max` must be a positive integer
+2026-06-21 17:00:29 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 17:00:29 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 17:00:29 | filter error fft_monthly `n_max` must be a positive integer
+2026-06-21 17:00:29 | filter error eric_annual input string 1 is invalid UTF-8

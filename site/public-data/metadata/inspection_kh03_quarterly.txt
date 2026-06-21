@@ -1,0 +1,22 @@
+Inspection report: kh03_quarterly
+Generated: 2026-06-21 16:52:42.227865
+Files inspected: 3
+
+--- kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv ---
+Type: csv
+Columns: Organisation_Code; Sector; Number_Of_Beds; Effective_Snapshot_Date
+Row count: 56529
+RDY signal: yes
+
+--- kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv ---
+Type: csv
+Columns: Organisation_Code; Specialty; Number_Of_Beds; Effective_Snapshot_Date
+Row count: 932540
+RDY signal: yes
+
+--- kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv ---
+Type: csv
+Columns: Organisation_Code; Sector; Number_Of_Beds; Effective_Snapshot_Date
+Row count: 56528
+RDY signal: yes
+

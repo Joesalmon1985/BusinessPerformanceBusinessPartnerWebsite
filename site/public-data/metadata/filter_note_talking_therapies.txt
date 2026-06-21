@@ -1,0 +1,14 @@
+Filter note: talking_therapies - talking_therapies_performance-april-2026_time_series
+Generated: 2026-06-21 17:00:20.544973
+Publication period: performance-april-2026
+
+Input rows: 181522
+RDY matching rows: 429
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_talking_therapies_talking_therapies_performance-april-2026_time_series.csv
+Columns: REPORTING_PERIOD_START; REPORTING_PERIOD_END; GROUP_TYPE; ORG_CODE1; ORG_NAME1; ORG_CODE2; ORG_NAME2; MEASURE_ID; MEASURE_NAME; MEASURE_VALUE
+
+Caveats: Provisional monthly IAPT data; employment advisor subset separate
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

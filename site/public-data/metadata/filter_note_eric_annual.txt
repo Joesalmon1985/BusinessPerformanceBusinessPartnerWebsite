@@ -1,0 +1,5 @@
+Filter note: eric_annual
+RDY matching rows: 1
+Output: processed/rdy_eric_annual_trust_data.csv
+
+DISCLAIMER: Public-data demonstration output.

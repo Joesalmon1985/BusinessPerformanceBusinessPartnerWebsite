@@ -1,0 +1,14 @@
+Filter note: csds_monthly - csds_monthly_march-2026_data_quality
+Generated: 2026-06-21 17:00:15.842319
+Publication period: march-2026
+
+Input rows: 53776
+RDY matching rows: 266
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_csds_monthly_csds_monthly_march-2026_data_quality.csv
+Columns: ReportingPeriodStartDate; ReportingPeriodEndDate; Org_Code; DataTable; UID; DataItem; Valid; Default; Invalid; Missing; Denominator
+
+Caveats: Provisional monthly data; data quality file should be reviewed
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

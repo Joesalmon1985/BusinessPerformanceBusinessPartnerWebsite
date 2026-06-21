@@ -1,0 +1,14 @@
+Inspection report: fft_monthly
+Generated: 2026-06-21 16:52:42.806185
+Files inspected: 2
+
+--- fft_monthly__fft_1_ftt-summary-apr-26.xlsx ---
+Type: xlsx
+Sheets: Notes, Headline figures
+RDY signal: no
+
+--- fft_monthly__fft_2_ftt-summary-apr-26.xlsx ---
+Type: xlsx
+Sheets: Notes, Headline figures
+RDY signal: no
+

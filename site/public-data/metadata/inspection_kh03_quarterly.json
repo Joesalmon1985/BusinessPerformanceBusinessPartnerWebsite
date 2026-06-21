@@ -1,0 +1,65 @@
+{
+  "kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv": {
+    "file": "kh03_quarterly_latest_quarter_KH03-Available-Overnight-only.csv",
+    "type": "csv",
+    "size_bytes": 2026852,
+    "columns": ["Organisation_Code", "Sector", "Number_Of_Beds", "Effective_Snapshot_Date"],
+    "row_count": 56529,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "Organisation_Code": 204
+      },
+      "name_matches": [],
+      "rdy_any": {
+        "Organisation_Code": 204
+      },
+      "total_code_matches": 204,
+      "total_name_matches": 0,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  },
+  "kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv": {
+    "file": "kh03_quarterly_latest_quarter_KH03-Occupied-by-Spec-Overnight-only.csv",
+    "type": "csv",
+    "size_bytes": 30898625,
+    "columns": ["Organisation_Code", "Specialty", "Number_Of_Beds", "Effective_Snapshot_Date"],
+    "row_count": 932540,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "Organisation_Code": 266
+      },
+      "name_matches": [],
+      "rdy_any": {
+        "Organisation_Code": 266
+      },
+      "total_code_matches": 266,
+      "total_name_matches": 0,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  },
+  "kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv": {
+    "file": "kh03_quarterly_latest_quarter_KH03-Occupied-Overnight-only.csv",
+    "type": "csv",
+    "size_bytes": 2094637,
+    "columns": ["Organisation_Code", "Sector", "Number_Of_Beds", "Effective_Snapshot_Date"],
+    "row_count": 56528,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "Organisation_Code": 198
+      },
+      "name_matches": [],
+      "rdy_any": {
+        "Organisation_Code": 198
+      },
+      "total_code_matches": 198,
+      "total_name_matches": 0,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  }
+}

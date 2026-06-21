@@ -1,0 +1,248 @@
+{
+  "mhsds_monthly_performance-april-2026_data_coverage.csv": {
+    "file": "mhsds_monthly_performance-april-2026_data_coverage.csv",
+    "error": "invalid multibyte string at '<94><d5><f7><f3>¯<89><68><95>'"
+  },
+  "mhsds_monthly_performance-april-2026_data_quality.csv": {
+    "file": "mhsds_monthly_performance-april-2026_data_quality.csv",
+    "type": "csv",
+    "size_bytes": 12358515,
+    "columns": ["Reporting_Period", "Status", "Reporting_Level", "Provider_Code", "Provider_Name", "DQ_Measure", "DQ_Measure_Name", "DQ_Result", "DQ_Dataset_Metric_ID", "Unit", "Value"],
+    "row_count": 87328,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "Provider_Code": 251
+      },
+      "name_matches": {
+        "Provider_Name": 251
+      },
+      "rdy_any": {
+        "Provider_Code": 251
+      },
+      "total_code_matches": 251,
+      "total_name_matches": 251,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  },
+  "mhsds_monthly_performance-april-2026_main_data.zip": {
+    "file": "mhsds_monthly_performance-april-2026_main_data.zip",
+    "type": "zip",
+    "size_bytes": 11331124,
+    "contents": {
+      "MHSDS Data_AprPerf_2026.csv": {
+        "file": "MHSDS Data_AprPerf_2026.csv",
+        "type": "csv",
+        "size_bytes": 172228725,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 796347,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 1417,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "mhsds_monthly_performance-april-2026_out_of_area.zip": {
+    "file": "mhsds_monthly_performance-april-2026_out_of_area.zip",
+    "type": "zip",
+    "size_bytes": 5196479,
+    "contents": {
+      "MHSDS Data_OAPs_acute_AprPerf_2026.csv": {
+        "file": "MHSDS Data_OAPs_acute_AprPerf_2026.csv",
+        "type": "csv",
+        "size_bytes": 157377358,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 595171,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 1085,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "MHSDS Data_OAPs_non_acute_AprPerf_2026.csv": {
+        "file": "MHSDS Data_OAPs_non_acute_AprPerf_2026.csv",
+        "type": "csv",
+        "size_bytes": 103374523,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 477443,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 868,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "mhsds_monthly_performance-april-2026_time_series.zip": {
+    "file": "mhsds_monthly_performance-april-2026_time_series.zip",
+    "type": "zip",
+    "size_bytes": 27690086,
+    "contents": {
+      "MHSDS Time_Series_data_Apr_2016_MarPrf_2023.csv": {
+        "file": "MHSDS Time_Series_data_Apr_2016_MarPrf_2023.csv",
+        "type": "csv",
+        "size_bytes": 94297540,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 510315,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": {
+            "PRIMARY_LEVEL": 14
+          },
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 1035,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "MHSDS Time_Series_data_Apr_2023_MarFinal_2024.csv": {
+        "file": "MHSDS Time_Series_data_Apr_2023_MarFinal_2024.csv",
+        "type": "csv",
+        "size_bytes": 163321428,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 730350,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": {
+            "PRIMARY_LEVEL": 9
+          },
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 1749,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "MHSDS Time_Series_data_Apr_2024_Mar_2025_Final.csv": {
+        "file": "MHSDS Time_Series_data_Apr_2024_Mar_2025_Final.csv",
+        "type": "csv",
+        "size_bytes": 187630911,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 829055,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": {
+            "PRIMARY_LEVEL": 7
+          },
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 2127,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "MHSDS Time_Series_data_Apr_Perf_2026_AprPerf_2026.csv": {
+        "file": "MHSDS Time_Series_data_Apr_Perf_2026_AprPerf_2026.csv",
+        "type": "csv",
+        "size_bytes": 20448952,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 89738,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": {
+            "PRIMARY_LEVEL": 81,
+            "SECONDARY_LEVEL": 47
+          },
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 50000,
+          "search_method": "first_n_rows",
+          "grep": {
+            "found": true,
+            "rdy_count": 201,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      },
+      "MHSDS Time_Series_data_Apr2025_Mar_Perf_2026_v2.csv": {
+        "file": "MHSDS Time_Series_data_Apr2025_Mar_Perf_2026_v2.csv",
+        "type": "csv",
+        "size_bytes": 150211937,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "STATUS", "BREAKDOWN", "PRIMARY_LEVEL", "PRIMARY_LEVEL_DESCRIPTION", "SECONDARY_LEVEL", "SECONDARY_LEVEL_DESCRIPTION", "MEASURE_ID", "MEASURE_NAME", "MEASURE_VALUE"],
+        "row_count": 644400,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": {
+            "PRIMARY_LEVEL": 7
+          },
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 1502,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  }
+}

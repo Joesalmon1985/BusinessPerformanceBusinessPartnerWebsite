@@ -1,0 +1,14 @@
+Filter note: nof_mh_community - nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table
+Generated: 2026-06-21 16:58:24.334955
+Publication period: Q4 2025/26
+
+Input rows: 61
+RDY matching rows: 1
+
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_nof_mh_community_nof_mh_community_q4_2025_26_nhs-oversight-framework-mental-health-and-community-trust-league-table.csv
+Columns: Quarter; Region; Trust_type; Trust_subtype; Trust_code; Trust_name; Average_score; Likely_range_of_average_score; Segment; Trust_in_financial_deficit; Rank; Likely_range_of_rank
+
+Caveats: Quarterly league table metrics; check metric definitions and revisions
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.
+Requires human review and local owner confirmation.

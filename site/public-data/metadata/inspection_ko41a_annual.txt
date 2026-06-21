@@ -1,0 +1,8 @@
+Inspection report: ko41a_annual
+Generated: 2026-06-21 16:52:43.672031
+Files inspected: 1
+
+--- ko41a_annual_2024_25_ko41a_2024_25.zip ---
+Type: zip
+RDY signal: yes
+

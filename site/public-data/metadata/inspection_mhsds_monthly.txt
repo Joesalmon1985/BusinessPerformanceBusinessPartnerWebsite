@@ -1,0 +1,26 @@
+Inspection report: mhsds_monthly
+Generated: 2026-06-21 16:52:26.217366
+Files inspected: 5
+
+--- mhsds_monthly_performance-april-2026_data_coverage.csv ---
+Type: ?
+RDY signal: no
+
+--- mhsds_monthly_performance-april-2026_data_quality.csv ---
+Type: csv
+Columns: Reporting_Period; Status; Reporting_Level; Provider_Code; Provider_Name; DQ_Measure; DQ_Measure_Name; DQ_Result; DQ_Dataset_Metric_ID; Unit; Value
+Row count: 87328
+RDY signal: yes
+
+--- mhsds_monthly_performance-april-2026_main_data.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_performance-april-2026_out_of_area.zip ---
+Type: zip
+RDY signal: yes
+
+--- mhsds_monthly_performance-april-2026_time_series.zip ---
+Type: zip
+RDY signal: yes
+

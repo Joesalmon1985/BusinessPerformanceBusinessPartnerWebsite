@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandatory Reporting Map — AI-Assisted Assurance Demo</title>
+  <meta name="description" content="Proof-of-concept mandatory reporting overview demonstrating how agentic AI could support reporting assurance using synthetic metadata and public reference links.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="page-register">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Mandatory reporting map — synthetic metadata only</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mandatory-reporting-map.html" aria-current="page">Mandatory reporting map</a></li>
+        <li><a href="draft-reports.html">Draft reports</a></li>
+        <li><a href="agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main-content">
+    <div class="hero">
+      <h1>Mandatory reporting map</h1>
+      <p class="hero-lead">A proof-of-concept mandatory reporting overview — the kind of visibility a Business &amp; Performance Business Partner would want — demonstrating how agentic AI could help identify, organise and maintain reporting requirements.</p>
+    </div>
+    <div class="caveat-box" role="note">
+      <strong>Demonstration caveat:</strong> This is a personal demonstration site. It is not an official Dorset HealthCare register, is not complete, and is not operationally validated. It does not contain confidential or patient-identifiable information.
+    </div>
+    <div class="warning-box" role="alert">
+      <strong>Illustrative metadata:</strong> Owners, due dates, assurance statuses and local source labels are synthetic or partly fabricated for demonstration. Reference links marked <span class="badge badge-confirmed">Pub</span> point to public NHS sources. An agent could help draft and maintain this register; humans must validate against local SOPs and named owners before any operational use.
+    </div>
+    <section aria-labelledby="ai-help">
+      <h2 id="ai-help">How agentic AI could help</h2>
+      <ul>
+        <li>Extract reporting requirements from public specifications (MHSDS, PLCM, ADC, etc.)</li>
+        <li>Propose owner, cadence and source mappings for human confirmation</li>
+        <li>Flag gaps, conflicting cadences and missing documentation links</li>
+        <li>Maintain a change log when national specifications update</li>
+        <li>Cross-reference the public source catalogue in <code>public-data/DATA_SOURCE_REGISTER.csv</code></li>
+      </ul>
+    </section>
+    <section aria-labelledby="register-purpose">
+      <h2 id="register-purpose">What this register maps</h2>
+      <ul>
+        <li><strong>Return name</strong>, owner, frequency and next due date (demo)</li>
+        <li><strong>Assurance status</strong>, risk and brief issues / notes</li>
+        <li><strong>Public reference link</strong> — verified working URLs only</li>
+      </ul>
+      <p class="info-box">Additional detail (recipient, mandate, source system, confidence) is held in <code>data/mandatory_returns_register.csv</code>. Returns without a verified public reference are omitted from this demo table for now.</p>
+      <p>See the R-generated <a href="reports/mandatory-returns-assurance-log.html">Mandatory Returns Assurance Log</a> for an operational assurance view with escalation routes.</p>
+    </section>
+    <section aria-labelledby="filters">
+      <h2 id="filters">Filter and search</h2>
+      <div class="filter-panel">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="filter-owner">Owner / team</label>
+            <select id="filter-owner">
+              <option value="">All owners</option>
+              <option value="Performance &amp; BI">Performance &amp; BI</option>
+              <option value="MH Performance Team">MH Performance Team</option>
+              <option value="Urgent Care BI">Urgent Care BI</option>
+              <option value="Bed Management / BI">Bed Management / BI</option>
+              <option value="Diagnostics PMO">Diagnostics PMO</option>
+              <option value="CYP Performance">CYP Performance</option>
+              <option value="Complaints Team">Complaints Team</option>
+              <option value="Patient Experience">Patient Experience</option>
+              <option value="Estates &amp; Facilities">Estates &amp; Facilities</option>
+              <option value="IG / IT Security">IG / IT Security</option>
+              <option value="Quality &amp; Governance">Quality &amp; Governance</option>
+              <option value="Workforce / OD">Workforce / OD</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-risk">Risk</label>
+            <select id="filter-risk">
+              <option value="">All risks</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-confidence">Confidence</label>
+            <select id="filter-confidence">
+              <option value="">All confidence levels</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="likely">Likely</option>
+              <option value="conditional">Conditional</option>
+              <option value="needs-owner">Needs owner confirmation</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-assurance">Assurance status</label>
+            <select id="filter-assurance">
+              <option value="">All statuses</option>
+              <option value="production">In production</option>
+              <option value="validation">Needs validation</option>
+              <option value="manual">Manual process</option>
+              <option value="review">Under review</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-search">Text search</label>
+            <input type="search" id="filter-search" placeholder="Search returns..." aria-label="Search returns table">
+          </div>
+          <div class="filter-group">
+            <label>&nbsp;</label>
+            <button type="button" class="btn btn-secondary" id="filter-clear">Clear filters</button>
+          </div>
+        </div>
+        <p class="filter-count" id="filter-count" aria-live="polite">Showing returns</p>
+      </div>
+    </section>
+    <section aria-labelledby="returns-table-heading">
+      <h2 id="returns-table-heading">Mandatory returns register</h2>
+      <div class="table-wrap table-wrap--register">
+        <table id="returns-table" class="register-table">
+          <thead>
+            <tr>
+              <th scope="col">Return name</th>
+              <th scope="col">Owner / team</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Next due</th>
+              <th scope="col">Assurance</th>
+              <th scope="col">Risk</th>
+              <th scope="col">Issues / notes</th>
+              <th scope="col">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+<!-- TABLE_BODY_START -->
+<tr data-owner="Performance &amp; BI" data-risk="Medium" data-confidence="confirmed" data-assurance="production"><td>MHSDS</td><td>Performance &amp; BI</td><td>Monthly</td><td>2026-04-15</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-medium">Medium</span></td><td class="col-notes">Validate against MHSDS guidance; coding QA pending</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Performance &amp; BI" data-risk="Medium" data-confidence="confirmed" data-assurance="production"><td>CSDS</td><td>Performance &amp; BI</td><td>Monthly</td><td>2026-04-15</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-medium">Medium</span></td><td class="col-notes">Community metrics require coding QA each month</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/community-services-statistics-for-children-young-people-and-adults" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="MH Performance Team" data-risk="Low" data-confidence="likely" data-assurance="production"><td>NHS Talking Therapies</td><td>MH Performance Team</td><td>Monthly</td><td>2026-04-10</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">Recovery target tracking in place</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/nhs-talking-therapies-monthly-statistics-including-employment-advisors" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Urgent Care BI" data-risk="High" data-confidence="conditional" data-assurance="validation"><td>ECDS / urgent care</td><td>Urgent Care BI</td><td>Monthly</td><td>2026-04-20</td><td><span class="badge badge-validation">Needs validation</span></td><td><span class="badge badge-high">High</span></td><td class="col-notes">ECDS scope needs local confirmation</td><td><a href="https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Bed Management / BI" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>KH03 bed occupancy</td><td>Bed Management / BI</td><td>Quarterly</td><td>2026-04-30</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">KH03 reconciled with bed state each quarter</td><td><a href="https://www.england.nhs.uk/statistics/statistical-work-areas/bed-availability-and-occupancy/bed-data-overnight/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Performance &amp; BI" data-risk="High" data-confidence="conditional" data-assurance="validation"><td>RTT</td><td>Performance &amp; BI</td><td>Monthly</td><td>2026-04-15</td><td><span class="badge badge-validation">Needs validation</span></td><td><span class="badge badge-high">High</span></td><td class="col-notes">RTT incomplete for some pathways</td><td><a href="https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Diagnostics PMO" data-risk="Medium" data-confidence="likely" data-assurance="manual"><td>DM01 audiology/diagnostics</td><td>Diagnostics PMO</td><td>Monthly</td><td>2026-04-12</td><td><span class="badge badge-manual">Manual process</span></td><td><span class="badge badge-medium">Medium</span></td><td class="col-notes">Audiology DM01 partially manual</td><td><a href="https://www.england.nhs.uk/statistics/statistical-work-areas/diagnostics-waiting-times-and-activity/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="CYP Performance" data-risk="High" data-confidence="confirmed" data-assurance="production"><td>CYP eating disorder waits</td><td>CYP Performance</td><td>Monthly</td><td>2026-04-08</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-high">High</span></td><td class="col-notes">National ED access standard — high scrutiny</td><td><a href="https://www.england.nhs.uk/mental-health/cyp/trailblazers/ed/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Complaints Team" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>KO41a complaints</td><td>Complaints Team</td><td>Quarterly</td><td>2026-04-30</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">KO41a aligned with complaints policy</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/data-on-written-complaints-in-the-nhs/2024-25" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Patient Experience" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>FFT</td><td>Patient Experience</td><td>Monthly</td><td>2026-04-05</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">FFT response rates monitored</td><td><a href="https://www.england.nhs.uk/fft/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Estates &amp; Facilities" data-risk="Low" data-confidence="likely" data-assurance="review"><td>ERIC</td><td>Estates &amp; Facilities</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-review">Under review</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">ERIC annual cycle — estates data lag possible</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/estates-returns-information-collection/summary-page-and-dataset-for-eric-2024-25" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="IG / IT Security" data-risk="Medium" data-confidence="confirmed" data-assurance="production"><td>DSPT</td><td>IG / IT Security</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-medium">Medium</span></td><td class="col-notes">DSPT annual assessment</td><td><a href="https://www.dsptoolkit.nhs.uk/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Quality &amp; Governance" data-risk="High" data-confidence="confirmed" data-assurance="manual"><td>CQC notifications</td><td>Quality &amp; Governance</td><td>Ad hoc</td><td>Ad hoc</td><td><span class="badge badge-manual">Manual process</span></td><td><span class="badge badge-high">High</span></td><td class="col-notes">CQC notifications require clinical sign-off</td><td><a href="https://www.cqc.org.uk/guidance-regulation/providers/notifications" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Workforce / OD" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>WRES / WDES / EDS</td><td>Workforce / OD</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">Workforce data from ESR — extract delay possible</td><td><a href="https://www.england.nhs.uk/publication/nhs-workforce-race-equality-standard/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<!-- TABLE_BODY_END -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare register and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

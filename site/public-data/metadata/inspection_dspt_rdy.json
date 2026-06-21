@@ -1,0 +1,25 @@
+{
+  "dspt_rdy_public_dspt_rdy_assessment_history.csv": {
+    "file": "dspt_rdy_public_dspt_rdy_assessment_history.csv",
+    "type": "csv",
+    "size_bytes": 893,
+    "columns": ["Status", "Date Published"],
+    "row_count": 16,
+    "row_count_note": "full count",
+    "rdy_search": {
+      "code_matches": [],
+      "name_matches": [],
+      "rdy_any": [],
+      "total_code_matches": 0,
+      "total_name_matches": 0,
+      "row_count": 16,
+      "search_method": "full_file",
+      "grep": {
+        "found": true,
+        "rdy_count": 0,
+        "name_pattern_found": true,
+        "method": "full_grep"
+      }
+    }
+  }
+}

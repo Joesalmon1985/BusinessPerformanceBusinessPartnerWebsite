@@ -1,0 +1,10 @@
+Inspection report: dspt_rdy
+Generated: 2026-06-21 16:52:43.70044
+Files inspected: 1
+
+--- dspt_rdy_public_dspt_rdy_assessment_history.csv ---
+Type: csv
+Columns: Status; Date Published
+Row count: 16
+RDY signal: yes
+

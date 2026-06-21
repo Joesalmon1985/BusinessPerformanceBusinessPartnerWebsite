@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Operating Model — Governed AI for Business &amp; Performance</title>
+  <meta name="description" content="Practical agentic AI operating model for NHS business and performance teams — SME agents, reporting workflow, admin support and IG controls.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Agent operating model — demonstration framework</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="draft-reports.html">Draft reports</a></li>
+        <li><a href="agent-operating-model.html" aria-current="page">Agent operating model</a></li>
+        <li><a href="governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div class="hero">
+      <h1>Agent operating model</h1>
+      <p class="hero-lead">Practical examples of how agentic AI could be operationalised safely in a Business &amp; Performance team — with bounded agents, approved sources, citations and human sign-off at every stage.</p>
+      <blockquote class="central-message">AI can help draft, structure, analyse, check and explain performance intelligence, but accountable humans remain responsible for definitions, validation, judgement and sign-off.</blockquote>
+    </div>
+
+    <div class="caveat-box" role="note">
+      <strong>Demonstration caveat:</strong> Agent rules are illustrative templates in <code>agent-rules/</code>. They are not deployed in production and do not connect to live Trust systems.
+    </div>
+
+    <section aria-labelledby="principles">
+      <h2 id="principles">Core principles</h2>
+      <div class="warning-box">
+        <ul style="margin:0;">
+          <li><strong>AI supports human judgement</strong> — it does not replace subject matter experts</li>
+          <li><strong>SME agents answer from approved sources only</strong> — with citations the user can verify</li>
+          <li><strong>AI does not make operational decisions</strong> or submit returns autonomously</li>
+          <li><strong>Definitions must link to authoritative sources</strong> — public specs, local dictionary, SOPs</li>
+          <li><strong>Information governance is a hard boundary</strong> — IG/Safety Agent can block the workflow</li>
+          <li><strong>Explicit human approval before external or system changes</strong> — Git push, PR creation, DevOps/work item updates, external communications</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="source-pairing">
+      <h2 id="source-pairing">Pairing agents with approved sources</h2>
+      <p>Reporting specification agents (MHSDS, CSDS, PLCM, ADC) should be paired with:</p>
+      <ul>
+        <li>Downloaded public specification documents (version-dated)</li>
+        <li>Local data dictionary (<code>docs/local-dictionary-placeholder.md</code> in demo; MHSDS worked example uses <code>docs/synthetic-mhsds-local-dictionary.md</code>)</li>
+        <li>MHSDS public source pack index (<code>public-data/mhsds-source-pack-register.csv</code>) for the SME worked example</li>
+        <li>Local SOP or process notes (IG-approved; not published here)</li>
+        <li>Source restrictions and citation requirements in the agent rule file</li>
+        <li>Named human sign-off points before operational use</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="example-questions">
+      <h2 id="example-questions">Example questions SME agents should support</h2>
+      <div class="card-grid">
+        <div class="card"><h3>Definition</h3><p>“What is ADC E07 based on?”</p></div>
+        <div class="card"><h3>Schedule</h3><p>“When is the next PLCM dataset due?”</p></div>
+        <div class="card"><h3>Fields</h3><p>“Which fields are required for this return?”</p></div>
+        <div class="card"><h3>Local mapping</h3><p>“What source table or local definition is this metric using?”</p></div>
+        <div class="card"><h3>Caveats</h3><p>“What caveats should go with this report?”</p></div>
+      </div>
+      <p class="info-box">Each answer must cite the source section so the user can check at source. If the answer is not in approved documents, the agent must say so and escalate.</p>
+    </section>
+
+    <section aria-labelledby="mhsds-worked-example">
+      <h2 id="mhsds-worked-example">Worked example: asking an MHSDS SME agent about an unusual figure</h2>
+      <p>This example shows how a source-bound SME agent could support a Business &amp; Performance user investigating an unusual movement in a synthetic MHSDS-derived metric. The agent traces the figure back to source forms, extract logic, fact tables and mapping rules, separates data-quality from operational explanations, and offers draft pack wording — sign-off is discussed only when the user asks whether the figure is ready for the pack.</p>
+
+      <div class="warning-box" role="note">
+        <strong>Synthetic demonstration only.</strong> Fictional RiO forms, warehouse tables and aggregate data. Not an official Dorset HealthCare report, not a live Trust agent, and not connected to operational systems.
+      </div>
+
+      <h3>What this demonstrates</h3>
+      <p class="info-box">Practical data lineage (RiO contact → staging extract → fact table → team mapping → count), movement calculation (+370 contacts, ~29.8%), data-quality vs operational hypotheses, numbered investigation checks, and draft directorate pack wording pending human review.</p>
+
+      <p><strong>User:</strong></p>
+      <div class="prompt-snippet">I'm drafting the March directorate pack. Synthetic All Age MH access contacts have jumped from 1,240 to 1,610. Why has this gone up?</div>
+
+      <p><strong>MHSDS Expert Agent:</strong></p>
+      <div class="prompt-snippet">First check: real activity increase or recording/extraction change?
+
+Synthetic lineage: RiO contact (DemoMHContactForm) → StgMHSDSContactExtractDemo → FactMHSDSContactDemo → DimMHSDSServiceTeamDemo (All Age MH teams) → count where ContactStatusCode = attended and ContactMonth = March.
+
+Movement: 1,240 → 1,610 (+370, ~29.8%). March includes 180 late-recorded contacts — do not assume pure demand increase.
+
+Checks: RiO form/process change, form usage, team mapping, duplicates in FactMHSDSContactDemo, status coding, late recording, backlog clinic or capacity.
+
+Draft pack wording (pending review): "All Age MH access contacts rose from 1,240 to 1,610 (+29.8%) in March. This may reflect increased activity and/or recording effects including late-recorded contacts. Definition and data quality checks are in progress."</div>
+
+      <p><strong>User:</strong></p>
+      <div class="prompt-snippet">Can I use this figure in the March directorate report?</div>
+
+      <p><strong>MHSDS Expert Agent:</strong></p>
+      <div class="prompt-snippet">Not yet as a final figure — draft wording with caveats only until checks are complete. Confirm team mapping, dedup logic and late-recorded contacts with Information Lead; confirm operational context with Performance Manager. Sign-off required before treating as final. See full transcript for lineage, calculation and performance interpretation.</div>
+
+      <p class="info-box"><strong>Why this matters:</strong> The value of an SME agent is tracing a reported number back to RiO forms, extract tables, fact tables and mapping rules — and knowing what data-quality and operational checks to run. It helps the user ask better questions and draft proportionate caveats; it does not replace human validation or sign-off.</p>
+
+      <p><strong>Supporting files:</strong></p>
+      <ul>
+        <li><a href="agent-rules/mhsds-expert-agent.md">MHSDS Expert Agent rule</a></li>
+        <li><a href="docs/synthetic-mhsds-local-dictionary.md">Synthetic local dictionary</a></li>
+        <li><a href="examples/mhsds-sme-agent-conversation.md">Read full conversation transcript &rarr;</a></li>
+        <li><a href="public-data/mhsds-source-pack-register.csv">MHSDS source pack register</a></li>
+        <li><a href="data/synthetic_mhsds_sme_demo.csv">Synthetic aggregate demo data</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="workflow">
+      <h2 id="workflow">Workflow (conceptual)</h2>
+
+      <h3>Reporting workflow</h3>
+      <div class="workflow-diagram" role="img" aria-label="Reporting agent workflow">
+        <div class="workflow-steps">
+          <span class="workflow-step">Approved or synthetic data</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Performance Manager</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">SME agent (on demand)</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Demand &amp; Capacity</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Report QA</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Executive Summary</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">IG / Safety</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step human">Human sign-off</span>
+        </div>
+      </div>
+      <p>For performance reporting and mandatory returns: interpret data, check definitions, QA drafts and prepare narratives — each step produces drafts or findings for human review, not autonomous outputs.</p>
+
+      <h3>Admin and delivery workflow</h3>
+      <div class="workflow-diagram" role="img" aria-label="Admin and delivery agent workflow">
+        <div class="workflow-steps">
+          <span class="workflow-step">Delivery task or open branch</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Project / Admin or Backlog Sync</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Branch Review &amp; Delivery</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">IG / Safety</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step human">Human sign-off</span>
+        </div>
+      </div>
+      <p>For delivery work: coordinate project actions, reconcile backlogs and close down branches before merge or handover — still subject to IG/Safety rules. Neither workflow implies autonomous Git, DevOps or external system changes. See <a href="agent-rules/README.md">agent-rules/README.md</a>.</p>
+    </section>
+
+    <section aria-labelledby="cat-a">
+      <h2 id="cat-a">A. Reporting specification SME agents</h2>
+
+      <article class="agent-card" aria-labelledby="agent-mhsds">
+        <h3 id="agent-mhsds">MHSDS Expert Agent</h3>
+        <p>Before MHSDS-derived figures enter a report or mandatory return, checks whether local metric logic matches published national definitions.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Compatibility assessment, cited definitions, flagged risks and questions for the information lead.</dd>
+          <dt>Must not</dt>
+          <dd>Approve submissions, guess field mappings, or process patient-identifiable data.</dd>
+          <dt>Sign-off</dt>
+          <dd>Performance Manager or Information Lead with MHSDS accountability.</dd>
+        </dl>
+        <p><a href="agent-rules/mhsds-expert-agent.md">View rule file</a></p>
+        <div class="prompt-snippet">Review metric against published MHSDS definitions. Cite sources. Do not approve submission.</div>
+      </article>
+
+      <article class="agent-card" aria-labelledby="agent-csds">
+        <h3 id="agent-csds">CSDS Expert Agent</h3>
+        <p>Before community service metrics are published, flags CSDS coding, cohort and data-quality risks with authoritative citations.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Coding and cohort risk flags, data-quality warnings, suggested caveats and questions for clinical or information owners.</dd>
+          <dt>Must not</dt>
+          <dd>Make clinical judgements, sign off CSDS submissions, or assume local PAS coding matches national spec without verification.</dd>
+          <dt>Sign-off</dt>
+          <dd>Information Lead or community services performance owner.</dd>
+        </dl>
+        <p><a href="agent-rules/csds-expert-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card" aria-labelledby="agent-plcm">
+        <h3 id="agent-plcm">PLCM Expert Agent</h3>
+        <p>When preparing PLCM returns, answers schedule, field and validation questions from approved specifications only.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Schedule and field guidance with citations, validation notes and escalation prompts where the answer is not in the approved pack.</dd>
+          <dt>Must not</dt>
+          <dd>Approve submissions, invent field rules, or process patient-identifiable data.</dd>
+          <dt>Sign-off</dt>
+          <dd>Performance Manager or Information Lead with PLCM accountability.</dd>
+        </dl>
+        <p><a href="agent-rules/plcm-expert-agent.md">View rule file</a></p>
+        <div class="prompt-snippet">When is the next PLCM dataset due? Cite calendar source. Flag if not in approved pack.</div>
+      </article>
+
+      <article class="agent-card" aria-labelledby="agent-adc">
+        <h3 id="agent-adc">ADC Expert Agent</h3>
+        <p>When interpreting ADC elements (e.g. E07), explains mappings, definitions and caveats from authoritative sources.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Definition summaries with spec citations, local mapping notes and suggested report caveats.</dd>
+          <dt>Must not</dt>
+          <dd>Approve ADC submissions, guess element mappings, or recommend operational actions beyond definition guidance.</dd>
+          <dt>Sign-off</dt>
+          <dd>Performance Manager or Information Lead with ADC accountability.</dd>
+        </dl>
+        <p><a href="agent-rules/adc-expert-agent.md">View rule file</a></p>
+        <div class="prompt-snippet">What is ADC E07 based on? Cite spec section and local dictionary if documented.</div>
+      </article>
+    </section>
+
+    <section aria-labelledby="cat-b">
+      <h2 id="cat-b">B. Performance and reporting workflow agents</h2>
+
+      <article class="agent-card">
+        <h3>Performance Manager Agent</h3>
+        <p>During operational or directorate reviews, interprets performance trends and variation in plain English — separating facts from hypotheses.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Trend narrative, labelled hypotheses, risk summary and suggested questions for service leads.</dd>
+          <dt>Must not</dt>
+          <dd>Make operational or clinical decisions, present correlation as causation, or bypass SME or QA flags.</dd>
+          <dt>Sign-off</dt>
+          <dd>Business &amp; Performance Business Partner or delegated Performance Manager.</dd>
+        </dl>
+        <p><a href="agent-rules/performance-manager-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Demand &amp; Capacity Agent</h3>
+        <p>When testing backlog clearance or capacity plans, shows transparent arithmetic and stated assumptions — not commitments.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Backlog clearance estimates, sensitivity notes, plain-English gap explanation and questions about missing inputs.</dd>
+          <dt>Must not</dt>
+          <dd>Guarantee clearance dates, invent hidden assumptions, or approve workforce or financial decisions.</dd>
+          <dt>Sign-off</dt>
+          <dd>Operational lead and Business Partner validate assumptions before any capacity plan is used.</dd>
+        </dl>
+        <p><a href="agent-rules/demand-capacity-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Report QA Agent</h3>
+        <p>Before a performance report leaves draft, checks calculations, definitions, caveats, source notes and review status.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Numbered QA findings (critical / major / minor), missing caveat recommendations and suggested corrections for the author.</dd>
+          <dt>Must not</dt>
+          <dd>Approve reports for Board or external submission, suppress critical findings, or introduce metrics without definition sources.</dd>
+          <dt>Sign-off</dt>
+          <dd>Report author and Performance Manager resolve findings before distribution.</dd>
+        </dl>
+        <p><a href="agent-rules/report-qa-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Executive Summary Agent</h3>
+        <p>After QA, drafts Board or service-facing narratives with visible caveats — for human selection and approval, not autonomous publication.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Executive summary draft, “so what?” section, visible caveats and alternative phrasing for sensitive messages.</dd>
+          <dt>Must not</dt>
+          <dd>Bury bad news, remove QA or IG caveats, or make commitments on behalf of the Trust.</dd>
+          <dt>Sign-off</dt>
+          <dd>Business Partner and, where appropriate, Service or Medical Director before Board or external use.</dd>
+        </dl>
+        <p><a href="agent-rules/executive-summary-agent.md">View rule file</a></p>
+      </article>
+    </section>
+
+    <section aria-labelledby="cat-c">
+      <h2 id="cat-c">C. Admin and delivery agents</h2>
+
+      <article class="agent-card">
+        <h3>Project / Admin Agent</h3>
+        <p>For day-to-day delivery coordination: tracks meeting actions, summarises project status, drafts RAID entries and flags overdue items.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Draft action lists, meeting summaries, project status notes, RAID entries and overdue reminders.</dd>
+          <dt>Must not</dt>
+          <dd>Send external messages, commit managers to deadlines, or change project records without approval.</dd>
+          <dt>Sign-off</dt>
+          <dd>Project lead or Business Partner approves actions and record changes before saving or sharing.</dd>
+        </dl>
+        <p><a href="agent-rules/project-admin-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Backlog Sync Agent</h3>
+        <p>When Teamwork and Azure DevOps diverge, reconciles tasks with work items — proposing aligned entries with traceable ID mapping.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Proposed work items, acceptance criteria drafts, duplicate matches, status-change proposals and Teamwork ↔ DevOps ID traceability.</dd>
+          <dt>Must not</dt>
+          <dd>Create, close, reassign or update items in either system without explicit human approval.</dd>
+          <dt>Sign-off</dt>
+          <dd>Developer or PM approves each proposed item or status change before any system update.</dd>
+        </dl>
+        <p><a href="agent-rules/backlog-sync-agent.md">View rule file</a></p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Branch Review &amp; Delivery Agent</h3>
+        <p>Reviews the current branch before handover or merge; summarises code/report changes, drafts commit and PR text, checks documentation and file headers, records testing, and proposes related Azure DevOps updates for human approval.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Changed-files summary, suggested commit message and PR description, changelog entry, doc/header update suggestions, testing summary, risk list and proposed DevOps actions.</dd>
+          <dt>Must not</dt>
+          <dd>Push to Git, update DevOps work items, claim tests passed without evidence, or present changes as safe to merge without human review.</dd>
+          <dt>Sign-off</dt>
+          <dd>Developer or analyst confirms the handover package before commit, push, PR creation or DevOps updates.</dd>
+        </dl>
+        <p><a href="agent-rules/branch-review-delivery-agent.md">View rule file</a></p>
+      </article>
+    </section>
+
+    <section aria-labelledby="cat-d">
+      <h2 id="cat-d">D. Information governance</h2>
+
+      <article class="agent-card ig-agent">
+        <h3>IG / Safety Agent</h3>
+        <p>Hard gate before any agent output proceeds to human review or publication — blocks PID, unpublished internal data, over-automation and unsupported claims.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>PASS or BLOCK decision with explicit reasons, IG violation list, required redactions and escalation recommendations.</dd>
+          <dt>Must not</dt>
+          <dd>Waive IG rules for convenience, allow disclosive data through, or be bypassed in the documented workflow.</dd>
+          <dt>Sign-off</dt>
+          <dd>Always active; human sign-off still required after PASS. IG lead consulted for any BLOCK.</dd>
+        </dl>
+        <p><a href="agent-rules/ig-safety-agent.md">View rule file</a></p>
+        <div class="prompt-snippet">PASS or BLOCK with reasons. No exceptions for convenience.</div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">Personal demonstration site. Agent rules are illustrative — not production deployment.</p>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

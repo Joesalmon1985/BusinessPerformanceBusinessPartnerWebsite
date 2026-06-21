@@ -1,0 +1,6 @@
+Filter note: dspt_rdy
+DSPT public org page is RDY-specific; all rows retained.
+Rows: 16
+Output: /home/joe/Projects/JobApplication/site/public-data/processed/rdy_dspt_rdy_assessment_history.csv
+
+DISCLAIMER: Public-data demonstration output. Not an official Dorset HealthCare report.

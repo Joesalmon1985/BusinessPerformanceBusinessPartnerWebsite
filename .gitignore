@@ -1,0 +1,13 @@
+# Local archive duplicate
+site.zip
+
+# Local R package cache — reinstall via public-data scripts
+site/public-data/R_libs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

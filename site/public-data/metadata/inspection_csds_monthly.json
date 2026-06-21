@@ -1,0 +1,234 @@
+{
+  "csds_monthly_march-2026_csds_data.zip": {
+    "file": "csds_monthly_march-2026_csds_data.zip",
+    "type": "zip",
+    "size_bytes": 2940645,
+    "contents": {
+      "csds-mar26-exp-core-data.csv": {
+        "file": "csds-mar26-exp-core-data.csv",
+        "type": "csv",
+        "size_bytes": 51837141,
+        "columns": ["REPORTING_PERIOD_START", "REPORTING_PERIOD_END", "ORG_CODE", "ORG_NAME", "ORG_LEVEL", "DIMENSION", "COUNT_OF", "MEASURE", "MEASURE_DESC", "MEASURE_2", "MEASURE_2_DESC", "MEASURE_VALUE", "MEASURE_VALUE_0_18", "MEASURE_VALUE_19_64", "MEASURE_VALUE_65_PLUS"],
+        "row_count": 279466,
+        "row_count_note": "full count; large file",
+        "rdy_search": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 5000,
+          "search_method": "sample_5000_rows_plus_grep",
+          "grep": {
+            "found": true,
+            "rdy_count": 598,
+            "name_pattern_found": true,
+            "method": "full_grep"
+          }
+        }
+      }
+    },
+    "any_rdy_signal": true
+  },
+  "csds_monthly_march-2026_data_quality.csv": {
+    "file": "csds_monthly_march-2026_data_quality.csv",
+    "type": "csv",
+    "size_bytes": 6075408,
+    "columns": ["ReportingPeriodStartDate", "ReportingPeriodEndDate", "Org_Code", "DataTable", "UID", "DataItem", "Valid", "Default", "Invalid", "Missing", "Denominator"],
+    "row_count": 53776,
+    "row_count_note": "full count; large file",
+    "rdy_search": {
+      "code_matches": {
+        "Org_Code": 266
+      },
+      "name_matches": [],
+      "rdy_any": {
+        "Org_Code": 266
+      },
+      "total_code_matches": 266,
+      "total_name_matches": 0,
+      "row_count": 50000,
+      "search_method": "first_n_rows"
+    }
+  },
+  "csds_monthly_march-2026_metadata.xlsx": {
+    "file": "csds_monthly_march-2026_metadata.xlsx",
+    "type": "xlsx",
+    "size_bytes": 226158,
+    "sheets": ["Cover", "Notes", "Version History", "Monthly Core Data Measures", "Table 1a Field names", "Table 1b Dimensions", "Table 1c Counts", "Monthly HV Data Measures", "Data Quality Measures", "Glossary", "Monthly Core Data Measures old", "Table 1b Dimensions old", "Table 3", "Table 4 Counts wking"],
+    "sheet_info": {
+      "Cover": {
+        "row_count_sample": 39,
+        "columns": ["Community Services Statistics", "...2", "...3", "...4"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 39
+        }
+      },
+      "Notes": {
+        "row_count_sample": 13,
+        "columns": ["Back to contents", "...2", "...3"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 13
+        }
+      },
+      "Version History": {
+        "row_count_sample": 18,
+        "columns": ["Back to contents", "...2", "...3"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 18
+        }
+      },
+      "Monthly Core Data Measures": {
+        "row_count_sample": 96,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5", "...6", "...7", "...8", "...9"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 96
+        }
+      },
+      "Table 1a Field names": {
+        "row_count_sample": 22,
+        "columns": ["Back to contents", "...2", "...3", "...4"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 22
+        }
+      },
+      "Table 1b Dimensions": {
+        "row_count_sample": 30,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 30
+        }
+      },
+      "Table 1c Counts": {
+        "row_count_sample": 17,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5", "...6"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 17
+        }
+      },
+      "Monthly HV Data Measures": {
+        "row_count_sample": 81,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5", "...6"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 81
+        }
+      },
+      "Data Quality Measures": {
+        "row_count_sample": 46,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5", "...6", "...7", "...8", "...9", "...10", "...11", "...12", "...13", "...14"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 46
+        }
+      },
+      "Glossary": {
+        "row_count_sample": 11,
+        "columns": ["Back to contents", "...2", "...3"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 11
+        }
+      },
+      "Monthly Core Data Measures old": {
+        "row_count_sample": 70,
+        "columns": ["Back to contents", "...2", "...3", "...4", "...5", "...6"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 70
+        }
+      },
+      "Table 1b Dimensions old": {
+        "row_count_sample": 31,
+        "columns": ["...1", "Back to contents", "...3", "...4", "...5", "...6", "...7", "...8"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 31
+        }
+      },
+      "Table 3": {
+        "row_count_sample": 240,
+        "columns": ["table", "Monthly CSV Dimension", "Description of dimension", "Tables used", "Counts used", "OLD Construction", "New", "HL notes", "v1.6"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 240
+        }
+      },
+      "Table 4 Counts wking": {
+        "row_count_sample": 57,
+        "columns": ["Table 4: Counts: A definition of each different type of count used in this publication", "...2", "...3", "...4", "...5", "...6", "...7", "...8"],
+        "rdy": {
+          "code_matches": [],
+          "name_matches": [],
+          "rdy_any": [],
+          "total_code_matches": 0,
+          "total_name_matches": 0,
+          "row_count": 57
+        }
+      }
+    },
+    "rdy_search": {
+      "total_code_matches": 0,
+      "total_name_matches": 0
+    }
+  }
+}
