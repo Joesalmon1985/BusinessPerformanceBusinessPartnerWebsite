@@ -73,20 +73,44 @@ Sources marked `checked_no_rdy_rows` were inspected but contained no matching or
 - demo_dm01_diagnostics.csv
 - demo_assurance_profile.csv
 
+## Historic trend files (script 05)
+
+See [HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md](HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md) and [HISTORIC_SOURCE_REGISTER.csv](HISTORIC_SOURCE_REGISTER.csv).
+
+| Trend file | Used in report |
+|------------|----------------|
+| `trend_csds_activity_rdy.csv` | CSDS community services |
+| `trend_mhs23_rdy.csv` | MHSDS (MHS23 open referrals) |
+| `trend_ae_rdy.csv` | Urgent/diagnostics (source validation) |
+| `trend_dm01_rdy.csv` | Urgent/diagnostics |
+| `trend_kh03_beds_rdy.csv` | Urgent/diagnostics |
+
+MHSDS MHS01/MHS29/MHS69 and Talking Therapies M001/M031/M053 use Provider time-series globs (not separate `trend_*.csv` files).
+
+## HTML reports (built)
+
+All six public briefs are rendered by `site/R/03_render_public_reports.R`. Each includes a **Key figures explained** section. See [FINAL_REPORT_QA_SUMMARY.md](FINAL_REPORT_QA_SUMMARY.md).
+
+| Report | Demo CSV | HTML page |
+|--------|----------|-----------|
+| NHS Oversight Framework overview | demo_nof_overview.csv | reports/public-performance-overview.html |
+| MHSDS access profile | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |
+| CSDS community services | demo_csds_activity.csv | reports/public-community-services-profile.html |
+| Talking Therapies | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |
+| Assurance profile | demo_assurance_profile.csv | reports/public-assurance-profile.html |
+| Urgent/diagnostics check | demo_dm01_diagnostics.csv + demo_kh03_beds.csv | reports/public-urgent-diagnostics-check.html |
+
+Each report states: *public-data demonstration report; not an official Trust report; requires human review and local owner confirmation.*
+
 ## Recommended next agent run — R report pages (NOT YET BUILT)
 
-When instructed, create `site/R/03_render_public_reports.R` reading from `site/public-data/processed/demo_*.csv`:
+~~When instructed, create `site/R/03_render_public_reports.R` reading from `site/public-data/processed/demo_*.csv`:~~
 
-| Report | Demo CSV | Proposed HTML page |
-|--------|----------|-------------------|
-| Dorset HealthCare public performance overview | demo_nof_overview.csv | reports/public-performance-overview.html |
-| Mental health access and activity public profile | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |
-| Community services public profile | demo_csds_activity.csv | reports/public-community-services-profile.html |
-| NHS Talking Therapies public profile | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |
-| Public assurance and statutory reporting profile | demo_assurance_profile.csv | reports/public-assurance-profile.html |
-| Urgent care / diagnostics public data check | demo_dm01_diagnostics.csv + synthetic_demo_ae_placeholder.csv | reports/public-urgent-diagnostics-check.html |
+**Completed.** Regenerate with:
 
-Each report must state: *public-data demonstration report; not an official Trust report; requires human review and local owner confirmation.*
+```bash
+Rscript site/R/03_render_public_reports.R
+```
 
 ## Run commands
 

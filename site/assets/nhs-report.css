@@ -421,6 +421,96 @@ body.nhs-report {
   color: var(--nhs-grey);
 }
 
+.key-figures-explained {
+  border-left: 4px solid var(--nhs-green);
+}
+
+.nhs-kfe-table {
+  font-size: 0.875rem;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nhs-kfe-table th[scope="row"] {
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+  vertical-align: top;
+  min-width: 9rem;
+}
+
+.nhs-kfe-table td,
+.nhs-kfe-table th {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.nhs-kfe-table td:nth-child(6),
+.nhs-kfe-table td:nth-child(7) {
+  max-width: 16rem;
+}
+
+.nhs-trend-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.nhs-trend-badge--improving {
+  background: #E6F4EA;
+  color: #007F3B;
+}
+
+.nhs-trend-badge--worsening {
+  background: #FDEDEC;
+  color: #DA291C;
+}
+
+.nhs-trend-badge--stable {
+  background: #E8F4FD;
+  color: #003087;
+}
+
+.nhs-trend-badge--unclear {
+  background: #FFF8E1;
+  color: #6B4E00;
+}
+
+.nhs-trend-badge--na {
+  background: #F0F4F5;
+  color: var(--nhs-grey);
+}
+
+.nhs-trend-badge--validation {
+  background: var(--nhs-white);
+  color: var(--nhs-blue);
+  border: 1px solid var(--nhs-bright-blue);
+}
+
+.nhs-comparator-label {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  background: var(--nhs-pale);
+  color: var(--nhs-grey);
+  margin-right: 0.25rem;
+  vertical-align: baseline;
+}
+
+.nhs-human-check {
+  font-style: italic;
+  color: var(--nhs-grey);
+  font-size: 0.85rem;
+}
+
 .nhs-bp-questions li {
   margin-bottom: 1rem;
 }

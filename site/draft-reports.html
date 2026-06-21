@@ -39,7 +39,8 @@
 
     <section aria-labelledby="public-data-reports">
       <h2 id="public-data-reports">Public-data agent workflow examples</h2>
-      <p>Each brief below demonstrates how a governed agent interprets a business question, locates public aggregate data for Dorset HealthCare (ODS <strong>RDY</strong>), produces a cautious first-draft analysis, and surfaces what a human reviewer must still check. Workflow: <strong>question → data → analysis → caveats → human review</strong>. See also the <a href="agent-operating-model.html">agent operating model</a>.</p>
+      <p>"Aggregate public data" means published NHS figures that are already grouped to organisation level — counts and rates, never individual patients. A "first-draft brief" is exactly that: a starting point an analyst would refine, not a finished report. Drafting still needs a person because definitions vary, data can be provisional or incomplete, and figures only mean something once they are read alongside local context and judgement.</p>
+      <p>Each brief below demonstrates how a governed agent interprets a business question, locates public aggregate data for Dorset HealthCare — identified by its Organisation Data Service (ODS) code <strong>RDY</strong> — produces a cautious first-draft analysis, and surfaces what a human reviewer must still check. The workflow is always the same: <strong>question → data → analysis → caveats → human review</strong>. See also the <a href="agent-operating-model.html">agent operating model</a>.</p>
       <p>Reports are rendered from <code>public-data/processed/demo_*.csv</code> by <code>R/03_render_public_reports.R</code>. Source catalogue: <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</p>
     </section>
 
@@ -69,9 +70,9 @@
           <dt>Question asked</dt>
           <dd>What MHSDS access and activity measures exist for RDY as provider, and what prevents treating this as an operational dashboard?</dd>
           <dt>Agent produced</dt>
-          <dd>Top-N measure table, suppression counts and breakdown caveats.</dd>
+          <dd>Key figures explained table, MHSDS time-series trends, MHS23 historic stack and suppression caveats.</dd>
           <dt>Demonstrates</dt>
-          <dd>Bounded descriptive analysis of provisional MHSDS data with explicit non-claims.</dd>
+          <dd>Bounded descriptive analysis with previous-period comparators and explicit non-claims.</dd>
           <dt>Human review needed</dt>
           <dd>Local MHSDS validation, breakdown definitions and provisional vs final refresh.</dd>
         </dl>
@@ -86,11 +87,11 @@
           <dt>Question asked</dt>
           <dd>What CSDS community activity measures exist for RDY in March 2026, and what should be validated locally?</dd>
           <dt>Agent produced</dt>
-          <dd>Activity-type summary, honest reporting of sparse/zero totals, and verification links.</dd>
+          <dd>Key figures explained table, 8-month CSDS activity trends and verification links.</dd>
           <dt>Demonstrates</dt>
-          <dd>Measure-availability checking and cautious briefing when public extracts look empty.</dd>
+          <dd>Descriptive month-on-month trends from historic public stack with honest limits.</dd>
           <dt>Human review needed</dt>
-          <dd>Service definitions, coding QA and directorate-level confirmation.</dd>
+          <dd>Service definitions, coding quality assurance (QA) and directorate-level confirmation.</dd>
         </dl>
         <a class="card-link" href="reports/public-community-services-profile.html">View CSDS worked example</a>
       </article>
@@ -103,11 +104,11 @@
           <dt>Question asked</dt>
           <dd>What referrals and waiting-band measures exist for RDY, and what outcome analysis would require beyond this extract?</dd>
           <dt>Agent produced</dt>
-          <dd>Access/waiting measure table with suppression notes and explicit outcome gaps.</dd>
+          <dd>Key figures explained table, 13-month Talking Therapies (formerly IAPT — Improving Access to Psychological Therapies) trends and explicit outcome gaps.</dd>
           <dt>Demonstrates</dt>
-          <dd>Summarising IAPT public data within strict access/waiting scope — no recovery claims.</dd>
+          <dd>Summarising Talking Therapies public data with previous-period comparators — no recovery claims.</dd>
           <dt>Human review needed</dt>
-          <dd>Local IAPT reporting alignment, pathway definitions and DQ findings.</dd>
+          <dd>Local reporting alignment, pathway definitions and data quality (DQ) findings.</dd>
         </dl>
         <a class="card-link" href="reports/public-talking-therapies-profile.html">View Talking Therapies worked example</a>
       </article>
@@ -132,14 +133,14 @@
       <article class="card card--public">
         <p class="card-badge card-badge--agent">Agent-assisted brief</p>
         <h3>AI-assisted urgent care and diagnostics source check</h3>
-        <p class="card-purpose">Worked example: checking RDY presence in A&amp;E, DM01 and KH03 before any interpretation.</p>
+        <p class="card-purpose">Worked example: checking RDY presence in accident and emergency (A&amp;E), DM01 and KH03 data before any interpretation.</p>
         <dl class="card-meta">
           <dt>Question asked</dt>
-          <dd>Does RDY appear in A&amp;E, DM01 and KH03 public files, and what can safely be interpreted for a trust without an ED?</dd>
+          <dd>Does RDY appear in A&amp;E, DM01 and KH03 public files, and what can safely be interpreted for a trust without an emergency department (ED)?</dd>
           <dt>Agent produced</dt>
-          <dd>Source presence table, interpretive A&amp;E columns, DM01 summary and full-row verification appendix.</dd>
+          <dd>Source presence table, Key figures explained, A&amp;E/DM01 historic trends and KH03 snapshot history.</dd>
           <dt>Demonstrates</dt>
-          <dd>Source validation before analysis — especially preventing ED misinterpretation at RDY.</dd>
+          <dd>Source validation plus descriptive trends — preventing ED misinterpretation at RDY.</dd>
           <dt>Human review needed</dt>
           <dd>Service-owner confirmation, KH03 snapshot dates and diagnostics pathway ownership.</dd>
         </dl>
@@ -152,7 +153,7 @@
       <ul>
         <li>A Cursor agent discovered and downloaded official public aggregate NHS sources — catalogued in <a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a>.</li>
         <li>R scripts preserved raw files, inspected fields, filtered RDY/Dorset HealthCare rows, and created <code>public-data/processed/demo_*.csv</code> extracts.</li>
-        <li><code>R/03_render_public_reports.R</code> renders each brief using a shared agent-assisted analytical template: question, prompt excerpt, process steps, first-draft analysis, figures, caveats and verification appendix.</li>
+        <li><code>R/03_render_public_reports.R</code> renders each brief using a shared agent-assisted analytical template: question, prompt excerpt, process steps, Key figures explained, first-draft analysis, figures, caveats and verification appendix.</li>
         <li>Agentic AI accelerated discovery, drafting and checking; R produces reproducible tables and charts from bounded public data only.</li>
         <li>Every brief ends with explicit non-claims and a human review gate — no operational use without local owner sign-off.</li>
       </ul>
@@ -160,6 +161,7 @@
       <ul>
         <li><a href="public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a> — pipeline and agent brief template</li>
         <li><a href="public-data/AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md">AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md</a> — reframe specification</li>
+        <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">FINAL_REPORT_QA_SUMMARY.md</a> — final report clarity/trend QA pass</li>
         <li><a href="public-data/PUBLIC_DATA_RUN_SUMMARY.md">PUBLIC_DATA_RUN_SUMMARY.md</a> — run summary and source status</li>
         <li><a href="public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a> — public source catalogue</li>
       </ul>
@@ -168,15 +170,13 @@
 
     <section aria-labelledby="why-bp-role">
       <h2 id="why-bp-role">Why this matters for the Business &amp; Performance Business Partner role</h2>
-      <p>These reports demonstrate practical skills relevant to business and performance partnering:</p>
+      <p>Read as examples rather than claims, these briefs show practical skills the business-partner role relies on:</p>
       <ul>
-        <li><strong>Turning questions into reviewable first drafts</strong> — each brief shows the agent question, process and output a human reviewer would receive.</li>
-        <li><strong>Interpreting national/public datasets cautiously</strong> — suppression, provisional data, comparator limits and explicit non-claims are surfaced.</li>
-        <li><strong>Linking agent output to service management</strong> — briefs connect public data to assurance, access, capacity and governance conversations.</li>
-        <li><strong>Identifying data quality and definitional risks</strong> — RDY matching, source availability and metric directionality are flagged before narrative is written.</li>
-        <li><strong>Communicating agent-assisted analysis clearly</strong> — structured workflow sections for non-analyst readers.</li>
-        <li><strong>Using agentic AI safely within governance boundaries</strong> — AI accelerated discovery, drafting and QA; humans remain accountable for interpretation and decisions.</li>
-        <li><strong>Keeping human accountability</strong> — no report is presented as approved; local owner confirmation and sign-off are required before operational use.</li>
+        <li><strong>Turning a question into a reviewable first draft</strong> — each brief shows the question asked, the process followed, and the output a reviewer would receive.</li>
+        <li><strong>Interpreting public datasets cautiously</strong> — suppression, provisional data, comparator limits and explicit non-claims are surfaced rather than hidden.</li>
+        <li><strong>Spotting data quality and definitional risks</strong> — organisation matching, source availability and metric directionality are flagged before any narrative is written.</li>
+        <li><strong>Communicating analysis clearly to non-analysts</strong> — a consistent structure makes complex performance information readable for services and senior leaders.</li>
+        <li><strong>Using agentic AI within governance boundaries</strong> — AI accelerates discovery, drafting and checking, but humans stay accountable: no brief is presented as approved, and local owner sign-off is required before operational use.</li>
       </ul>
     </section>
 

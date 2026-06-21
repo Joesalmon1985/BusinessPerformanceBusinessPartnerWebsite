@@ -38,23 +38,28 @@
       <strong>Demonstration caveat:</strong> Agent rules are illustrative templates in <code>agent-rules/</code>. They are not deployed in production and do not connect to live Trust systems.
     </div>
 
+    <section aria-labelledby="what-is-an-agent">
+      <h2 id="what-is-an-agent">What "an agent" means here</h2>
+      <p>An <strong>agent</strong> is an AI assistant given a narrow, written brief and a fixed set of approved sources — for example one return's published specification and the local data dictionary. It answers questions and drafts text strictly within that brief, always citing where its answer came from, and stops and escalates when something falls outside its sources. Think of it as a well-briefed, source-bound assistant for one task — not a general chatbot, and never the decision-maker.</p>
+    </section>
+
     <section aria-labelledby="principles">
       <h2 id="principles">Core principles</h2>
       <div class="warning-box">
         <ul style="margin:0;">
           <li><strong>AI supports human judgement</strong> — it does not replace subject matter experts</li>
-          <li><strong>SME agents answer from approved sources only</strong> — with citations the user can verify</li>
+          <li><strong>Subject matter expert (SME) agents answer from approved sources only</strong> — with citations the user can verify</li>
           <li><strong>AI does not make operational decisions</strong> or submit returns autonomously</li>
-          <li><strong>Definitions must link to authoritative sources</strong> — public specs, local dictionary, SOPs</li>
-          <li><strong>Information governance is a hard boundary</strong> — IG/Safety Agent can block the workflow</li>
-          <li><strong>Explicit human approval before external or system changes</strong> — Git push, PR creation, DevOps/work item updates, external communications</li>
+          <li><strong>Definitions must link to authoritative sources</strong> — public specifications, the local data dictionary, standard operating procedures (SOPs)</li>
+          <li><strong>Information governance is a hard boundary</strong> — the Information Governance (IG)/Safety Agent can block the workflow</li>
+          <li><strong>Explicit human approval before external or system changes</strong> — code changes, pull request (PR) creation, project-tool updates, external communications</li>
         </ul>
       </div>
     </section>
 
     <section aria-labelledby="source-pairing">
       <h2 id="source-pairing">Pairing agents with approved sources</h2>
-      <p>Reporting specification agents (MHSDS, CSDS, PLCM, ADC) should be paired with:</p>
+      <p>Reporting specification agents — for the Mental Health Services Data Set (MHSDS), Community Services Data Set (CSDS), Patient Level Contract Monitoring (PLCM) and Aggregate Data Collections (ADC) — should be paired with:</p>
       <ul>
         <li>Downloaded public specification documents (version-dated)</li>
         <li>Local data dictionary (<code>docs/local-dictionary-placeholder.md</code> in demo; MHSDS worked example uses <code>docs/synthetic-mhsds-local-dictionary.md</code>)</li>
@@ -79,10 +84,11 @@
 
     <section aria-labelledby="mhsds-worked-example">
       <h2 id="mhsds-worked-example">Worked example: asking an MHSDS SME agent about an unusual figure</h2>
+      <p class="info-box"><strong>In plain English:</strong> when a number on a report suddenly jumps, the first job is to find out <em>why</em> — is it a genuine change in activity, or just a change in how things were recorded or counted? "Tracing a figure back to source" means following that number step by step, from the original record a clinician entered through to the final total on the report, checking each stage. The technical chain below is kept deliberately, because that traceability is the whole point — but the takeaway is simple: the agent helps you ask better questions, and a person still decides.</p>
       <p>This example shows how a source-bound SME agent could support a Business &amp; Performance user investigating an unusual movement in a synthetic MHSDS-derived metric. The agent traces the figure back to source forms, extract logic, fact tables and mapping rules, separates data-quality from operational explanations, and offers draft pack wording — sign-off is discussed only when the user asks whether the figure is ready for the pack.</p>
 
       <div class="warning-box" role="note">
-        <strong>Synthetic demonstration only.</strong> Fictional RiO forms, warehouse tables and aggregate data. Not an official Dorset HealthCare report, not a live Trust agent, and not connected to operational systems.
+        <strong>Synthetic demonstration only.</strong> Fictional records from RiO (an electronic patient record system), warehouse tables and aggregate data. Not an official Dorset HealthCare report, not a live Trust agent, and not connected to operational systems.
       </div>
 
       <h3>What this demonstrates</h3>
@@ -143,7 +149,7 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
           <span class="workflow-step human">Human sign-off</span>
         </div>
       </div>
-      <p>For performance reporting and mandatory returns: interpret data, check definitions, QA drafts and prepare narratives — each step produces drafts or findings for human review, not autonomous outputs.</p>
+      <p>For performance reporting and mandatory returns: interpret data, check definitions, quality-assure (QA) drafts and prepare narratives — each step produces drafts or findings for human review, not autonomous outputs.</p>
 
       <h3>Admin and delivery workflow</h3>
       <div class="workflow-diagram" role="img" aria-label="Admin and delivery agent workflow">
@@ -159,7 +165,7 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
           <span class="workflow-step human">Human sign-off</span>
         </div>
       </div>
-      <p>For delivery work: coordinate project actions, reconcile backlogs and close down branches before merge or handover — still subject to IG/Safety rules. Neither workflow implies autonomous Git, DevOps or external system changes. See <a href="agent-rules/README.md">agent-rules/README.md</a>.</p>
+      <p>For delivery work: coordinate project actions, reconcile backlogs and close down branches before merge or handover — still subject to IG/Safety rules. Neither workflow implies autonomous changes to the code repository (Git), the project-tracking tools (such as Azure DevOps) or any external system. See <a href="agent-rules/README.md">agent-rules/README.md</a>.</p>
     </section>
 
     <section aria-labelledby="cat-a">
@@ -172,7 +178,7 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
           <dt>Outputs</dt>
           <dd>Compatibility assessment, cited definitions, flagged risks and questions for the information lead.</dd>
           <dt>Must not</dt>
-          <dd>Approve submissions, guess field mappings, or process patient-identifiable data.</dd>
+          <dd>Approve submissions, guess field mappings, or process patient-identifiable data (PID) — the personal information that identifies an individual.</dd>
           <dt>Sign-off</dt>
           <dd>Performance Manager or Information Lead with MHSDS accountability.</dd>
         </dl>
@@ -187,7 +193,7 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
           <dt>Outputs</dt>
           <dd>Coding and cohort risk flags, data-quality warnings, suggested caveats and questions for clinical or information owners.</dd>
           <dt>Must not</dt>
-          <dd>Make clinical judgements, sign off CSDS submissions, or assume local PAS coding matches national spec without verification.</dd>
+          <dd>Make clinical judgements, sign off CSDS submissions, or assume local Patient Administration System (PAS) coding matches national spec without verification.</dd>
           <dt>Sign-off</dt>
           <dd>Information Lead or community services performance owner.</dd>
         </dl>
@@ -290,7 +296,7 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
 
       <article class="agent-card">
         <h3>Project / Admin Agent</h3>
-        <p>For day-to-day delivery coordination: tracks meeting actions, summarises project status, drafts RAID entries and flags overdue items.</p>
+        <p>For day-to-day delivery coordination: tracks meeting actions, summarises project status, drafts RAID (risks, assumptions, issues and dependencies) entries and flags overdue items.</p>
         <dl class="agent-meta">
           <dt>Outputs</dt>
           <dd>Draft action lists, meeting summaries, project status notes, RAID entries and overdue reminders.</dd>

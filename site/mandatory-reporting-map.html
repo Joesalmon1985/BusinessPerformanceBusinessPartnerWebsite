@@ -34,12 +34,17 @@
       <strong>Demonstration caveat:</strong> This is a personal demonstration site. It is not an official Dorset HealthCare register, is not complete, and is not operationally validated. It does not contain confidential or patient-identifiable information.
     </div>
     <div class="warning-box" role="alert">
-      <strong>Illustrative metadata:</strong> Owners, due dates, assurance statuses and local source labels are synthetic or partly fabricated for demonstration. Reference links marked <span class="badge badge-confirmed">Pub</span> point to public NHS sources. An agent could help draft and maintain this register; humans must validate against local SOPs and named owners before any operational use.
+      <strong>Illustrative metadata:</strong> Owners, due dates, assurance statuses and local source labels are synthetic or partly fabricated for demonstration. Reference links marked <span class="badge badge-confirmed">Pub</span> point to public NHS sources. An agent could help draft and maintain this register; humans must validate against local standard operating procedures (SOPs) and named owners before any operational use.
     </div>
+    <section aria-labelledby="what-is-mandatory">
+      <h2 id="what-is-mandatory">What "mandatory reporting" means</h2>
+      <p>NHS trusts are required to submit a number of national data returns — standard datasets sent to national bodies on fixed timetables, covering things like waiting times, bed occupancy, complaints and workforce equality. Each return has rules about what to count, who owns it and when it is due. Missing a deadline or submitting poor-quality data carries real consequences, so keeping a reliable grip on every return is core business-partner work.</p>
+      <p>For a Business &amp; Performance Business Partner, the value is having one clear view of what is due, who owns it, where the risks are, and whether each return is properly assured. The role of an AI agent here is to reduce the admin of keeping that view current — drafting, cross-referencing and flagging changes — not to take over the named owner's responsibility for the figures.</p>
+    </section>
     <section aria-labelledby="ai-help">
       <h2 id="ai-help">How agentic AI could help</h2>
       <ul>
-        <li>Extract reporting requirements from public specifications (MHSDS, PLCM, ADC, etc.)</li>
+        <li>Extract reporting requirements from public specifications — for example the Mental Health Services Data Set (MHSDS), Patient Level Contract Monitoring (PLCM) and Aggregate Data Collections (ADC)</li>
         <li>Propose owner, cadence and source mappings for human confirmation</li>
         <li>Flag gaps, conflicting cadences and missing documentation links</li>
         <li>Maintain a change log when national specifications update</li>
@@ -151,11 +156,45 @@
 <tr data-owner="Estates &amp; Facilities" data-risk="Low" data-confidence="likely" data-assurance="review"><td>ERIC</td><td>Estates &amp; Facilities</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-review">Under review</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">ERIC annual cycle — estates data lag possible</td><td><a href="https://digital.nhs.uk/data-and-information/publications/statistical/estates-returns-information-collection/summary-page-and-dataset-for-eric-2024-25" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
 <tr data-owner="IG / IT Security" data-risk="Medium" data-confidence="confirmed" data-assurance="production"><td>DSPT</td><td>IG / IT Security</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-medium">Medium</span></td><td class="col-notes">DSPT annual assessment</td><td><a href="https://www.dsptoolkit.nhs.uk/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
 <tr data-owner="Quality &amp; Governance" data-risk="High" data-confidence="confirmed" data-assurance="manual"><td>CQC notifications</td><td>Quality &amp; Governance</td><td>Ad hoc</td><td>Ad hoc</td><td><span class="badge badge-manual">Manual process</span></td><td><span class="badge badge-high">High</span></td><td class="col-notes">CQC notifications require clinical sign-off</td><td><a href="https://www.cqc.org.uk/guidance-regulation/providers/notifications" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
-<tr data-owner="Workforce / OD" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>WRES / WDES / EDS</td><td>Workforce / OD</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">Workforce data from ESR — extract delay possible</td><td><a href="https://www.england.nhs.uk/publication/nhs-workforce-race-equality-standard/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
+<tr data-owner="Workforce / OD" data-risk="Low" data-confidence="confirmed" data-assurance="production"><td>WRES / WDES / EDS</td><td>Workforce / OD</td><td>Annual</td><td>2026-05-31</td><td><span class="badge badge-production">In production</span></td><td><span class="badge badge-low">Low</span></td><td class="col-notes">Workforce data from the Electronic Staff Record (ESR) — extract delay possible</td><td><a href="https://www.england.nhs.uk/publication/nhs-workforce-race-equality-standard/" rel="noopener noreferrer" target="_blank">Public reference</a></td></tr>
 <!-- TABLE_BODY_END -->
           </tbody>
         </table>
       </div>
+      <details class="glossary">
+        <summary>Plain-English glossary of the return codes in this table</summary>
+        <dl class="glossary-list">
+          <dt>MHSDS — Mental Health Services Data Set</dt>
+          <dd>The national record of mental health care activity submitted each month.</dd>
+          <dt>CSDS — Community Services Data Set</dt>
+          <dd>The equivalent national record for community health services for children, young people and adults.</dd>
+          <dt>NHS Talking Therapies (formerly IAPT)</dt>
+          <dd>Monthly data on talking-therapy services for anxiety and depression, including recovery rates.</dd>
+          <dt>ECDS — Emergency Care Data Set</dt>
+          <dd>The dataset behind urgent and emergency care (A&amp;E) activity and waiting times.</dd>
+          <dt>KH03 — bed availability and occupancy</dt>
+          <dd>A return on how many beds are available and how full they are, submitted quarterly.</dd>
+          <dt>RTT — Referral to Treatment</dt>
+          <dd>Waiting-time data measuring how long patients wait from referral to starting treatment.</dd>
+          <dt>DM01 — diagnostic waiting times</dt>
+          <dd>Monthly data on waits for diagnostic tests such as audiology and imaging.</dd>
+          <dt>CYP eating disorder waits</dt>
+          <dd>Children and young people's (CYP) waiting times against the national eating-disorder access standard.</dd>
+          <dt>KO41a — written complaints</dt>
+          <dd>A return summarising the volume and handling of formal written complaints.</dd>
+          <dt>FFT — Friends and Family Test</dt>
+          <dd>Patient feedback on whether people would recommend a service.</dd>
+          <dt>ERIC — Estates Returns Information Collection</dt>
+          <dd>An annual return on buildings, estates and facilities.</dd>
+          <dt>DSPT — Data Security and Protection Toolkit</dt>
+          <dd>An annual assessment showing the organisation meets data-security standards.</dd>
+          <dt>CQC — Care Quality Commission notifications</dt>
+          <dd>Alerts the NHS regulator must be told about certain events, often needing clinical sign-off.</dd>
+          <dt>WRES / WDES / EDS — workforce equality standards</dt>
+          <dd>Annual returns on race and disability equality (WRES, WDES) and the wider Equality Delivery System (EDS).</dd>
+        </dl>
+      </details>
+      <p class="info-box">A view like this brings together assurance, governance, deadline risk and cross-team ownership in one place — the kind of grip on competing priorities and accountability the business-partner role is built around.</p>
     </section>
   </main>
   <footer class="site-footer">

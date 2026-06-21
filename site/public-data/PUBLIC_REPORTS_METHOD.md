@@ -21,16 +21,17 @@ Each public report follows this workflow spine (rendered by `agent_brief_section
 3. Prompt excerpt
 4. Data used (sources, period, RDY filter)
 5. Agent process demonstrated (numbered steps)
-6. Key figures from the agent’s first draft (tables, KPIs, charts)
-7. **How to read this report** (plain-English field and period guidance)
-8. **Agent commentary on selected measures** (metric/theme cards with agent flags)
-9. **Trend analysis** or **Trend analysis not available from current extract** (where multi-period public data exists)
-10. First-draft analysis (cautious narrative)
-11. Agent-generated observations
-12. What cannot be concluded from this data
-13. Questions for a Business & Performance Partner (plain-English with short explanations)
-14. How to verify the figures (traceability / audit appendix)
-15. Human review required
+6. **Key figures explained** (plain-English table: what each figure is, latest value, comparator, trend direction, agent interpretation, human check)
+7. Key figures from the agent’s first draft (tables, KPIs, charts)
+8. **How to read this report** (plain-English field and period guidance)
+9. **Agent commentary on selected measures** (metric/theme cards with agent flags)
+10. **Trend analysis** or **Trend analysis not available from current extract** (where multi-period public data exists)
+11. First-draft analysis (cautious narrative)
+12. Agent-generated observations
+13. What cannot be concluded from this data
+14. Questions for a Business & Performance Partner (plain-English with short explanations)
+15. How to verify the figures (traceability / audit appendix)
+16. Human review required
 
 The primary output is the **demonstrated workflow**, not the data table alone. Reports are indexed on `site/draft-reports.html` by question asked and workflow capability.
 
@@ -39,11 +40,11 @@ The primary output is the **demonstrated workflow**, not the data table alone. R
 | Report | Primary demo CSV | Additional processed files |
 |--------|------------------|----------------------------|
 | `public-performance-overview.html` | `demo_nof_overview.csv` | `demo_assurance_profile.csv` |
-| `public-mh-access-profile.html` | `demo_mhsds_activity.csv` | MHSDS time series (`rdy_mhsds_monthly_*time_series*Apr2025_Mar_Perf_2026_v2.csv`) |
-| `public-community-services-profile.html` | `demo_csds_activity.csv` | — (single month only) |
+| `public-mh-access-profile.html` | `demo_mhsds_activity.csv` | MHSDS time series; `trend_mhs23_rdy.csv` |
+| `public-community-services-profile.html` | `demo_csds_activity.csv` | `trend_csds_activity_rdy.csv` (8 months) |
 | `public-talking-therapies-profile.html` | `demo_talking_therapies.csv` | `rdy_talking_therapies_*time_series.csv` |
 | `public-assurance-profile.html` | `demo_assurance_profile.csv` | `rdy_dspt_rdy_assessment_history.csv`, CQC context note |
-| `public-urgent-diagnostics-check.html` | `demo_dm01_diagnostics.csv`, `demo_kh03_beds.csv` | `rdy_ae_monthly_*.csv`, full `rdy_dm01_monthly_*.csv` |
+| `public-urgent-diagnostics-check.html` | `demo_dm01_diagnostics.csv`, `demo_kh03_beds.csv` | `rdy_ae_monthly_*.csv`, full `rdy_dm01_monthly_*.csv`, `trend_ae_rdy.csv`, `trend_dm01_rdy.csv`, `trend_kh03_beds_rdy.csv` |
 
 If a demo CSV is missing, the render script writes a data-availability page rather than inventing figures.
 
@@ -56,6 +57,8 @@ All analysis is **descriptive** and bounded by published aggregates:
 - **Counts and sums** where numeric; suppressed values (`*`) excluded from numeric calculations
 - **Top-N tables** and **bar charts** (base R HTML) for largest numeric measures
 - **Plain-English metric/theme commentary cards** with agent flags (Potential strength, Review locally, Watch / clarify, Definition check required, Source validation only, Trend not available)
+- **Key figures explained table** with standardized trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Source validation only, Definition check required
+- **Comparator priority:** official standard (if in source) → published peer median/rank (NOF only) → previous comparable period → none stated honestly
 - **Trend tables and charts** where downloaded time-series extracts contain ≥2 comparable periods for the same measure (latest vs previous month, absolute and percentage change; rolling mean only if ≥3 periods)
 - **Source presence checks** (urgent/diagnostics report) for RDY row existence
 - **Missingness / suppression counts** flagged explicitly
@@ -148,7 +151,7 @@ Rscript site/R/03_render_public_reports.R
 - Add more **DM01 full-extract** months if FY scrape misses older months
 - Optional Talking Therapies outcome measures (M192, M186) for a separate outcome brief
 
-See [NEXT_COMMENTARY_IMPROVEMENTS.md](NEXT_COMMENTARY_IMPROVEMENTS.md) and [HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md](HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md).
+See [NEXT_COMMENTARY_IMPROVEMENTS.md](NEXT_COMMENTARY_IMPROVEMENTS.md), [HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md](HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md), and [FINAL_REPORT_QA_SUMMARY.md](FINAL_REPORT_QA_SUMMARY.md) for the latest report QA pass.
 
 ## Traceability and verification
 

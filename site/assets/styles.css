@@ -291,6 +291,34 @@ ul, ol {
   margin: 1.5rem 0;
 }
 
+.glossary {
+  background: var(--nhs-white);
+  border: 1px solid var(--nhs-grey);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  padding: 0.5rem 1.25rem;
+}
+
+.glossary > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+  padding: 0.5rem 0;
+}
+
+.glossary-list {
+  margin: 0.5rem 0 0.5rem;
+}
+
+.glossary-list dt {
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.glossary-list dd {
+  margin: 0.15rem 0 0;
+}
+
 .personal-block {
   background: var(--nhs-white);
   padding: 1.5rem;
