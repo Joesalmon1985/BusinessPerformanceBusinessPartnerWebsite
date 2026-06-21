@@ -21,4 +21,12 @@ Then open http://localhost:8080
 
 ## Deploy
 
-Git-based Cloudflare Pages: set **Build output directory** to `site`. See [`site/CLOUDFLARE_DEPLOYMENT.md`](site/CLOUDFLARE_DEPLOYMENT.md).
+Git-based Cloudflare Pages settings:
+
+| Setting | Value |
+|---------|-------|
+| Root directory | `/` |
+| Build command | *(blank)* or `exit 0` |
+| Build output directory | `site` |
+
+Large raw NHS downloads under `site/public-data/raw/` are excluded from Git (25 MiB Cloudflare limit). See [`site/CLOUDFLARE_DEPLOYMENT.md`](site/CLOUDFLARE_DEPLOYMENT.md).

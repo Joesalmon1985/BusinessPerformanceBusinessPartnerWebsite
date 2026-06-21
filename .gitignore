@@ -4,6 +4,15 @@ site.zip
 # Local R package cache — reinstall via public-data scripts
 site/public-data/R_libs/
 
+# Local NHS downloads — regenerate via site/public-data/*.R scripts
+site/public-data/raw/
+
+# Historic download cache from script 05 (large extracted CSVs)
+site/public-data/metadata/historic_extract/
+
+# Regenerated download/audit logs
+site/public-data/metadata/download_log.txt
+
 # OS / editor
 .DS_Store
 Thumbs.db

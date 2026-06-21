@@ -65,9 +65,11 @@ Best for version control and automatic redeployment on push.
    | Setting | Value |
    |---------|-------|
    | Production branch | `main` (or your default branch) |
-   | Build command | *(leave empty)* |
-   | Build output directory | `site` |
    | Root directory | `/` (repo root) |
+   | Build command | *(leave empty)* or `exit 0` |
+   | Build output directory | `site` |
+
+   Cloudflare Pages has a **25 MiB per-file limit**. Large raw NHS downloads must not be committed to Git (see `.gitignore`).
 
 4. **Environment variables**
    - None required
@@ -85,18 +87,35 @@ Best for version control and automatic redeployment on push.
 
 ## What gets deployed
 
-Include the entire `/site` folder:
+Deploy Git-tracked content under `/site`:
 
 - HTML pages (main + reports)
 - `assets/styles.css` and `assets/site.js`
 - `data/*.csv` (synthetic data — safe to publish)
+- `public-data/processed/` (RDY-filtered demo CSVs used by reports)
+- `public-data/DATA_SOURCE_REGISTER.csv` and small metadata notes
 - `agent-rules/*.md` (optional but useful for reviewers)
 - `README.md`, `CLOUDFLARE_DEPLOYMENT.md`
 
-**Exclude from upload (large, not needed at runtime):**
+**Must not be in Git or deployed (local dev only, often over 25 MiB):**
 
+- `public-data/raw/` — downloaded NHS source CSV/ZIP files
+- `public-data/metadata/historic_extract/` — historic download cache from script 05
 - `public-data/R_libs/` — local R package cache (~700 files)
-- `public-data/raw/` — optional; large downloaded files (keep `DATA_SOURCE_REGISTER.csv` if linking from site)
+
+### Pre-deploy size check
+
+Before pushing, confirm no tracked file exceeds Cloudflare's 25 MiB limit:
+
+```bash
+find site -type f -size +25M | sort
+# Should return nothing for Git-tracked deploy content
+
+git ls-files site | while read f; do
+  [ -f "$f" ] && [ "$(stat -c%s "$f")" -gt 26214400 ] && echo "FAIL: $f"
+done
+# Should print nothing
+```
 
 **Regenerate before deploy if data changed:**
 
@@ -138,5 +157,7 @@ Rscript 02_render_reports.R
 **Styles missing:** Confirm `assets/styles.css` is at `/assets/styles.css` relative to site root.
 
 **Git deploy shows wrong content:** Verify **Build output directory** is set to `site`, not `/` or `dist`.
+
+**Deploy fails on file size (25 MiB limit):** A large file under `public-data/raw/` or `metadata/historic_extract/` was committed. Remove it from Git tracking with `git rm --cached` and ensure `.gitignore` excludes those directories. The live site uses `processed/demo_*.csv` and pre-rendered HTML reports, not raw downloads.
 
 **R scripts on Cloudflare:** R is not executed during deployment. Pre-generated CSV and report HTML files must be committed to the repository before deploy.
