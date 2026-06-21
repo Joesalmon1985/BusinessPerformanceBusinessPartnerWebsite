@@ -94,3 +94,135 @@
 2026-06-21 17:00:29 | filter error fft_monthly `n_max` must be a positive integer
 2026-06-21 17:00:29 | filter error fft_monthly `n_max` must be a positive integer
 2026-06-21 17:00:29 | filter error eric_annual input string 1 is invalid UTF-8
+2026-06-21 18:24:53 | === Historic public data run started ===
+2026-06-21 18:24:54 | csds_monthly: starting historic download
+2026-06-21 18:24:56 | csds_monthly: no zip for april-2026
+2026-06-21 18:24:56 | csds_monthly: no zip for may-2026
+2026-06-21 18:24:56 | csds_monthly: no zip for june-2026
+2026-06-21 18:24:56 | csds_monthly: no zip for july-2026
+2026-06-21 18:25:04 | csds_monthly: done — periods 0 rows 0
+2026-06-21 18:25:04 | ae_monthly: starting historic download
+2026-06-21 18:25:07 | ae_monthly ERROR: 'length = 3' in coercion to 'logical(1)'
+2026-06-21 18:25:07 | dm01_monthly: starting historic download
+2026-06-21 18:25:15 | dm01_monthly: done — periods 0
+2026-06-21 18:25:15 | kh03_quarterly: starting historic processing
+2026-06-21 18:25:21 | kh03_quarterly ERROR: arguments imply differing number of rows: 1, 0
+2026-06-21 18:25:21 | fft_monthly: starting FFT org-level search
+2026-06-21 18:25:29 | fft_monthly: done — trend no
+2026-06-21 18:25:29 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:25:32 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:25:32 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:25:32 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:25:32 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:25:44 | mhsds_monthly MHS23: periods 0
+2026-06-21 18:25:44 | === Historic public data run completed ===
+2026-06-21 18:28:10 | === Historic public data run started ===
+2026-06-21 18:28:10 | csds_monthly: starting historic download
+2026-06-21 18:28:18 | csds_monthly: no zip for april-2026
+2026-06-21 18:28:18 | csds_monthly: no zip for may-2026
+2026-06-21 18:28:18 | csds_monthly: no zip for june-2026
+2026-06-21 18:28:18 | csds_monthly: no zip for july-2026
+2026-06-21 18:28:58 | csds_monthly ERROR: 'length = 4' in coercion to 'logical(1)'
+2026-06-21 18:28:58 | ae_monthly: starting historic download
+2026-06-21 18:28:59 | ae_monthly ERROR: 'length = 3' in coercion to 'logical(1)'
+2026-06-21 18:28:59 | dm01_monthly: starting historic download
+2026-06-21 18:29:01 | dm01_monthly ERROR: more columns than column names
+2026-06-21 18:29:01 | kh03_quarterly: starting historic processing
+2026-06-21 18:29:26 | kh03_quarterly ERROR: 'length = 5' in coercion to 'logical(1)'
+2026-06-21 18:29:26 | fft_monthly: starting FFT org-level search
+2026-06-21 18:29:33 | fft_monthly: done — trend no
+2026-06-21 18:29:33 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:29:43 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:29:44 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:29:44 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:29:44 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:30:45 | mhsds_monthly MHS23 ERROR: 'length = 2' in coercion to 'logical(1)'
+2026-06-21 18:30:45 | === Historic public data run completed ===
+2026-06-21 18:32:42 | === Historic public data run started ===
+2026-06-21 18:32:42 | csds_monthly: starting historic download
+2026-06-21 18:32:49 | csds_monthly: no zip for april-2026
+2026-06-21 18:32:49 | csds_monthly: no zip for may-2026
+2026-06-21 18:32:49 | csds_monthly: no zip for june-2026
+2026-06-21 18:32:50 | csds_monthly: no zip for july-2026
+2026-06-21 18:33:24 | csds_monthly: done — periods 8 rows 72
+2026-06-21 18:33:24 | ae_monthly: starting historic download
+2026-06-21 18:33:25 | ae_monthly: done — periods 12
+2026-06-21 18:33:25 | dm01_monthly: starting historic download
+2026-06-21 18:33:31 | dm01_monthly ERROR: missing value where TRUE/FALSE needed
+2026-06-21 18:33:31 | kh03_quarterly: starting historic processing
+2026-06-21 18:33:55 | kh03_quarterly: done — trend periods 6
+2026-06-21 18:33:55 | fft_monthly: starting FFT org-level search
+2026-06-21 18:33:56 | fft_monthly: done — trend no
+2026-06-21 18:33:56 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:34:08 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:34:08 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:34:08 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:34:09 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:35:12 | mhsds_monthly MHS23: periods 8
+2026-06-21 18:35:12 | === Historic public data run completed ===
+2026-06-21 18:36:28 | === Historic public data run started ===
+2026-06-21 18:36:28 | csds_monthly: starting historic download
+2026-06-21 18:36:34 | csds_monthly: no zip for april-2026
+2026-06-21 18:36:34 | csds_monthly: no zip for may-2026
+2026-06-21 18:36:35 | csds_monthly: no zip for june-2026
+2026-06-21 18:36:35 | csds_monthly: no zip for july-2026
+2026-06-21 18:37:08 | csds_monthly: done — periods 8 rows 72
+2026-06-21 18:37:08 | ae_monthly: starting historic download
+2026-06-21 18:37:09 | ae_monthly: done — periods 12
+2026-06-21 18:37:09 | dm01_monthly: starting historic download
+2026-06-21 18:37:15 | dm01_monthly ERROR: missing value where TRUE/FALSE needed
+2026-06-21 18:37:15 | kh03_quarterly: starting historic processing
+2026-06-21 18:37:40 | kh03_quarterly: done — trend periods 6
+2026-06-21 18:37:40 | fft_monthly: starting FFT org-level search
+2026-06-21 18:37:41 | fft_monthly: done — trend no
+2026-06-21 18:37:41 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:37:50 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:37:50 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:37:50 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:37:50 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:38:49 | mhsds_monthly MHS23: periods 8
+2026-06-21 18:38:49 | === Historic public data run completed ===
+2026-06-21 18:39:48 | === Historic public data run started ===
+2026-06-21 18:39:48 | csds_monthly: starting historic download
+2026-06-21 18:39:55 | csds_monthly: no zip for april-2026
+2026-06-21 18:39:55 | csds_monthly: no zip for may-2026
+2026-06-21 18:39:55 | csds_monthly: no zip for june-2026
+2026-06-21 18:39:55 | csds_monthly: no zip for july-2026
+2026-06-21 18:40:28 | csds_monthly: done — periods 8 rows 72
+2026-06-21 18:40:28 | ae_monthly: starting historic download
+2026-06-21 18:40:29 | ae_monthly: done — periods 12
+2026-06-21 18:40:29 | dm01_monthly: starting historic download
+2026-06-21 18:40:34 | dm01_monthly ERROR: missing value where TRUE/FALSE needed
+2026-06-21 18:40:34 | kh03_quarterly: starting historic processing
+2026-06-21 18:40:55 | kh03_quarterly: done — trend periods 6
+2026-06-21 18:40:55 | fft_monthly: starting FFT org-level search
+2026-06-21 18:40:56 | fft_monthly: done — trend no
+2026-06-21 18:40:56 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:41:05 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:41:05 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:41:05 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:41:05 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:42:01 | mhsds_monthly MHS23: periods 8
+2026-06-21 18:42:01 | === Historic public data run completed ===
+2026-06-21 18:43:36 | === Historic public data run started ===
+2026-06-21 18:43:36 | csds_monthly: starting historic download
+2026-06-21 18:43:45 | csds_monthly: no zip for april-2026
+2026-06-21 18:43:45 | csds_monthly: no zip for may-2026
+2026-06-21 18:43:45 | csds_monthly: no zip for june-2026
+2026-06-21 18:43:45 | csds_monthly: no zip for july-2026
+2026-06-21 18:44:23 | csds_monthly: done — periods 8 rows 72
+2026-06-21 18:44:23 | ae_monthly: starting historic download
+2026-06-21 18:44:24 | ae_monthly: done — periods 12
+2026-06-21 18:44:24 | dm01_monthly: starting historic download
+2026-06-21 18:45:02 | dm01_monthly: done — periods 7
+2026-06-21 18:45:02 | kh03_quarterly: starting historic processing
+2026-06-21 18:45:31 | kh03_quarterly: done — trend periods 6
+2026-06-21 18:45:31 | fft_monthly: starting FFT org-level search
+2026-06-21 18:45:33 | fft_monthly: done — trend no
+2026-06-21 18:45:33 | mhsds_monthly: searching for MHS23 in time series and main data
+2026-06-21 18:45:42 | mhsds_monthly: no main zip for performance-may-2026
+2026-06-21 18:45:42 | mhsds_monthly: no main zip for performance-june-2026
+2026-06-21 18:45:42 | mhsds_monthly: no main zip for performance-july-2026
+2026-06-21 18:45:42 | mhsds_monthly: no main zip for performance-august-2026
+2026-06-21 18:46:35 | mhsds_monthly MHS23: periods 8
+2026-06-21 18:46:35 | === Historic public data run completed ===

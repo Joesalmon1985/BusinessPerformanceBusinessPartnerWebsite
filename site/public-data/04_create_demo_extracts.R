@@ -92,9 +92,13 @@ if (length(tt_files) > 0) {
   write_demo("demo_talking_therapies.csv", subset_cols(df, 15), "talking_therapies")
 }
 
-# demo_kh03_beds
+# demo_kh03_beds — prefer latest snapshot from historic pipeline
+latest_kh03 <- file.path(processed_dir, "latest_kh03_beds_rdy.csv")
 kh03_files <- find_processed("kh03_quarterly")
-if (length(kh03_files) > 0) {
+if (file.exists(latest_kh03)) {
+  df <- read_proc(latest_kh03, 50)
+  write_demo("demo_kh03_beds.csv", subset_cols(df, 20), "kh03_quarterly")
+} else if (length(kh03_files) > 0) {
   df <- read_proc(kh03_files[1], 50)
   write_demo("demo_kh03_beds.csv", subset_cols(df, 20), "kh03_quarterly")
 }

@@ -1,6 +1,6 @@
 # Public Data Run Summary
 
-**Generated:** 2026-06-21 17:02:47
+**Generated:** 2026-06-21 18:46:36
 
 > **DISCLAIMER:** These are public-data demonstration outputs. They are NOT official Dorset HealthCare reports.
 > All figures require human review and local owner confirmation before operational use.
@@ -73,30 +73,20 @@ Sources marked `checked_no_rdy_rows` were inspected but contained no matching or
 - demo_dm01_diagnostics.csv
 - demo_assurance_profile.csv
 
-## Public HTML briefs (agent-assisted template)
+## Recommended next agent run — R report pages (NOT YET BUILT)
 
-Reports are rendered by `site/R/03_render_public_reports.R` using the agent-assisted analytical brief template. See [AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md](AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md) and [PUBLIC_REPORTS_METHOD.md](PUBLIC_REPORTS_METHOD.md).
+When instructed, create `site/R/03_render_public_reports.R` reading from `site/public-data/processed/demo_*.csv`:
 
-| Brief | Demo CSV | HTML page |
-|-------|----------|-----------|
-| AI-assisted NHS Oversight Framework analysis | demo_nof_overview.csv | reports/public-performance-overview.html |
-| AI-assisted MHSDS public-data briefing | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |
-| AI-assisted CSDS community services briefing | demo_csds_activity.csv | reports/public-community-services-profile.html |
-| AI-assisted Talking Therapies briefing | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |
-| AI-assisted assurance and statutory reporting brief | demo_assurance_profile.csv | reports/public-assurance-profile.html |
-| AI-assisted urgent care and diagnostics source check | demo_dm01_diagnostics.csv, demo_kh03_beds.csv | reports/public-urgent-diagnostics-check.html |
+| Report | Demo CSV | Proposed HTML page |
+|--------|----------|-------------------|
+| Dorset HealthCare public performance overview | demo_nof_overview.csv | reports/public-performance-overview.html |
+| Mental health access and activity public profile | demo_mhsds_activity.csv | reports/public-mh-access-profile.html |
+| Community services public profile | demo_csds_activity.csv | reports/public-community-services-profile.html |
+| NHS Talking Therapies public profile | demo_talking_therapies.csv | reports/public-talking-therapies-profile.html |
+| Public assurance and statutory reporting profile | demo_assurance_profile.csv | reports/public-assurance-profile.html |
+| Urgent care / diagnostics public data check | demo_dm01_diagnostics.csv + synthetic_demo_ae_placeholder.csv | reports/public-urgent-diagnostics-check.html |
 
-Each brief includes: *How to read this report*, *Agent commentary on selected measures*, trend analysis (where multi-period public data exists) or *Trend analysis not available from current extract*, plain-English Business & Performance Partner questions, and verification paths.
-
-### Trend analysis in current extracts
-
-| Brief | Trend available? | Source |
-|-------|------------------|--------|
-| MHSDS access | Yes (MHS01, MHS29, MHS69) | `rdy_mhsds_monthly_*time_series*Apr2025_Mar_Perf_2026_v2.csv` (11 months) |
-| CSDS community | No | Single month (`demo_csds_activity.csv`) |
-| Talking Therapies | Yes (M001, M031, M053) | `rdy_talking_therapies_*time_series.csv` (13 months) |
-| Assurance | DSPT history only (descriptive) | `rdy_dspt_rdy_assessment_history.csv` |
-| Urgent/diagnostics | KH03 mental illness snapshots only | `demo_kh03_beds.csv` (14 snapshot dates; A&E/DM01 single month) |
+Each report must state: *public-data demonstration report; not an official Trust report; requires human review and local owner confirmation.*
 
 ## Run commands
 

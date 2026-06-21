@@ -64,22 +64,31 @@ update_historic_row <- function(root, source_id, fields) {
     idx <- nrow(df)
   }
   for (nm in names(fields)) {
-    if (nm %in% names(df)) df[idx, nm] <- as.character(fields[[nm]])
+    if (nm %in% names(df)) {
+      val <- fields[[nm]]
+      if (length(val) == 0 || all(is.na(val))) val <- ""
+      df[idx, nm] <- paste(as.character(val), collapse = "; ")
+    }
   }
   write_historic_register(root, df)
   invisible(df[idx, , drop = FALSE])
 }
 
-read_tabular_historic <- function(path) {
+read_tabular_historic <- function(path, n_max = NULL) {
   if (!file.exists(path)) return(NULL)
   ext <- tolower(tools::file_ext(path))
   if (ext == "csv") {
     df <- tryCatch(
-      utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
+      if (is.null(n_max)) {
+        utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+      } else {
+        utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, nrows = n_max)
+      },
       error = function(e) {
         utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, fileEncoding = "latin1")
       }
     )
+    if (!is.data.frame(df)) return(NULL)
     return(df)
   }
   if (ext %in% c("xlsx", "xls") && requireNamespace("readxl", quietly = TRUE)) {
@@ -88,20 +97,35 @@ read_tabular_historic <- function(path) {
   NULL
 }
 
-extract_zip_csv <- function(zip_path, pattern = "core|csds|data|extract|MHSDS", prefer_largest = TRUE) {
-  tmp <- tempfile("historic_zip_")
-  dir.create(tmp, recursive = TRUE)
-  on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
-  utils::unzip(zip_path, exdir = tmp)
-  files <- list.files(tmp, pattern = "\\.csv$", full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
+extract_zip_csv <- function(zip_path, pattern = "core|csds|data|extract|MHSDS", prefer_largest = TRUE,
+                            cache_root = NULL) {
+  if (!file.exists(zip_path)) return(NULL)
+  cache_dir <- if (!is.null(cache_root)) {
+    file.path(cache_root, "metadata", "historic_extract", gsub("[^a-zA-Z0-9._-]+", "_", basename(zip_path)))
+  } else {
+    file.path(dirname(zip_path), ".extract", gsub("[^a-zA-Z0-9._-]+", "_", basename(zip_path)))
+  }
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+  existing <- list.files(cache_dir, pattern = "\\.csv$", full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
+  if (length(existing) > 0) {
+    if (nzchar(pattern)) {
+      matched <- existing[grepl(pattern, basename(existing), ignore.case = TRUE)]
+      if (length(matched) > 0) existing <- matched
+    }
+    if (prefer_largest && length(existing) > 1) {
+      existing <- existing[which.max(file.info(existing)$size)]
+    }
+    return(existing[1])
+  }
+  tryCatch(utils::unzip(zip_path, exdir = cache_dir), error = function(e) NULL)
+  files <- list.files(cache_dir, pattern = "\\.csv$", full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
   if (length(files) == 0) return(NULL)
   if (nzchar(pattern)) {
     matched <- files[grepl(pattern, basename(files), ignore.case = TRUE)]
     if (length(matched) > 0) files <- matched
   }
   if (prefer_largest && length(files) > 1) {
-    sizes <- file.info(files)$size
-    files <- files[which.max(sizes)]
+    files <- files[which.max(file.info(files)$size)]
   }
   files[1]
 }
@@ -153,7 +177,7 @@ write_trend_csv <- function(root, filename, df, metadata_note = NULL) {
   df <- df[, TREND_STANDARD_COLS, drop = FALSE]
   path <- file.path(root, "processed", filename)
   write.csv(sanitize_df_for_export(df), path, row.names = FALSE)
-  if (!is.null(metadata_note) && nzchar(metadata_note)) {
+  if (!is.null(metadata_note) && length(metadata_note) > 0 && any(nzchar(metadata_note))) {
     note_path <- file.path(root, "metadata", sub("\\.csv$", ".txt", gsub("^trend_", "historic_note_", filename)))
     writeLines(metadata_note, note_path)
   }
@@ -161,7 +185,7 @@ write_trend_csv <- function(root, filename, df, metadata_note = NULL) {
 }
 
 count_distinct_periods <- function(df, col = "reporting_period_start") {
-  if (is.null(df) || nrow(df) == 0 || !col %in% names(df)) return(0L)
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0 || !col %in% names(df)) return(0L)
   length(unique(na.omit(trimws(df[[col]]))))
 }
 
@@ -210,12 +234,15 @@ stack_mhsds_mhs23_provider <- function(df, publication_period, source_file) {
 }
 
 stack_ae_rdy_row <- function(df, source_file) {
-  if (is.null(df) || nrow(df) == 0) return(NULL)
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) return(NULL)
   rdy <- filter_rdy_rows(df)
   if (nrow(rdy) == 0) return(NULL)
   r <- rdy[1, , drop = FALSE]
-  period <- if ("Period" %in% names(r)) r$Period[1] else NA_character_
-  get_col <- function(nm) if (nm %in% names(r)) r[[nm]][1] else NA
+  period <- if ("Period" %in% names(r)) as.character(r$Period[1]) else NA_character_
+  get_col <- function(nm) {
+    if (!nm %in% names(r)) return(NA_character_)
+    as.character(r[[nm]][1])
+  }
   caveats <- paste(
     "A&E source validation only — RDY has no Type 1/2 ED;",
     "do not interpret as urgent care performance."
@@ -247,7 +274,11 @@ stack_dm01_rdy <- function(df, source_file) {
   if (is.null(df) || nrow(df) == 0) return(NULL)
   rdy <- filter_rdy_rows(df)
   if (nrow(rdy) == 0) return(NULL)
-  period <- if ("Period" %in% names(rdy)) unique(rdy$Period)[1] else NA_character_
+  period <- if ("Period" %in% names(rdy)) unique(trimws(rdy$Period))[1] else NA_character_
+  if (is.na(period) || !nzchar(period)) {
+    period <- sub(".*DM01-", "DM01-", basename(source_file))
+    period <- sub("\\.zip$", "", period, ignore.case = TRUE)
+  }
   caveats <- "Provisional DM01 monthly diagnostics; validate with local service owner."
   tests <- unique(rdy$`Diagnostic Tests`)
   rows <- lapply(tests, function(tst) {
@@ -263,17 +294,24 @@ stack_dm01_rdy <- function(df, source_file) {
 }
 
 stack_kh03_rdy_long <- function(df, source_file, caveats) {
-  if (is.null(df) || nrow(df) == 0) return(NULL)
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) return(NULL)
   rdy <- filter_rdy_rows(df)
   if (nrow(rdy) == 0) return(NULL)
+  org_col <- if ("Organisation_Code" %in% names(rdy)) "Organisation_Code" else names(rdy)[1]
+  sector_col <- if ("Sector" %in% names(rdy)) "Sector" else NA_character_
+  beds_col <- if ("Number_Of_Beds" %in% names(rdy)) "Number_Of_Beds" else NA_character_
+  snap_col <- if ("Effective_Snapshot_Date" %in% names(rdy)) "Effective_Snapshot_Date" else NA_character_
   rows <- lapply(seq_len(nrow(rdy)), function(i) {
     r <- rdy[i, , drop = FALSE]
-    snap <- r$Effective_Snapshot_Date[1]
+    snap <- if (!is.na(snap_col)) as.character(r[[snap_col]][1]) else NA_character_
+    sector <- if (!is.na(sector_col)) as.character(r[[sector_col]][1]) else "Unknown"
+    beds <- if (!is.na(beds_col)) r[[beds_col]][1] else NA
+    org <- as.character(r[[org_col]][1])
     normalize_trend_row(
       "kh03_quarterly", snap, snap, snap,
-      r$Organisation_Code[1], "DORSET HEALTHCARE UNIVERSITY NHS FOUNDATION TRUST",
-      r$Sector[1], paste0(r$Sector[1], " beds"),
-      r$Number_Of_Beds[1], source_file, caveats
+      org, "DORSET HEALTHCARE UNIVERSITY NHS FOUNDATION TRUST",
+      sector, paste0(sector, " beds"),
+      beds, source_file, caveats
     )
   })
   do.call(rbind, rows)
@@ -281,7 +319,9 @@ stack_kh03_rdy_long <- function(df, source_file, caveats) {
 
 filter_kh03_recent_snapshots <- function(df, max_snapshots = 6, min_year = 2020) {
   if (is.null(df) || nrow(df) == 0) return(df)
-  df$snapshot_date <- parse_snapshot_date(df$reporting_period_start)
+  if (!"snapshot_date" %in% names(df)) {
+    df$snapshot_date <- parse_snapshot_date(df$reporting_period_start)
+  }
   df <- df[!is.na(df$snapshot_date) & as.integer(format(df$snapshot_date, "%Y")) >= min_year, , drop = FALSE]
   if (nrow(df) == 0) return(df)
   snaps <- sort(unique(df$snapshot_date), decreasing = TRUE)
@@ -332,16 +372,33 @@ discover_dm01_monthly_zips <- function(max_months = 12) {
     "diagnostics-waiting-times-and-activity/monthly-diagnostics-waiting-times-and-activity/"
   )
   fy_links <- scrape_links(index, pattern = "monthly-diagnostics-data-20")
+  fy_links <- fy_links[!is.na(fy_links$href), , drop = FALSE]
+  fy_links <- fy_links[grepl("2026-27|2025-26|2024-25", fy_links$href), , drop = FALSE]
   hrefs <- character()
   for (fy in fy_links$href) {
     zip_links <- scrape_links(fy)
+    zip_links <- zip_links[!is.na(zip_links$href), , drop = FALSE]
     zip_links <- zip_links[grepl("\\.zip", zip_links$href, ignore.case = TRUE), , drop = FALSE]
-    zip_links <- zip_links[grepl("DM01|extract|Extract", zip_links$href, ignore.case = TRUE) |
-      grepl("DM01|extract|Extract", zip_links$text, ignore.case = TRUE), , drop = FALSE]
-    hrefs <- c(hrefs, zip_links$href)
+    # Prefer monthly provider full-extract files (not aggregate REVISED bundles)
+    full <- zip_links[
+      grepl("full-extract|full_extract|DM01-[A-Z]+-[0-9]{4}-full", zip_links$href, ignore.case = TRUE) |
+        grepl("full-extract|full extract", zip_links$text, ignore.case = TRUE),
+      ,
+      drop = FALSE
+    ]
+    if (nrow(full) > 0) {
+      hrefs <- c(hrefs, full$href)
+    } else {
+      zip_links <- zip_links[grepl("DM01|extract|Extract", zip_links$href, ignore.case = TRUE) |
+        grepl("DM01|extract|Extract", zip_links$text, ignore.case = TRUE), , drop = FALSE]
+      bad <- grepl("REVISED|EXTRACTS-J|dh_[0-9]", zip_links$href, ignore.case = TRUE)
+      bad[is.na(bad)] <- FALSE
+      zip_links <- zip_links[!bad, , drop = FALSE]
+      hrefs <- c(hrefs, zip_links$href)
+    }
     if (length(unique(hrefs)) >= max_months) break
   }
-  hrefs <- unique(hrefs)
+  hrefs <- unique(hrefs[!is.na(hrefs)])
   if (length(hrefs) > max_months) hrefs <- hrefs[seq_len(max_months)]
   data.frame(href = hrefs, name = basename(hrefs), stringsAsFactors = FALSE)
 }
@@ -388,7 +445,7 @@ write_historic_run_summary <- function(root, register_df) {
       paste("- Trend periods (distinct):", r$trend_periods_count),
       paste("- RDY rows stacked:", r$rdy_rows_stacked),
       paste("- Manual download needed:", r$manual_download_needed),
-      if (nzchar(r$trend_caveats)) paste("- Caveats:", r$trend_caveats) else "",
+      if (length(r$trend_caveats) > 0 && any(nzchar(as.character(r$trend_caveats)))) paste("- Caveats:", r$trend_caveats) else "",
       ""
     )
   }
@@ -402,4 +459,15 @@ write_historic_run_summary <- function(root, register_df) {
     ""
   )
   writeLines(lines, file.path(root, "HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md"))
+  pub_summary <- file.path(root, "PUBLIC_DATA_RUN_SUMMARY.md")
+  if (file.exists(pub_summary)) {
+    append_line <- paste0(
+      "\n## Historic trend pipeline (script 05)\n\n",
+      "See [HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md](HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md) for latest historic download/stack results.\n"
+    )
+    existing <- readLines(pub_summary, warn = FALSE)
+    if (!any(grepl("Historic trend pipeline \\(script 05\\)", existing))) {
+      writeLines(c(existing, append_line), pub_summary)
+    }
+  }
 }

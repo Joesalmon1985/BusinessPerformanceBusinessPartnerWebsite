@@ -305,22 +305,27 @@ filter_rdy_rows <- function(df) {
   if (nrow(df) == 0) return(df)
   mask <- rep(FALSE, nrow(df))
   cols <- names(df)
+  coalesce_mask <- function(m) {
+    m[is.na(m)] <- FALSE
+    m
+  }
   for (col in cols) {
     col_safe <- safe_char(col)
     vals <- safe_char(df[[col]])
     if (is_org_code_column(col_safe)) {
-      mask <- mask | matches_rdy_code(vals)
+      mask <- mask | coalesce_mask(matches_rdy_code(vals))
     }
     if (is_org_name_column(col_safe) || grepl("name|trust|provider|organisation|organization", tolower(col_safe))) {
-      mask <- mask | matches_rdy_name(vals)
+      mask <- mask | coalesce_mask(matches_rdy_name(vals))
     }
   }
-  if (!any(mask)) {
+  if (!any(mask, na.rm = TRUE)) {
     for (col in cols) {
       vals <- safe_char(df[[col]])
-      mask <- mask | grepl("\\bRDY\\b", vals, ignore.case = TRUE)
+      mask <- mask | coalesce_mask(grepl("\\bRDY\\b", vals, ignore.case = TRUE))
     }
   }
+  mask[is.na(mask)] <- FALSE
   df[mask, , drop = FALSE]
 }
 

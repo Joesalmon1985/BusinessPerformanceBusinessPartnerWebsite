@@ -54,6 +54,96 @@ load_rdy_glob <- function(pattern) {
            error = function(e) NULL)
 }
 
+load_trend_file <- function(filename) {
+  path <- file.path(processed_dir, filename)
+  if (!file.exists(path)) return(NULL)
+  tryCatch(read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
+           error = function(e) NULL)
+}
+
+parse_stacked_period <- function(x) {
+  x <- trimws(as.character(x))
+  d <- parse_period_start(x)
+  if (length(d) > 0 && !all(is.na(d))) return(d)
+  m <- regmatches(x, regexec("MSitAE-([A-Za-z]+)-([0-9]{4})", x, ignore.case = TRUE))[[1]]
+  if (length(m) == 3) {
+    month_num <- match(tolower(m[2]), tolower(month.name))
+    if (!is.na(month_num)) {
+      return(as.Date(sprintf("%04d-%02d-01", as.integer(m[3]), month_num)))
+    }
+  }
+  m2 <- regmatches(x, regexec("DM01-([A-Za-z]+)-([0-9]{4})", x, ignore.case = TRUE))[[1]]
+  if (length(m2) == 3) {
+    month_num <- match(tolower(m2[2]), tolower(month.name))
+    if (!is.na(month_num)) {
+      return(as.Date(sprintf("%04d-%02d-01", as.integer(m2[3]), month_num)))
+    }
+  }
+  m3 <- regmatches(x, regexec("([a-z]+)-([0-9]{4})$", x, ignore.case = TRUE))[[1]]
+  if (length(m3) == 3) {
+    month_num <- match(tolower(m3[2]), tolower(month.name))
+    if (!is.na(month_num)) {
+      return(as.Date(sprintf("%04d-%02d-01", as.integer(m3[3]), month_num)))
+    }
+  }
+  as.Date(NA)
+}
+
+extract_stacked_trend <- function(df, measure_id = NULL, measure_name = NULL, label = NULL) {
+  if (is.null(df) || nrow(df) == 0) return(list(available = FALSE, n_periods = 0L))
+  sub <- df
+  if (!is.null(measure_id) && "measure_id" %in% names(sub)) {
+    sub <- sub[trimws(sub$measure_id) == measure_id, , drop = FALSE]
+  }
+  if (!is.null(measure_name) && "measure_name" %in% names(sub)) {
+    sub <- sub[trimws(sub$measure_name) == measure_name, , drop = FALSE]
+  }
+  if (nrow(sub) == 0) {
+    return(list(available = FALSE, n_periods = 0L, measure_label = label %||% ""))
+  }
+  sub$period <- parse_stacked_period(sub$reporting_period_start)
+  if (all(is.na(sub$period)) && "publication_period" %in% names(sub)) {
+    sub$period <- parse_stacked_period(sub$publication_period)
+  }
+  sub$value <- to_num(sub$metric_value)
+  sub <- sub[!is.na(sub$value), , drop = FALSE]
+  if (nrow(sub) == 0) return(list(available = FALSE, n_periods = 0L))
+  if (!all(is.na(sub$period))) {
+    sub <- sub[!is.na(sub$period), , drop = FALSE]
+    agg <- stats::aggregate(value ~ period, data = sub, FUN = function(v) v[1])
+    ts_sub <- agg[order(agg$period), , drop = FALSE]
+  } else {
+    sub <- sub[order(sub$publication_period), , drop = FALSE]
+    ts_sub <- data.frame(
+      period = seq_len(nrow(sub)),
+      value = sub$value,
+      stringsAsFactors = FALSE
+    )
+  }
+  measure_label <- if (!is.null(label) && nzchar(label)) {
+    label
+  } else if ("measure_name" %in% names(sub) && nzchar(sub$measure_name[1])) {
+    sub$measure_name[1]
+  } else {
+    as.character(measure_id)
+  }
+  compute_period_trend(ts_sub, measure_label)
+}
+
+`%||%` <- function(a, b) if (!is.null(a) && length(a) > 0 && !all(is.na(a)) && nzchar(as.character(a)[1])) a else b
+
+trends_from_stacked <- function(df, measures) {
+  if (is.null(df) || nrow(df) == 0) return(list())
+  lapply(measures, function(m) {
+    extract_stacked_trend(
+      df,
+      measure_id = m$id,
+      measure_name = m$name,
+      label = m$label
+    )
+  })
+}
+
 read_note <- function(source_id) {
   path <- file.path(metadata_dir, paste0("filter_note_", source_id, ".txt"))
   if (!file.exists(path)) return("")
@@ -1261,11 +1351,25 @@ build_mh_profile <- function() {
   trend_mhs29 <- compute_period_trend(extract_mhsds_rdy_ts(mhsds_ts, "MHS29"), "MHS29 — contacts in reporting period")
   trend_mhs69 <- compute_period_trend(extract_mhsds_rdy_ts(mhsds_ts, "MHS69"), "MHS69 — CYP with two contacts (before 18th birthday)")
 
+  mhs23_trend_df <- load_trend_file("trend_mhs23_rdy.csv")
+  trend_mhs23 <- extract_stacked_trend(mhs23_trend_df, measure_id = "MHS23", label = "MHS23 — open referrals at end of RP")
+  mhs23_gap_note <- file.path(metadata_dir, "mhs23_trend_not_available.md")
+
   fmt_val <- function(v) {
     if (is.na(v$num)) if (is_suppressed(v$raw)) "*" else "—" else format(v$num, big.mark = ",")
   }
 
-  trend_note_mhs23 <- "MHS23 (open referrals) is not present in the Provider time-series extract — trend not shown for this measure."
+  trend_note_mhs23 <- if (isTRUE(trend_mhs23$available)) {
+    paste0(
+      "Stacked from MHSDS main data monthly files (not time-series bundle): ",
+      format(trend_mhs23$latest_value, big.mark = ","), " (", trend_mhs23$latest_period, ") vs ",
+      format(trend_mhs23$previous_value, big.mark = ","), " (", trend_mhs23$previous_period, ")."
+    )
+  } else if (file.exists(mhs23_gap_note)) {
+    "MHS23 not in Provider time-series extract — see metadata/mhs23_trend_not_available.md for historic stack status."
+  } else {
+    "MHS23 (open referrals) is not present in the Provider time-series extract — trend not shown for this measure."
+  }
   trend_line <- function(t) {
     if (isTRUE(t$available)) {
       paste0(
@@ -1285,7 +1389,7 @@ build_mh_profile <- function() {
       list(
         "Plain-English meaning" = "Count of people with an open referral to mental health services at the last day of the month.",
         "Latest value (provider row)" = paste0(fmt_val(mhs23), " for ", period),
-        "Comparator / trend" = paste0(trend_note_mhs23, " Demo table shows a single month only for this measure."),
+        "Comparator / trend" = paste0(trend_note_mhs23, if (!isTRUE(trend_mhs23$available)) " Demo table shows a single month only for this measure." else ""),
         "Agent flag" = "Review locally",
         "Cautious interpretation" = paste0(
           "Open referrals are a caseload-style stock measure, not new demand. ",
@@ -1388,15 +1492,19 @@ build_mh_profile <- function() {
     "This brief is a worked example using public aggregate data — not official Dorset HealthCare reporting."
   ))
 
+  mh_trends <- list(trend_mhs01, trend_mhs29, trend_mhs69)
+  if (isTRUE(trend_mhs23$available)) mh_trends <- c(mh_trends, list(trend_mhs23))
+
   after_key <- paste0(
     how_to_read,
     measure_commentary_section(commentary_cards),
     trend_section(
-      list(trend_mhs01, trend_mhs29, trend_mhs69),
-      ts_file_note,
+      mh_trends,
+      paste0(ts_file_note, if (!is.null(mhs23_trend_df)) "; MHS23 from trend_mhs23_rdy.csv" else ""),
       c(
         "MHSDS monthly data are provisional; months may revise on final refresh.",
         "Missing months in the time series (e.g. August 2025 absent for MHS01) should not be interpolated.",
+        "MHS23 stacked from main data files — not the time-series bundle.",
         "Trend labels describe direction of change only — not operational cause."
       )
     )
@@ -1532,6 +1640,28 @@ build_csds_profile <- function() {
   assess_n <- get_act("Assessment")
   clin_n <- get_act("Clinical Intervention")
 
+  csds_trend <- load_trend_file("trend_csds_activity_rdy.csv")
+  trend_assess <- extract_stacked_trend(csds_trend, measure_name = "Assessment", label = "CSDS — Assessment (CareActivities)")
+  trend_clin <- extract_stacked_trend(csds_trend, measure_name = "Clinical Intervention", label = "CSDS — Clinical Intervention (CareActivities)")
+  csds_trend_note <- if (!is.null(csds_trend)) {
+    "trend_csds_activity_rdy.csv (historic stack from script 05)"
+  } else {
+    "Historic CSDS trend file not found — run site/public-data/05_download_historic_public_data.R"
+  }
+  csds_trend_line <- function(t) {
+    if (isTRUE(t$available)) {
+      paste0(
+        "Latest vs previous month: ",
+        format(t$latest_value, big.mark = ","), " (", t$latest_period, ") vs ",
+        format(t$previous_value, big.mark = ","), " (", t$previous_period, ")"
+      )
+    } else if (!is.null(csds_trend)) {
+      "Historic trend file present but fewer than two comparable periods for this measure."
+    } else {
+      "Trend not available — historic stack not yet generated."
+    }
+  }
+
   kpis <- list(
     list(value = format(total_contacts, big.mark = ","), label = "Care activity total (Mar 2026)"),
     list(value = nrow(activity), label = "Activity type rows"),
@@ -1553,7 +1683,7 @@ build_csds_profile <- function() {
       list(
         "Plain-English meaning" = "Count of assessment-type care activities recorded in CSDS for the month.",
         "Latest value" = if (is.na(assess_n)) "—" else format(assess_n, big.mark = ","),
-        "Comparator / trend" = "Single month (March 2026) in current extract — trend not available.",
+        "Comparator / trend" = csds_trend_line(trend_assess),
         "Agent flag" = if (is.na(assess_n) || assess_n == 0) "Watch / clarify" else "Review locally",
         "Cautious interpretation" = "Activity counts reflect coded CSDS submissions — not unique patients or completed care pathways.",
         "Human check required" = "Community services/BI owner to confirm activity coding and whether this matches local community dashboards."
@@ -1565,7 +1695,7 @@ build_csds_profile <- function() {
       list(
         "Plain-English meaning" = "Direct clinical intervention activities in community services for the month.",
         "Latest value" = if (is.na(clin_n)) "—" else format(clin_n, big.mark = ","),
-        "Comparator / trend" = "Single month only — period-on-period change requires additional monthly downloads.",
+        "Comparator / trend" = csds_trend_line(trend_clin),
         "Agent flag" = "Review locally",
         "Cautious interpretation" = paste0(
           "Clinical intervention (", if (is.na(clin_n)) "n/a" else format(clin_n, big.mark = ","),
@@ -1592,7 +1722,11 @@ build_csds_profile <- function() {
       list(
         "Plain-English meaning" = paste0(n_rows, " RDY rows in demo extract; ", n_periods, " reporting period(s) downloaded."),
         "Latest value" = paste0("Total care activities summed: ", format(total_contacts, big.mark = ",")),
-        "Comparator / trend" = "Trend not available — only one month in processed extract.",
+        "Comparator / trend" = if (isTRUE(trend_assess$available) || isTRUE(trend_clin$available)) {
+          paste0("Historic monthly stack (", csds_trend_note, ") — descriptive period-on-period only.")
+        } else {
+          "Trend not available from current extract — historic stack missing or insufficient periods."
+        },
         "Agent flag" = "Source validation only",
         "Cautious interpretation" = "Public CSDS aggregates cannot support team-level or pathway conclusions without local drill-down.",
         "Human check required" = "Confirm full RDY processed extract contains all measures needed — demo slice may not surface every row."
@@ -1609,14 +1743,28 @@ build_csds_profile <- function() {
     "This brief is a worked example — not official Dorset HealthCare reporting."
   ))
 
-  after_key <- paste0(
-    how_to_read,
-    measure_commentary_section(commentary_cards),
+  csds_trend_html <- if (isTRUE(trend_assess$available) || isTRUE(trend_clin$available)) {
+    trend_section(
+      list(trend_assess, trend_clin),
+      csds_trend_note,
+      c(
+        "Provisional CSDS monthly data; ActivityType/CareActivities slice only.",
+        "Measure definitions may change between publications — confirm with CSDS return owner.",
+        "Trend describes direction of change only — not operational cause."
+      )
+    )
+  } else {
     trend_not_available_section(c(
-      "Additional monthly CSDS public files for consecutive months",
+      "Additional monthly CSDS public files for consecutive months (script 05 historic pipeline)",
       "Consistent measure and ActivityType filters across periods",
       "Local owner confirmation that coding definitions are unchanged between months"
     ))
+  }
+
+  after_key <- paste0(
+    how_to_read,
+    measure_commentary_section(commentary_cards),
+    csds_trend_html
   )
 
   config <- list(
@@ -1991,6 +2139,14 @@ build_assurance_profile <- function() {
     readLines(file.path(metadata_dir, "cqc_rdy_context_note.txt"), warn = FALSE)
   } else character()
 
+  fft_manual <- file.path(metadata_dir, "fft_manual_download_needed.md")
+  fft_trend <- load_trend_file("trend_fft_rdy.csv")
+  fft_trend_obj <- if (!is.null(fft_trend) && nrow(fft_trend) > 0) {
+    extract_stacked_trend(fft_trend, label = "FFT — org-level aggregate")
+  } else {
+    list(available = FALSE)
+  }
+
   if (is.null(assurance)) {
     write_public_report("public-assurance-profile.html", "Public Assurance Profile",
       "Source data not available", '<section class="nhs-section"><p>Missing demo_assurance_profile.csv</p></section>')
@@ -2096,7 +2252,17 @@ build_assurance_profile <- function() {
       list(
         "Plain-English meaning" = "Patient experience survey aggregate — org-level FFT rows expected in summary downloads.",
         "Latest value / position" = "No org-level RDY rows in downloaded FFT summary XLSX",
-        "Comparator / trend" = "Trend not available until org-level or setting-level data is obtained.",
+        "Comparator / trend" = if (isTRUE(fft_trend_obj$available)) {
+          paste0(
+            "Historic FFT stack: ", format(fft_trend_obj$latest_value, big.mark = ","),
+            " (", fft_trend_obj$latest_period, ") vs ",
+            format(fft_trend_obj$previous_value, big.mark = ","), " (", fft_trend_obj$previous_period, ")."
+          )
+        } else if (file.exists(fft_manual)) {
+          "Org-level trend not available — see metadata/fft_manual_download_needed.md for manual download steps."
+        } else {
+          "Trend not available until org-level or setting-level data is obtained."
+        },
         "Agent flag" = "Watch / clarify",
         "Cautious interpretation" = "Missing org-level FFT is a workflow gap for analysts — not evidence of poor experience.",
         "Human check required" = "Patient experience lead to confirm whether setting-level XLSX download fills the gap."
@@ -2142,10 +2308,36 @@ build_assurance_profile <- function() {
     ))
   }
 
+  fft_trend_section <- if (isTRUE(fft_trend_obj$available)) {
+    trend_section(
+      list(fft_trend_obj),
+      "trend_fft_rdy.csv",
+      c(
+        "FFT response rates vary; small number suppression may apply.",
+        "Confirm measure definition and setting scope with patient experience lead."
+      )
+    )
+  } else if (file.exists(fft_manual)) {
+    paste0(
+      '<section class="nhs-section nhs-trend-section">',
+      '<h2>FFT trend not available from current extract</h2>',
+      '<p>Public FFT summary XLSX files did not yield org-level RDY rows suitable for trend analysis.</p>',
+      '<p>See <code>site/public-data/metadata/fft_manual_download_needed.md</code> for URLs tried and recommended manual steps.</p>',
+      '</section>'
+    )
+  } else {
+    trend_not_available_section(c(
+      "Setting-level or trust-level FFT XLSX with RDY org code",
+      "At least two comparable publication months",
+      "Patient experience lead confirmation of response rates and suppression"
+    ))
+  }
+
   after_key <- paste0(
     how_to_read,
     theme_commentary_section(commentary_cards),
-    dspt_trend_section
+    dspt_trend_section,
+    fft_trend_section
   )
 
   verify_extra <- paste0(
@@ -2255,6 +2447,11 @@ build_urgent_diagnostics <- function() {
   dm01 <- load_rdy_glob("^rdy_dm01_monthly.*\\.csv$")
   ae <- load_rdy_glob("^rdy_ae_monthly.*\\.csv$")
   kh03 <- load_demo("demo_kh03_beds.csv")
+  if (is.null(kh03)) kh03 <- load_trend_file("latest_kh03_beds_rdy.csv")
+
+  ae_trend <- load_trend_file("trend_ae_rdy.csv")
+  dm01_trend <- load_trend_file("trend_dm01_rdy.csv")
+  kh03_trend_df <- load_trend_file("trend_kh03_beds_rdy.csv")
 
   ae_ed_zero <- FALSE
   ae_other_adm <- NA
@@ -2277,7 +2474,7 @@ build_urgent_diagnostics <- function() {
     Notes = c(
       if (!is.null(ae)) paste0("Other emergency admissions: ", if (is.na(ae_other_adm)) "?" else ae_other_adm, "; 0 Type 1/2 A&E attendances") else "Extract not found",
       if (!is.null(dm01)) paste0(nrow(dm01), " diagnostic test rows for RDY (Mar 2026)") else "Extract not found",
-      if (!is.null(kh03)) paste0(nrow(kh03), " bed rows — mixed snapshot dates") else "Extract not found"
+      if (!is.null(kh03)) paste0(nrow(kh03), " bed rows — latest snapshot from historic pipeline") else "Extract not found"
     ),
     stringsAsFactors = FALSE
   )
@@ -2285,6 +2482,28 @@ build_urgent_diagnostics <- function() {
 
   dm01_summary <- NULL
   dm01_top_test <- "n/a"
+  trend_dm01_activity <- list(available = FALSE, n_periods = 0L)
+  if (!is.null(dm01_trend) && nrow(dm01_trend) > 0) {
+    aud <- dm01_trend[grepl("Audiology", dm01_trend$measure_name, ignore.case = TRUE), , drop = FALSE]
+    if (nrow(aud) > 0) {
+      dm01_top_test <- aud$measure_name[1]
+      trend_dm01_activity <- extract_stacked_trend(aud, measure_name = aud$measure_name[1], label = "DM01 — Audiology total activity")
+    } else {
+      top_test <- dm01_trend$measure_name[which.max(to_num(dm01_trend$metric_value))]
+      dm01_top_test <- top_test
+      trend_dm01_activity <- extract_stacked_trend(dm01_trend, measure_name = top_test, label = paste0("DM01 — ", top_test, " total activity"))
+    }
+  }
+
+  trend_ae_other <- extract_stacked_trend(
+    ae_trend, measure_id = "OTHER_EM_ADM",
+    label = "A&E — other emergency admissions (source validation)"
+  )
+  trend_ae_type12 <- extract_stacked_trend(
+    ae_trend, measure_id = "AE_TYPE1",
+    label = "A&E — Type 1 attendances (expected zero at RDY)"
+  )
+
   if (!is.null(dm01) && "Diagnostic Tests" %in% names(dm01)) {
     dm01$Total_WL <- to_num(dm01$`Total WL`)
     dm01$Total_Activity <- to_num(dm01$`Total Activity`)
@@ -2294,21 +2513,22 @@ build_urgent_diagnostics <- function() {
   }
 
   kh03_mi <- NULL
-  kh03_trend <- list(available = FALSE, n_periods = 0L, measure_label = "KH03 — Mental illness beds")
-  if (!is.null(kh03)) {
+  kh03_trend <- extract_stacked_trend(
+    kh03_trend_df,
+    measure_id = "Mental Illness",
+    label = "KH03 — Mental illness overnight beds (recent snapshots)"
+  )
+  if (!is.null(kh03) && "Sector" %in% names(kh03)) {
     mi <- kh03[kh03$Sector == "Mental Illness", , drop = FALSE]
-    mi$Beds <- to_num(mi$Number_Of_Beds)
-    mi$period <- parse_period_start(mi$Effective_Snapshot_Date)
-    mi <- mi[!is.na(mi$period) & !is.na(mi$Beds), , drop = FALSE]
-    mi <- mi[order(mi$period), , drop = FALSE]
-    if (nrow(mi) >= 2) {
-      kh03_mi <- mi[, c("Effective_Snapshot_Date", "Number_Of_Beds")]
-      ts_sub <- data.frame(period = mi$period, value = mi$Beds, stringsAsFactors = FALSE)
-      kh03_trend <- compute_period_trend(ts_sub, "KH03 — Mental illness overnight beds (snapshot dates)")
-      kh03_trend$series <- ts_sub
-    } else if (nrow(mi) > 0) {
-      kh03_mi <- mi[order(mi$period, decreasing = TRUE), c("Effective_Snapshot_Date", "Number_Of_Beds")]
-      kh03_mi <- kh03_mi[seq_len(min(5, nrow(kh03_mi))), , drop = FALSE]
+    if (nrow(mi) > 0) {
+      mi$Beds <- to_num(if ("Number_Of_Beds" %in% names(mi)) mi$Number_Of_Beds else mi$metric_value)
+      snap_col <- if ("Effective_Snapshot_Date" %in% names(mi)) "Effective_Snapshot_Date" else "reporting_period_start"
+      kh03_mi <- mi[, intersect(c(snap_col, "Number_Of_Beds", "metric_value"), names(mi)), drop = FALSE]
+    }
+  } else if (!is.null(kh03) && "measure_id" %in% names(kh03)) {
+    mi <- kh03[kh03$measure_id == "Mental Illness", , drop = FALSE]
+    if (nrow(mi) > 0) {
+      kh03_mi <- mi[, c("reporting_period_start", "metric_value"), drop = FALSE]
     }
   }
 
@@ -2346,7 +2566,15 @@ build_urgent_diagnostics <- function() {
           "RDY row present; Type 1/2 A&E attendances = 0",
           if (!is.na(ae_other_adm)) paste0("; other emergency admissions = ", ae_other_adm) else ""
         ),
-        "Comparator / trend" = "Single month A&E extract — no ED performance trend for RDY.",
+        "Comparator / trend" = if (!is.null(ae_trend)) {
+          n_ae <- length(unique(na.omit(trimws(ae_trend$reporting_period_start))))
+          paste0(
+            "Historic A&E stack (", n_ae, " months) — ",
+            "Type 1/2 attendances remain zero; source validation only."
+          )
+        } else {
+          "Single month A&E extract — run script 05 for historic stack."
+        },
         "Agent flag" = "Source validation only",
         "Cautious interpretation" = paste0(
           "Zero ED attendances are consistent with RDY not operating a Type 1/2 emergency department — ",
@@ -2364,7 +2592,17 @@ build_urgent_diagnostics <- function() {
       list(
         "Plain-English meaning" = "Monthly diagnostic waiting list and activity by test type for RDY as provider.",
         "Latest value / position" = if (!is.null(dm01)) paste0(nrow(dm01), " test rows; highest activity: ", dm01_top_test) else "Extract not found",
-        "Comparator / trend" = "Single month in current extract — DM01 trend requires additional monthly downloads.",
+        "Comparator / trend" = if (isTRUE(trend_dm01_activity$available)) {
+          paste0(
+            "Historic DM01 stack: latest vs previous month for ", dm01_top_test, " — ",
+            format(trend_dm01_activity$latest_value, big.mark = ","), " vs ",
+            format(trend_dm01_activity$previous_value, big.mark = ","), "."
+          )
+        } else if (!is.null(dm01_trend)) {
+          "Historic DM01 file present but fewer than two comparable months for top test."
+        } else {
+          "Single month in current extract — run script 05 for DM01 historic stack."
+        },
         "Agent flag" = "Review locally",
         "Cautious interpretation" = "Audiology and community diagnostics may dominate activity — do not infer national waiting position without local validation.",
         "Human check required" = "Diagnostics service owner to confirm DM01 mapping to local community diagnostic pathways."
@@ -2392,7 +2630,7 @@ build_urgent_diagnostics <- function() {
           "Insufficient comparable snapshots for trend in current slice."
         },
         "Agent flag" = if (isTRUE(kh03_trend$available)) "Watch / clarify" else "Trend not available",
-        "Cautious interpretation" = "KH03 mixes historical snapshot dates (2007–2024) — cannot infer current operational capacity without confirming the latest published quarter.",
+        "Cautious interpretation" = "KH03 trend uses recent quarterly snapshots only (script 05) — not the full 2007–2024 raw history mixed in older demo files.",
         "Human check required" = "Bed management/ estates lead to confirm latest KH03 quarter and alignment with internal bed state."
       )
     )
@@ -2410,30 +2648,50 @@ build_urgent_diagnostics <- function() {
   kh03_trend_html <- if (isTRUE(kh03_trend$available)) {
     trend_section(
       list(kh03_trend),
-      "demo_kh03_beds.csv — Mental Illness sector snapshots (Effective_Snapshot_Date)",
+      "trend_kh03_beds_rdy.csv — Mental Illness sector, recent snapshots only",
       c(
-        "Snapshot dates are irregular (not always consecutive quarters) — do not treat as monthly trend.",
+        "Snapshot dates are irregular (quarterly, not monthly) — descriptive only.",
         "Bed definitions and rounding may change between publications.",
-        "Latest snapshot in extract may not be the latest NHS England publication — verify on source site."
+        "Latest snapshot may lag NHS England publication — verify on source site."
       )
     )
   } else {
     trend_not_available_section(c(
       "Latest KH03 quarterly snapshot aligned to board reporting date",
       "Consistent sector filter (Mental Illness) across consecutive quarters",
+      "Run site/public-data/05_download_historic_public_data.R for trend_kh03_beds_rdy.csv",
       "Local bed management confirmation of current operational capacity"
     ))
   }
 
-  ae_dm01_trend <- paste0(
-    '<p>A&amp;E and DM01 each have only one month in the current processed extract — month-on-month trend is not shown.</p>',
-    '<p><strong>What would be needed:</strong></p>',
-    bullet_list(c(
-      "Additional monthly A&E provider files for consecutive months",
-      "Additional monthly DM01 diagnostic extracts for period-on-period comparison",
-      "Service-owner confirmation that RDY service model excludes Type 1/2 ED activity"
-    ))
-  )
+  ae_dm01_trends <- list()
+  if (isTRUE(trend_ae_other$available)) ae_dm01_trends <- c(ae_dm01_trends, list(trend_ae_other))
+  if (isTRUE(trend_dm01_activity$available)) ae_dm01_trends <- c(ae_dm01_trends, list(trend_dm01_activity))
+
+  ae_dm01_trend <- if (length(ae_dm01_trends) > 0) {
+    trend_section(
+      ae_dm01_trends,
+      "trend_ae_rdy.csv / trend_dm01_rdy.csv (historic stack from script 05)",
+      c(
+        "A&E trends are source validation only — zero Type 1/2 ED attendances expected at RDY.",
+        "DM01 provisional monthly data — audiology may dominate activity counts.",
+        "Descriptive period-on-period change only — not operational cause."
+      )
+    )
+  } else {
+    paste0(
+      '<section class="nhs-section nhs-trend-section">',
+      '<h2>A&amp;E and DM01 trend analysis</h2>',
+      '<p>Historic trend files not yet available or fewer than two comparable months stacked.</p>',
+      '<p><strong>What would be needed:</strong></p>',
+      bullet_list(c(
+        "Run site/public-data/05_download_historic_public_data.R to build trend_ae_rdy.csv and trend_dm01_rdy.csv",
+        "Additional monthly DM01 full-extract ZIPs for period-on-period comparison",
+        "Service-owner confirmation that RDY service model excludes Type 1/2 ED activity"
+      )),
+      '</section>'
+    )
+  }
 
   after_key <- paste0(
     how_to_read,

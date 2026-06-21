@@ -1,6 +1,6 @@
 # NOF performance overview — audit and verification guide
 
-Generated: 2026-06-21 18:11:54
+Generated: 2026-06-21 18:46:37
 Display quarter: Q4 2025/26
 
 > Public-data demonstration only. Not an official Dorset HealthCare report.

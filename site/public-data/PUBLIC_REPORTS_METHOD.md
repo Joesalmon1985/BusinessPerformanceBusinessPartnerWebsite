@@ -109,28 +109,46 @@ Rscript 02_inspect_public_data.R
 Rscript 03_filter_dorset_healthcare.R
 Rscript 04_create_demo_extracts.R
 
+# 1b. Historic trend stack (optional — requires network; does not overwrite existing raw files)
+Rscript 05_download_historic_public_data.R
+```
+
+Historic pipeline outputs (when stacking succeeds):
+
+| Trend file | Source |
+|------------|--------|
+| `processed/trend_csds_activity_rdy.csv` | CSDS CareActivities / ActivityType |
+| `processed/trend_ae_rdy.csv` | A&E provider monthly (source validation) |
+| `processed/trend_dm01_rdy.csv` | DM01 full-extract monthly |
+| `processed/trend_kh03_beds_rdy.csv` | KH03 recent snapshots (≤6 quarters, post-2020) |
+| `processed/latest_kh03_beds_rdy.csv` | KH03 latest snapshot only |
+| `processed/trend_mhs23_rdy.csv` | MHSDS MHS23 Provider from main_data monthly |
+| `processed/trend_fft_rdy.csv` | FFT org-level (if found) |
+
+Register and run summary: `HISTORIC_SOURCE_REGISTER.csv`, `HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md`.
+
+```bash
 # 2. Render public HTML reports (offline OK if CSVs exist)
 Rscript site/R/03_render_public_reports.R
 ```
 
 ## Known limitations in this run
 
-- **FFT**: downloaded summary XLSX had no org-level RDY rows — assurance report notes manual download gap
-- **KH03**: extract includes mixed snapshot dates — urgent/diagnostics report flags date verification
-- **A&E**: RDY row reflects other emergency admissions, not ED attendances (no ED at RDY)
-- **Single-month CSDS extract** — trend not available until additional monthly files are downloaded
-- **MHS23 open referrals** not in Provider time-series file — single-month demo value only for that measure
-- **KH03** snapshot dates are irregular historical quarters — trend is descriptive only; latest published quarter must be verified on NHS England site
-- **A&E / DM01** single month each — no month-on-month trend in current extract
+- **FFT**: org-level RDY rows not found in downloaded summary XLSX — see `metadata/fft_manual_download_needed.md`
+- **KH03**: latest snapshot in public file may lag NHS England “latest quarter” — verify on source site; trend uses recent snapshots only (not full 2007–2024 history)
+- **A&E**: RDY row reflects other emergency admissions, not ED attendances (no ED at RDY); historic stack is source validation only
+- **DM01**: audiology may dominate activity; historic trend requires full-extract monthly ZIPs (not aggregate REVISED bundles)
+- **MHS23**: stacked from MHSDS main_data monthly files — not the Provider time-series bundle
+- **CSDS / MHSDS / A&E trends**: provisional monthly data; descriptive period-on-period only — not causal performance claims
 
 ## Recommended next improvement
 
-- Download additional **CSDS monthly** files for consecutive months to enable community activity trends
-- Add **MHS23** and other Provider measures to MHSDS time-series commentary where future publications include them
-- Obtain **FFT org-level** or setting-level rows to fill the assurance gap
-- Align **KH03** extract to the latest published quarter only before capacity discussions
+- Obtain **FFT org-level** or setting-level rows to fill the assurance gap (manual download steps in metadata)
+- Align **KH03** to the latest NHS England publication quarter when the overnight page updates
+- Add more **DM01 full-extract** months if FY scrape misses older months
+- Optional Talking Therapies outcome measures (M192, M186) for a separate outcome brief
 
-See [NEXT_COMMENTARY_IMPROVEMENTS.md](NEXT_COMMENTARY_IMPROVEMENTS.md) for the completed commentary rollout and remaining gaps.
+See [NEXT_COMMENTARY_IMPROVEMENTS.md](NEXT_COMMENTARY_IMPROVEMENTS.md) and [HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md](HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md).
 
 ## Traceability and verification
 

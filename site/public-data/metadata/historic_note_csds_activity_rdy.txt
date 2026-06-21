@@ -1,0 +1,4 @@
+Historic CSDS CareActivities trend for RDY — generated 2026-06-21 18:44:23.246369
+Periods: march-2026, february-2026, january-2026, december-2025, november-2025, october-2025, september-2025, august-2025
+Provisional monthly CSDS; ActivityType/CareActivities only.
+DISCLAIMER: Public-data demonstration. Not official Dorset HealthCare reporting.

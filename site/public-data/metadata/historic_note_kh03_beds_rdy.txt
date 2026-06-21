@@ -1,0 +1,4 @@
+KH03 recent snapshots for RDY — generated 2026-06-21 18:45:31.730933
+Excludes pre-2020 rows from trend; full raw NHS file may contain older dates.
+Latest snapshot date: 30/06/2024
+Not current operational capacity without local bed management confirmation.
