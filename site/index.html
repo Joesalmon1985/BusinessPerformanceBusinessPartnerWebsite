@@ -47,11 +47,11 @@
       <p>In this demonstration, AI supports the work; it does not replace professional judgement. It can help with:</p>
       <ul>
         <li>drafting report text, as shown in the <a href="reports/public-mh-access-profile.html">MHSDS access and activity profile</a></li>
-        <li>checking figures against sources, as shown in the <a href="docs-html/examples/report-analysis-agent-conversation.html">Report Analysis Agent conversation</a> and the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a></li>
+        <li>checking figures against sources, as shown in the <a href="docs-html/examples/report-analysis-agent-conversation.html">Report Analysis Agent conversation</a> and the corrected <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">urgent-care provider-month brief</a></li>
         <li>summarising trends, as shown in the <a href="reports/public-talking-therapies-profile.html">Talking Therapies access brief</a> (six-week access above standard but falling)</li>
-        <li>explaining performance changes, as shown in the <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care warehouse analysis</a> (operational pressure vs extract-driven spike)</li>
+        <li>explaining performance changes, as shown in the <a href="reports/public-community-services-profile.html">community services activity profile</a> (month-on-month rise but six-month fall for key activity types)</li>
         <li>preparing meetings, as shown in the <a href="reports/public-assurance-profile.html">public statutory assurance source map</a> (which sources exist and who to speak to)</li>
-        <li>checking reporting rules, as shown in the <a href="mandatory-reporting-map.html">mandatory reporting map</a> and the <a href="docs-html/examples/mhsds-sme-agent-conversation.html">MHSDS Expert Agent conversation</a></li>
+        <li>checking reporting rules, as shown in the <a href="mandatory-reporting-map.html">mandatory reporting map</a> and the <a href="docs-html/public-data/PUBLIC_REPORTS_METHOD.html">public reports method</a></li>
         <li>organising evidence, as shown in the <a href="data-warehouse-agent-demo.html">warehouse demo workflow</a> and <a href="docs-html/warehouse-demo/profile-output/source_profiling_report.html">source profiling report</a></li>
         <li>reducing admin-heavy work, as shown in <a href="mandatory-reporting-map.html#ai-help">how agentic AI could help maintain a reporting register</a></li>
         <li>answering reporting technical and definition questions from approved sources, as shown in the <a href="agent-operating-model.html">agent operating model</a> and <a href="docs-html/examples/mhsds-sme-agent-conversation.html">MHSDS Expert Agent conversation</a></li>
@@ -76,7 +76,7 @@
         </article>
         <article class="card">
           <h3>Draft performance reports</h3>
-          <p class="card-purpose">Six agent-assisted briefs from public NHS data — e.g. the <a href="reports/public-talking-therapies-profile.html">Talking Therapies access brief</a> with standards, trends and human checks.</p>
+          <p class="card-purpose">Six agent-assisted briefs from public NHS data — e.g. the <a href="reports/public-urgent-diagnostics-check.html">urgent care, diagnostics and beds source check</a> explaining what each public source can and cannot support.</p>
           <a class="card-link" href="draft-reports.html">View page</a>
         </article>
         <article class="card">
@@ -91,7 +91,7 @@
         </article>
         <article class="card">
           <h3>Synthetic data warehouse demonstration</h3>
-          <p class="card-purpose">Fictional DRH source extracts through profiling, warehouse design, SQL/pipeline specs and reporting QA — e.g. the <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">urgent-care analysis</a> separating real pressure from data artefacts.</p>
+          <p class="card-purpose">Fictional DRH source extracts through profiling, warehouse design, SQL/pipeline specs and reporting QA — e.g. the <a href="docs-html/warehouse-demo/design/human_review_pack.html">warehouse human review pack</a> showing where people must sign off before trusting synthetic outputs.</p>
           <a class="card-link" href="data-warehouse-agent-demo.html">View demonstration</a>
         </article>
       </div>
@@ -121,25 +121,25 @@
         <article class="card">
           <h3>1. How I think about performance</h3>
           <p class="card-purpose">Good performance reporting should explain what the figure is, what it should be, whether it is getting better or worse, and what action may be needed. It should help people understand the position, not just give them more numbers.</p>
-          <p class="card-purpose">The <a href="reports/public-performance-overview.html">NHS Oversight Framework brief</a> shows figure, peer position, trend and priority review flags. The <a href="reports/public-mh-access-profile.html">MHSDS access profile</a> separates stock measures from activity. The <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> applies national access standards with a falling-trend warning. The <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care analysis</a> (DRH only) shows the same discipline on fictional warehouse data — including when not to trust a headline movement.</p>
+          <p class="card-purpose">The <a href="reports/public-performance-overview.html">NHS Oversight Framework brief</a> shows trust-wide figure, peer position, trend and priority review flags — the kind of structured performance narrative a Board or oversight conversation needs.</p>
         </article>
 
         <article class="card">
           <h3>2. How I think about assurance</h3>
           <p class="card-purpose">Mandatory reporting needs clear definitions, source checks, trend analysis, known limitations and human sign-off. AI can help organise and test this work, but it must be clear where the information came from and what still needs checking.</p>
-          <p class="card-purpose">The <a href="mandatory-reporting-map.html">mandatory reporting map</a> shows owners, frequency, due dates and assurance status (local fields are illustrative sample data). The <a href="reports/public-assurance-profile.html">statutory assurance source map</a> shows which public sources contain RDY rows — it is a navigation aid, not a scorecard. The <a href="warehouse-demo/reports/synthetic-reporting-table-assurance.html">reporting-table assurance</a> page applies the same discipline to a synthetic mart before anyone trusts it for narrative. The <a href="docs-html/examples/report-analysis-agent-conversation.html">Report Analysis Agent conversation</a> shows QA catching errors before publication. The <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> sets the human gate before sharing output.</p>
+          <p class="card-purpose">The <a href="mandatory-reporting-map.html">mandatory reporting map</a> shows owners, frequency, due dates and assurance status (local fields are illustrative sample data). The <a href="reports/public-assurance-profile.html">statutory assurance source map</a> shows which public sources contain RDY rows — it is a navigation aid, not a scorecard. The <a href="warehouse-demo/reports/synthetic-reporting-table-assurance.html">reporting-table assurance</a> page applies the same discipline to a synthetic mart before anyone trusts it for narrative. The <a href="docs-html/examples/warehouse-report-qa-conversation.html">Warehouse report QA conversation</a> shows the same flawed-draft → corrected-brief discipline on synthetic DRH data. The <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> sets the human gate before sharing output.</p>
         </article>
 
         <article class="card">
           <h3>3. How I think about service improvement</h3>
           <p class="card-purpose">Good business partnering means understanding the real pressures services face — demand, capacity, staffing, pathways, finance, quality and patient care. Information should support improvement. It should not just create extra reporting work.</p>
-          <p class="card-purpose">The <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care analysis</a> triangulates contacts, cases, bank shifts and agency spend — and separates possible Jan–Feb operational pressure from a March extract-driven spike. The <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">corrected provider-month brief</a> is what a service lead would see after QA. Public briefs add service-context discipline too: the <a href="reports/public-community-services-profile.html">community services profile</a> flags coding quality and signposts to the right waiting-list source; the <a href="reports/public-mh-access-profile.html">MHSDS profile</a> warns against reading access performance from contact counts alone.</p>
+          <p class="card-purpose">The <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care analysis</a> triangulates contacts, cases, bank shifts and agency spend — and separates possible Jan–Feb operational pressure from a March extract-driven spike. After QA, the corrected provider-month brief (linked from the figure-checking example above) is what a service lead would see.</p>
         </article>
 
         <article class="card">
           <h3>4. How I think about responsible AI</h3>
           <p class="card-purpose">AI should be used carefully, with clear rules, human review, audit trails, data protection safeguards and honest caveats. The aim is not to use AI for its own sake. The aim is to give analysts, managers and services better support.</p>
-          <p class="card-purpose">The <a href="agent-operating-model.html">agent operating model</a> defines bounded, source-bound agents — not general chatbots and never the decision-maker. The <a href="docs-html/examples/mhsds-sme-agent-conversation.html">MHSDS Expert Agent conversation</a> traces a figure to source and refuses to over-interpret. The <a href="data-warehouse-agent-demo.html">warehouse demo</a> walks through profiling, design, pipelines and report QA on synthetic data only. <a href="agent-rules/README.md">Agent rules</a> and <a href="governance-and-benefits.html">governance and benefits</a> document controls: no patient-identifiable data, human sign-off, version-controlled rules, and clear confidence levels.</p>
+          <p class="card-purpose">The <a href="agent-operating-model.html">agent operating model</a> defines bounded, source-bound agents — not general chatbots and never the decision-maker. The <a href="docs-html/examples/mhsds-sme-agent-conversation.html">MHSDS Expert Agent conversation</a> traces a figure to source and refuses to over-interpret. The <a href="docs-html/examples/warehouse-source-profiling-conversation.html">source profiling conversation</a> shows bounded agents working on synthetic extracts only. <a href="agent-rules/README.md">Agent rules</a> and <a href="governance-and-benefits.html">governance and benefits</a> document controls: no patient-identifiable data, human sign-off, version-controlled rules, and clear confidence levels.</p>
         </article>
       </div>
     </section>
@@ -169,7 +169,7 @@
 
     <section aria-labelledby="explore">
       <h2 id="explore">Explore this demonstration</h2>
-      <p>If you have five minutes, try this route: start with one <a href="reports/public-performance-overview.html">public performance brief</a>, open the <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care analysis</a> to see how upstream data quality affects the story, then read one <a href="agent-operating-model.html#mhsds-worked-example">agent conversation example</a> and the <a href="governance-and-benefits.html#checklist">assurance checklist</a>.</p>
+      <p>If you have five minutes, try this route: browse <a href="draft-reports.html">draft reports</a>, read the <a href="docs-html/examples/warehouse-design-conversation.html">warehouse design conversation</a>, open the <a href="agent-operating-model.html#mhsds-worked-example">MHSDS trace example</a>, and use the <a href="governance-and-benefits.html#checklist">assurance checklist</a>.</p>
       <div class="explore-links">
         <a class="btn" href="mandatory-reporting-map.html">Mandatory reporting map</a>
         <a class="btn" href="draft-reports.html">Draft reports</a>
