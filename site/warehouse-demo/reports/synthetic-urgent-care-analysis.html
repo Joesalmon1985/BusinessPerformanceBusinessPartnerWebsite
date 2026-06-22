@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic urgent-care warehouse analysis — DRH demo</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="nhs-report-nav">
+    <a href="../../data-warehouse-agent-demo.html">Warehouse demo</a>
+    <a href="../../draft-reports.html">Public draft reports</a>
+    <a href="../../agent-operating-model.html#cat-e">Agent operating model</a>
+  </div>
+  <header class="nhs-report-header">
+    <p class="report-meta">Warehouse demo &middot; Synthetic DRH &middot; Demonstration only</p>
+    <h1>Synthetic urgent-care warehouse analysis</h1>
+    <p class="report-meta">Demo Rivers Health (DRH) — Jan to Mar 2026 focus</p>
+  </header>
+  <main id="main-content" class="nhs-report-main">
+    <div class="nhs-caveat" role="note">
+      <strong>Synthetic demonstration only.</strong> Fictional Demo Rivers Health (DRH) warehouse outputs. <strong>Not</strong> Dorset HealthCare (RDY) public data. Not official reporting. Human sign-off required.
+    </div>
+
+    <section class="nhs-section">
+      <h2>Question</h2>
+      <p>How does the mock warehouse support investigation of urgent-care activity movements in early 2026 — distinguishing genuine operational pressure from extract or attribution artefacts?</p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Data used</h2>
+      <ul class="nhs-list-compact">
+        <li><a href="../marts/demo_provider_month_measures.csv">demo_provider_month_measures.csv</a> — provider-month mart</li>
+        <li><a href="../profile-output/volume_trends.csv">volume_trends.csv</a> — monthly volume and MoM change</li>
+        <li><a href="../profile-output/dq_register.csv">dq_register.csv</a> — data-quality register</li>
+        <li><a href="../profile-output/source_profiling_report.md">source_profiling_report.md</a> — profiling narrative</li>
+        <li><code>source-data/localops_extract_change_log.xlsx</code> — extract schedule and rule changes</li>
+      </ul>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Key findings explained</h2>
+
+      <div class="nhs-findings-group">
+        <h3>Jan–Feb 2026 — multi-source escalation</h3>
+        <article class="nhs-finding-item">
+          <h4>IUCS contacts and operational cases elevated</h4>
+          <div class="nhs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Reading</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Figure</th><td>IUCS contacts: 1,592 (Jan), 1,477 (Feb). Operational cases opened: 274 (Jan), 402 (Feb). Agency spend on urgent-care cost centre: ~£51k (Jan), ~£61k (Feb).</td></tr>
+                <tr><th scope="row">Comparator</th><td>Sep–Nov 2025 IUCS baseline average ~1,263. Feb urgent-care bank shifts: 219 vs ~190 in prior months.</td></tr>
+                <tr><th scope="row">Trend</th><td><span class="nhs-trend-badge nhs-trend-badge--worsening">Elevated vs baseline</span> — Jan peak then slight easing into Feb; cases and contacts both up with source links retained.</td></tr>
+                <tr><th scope="row">Judgement</th><td><span class="nhs-validation-badge nhs-validation-badge--validation">Likely genuine — needs review</span> — coordinated signals across CareCall, RosterFlow and LedgerWise.</td></tr>
+                <tr><th scope="row">Evidence</th><td>volume_trends.csv; demo_provider_month_measures.csv; DQ007, DQ008; localops_validation_notes.xlsx references bank-holiday pressure.</td></tr>
+                <tr><th scope="row">Human confirmation</th><td class="nhs-human-check">Urgent care and performance lead to confirm operational narrative before board or service reporting.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <div class="nhs-findings-group">
+        <h3>March 2026 — CareCase spike without IUCS corroboration</h3>
+        <article class="nhs-finding-item">
+          <h4>Cases up, activity down — extract change aligns</h4>
+          <div class="nhs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Reading</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Figure</th><td>Cases opened (all): 542 (+3% MoM). Operational cases (demo filter): 197. IUCS contacts: 1,272 (−14% MoM). Cases without <code>SourceContactId</code>: 322 of 542.</td></tr>
+                <tr><th scope="row">Comparator</th><td>Feb 2026: 525 cases, 402 operational, 1,477 IUCS, 123 without source contact.</td></tr>
+                <tr><th scope="row">Trend</th><td><span class="nhs-trend-badge nhs-trend-badge--unclear">Diverging</span> — case opens and IUCS moving in opposite directions; missing-source cases sharply up.</td></tr>
+                <tr><th scope="row">Judgement</th><td><span class="nhs-validation-badge nhs-validation-badge--review">Likely artefactual — needs review</span> — extract change log records CareCase inclusion rule change effective March run (2026-02-28).</td></tr>
+                <tr><th scope="row">Evidence</th><td>volume_trends.csv; DQ002; source_profiling_report.md §5; localops_extract_change_log.xlsx (CareCase, NightlyCaseExtract).</td></tr>
+                <tr><th scope="row">Human confirmation</th><td class="nhs-human-check">CareCase data owner to confirm inclusion rule change and whether March rows should count as operational demand.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <div class="nhs-findings-group">
+        <h3>December 2025 — date-boundary mismatch</h3>
+        <article class="nhs-finding-item">
+          <h4>Contact date before created date on 46 IUCS contacts</h4>
+          <div class="nhs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Reading</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Figure</th><td>46 IUCS contacts in Dec 2025 have <code>ContactDate</code> one calendar day earlier than <code>CreatedDateTime</code> date (DQ001).</td></tr>
+                <tr><th scope="row">Comparator</th><td>Prior months: negligible DQ001 count. Dec IUCS volume 1,301 (+4.6% MoM) — modest headline movement.</td></tr>
+                <tr><th scope="row">Trend</th><td><span class="nhs-trend-badge nhs-trend-badge--stable">Localised</span> — pattern tied to Dec 2025 export window, not sustained across Q1 2026.</td></tr>
+                <tr><th scope="row">Judgement</th><td><span class="nhs-validation-badge nhs-validation-badge--review">Likely artefactual — needs review</span> — CareCall export schedule moved to 02:00 UTC on 2025-12-04 per extract change log.</td></tr>
+                <tr><th scope="row">Evidence</th><td>dq_register.csv DQ001; source_profiling_report.md §3; localops_extract_change_log.xlsx (CareCall, 2025-12-04).</td></tr>
+                <tr><th scope="row">Human confirmation</th><td class="nhs-human-check">Information lead to confirm export schedule change before re-attributing contacts across month boundaries.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Provider-month summary (Jan–Mar 2026)</h2>
+      <div class="nhs-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">IUCS contacts</th>
+              <th scope="col">Cases opened (all)</th>
+              <th scope="col">Operational cases</th>
+              <th scope="col">Agency spend (£)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-01</td><td>1,592</td><td>461</td><td>274</td><td>51,179</td></tr>
+            <tr><td>2026-02</td><td>1,477</td><td>525</td><td>402</td><td>61,356</td></tr>
+            <tr><td>2026-03</td><td>1,272</td><td>542</td><td>197</td><td>44,758</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><em>Operational cases exclude <code>ExtractInclusionFlag=1</code> and missing source contact (demo filter). Source: mart CSV and volume trends.</em></p>
+    </section>
+
+    <section class="nhs-section nhs-bottom-line">
+      <h2>Bottom line</h2>
+      <p>Early 2026 shows mixed signals. Jan–Feb uplift is corroborated across multiple synthetic sources and may reflect genuine operational pressure. March case increase is not supported by IUCS contacts and aligns with a CareCase extract rule change — treat as extract-driven until confirmed. December date-boundary flags need export-schedule review before month attribution. Do not blend these DRH warehouse findings with public RDY briefs.</p>
+    </section>
+
+    <div class="nhs-warning" role="note">
+      <strong>Human review required</strong> before any use outside this demonstration site.
+    </div>
+
+    <details class="nhs-support-details">
+      <summary>Audit trail (source paths)</summary>
+      <div class="nhs-support-details-body">
+        <ul class="nhs-list-compact">
+          <li><code>site/warehouse-demo/marts/demo_provider_month_measures.csv</code></li>
+          <li><code>site/warehouse-demo/profile-output/volume_trends.csv</code></li>
+          <li><code>site/warehouse-demo/profile-output/dq_register.csv</code></li>
+          <li><code>site/warehouse-demo/profile-output/source_profiling_report.md</code></li>
+          <li><code>site/warehouse-demo/source-data/localops_extract_change_log.xlsx</code></li>
+        </ul>
+        <p>Conclusions derived from profiler and mart outputs only — not from human reviewer answer key.</p>
+      </div>
+    </details>
+
+    <p><a href="../../data-warehouse-agent-demo.html">&larr; Back to warehouse demonstration</a></p>
+  </main>
+  <footer class="nhs-report-footer">
+    <p>Synthetic DRH warehouse demo. Not RDY public data. Not NHS-endorsed.</p>
+  </footer>
+</body>
+</html>

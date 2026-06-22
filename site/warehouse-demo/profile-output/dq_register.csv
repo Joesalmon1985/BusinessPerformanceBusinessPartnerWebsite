@@ -1,0 +1,9 @@
+IssueId,Severity,SystemName,IssueDescription,EvidenceCount,EvidenceDetail,RecommendedStagingCheck
+DQ001,High,CareCall,ContactDate earlier than CreatedDateTime calendar date,46,Dec 2025 IUCS contacts; see also localops_extract_change_log CareCall 2025-12-04,Flag date_boundary_mismatch; compare ContactDate vs CreatedDateTime
+DQ002,High,CareCase,Cases opened without SourceContactId,322,2026-03 total cases=542; without source contact=322,Join to CareCall; review ExtractInclusionFlag and CaseStatus
+DQ003,Medium,CareCall,CareCaseCaseId on contact not found in carecase_cases,47,Orphan CareCaseCaseId values on carecall_contacts,Referential integrity test contact to case
+DQ004,Medium,LocalOps,User mappings with ValidToDate in the past,9,localops_user_id_mapping expired ValidToDate rows,Apply mapping confidence tier; do not hard-fail joins
+DQ005,Low,CareCall,AmbiguousMatchIds populated,1016,Multiple candidate referral IDs pipe-delimited,Route to bridge table; do not force single match
+DQ006,Info,LocalOps,Extract change log entries in reporting period,3,CareCall|CareCase|RosterFlow,Cross-reference volume shifts with ChangeDate and SystemName
+DQ007,Info,CareCall,IUCS volume Jan 2026 vs Sep-Nov 2025 baseline,1592,Jan=1592 baseline_avg=1263,Compare with RosterFlow shifts and LedgerWise agency spend same months
+DQ008,Info,CareCall,IUCS volume Feb 2026 vs Sep-Nov 2025 baseline,1477,Feb=1477 baseline_avg=1263,Compare with RosterFlow bank shifts and validation notes

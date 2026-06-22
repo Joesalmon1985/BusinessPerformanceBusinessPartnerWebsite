@@ -1,0 +1,11 @@
+ProviderCode,ReportingMonth,IUCSContactCount,CaseOpenedCount,OperationalCaseOpenedCount,OpenReferralStockProxy,AgencyNursingSpendGBP,UrgentCareBankShifts,MedianDaysToFirstClinicianContact,_synthetic,_demo_source
+DRH,2025-09,1263.0,307,184,615,45566.93,193.0,1.0,True,warehouse_demo_mart_builder
+DRH,2025-10,1282.0,357,192,636,52784.01,194.0,1.0,True,warehouse_demo_mart_builder
+DRH,2025-11,1244.0,344,227,586,62244.02,179.0,1.0,True,warehouse_demo_mart_builder
+DRH,2025-12,1301.0,364,221,615,65419.02,191.0,2.0,True,warehouse_demo_mart_builder
+DRH,2026-01,1592.0,461,274,736,51178.92,201.0,1.0,True,warehouse_demo_mart_builder
+DRH,2026-02,1477.0,525,402,840,61356.3892,219.0,1.0,True,warehouse_demo_mart_builder
+DRH,2026-03,1272.0,542,197,626,44757.53,194.0,1.0,True,warehouse_demo_mart_builder
+DRH,2026-04,1309.0,362,191,675,61091.42,197.0,1.0,True,warehouse_demo_mart_builder
+DRH,2026-05,1345.0,365,202,614,72659.45,207.0,1.0,True,warehouse_demo_mart_builder
+DRH,2026-06,0.0,4,2,29,0.0,0.0,2.0,True,warehouse_demo_mart_builder

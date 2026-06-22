@@ -1,6 +1,10 @@
 # Local archive duplicate
 site.zip
 
+# Python venvs — recreate via requirements.txt
+site/warehouse-demo/generator/.venv/
+site/warehouse-demo/profiler/.venv/
+
 # Local R package cache — reinstall via public-data scripts
 site/public-data/R_libs/
 
@@ -9,6 +13,10 @@ site/public-data/raw/
 
 # Historic download cache from script 05 (large extracted CSVs)
 site/public-data/metadata/historic_extract/
+
+# Temporary DM01 extract unzip dirs (script scratch — do not commit)
+site/public-data/metadata/filter_tmp_dm01_monthly/
+site/public-data/metadata/tmp_dm01_monthly_*/
 
 # Regenerated download/audit logs
 site/public-data/metadata/download_log.txt

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic reporting-table assurance — DRH demo</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="nhs-report-nav">
+    <a href="../../data-warehouse-agent-demo.html">Warehouse demo</a>
+    <a href="../../draft-reports.html">Public draft reports</a>
+    <a href="../../agent-operating-model.html#cat-e">Agent operating model</a>
+  </div>
+  <header class="nhs-report-header">
+    <p class="report-meta">Warehouse demo &middot; Synthetic DRH &middot; Demonstration only</p>
+    <h1>Synthetic reporting-table assurance</h1>
+    <p class="report-meta">Pre-trust checks on mock warehouse and mart tables</p>
+  </header>
+  <main id="main-content" class="nhs-report-main">
+    <div class="nhs-caveat" role="note">
+      <strong>Synthetic demonstration only.</strong> These are fictional reporting-table examples for Demo Rivers Health (DRH). They are <strong>not</strong> valid NHS submissions and <strong>not</strong> Dorset HealthCare (RDY) public data. Agents can support assurance work; accountable humans still sign off.
+    </div>
+
+    <section class="nhs-section">
+      <h2>Scope</h2>
+      <p>Agent-assisted checks on synthetic raw load counts, staging data quality, mart provider-month measures and QA view specifications — before a reporting table is trusted for narrative use.</p>
+      <ul class="nhs-list-compact">
+        <li><a href="../sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.md">EXPECTED_SYNTHETIC_LOAD_COUNTS.md</a></li>
+        <li><a href="../profile-output/dq_register.csv">dq_register.csv</a></li>
+        <li><a href="../profile-output/linkage_analysis.csv">linkage_analysis.csv</a></li>
+        <li><a href="../sql/views/05_qa_views.sql">05_qa_views.sql</a> (spec only — not deployed to live Azure)</li>
+        <li><a href="../marts/demo_provider_month_measures.csv">demo_provider_month_measures.csv</a></li>
+      </ul>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Assurance results</h2>
+      <div class="nhs-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Check</th>
+              <th scope="col">Figure / result</th>
+              <th scope="col">Comparator</th>
+              <th scope="col">Trend</th>
+              <th scope="col">Status</th>
+              <th scope="col">Human action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Row count reconciliation</th>
+              <td>CareCall 25,942; CareCase 3,631; Legendary 7,928; RosterFlow 40,926; Ledger 7,360</td>
+              <td>source_manifest.csv expected counts</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--stable">Stable at load</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--validation">Pass — demo</span></td>
+              <td class="nhs-human-check">BI lead confirm load completeness after any source refresh.</td>
+            </tr>
+            <tr>
+              <th scope="row">Missing business keys</th>
+              <td>322 Mar cases without <code>SourceContactId</code>; 47 orphan <code>CareCaseCaseId</code> on contacts</td>
+              <td>Feb: 123 without source; background orphan rate</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--worsening">Spike in Mar</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Review required</span></td>
+              <td class="nhs-human-check">Staging owner review join rules and extract inclusion flags.</td>
+            </tr>
+            <tr>
+              <th scope="row">Ambiguous call-to-case matches</th>
+              <td>1,016 contacts with <code>AMBIGUOUS</code> linkage scenario</td>
+              <td>4,754 direct CareCase matches</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--stable">Structural</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Flag — do not force match</span></td>
+              <td class="nhs-human-check">Apply bridge table per <a href="../design/linkage_resolution_strategy.md">linkage_resolution_strategy.md</a>.</td>
+            </tr>
+            <tr>
+              <th scope="row">Expired user mappings</th>
+              <td>9 LocalOps rows with <code>ValidToDate</code> in the past</td>
+              <td>Active mapping population</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--stable">Low volume</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Tier confidence</span></td>
+              <td class="nhs-human-check">Do not hard-fail joins; apply mapping confidence tier.</td>
+            </tr>
+            <tr>
+              <th scope="row">Date-boundary mismatches</th>
+              <td>46 Dec 2025 IUCS contacts: <code>ContactDate</code> before <code>CreatedDateTime</code> date</td>
+              <td>Negligible in other months</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--stable">Localised to Dec</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Flag not dedupe</span></td>
+              <td class="nhs-human-check">Information lead confirm CareCall export window change (2025-12-04).</td>
+            </tr>
+            <tr>
+              <th scope="row">Extract change impacts</th>
+              <td>3 extract log entries in period; CareCase inclusion rule change 2026-02-28</td>
+              <td>Jan–Feb: no CareCase rule change</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--unclear">Mar divergence</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Cross-reference volumes</span></td>
+              <td class="nhs-human-check">Data owner confirm effective dates before operational narrative.</td>
+            </tr>
+            <tr>
+              <th scope="row">Reporting table caveats</th>
+              <td>Mart tagged <code>_synthetic=TRUE</code>; Jun 2026 partial month (4 cases)</td>
+              <td>Full months Sep 2025–May 2026</td>
+              <td><span class="nhs-trend-badge nhs-trend-badge--na">N/A</span></td>
+              <td><span class="nhs-validation-badge nhs-validation-badge--review">Caveat required</span></td>
+              <td class="nhs-human-check">Performance lead sign-off; stock vs activity separation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="nhs-section nhs-why-useful">
+      <h2>Why this matters for mandatory reporting</h2>
+      <p>In live NHS assurance, teams run similar checks before KO41a, MHSDS, SitRep or internal board tables are trusted: row counts against source, key integrity, linkage quality, mapping validity and extract-change impacts. An agent can draft and organise these checks from approved sources — but the accountable Information Lead, performance manager or submission owner must still confirm definitions, sign off exceptions and approve publication.</p>
+      <p>This synthetic example mirrors that pattern. It is <strong>not</strong> a substitute for statutory submission validation.</p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Downstream use</h2>
+      <p>After assurance, reporting narratives should consume checked marts — see <a href="synthetic-urgent-care-analysis.html">synthetic urgent-care warehouse analysis</a> and the <a href="urgent-care-provider-month-brief.html">corrected provider-month brief</a>.</p>
+    </section>
+
+    <div class="nhs-info" role="note">
+      <strong>Limitations:</strong> SQL and ADF artefacts are demonstration specifications only — not deployed to live Azure. The <code>qa.MonthlyContactCaseTrend</code> view uses a simplified join; profiler <code>volume_trends.csv</code> is authoritative for month-on-month trends in this demo.
+    </div>
+
+    <div class="nhs-warning" role="note">
+      <strong>Human review required</strong> before any use outside this demonstration site.
+    </div>
+
+    <details class="nhs-support-details">
+      <summary>Audit trail (source paths)</summary>
+      <div class="nhs-support-details-body">
+        <ul class="nhs-list-compact">
+          <li><code>site/warehouse-demo/sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.md</code></li>
+          <li><code>site/warehouse-demo/profile-output/dq_register.csv</code></li>
+          <li><code>site/warehouse-demo/profile-output/linkage_analysis.csv</code></li>
+          <li><code>site/warehouse-demo/sql/views/05_qa_views.sql</code></li>
+          <li><code>site/warehouse-demo/marts/demo_provider_month_measures.csv</code></li>
+          <li><code>site/warehouse-demo/checkpoints/runs_2_5_internal_qa.md</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <p><a href="../../data-warehouse-agent-demo.html">&larr; Back to warehouse demonstration</a></p>
+  </main>
+  <footer class="nhs-report-footer">
+    <p>Synthetic DRH reporting assurance demo. Not valid NHS submission. Not RDY public data.</p>
+  </footer>
+</body>
+</html>

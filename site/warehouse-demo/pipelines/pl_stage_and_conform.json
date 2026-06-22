@@ -1,0 +1,26 @@
+{
+  "name": "pl_stage_and_conform",
+  "properties": {
+    "description": "Demo — populate stg tables with DQ flags",
+    "activities": [
+      {
+        "name": "ExecStgCareCallContact",
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "stg.usp_LoadCareCallContact",
+          "parameters": { "load_batch_id": { "value": "@pipeline().RunId", "type": "Expression" } }
+        },
+        "linkedServiceName": { "referenceName": "ls_demo_sql", "type": "LinkedServiceReference" }
+      },
+      {
+        "name": "ExecStgCareCase",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [{ "activity": "ExecStgCareCallContact", "dependencyConditions": ["Succeeded"] }],
+        "typeProperties": {
+          "storedProcedureName": "stg.usp_LoadCareCase"
+        }
+      }
+    ],
+    "annotations": ["warehouse-demo", "not-deployed"]
+  }
+}

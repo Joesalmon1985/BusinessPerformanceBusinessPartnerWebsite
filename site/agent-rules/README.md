@@ -37,6 +37,17 @@ Coordination (Project / Admin), reconciliation (Backlog Sync) and branch close-o
 |-------|------|
 | IG / Safety (hard gate) | [ig-safety-agent.md](ig-safety-agent.md) |
 
+### E. Warehouse design demo (synthetic DRH)
+Agentic warehouse-design worked example — profile sources before proposing models.
+
+| Agent | File |
+|-------|------|
+| Source Profiling | [source-profiling-agent.md](source-profiling-agent.md) — [worked example](../examples/warehouse-source-profiling-conversation.md) |
+| Warehouse Design | [warehouse-design-agent.md](warehouse-design-agent.md) — [worked example](../examples/warehouse-design-conversation.md) |
+| Report QA (warehouse briefs) | [warehouse-report-qa-agent.md](warehouse-report-qa-agent.md) — extends [report-analysis-agent.md](report-analysis-agent.md) |
+
+Index: [warehouse-demo/source-notes/demo_run_index.md](../warehouse-demo/source-notes/demo_run_index.md)
+
 ## How to use
 
 1. Load the relevant `.md` file as a Cursor rule or system prompt fragment.

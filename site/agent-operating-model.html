@@ -21,6 +21,7 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="mandatory-reporting-map.html">Mandatory reporting map</a></li>
         <li><a href="draft-reports.html">Draft reports</a></li>
+        <li><a href="data-warehouse-agent-demo.html">Warehouse demo</a></li>
         <li><a href="agent-operating-model.html" aria-current="page">Agent operating model</a></li>
         <li><a href="governance-and-benefits.html">Governance and benefits</a></li>
       </ul>
@@ -30,7 +31,7 @@
   <main id="main-content">
     <div class="hero">
       <h1>Agent operating model</h1>
-      <p class="hero-lead">Practical examples of how agentic AI could be operationalised safely in a Business &amp; Performance team — with bounded agents, approved sources, citations and human sign-off at every stage.</p>
+      <p class="hero-lead">Practical examples of how agentic AI could be used safely in a Business &amp; Performance team — with bounded agents, approved sources, citations and human sign-off at every stage.</p>
       <blockquote class="central-message">AI can help draft, structure, analyse, check and explain performance intelligence, but accountable humans remain responsible for definitions, validation, judgement and sign-off.</blockquote>
     </div>
 
@@ -454,6 +455,94 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         <p><a href="agent-rules/ig-safety-agent.md">View rule file</a></p>
         <div class="prompt-snippet">PASS or BLOCK with reasons. No exceptions for convenience.</div>
       </article>
+    </section>
+
+    <section aria-labelledby="cat-e">
+      <h2 id="cat-e">E. Warehouse design demo</h2>
+      <div class="caveat-box" role="note">
+        <strong>Synthetic demonstration only.</strong> Fictional Demo Rivers Health (DRH) source systems and extracts. Not connected to live Trust systems. Human review required at each stage.
+      </div>
+
+      <p class="info-box"><strong>Full demonstration (non-technical):</strong> <a href="data-warehouse-agent-demo.html">Agentic AI data warehouse demonstration</a> — complete worked example with reader-facing reports. This section is a technical reference for agent rules and artefacts.</p>
+
+      <article class="agent-card" aria-labelledby="agent-source-profiling">
+        <h3 id="agent-source-profiling">Source Profiling Agent</h3>
+        <p>Profiles multi-system source extracts before any warehouse design — grain, linkage, volume trends, extract-change risk and DQ register.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Profiling report, linkage analysis, DQ register, staging recommendations (not dimensional models).</dd>
+          <dt>Must not</dt>
+          <dd>Use the human-only reviewer checklist (not an agent source), propose fact tables, write SQL/ADF, or approve operational reporting.</dd>
+          <dt>Sign-off</dt>
+          <dd>Performance &amp; BI lead or Information Lead (demo roles).</dd>
+        </dl>
+        <p>
+          <a href="agent-rules/source-profiling-agent.md">View rule file</a> ·
+          <a href="warehouse-demo/profile-output/source_profiling_report.md">Profiling report</a> ·
+          <a href="examples/warehouse-source-profiling-conversation.md">Worked conversation</a> ·
+          <a href="warehouse-demo/source-notes/demo_run_index.md">Demo index</a>
+        </p>
+      </article>
+
+      <article class="agent-card" aria-labelledby="agent-warehouse-design">
+        <h3 id="agent-warehouse-design">Warehouse Design Agent</h3>
+        <p>Proposes staging and dimensional models from profiling evidence — bridge tables, DQ flags, conformed dimensions. No SQL or ADF.</p>
+        <dl class="agent-meta">
+          <dt>Outputs</dt>
+          <dd>Design proposal, staging/dimensional docs, linkage strategy, human review pack.</dd>
+          <dt>Must not</dt>
+          <dd>Write DDL, deploy pipelines, or use the human-only reviewer checklist (not an agent source).</dd>
+          <dt>Sign-off</dt>
+          <dd>Information Lead and Performance Manager via human review pack.</dd>
+        </dl>
+        <p>
+          <a href="agent-rules/warehouse-design-agent.md">View rule file</a> ·
+          <a href="warehouse-demo/design/warehouse_design_proposal.md">Design proposal</a> ·
+          <a href="examples/warehouse-design-conversation.md">Worked conversation</a>
+        </p>
+      </article>
+
+      <h3 id="warehouse-workflow">Warehouse demo workflow</h3>
+      <div class="workflow-diagram" role="img" aria-label="Warehouse design demo workflow">
+        <div class="workflow-steps">
+          <span class="workflow-step">Synthetic sources</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Source profiling</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Design proposal</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">SQL artefacts</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">ADF specs</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Report QA</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step human">Human sign-off</span>
+        </div>
+      </div>
+
+      <article class="agent-card">
+        <h3>SQL &amp; pipeline artefacts</h3>
+        <p>Azure SQL DDL, QA views and ADF-style JSON specifications — demonstration only, not deployed.</p>
+        <p>
+          <a href="warehouse-demo/sql/README.md">SQL README</a> ·
+          <a href="warehouse-demo/pipelines/pipeline_overview.md">Pipeline overview</a> ·
+          <a href="warehouse-demo/marts/demo_provider_month_measures.csv">Mart CSV</a>
+        </p>
+      </article>
+
+      <article class="agent-card">
+        <h3>Report QA (warehouse briefs)</h3>
+        <p>Report Analysis Agent checks flawed urgent-care brief against profiler evidence — extract vs operational, stock vs activity.</p>
+        <p>
+          <a href="agent-rules/warehouse-report-qa-agent.md">QA addendum</a> ·
+          <a href="examples/warehouse-draft-urgent-care-brief-flawed.md">Flawed draft</a> ·
+          <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">Corrected brief</a> ·
+          <a href="examples/warehouse-report-qa-conversation.md">QA conversation</a>
+        </p>
+      </article>
+
+      <p class="info-box">Full artefact map: <a href="warehouse-demo/source-notes/demo_run_index.md">demo_run_index.md</a> · Checkpoints in <code>warehouse-demo/checkpoints/</code> · <a href="data-warehouse-agent-demo.html">Reader-facing demonstration</a></p>
     </section>
   </main>
 

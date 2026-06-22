@@ -201,28 +201,4 @@ dc_body <- paste0(
 )
 write_report_page("demand-and-capacity-prototype.html", "Demand and Capacity Prototype", dc_body)
 
-# --- Report 5: Assurance log ---
-assurance_cols <- returns[, c("return_name", "owner_team", "next_due_date", "assurance_status",
-                               "risk", "issues", "escalation_route", "confidence")]
-names(assurance_cols)[3] <- "next_due"
-high_risk <- sum(returns$risk == "High")
-needs_validation <- sum(grepl("validation|Manual|Needs|Not applicable", returns$assurance_status, ignore.case = TRUE))
-assurance_commentary <- paste0(
-  '<p>This assurance view tracks ', nrow(returns), ' mandatory returns with ', high_risk,
-  ' flagged high risk and ', needs_validation, ' requiring validation or manual processing. ',
-  'An agent could help maintain this log from specification documents; owners must confirm due dates and status before reliance.</p>'
-)
-assurance_limits <- '<ul><li>Due dates and statuses are synthetic demo metadata</li><li>Not a Trust compliance record</li><li>Escalation routes are illustrative</li></ul>'
-assurance_body <- paste0(
-  draft_blocks(assurance_commentary,
-    '<ul><li>Cross-check next due dates against national publication calendars</li><li>Validate owner assignments with service leads</li></ul>',
-    assurance_limits),
-  '<section><h2>Assurance summary</h2><div class="kpi-row">',
-  '<div class="kpi-box"><span class="kpi-value">', nrow(returns), '</span><span class="kpi-label">Returns tracked</span></div>',
-  '<div class="kpi-box"><span class="kpi-value">', high_risk, '</span><span class="kpi-label">High risk</span></div>',
-  '<div class="kpi-box"><span class="kpi-value">', needs_validation, '</span><span class="kpi-label">Need validation</span></div>',
-  '</div><h2>Returns assurance log</h2>', html_table(assurance_cols, max_rows = 20), '</section>'
-)
-write_report_page("mandatory-returns-assurance-log.html", "Mandatory Returns Assurance Log", assurance_body)
-
 cat("All reports written to:", normalizePath(reports_dir), "\n")

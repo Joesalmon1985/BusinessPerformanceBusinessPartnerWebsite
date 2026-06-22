@@ -1,0 +1,29 @@
+{
+  "name": "pl_refresh_marts",
+  "properties": {
+    "description": "Demo — refresh mart.ProviderMonthUrgentCare",
+    "activities": [
+      {
+        "name": "RefreshProviderMonthUrgentCare",
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "mart.usp_RefreshProviderMonthUrgentCare",
+          "parameters": {
+            "provider_code": { "value": "DRH", "type": "String" }
+          }
+        }
+      },
+      {
+        "name": "ExportMartCsv",
+        "type": "Copy",
+        "dependsOn": [{ "activity": "RefreshProviderMonthUrgentCare", "dependencyConditions": ["Succeeded"] }],
+        "inputs": [{ "referenceName": "ds_sql_mart_provider_month", "type": "DatasetReference" }],
+        "outputs": [{ "referenceName": "ds_blob_mart_export", "type": "DatasetReference" }],
+        "typeProperties": {
+          "sink": { "type": "DelimitedTextSink", "fileName": "demo_provider_month_measures.csv" }
+        }
+      }
+    ],
+    "annotations": ["warehouse-demo", "not-deployed"]
+  }
+}

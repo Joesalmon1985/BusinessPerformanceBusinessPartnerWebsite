@@ -1,0 +1,32 @@
+{
+  "name": "pl_ingest_source_csv",
+  "properties": {
+    "description": "Demo only — copy CSV/XLSX from blob to raw schema",
+    "activities": [
+      {
+        "name": "CopyCareCallContacts",
+        "type": "Copy",
+        "inputs": [{ "referenceName": "ds_blob_carecall_contacts", "type": "DatasetReference" }],
+        "outputs": [{ "referenceName": "ds_sql_raw_carecall_contact", "type": "DatasetReference" }],
+        "typeProperties": {
+          "source": { "type": "DelimitedTextSource" },
+          "sink": { "type": "AzureSqlSink", "tableName": "raw.CareCallContact" }
+        }
+      },
+      {
+        "name": "CopyCareCaseCases",
+        "type": "Copy",
+        "dependsOn": [{ "activity": "CopyCareCallContacts", "dependencyConditions": ["Succeeded"] }],
+        "inputs": [{ "referenceName": "ds_blob_carecase_cases", "type": "DatasetReference" }],
+        "outputs": [{ "referenceName": "ds_sql_raw_carecase", "type": "DatasetReference" }],
+        "typeProperties": {
+          "sink": { "type": "AzureSqlSink", "tableName": "raw.CareCase" }
+        }
+      }
+    ],
+    "parameters": {
+      "reportingMonth": { "type": "String", "defaultValue": "2026-03" }
+    },
+    "annotations": ["warehouse-demo", "synthetic", "not-deployed"]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "pl_load_dwh_facts",
+  "properties": {
+    "description": "Demo — load dimensions, facts and bridge tables",
+    "activities": [
+      {
+        "name": "LoadDimPatient",
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": { "storedProcedureName": "dwh.usp_LoadDimPatient" }
+      },
+      {
+        "name": "LoadFactCareCallContact",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [{ "activity": "LoadDimPatient", "dependencyConditions": ["Succeeded"] }],
+        "typeProperties": { "storedProcedureName": "dwh.usp_LoadFactCareCallContact" }
+      },
+      {
+        "name": "LoadBridgeAmbiguous",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [{ "activity": "LoadFactCareCallContact", "dependencyConditions": ["Succeeded"] }],
+        "typeProperties": { "storedProcedureName": "dwh.usp_LoadBridgeReferralCandidates" }
+      }
+    ],
+    "annotations": ["warehouse-demo", "not-deployed"]
+  }
+}

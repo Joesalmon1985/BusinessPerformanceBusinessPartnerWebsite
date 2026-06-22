@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urgent care provider-month brief — DRH (corrected demo)</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="nhs-report-nav">
+    <a href="../../data-warehouse-agent-demo.html">Warehouse demo</a>
+    <a href="../../draft-reports.html">Public draft reports</a>
+    <a href="../../agent-operating-model.html#cat-e">Agent operating model</a>
+    <a href="../source-notes/demo_run_index.md">Warehouse demo index</a>
+  </div>
+  <header class="nhs-report-header">
+    <p class="report-meta">Warehouse demo &middot; Synthetic DRH &middot; Demonstration only</p>
+    <h1>Urgent care provider-month brief (corrected)</h1>
+    <p class="report-meta">Demo Rivers Health (DRH) — Sep 2025 to May 2026</p>
+  </header>
+  <main id="main-content" class="nhs-report-main">
+    <div class="nhs-caveat" role="note">
+      <strong>Synthetic demonstration only.</strong> Not official reporting. Figures tagged <code>_synthetic=TRUE</code>. Not RDY-calibrated. Human sign-off required.
+    </div>
+
+    <section class="nhs-section">
+      <h2>Headline reading</h2>
+      <ul class="nhs-list-compact">
+        <li><strong>Jan–Feb 2026:</strong> IUCS contacts elevated vs Sep–Nov baseline with corroborating bank shifts and agency spend — possible operational pressure (multi-source).</li>
+        <li><strong>March 2026:</strong> Case opens rose slightly while IUCS contacts fell; most new cases lack CareCall <code>SourceContactId</code>. Extract change log records CareCase inclusion rule change — treat as extract-driven until data owner confirms.</li>
+        <li><strong>December 2025:</strong> 46 IUCS contacts show <code>ContactDate</code> before <code>CreatedDateTime</code> date — check export schedule change before month attribution.</li>
+      </ul>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Provider-month measures (DRH)</h2>
+      <p>Source: <code>marts/demo_provider_month_measures.csv</code>, <code>volume_trends.csv</code></p>
+      <div class="nhs-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">IUCS contacts (activity)</th>
+              <th scope="col">Cases opened (all)</th>
+              <th scope="col">Operational cases</th>
+              <th scope="col">Agency spend (£)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-01</td><td>1,592</td><td>461</td><td>274</td><td>51,179</td></tr>
+            <tr><td>2026-02</td><td>1,477</td><td>525</td><td>402</td><td>61,356</td></tr>
+            <tr><td>2026-03</td><td>1,272</td><td>542</td><td>197</td><td>44,758</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><em>Operational cases exclude <code>ExtractInclusionFlag=1</code> and missing source contact (demo filter).</em></p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Caveats</h2>
+      <ul class="nhs-list-compact">
+        <li>Stock vs activity: do not read case opens as IUCS demand proxy without linkage checks.</li>
+        <li>March movement: review <code>localops_extract_change_log.xlsx</code> before operational narrative.</li>
+        <li>Linkage: 1,016 ambiguous contacts require bridge resolution — see <a href="../design/linkage_resolution_strategy.md">linkage_resolution_strategy.md</a>.</li>
+        <li><code>DEMO-NHS-*</code> identifiers are not valid NHS numbers.</li>
+      </ul>
+    </section>
+
+    <section class="nhs-section nhs-bottom-line">
+      <h2>Bottom line</h2>
+      <p>Early 2026 shows mixed signals: Jan–Feb uplift is multi-source; March case increase is not corroborated by IUCS contacts and aligns with extract rule change. Do not publish a single "demand surge" narrative without data owner validation.</p>
+    </section>
+
+    <div class="nhs-warning" role="note">
+      <strong>Human review required</strong> before any use outside this demonstration site.
+    </div>
+  </main>
+  <footer class="nhs-report-footer">
+    <p>Warehouse demo — corrected after Report QA. Sources: profiling outputs and mart CSV only.</p>
+  </footer>
+</body>
+</html>

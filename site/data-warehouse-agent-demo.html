@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic AI data warehouse demonstration</title>
+  <meta name="description" content="Synthetic Demo Rivers Health worked example: bounded agents from fictional source extracts through profiling, warehouse design, SQL/pipeline artefacts and reporting QA.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Synthetic data warehouse agent demonstration</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="draft-reports.html">Draft reports</a></li>
+        <li><a href="data-warehouse-agent-demo.html" aria-current="page">Warehouse demo</a></li>
+        <li><a href="agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div class="hero">
+      <h1>Agentic AI data warehouse demonstration</h1>
+      <p class="hero-lead">This site already shows how agentic AI can support public-data reporting and draft analytical briefs. This additional demonstration goes one step earlier in the data journey: it starts with messy synthetic source-system extracts and shows how bounded agents could help profile the data, design a mock warehouse, create SQL and pipeline artefacts, and support reporting QA.</p>
+      <p>Fictional <strong>Demo Rivers Health (DRH)</strong> only. Not connected to live Trust systems. Human review required at every stage.</p>
+    </div>
+
+    <div class="caveat-box" role="note">
+      <strong>Synthetic demonstration only.</strong> Demo Rivers Health is fictional. The source systems are fictional. This is not Dorset HealthCare, RDY, patient-identifiable data, staff-identifiable data, or real supplier data. Azure SQL and ADF material here is demonstration/specification artefact only — not a live deployment. All outputs would require human review before operational use.
+    </div>
+
+    <section aria-labelledby="reader-reports">
+      <h2 id="reader-reports">Reader-facing examples</h2>
+      <div class="card-grid">
+        <article class="card">
+          <p class="card-badge">Synthetic analysis</p>
+          <h3>Urgent-care warehouse analysis</h3>
+          <p class="card-purpose">How the mock warehouse supports investigation of Jan–Feb escalation, March extract-driven spike and December date-boundary issues.</p>
+          <a class="card-link" href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">View example</a>
+        </article>
+        <article class="card">
+          <p class="card-badge">Synthetic assurance</p>
+          <h3>Reporting-table assurance</h3>
+          <p class="card-purpose">Pre-trust checks on row counts, keys, linkage, mappings and extract changes — analogous to mandatory reporting assurance.</p>
+          <a class="card-link" href="warehouse-demo/reports/synthetic-reporting-table-assurance.html">View example</a>
+        </article>
+        <article class="card">
+          <p class="card-badge">Report QA</p>
+          <h3>Corrected provider-month brief</h3>
+          <p class="card-purpose">Urgent-care brief after Report QA — extract vs operational, stock vs activity.</p>
+          <a class="card-link" href="warehouse-demo/reports/urgent-care-provider-month-brief.html">View brief</a>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="what-demo">
+      <h2 id="what-demo">1. What this demonstration is</h2>
+      <p>A self-contained worked example of agent-assisted warehouse design and reporting assurance. It walks through source profiling, dimensional design, SQL and pipeline specifications, mart building and report QA — using only synthetic extracts for a fictional trust.</p>
+      <p>The practical value: agentic AI can support data engineering, source profiling, documentation, validation, reporting assurance and analysis — but does not replace accountable human review. This shows a governed way of working: bounded agents, rules, checkpoints, synthetic data, validation and sign-off.</p>
+      <div class="info-box" role="note">
+        <strong>Why this matters for performance partnering:</strong> the same upstream work sits behind real performance reporting. This example touches capacity and demand signals (urgent-care contacts, bank and agency activity), reporting assurance before a table is trusted, and — importantly for service improvement — distinguishing a genuine operational change from a data artefact. The agent classifications here are draft readings that still need human confirmation, not validated findings.
+      </div>
+    </section>
+
+    <section aria-labelledby="why-synthetic">
+      <h2 id="why-synthetic">2. Why synthetic data was used</h2>
+      <p>Real patient data, staff records, supplier schemas, credentials and live Azure resources cannot be used on a public demonstration site. Synthetic data allows a realistic multi-system scenario — including extract changes and linkage problems — without confidentiality risk.</p>
+    </section>
+
+    <section aria-labelledby="why-added">
+      <h2 id="why-added">3. How this fits the rest of the site</h2>
+      <p>The existing <a href="draft-reports.html">draft reports</a> and <a href="agent-operating-model.html">agent operating model</a> show how agents support public-data briefs and governed performance work. This demonstration complements them by showing the upstream data journey: what happens before a reporting table exists — when source extracts are messy, joins are uncertain, and extract rules change.</p>
+    </section>
+
+    <section aria-labelledby="vs-draft">
+      <h2 id="vs-draft">4. How this differs from the draft reports page</h2>
+      <p>The <a href="draft-reports.html">draft reports page</a> uses <strong>public aggregate NHS data</strong> for Dorset HealthCare (RDY) — MHSDS, CSDS, Oversight Framework and similar published sources.</p>
+      <p>This warehouse demo uses fictional internal source systems → mock warehouse → reporting tables → QA. <strong>DRH and RDY must not be read as the same provider.</strong></p>
+    </section>
+
+    <section aria-labelledby="source-systems">
+      <h2 id="source-systems">5. The fictional source systems</h2>
+      <ul>
+        <li><strong>CareCall</strong> — urgent and unscheduled care contacts (IUCS pathway)</li>
+        <li><strong>CareCase</strong> — case management opens and status</li>
+        <li><strong>Legendary Care</strong> — referrals and encounters</li>
+        <li><strong>RosterFlow</strong> — bank and substantive shifts</li>
+        <li><strong>LedgerWise</strong> — agency and bank spend by cost centre</li>
+        <li><strong>LocalOps spreadsheets</strong> — extract change logs, user ID mappings and validation notes</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="workflow">
+      <h2 id="workflow">End-to-end workflow</h2>
+      <div class="workflow-diagram" role="img" aria-label="Data warehouse agent demonstration workflow">
+        <div class="workflow-steps">
+          <span class="workflow-step">Synthetic source extracts</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Agent source profiling</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Warehouse design proposal</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Azure SQL-style artefacts</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">ADF-style pipeline specs</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Reporting tables / marts</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step">Draft report QA</span>
+          <span class="workflow-arrow" aria-hidden="true">&rarr;</span>
+          <span class="workflow-step human">Human review</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="stages">
+      <h2 id="stages">What happened at each stage</h2>
+
+      <h3>6. How synthetic source data was created</h3>
+      <p>A Python generator created CSV/XLSX extracts, manifest and summary for fictional Demo Rivers Health. See <a href="warehouse-demo/README.md">warehouse-demo README</a> and <a href="warehouse-demo/source-notes/demo_run_index.md">demo run index</a>.</p>
+
+      <h3>7. How agents profiled the messy source data</h3>
+      <p>A Source Profiling Agent documented grain, linkage, volume trends, a data-quality register and extract-change risk — without proposing dimensional models or SQL. Outputs: <a href="warehouse-demo/profile-output/source_profiling_report.md">profiling report</a>, <a href="examples/warehouse-source-profiling-conversation.md">worked conversation</a>.</p>
+
+      <h3>8. How agents proposed the warehouse design</h3>
+      <p>A Warehouse Design Agent proposed staging, dimensions, bridge tables and linkage strategy from profiling evidence. See <a href="warehouse-demo/design/warehouse_design_proposal.md">design proposal</a> and <a href="warehouse-demo/design/human_review_pack.md">human review pack</a>.</p>
+
+      <h3>9. How Azure SQL-style artefacts were generated</h3>
+      <p>DDL, QA views and deployment notes — specification only, not deployed to live Azure SQL. See <a href="warehouse-demo/sql/README.md">SQL README</a> and <a href="warehouse-demo/sql/DEPLOYMENT_NOTES.md">deployment notes</a>.</p>
+
+      <h3>10. How ADF-style pipeline specifications were generated</h3>
+      <p>JSON pipeline specs for ingest, staging refresh and mart build. See <a href="warehouse-demo/pipelines/pipeline_overview.md">pipeline overview</a>.</p>
+
+      <h3>11. How the mock warehouse supported report QA</h3>
+      <p>Provider-month mart measures were built offline. A flawed urgent-care brief was corrected after Report QA against profiler evidence. See <a href="examples/warehouse-draft-urgent-care-brief-flawed.md">flawed draft</a>, <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">corrected brief</a> and <a href="examples/warehouse-report-qa-conversation.md">QA conversation</a>.</p>
+    </section>
+
+    <section aria-labelledby="findings">
+      <h2 id="findings">12. Likely genuine change vs likely data artefact</h2>
+      <p>Agents distinguished patterns using profiler and mart outputs only:</p>
+      <ul>
+        <li><strong>Jan–Feb 2026 (likely genuine — needs review):</strong> IUCS contacts, operational cases, bank shifts and agency spend elevated together — multi-source corroboration suggests possible operational pressure.</li>
+        <li><strong>March 2026 (likely artefactual — needs review):</strong> Case opens rose while IUCS fell; most new cases lack CareCall source link; CareCase extract rule change recorded in LocalOps log.</li>
+        <li><strong>December 2025 (likely artefactual attribution — needs review):</strong> 46 contacts show date-boundary mismatch aligned with CareCall export schedule change.</li>
+      </ul>
+      <p>Full analysis: <a href="warehouse-demo/reports/synthetic-urgent-care-analysis.html">synthetic urgent-care warehouse analysis</a>.</p>
+    </section>
+
+    <section aria-labelledby="human-review">
+      <h2 id="human-review">13. Human review and sign-off</h2>
+      <p>Even with agent support, accountable people must still:</p>
+      <ul>
+        <li>Approve the warehouse design via the human review pack before SQL work</li>
+        <li>Sign off checkpoints at each run (audit trail in <code>warehouse-demo/checkpoints/</code>)</li>
+        <li>Block flawed report narratives until profiler evidence is applied</li>
+        <li>Confirm reporting-table assurance before operational use</li>
+      </ul>
+      <p>Bounded agent rules, forbidden sources lists and synthetic data keep the method visible and reviewable.</p>
+    </section>
+
+    <section aria-labelledby="limitations">
+      <h2 id="limitations">14. Limitations and next steps</h2>
+      <ul>
+        <li>SQL and ADF are demonstration artefacts — not executed on live Azure</li>
+        <li>Mart built by offline Python script, not a live pipeline</li>
+        <li>Partial DDL vs full design documentation — see <a href="warehouse-demo/checkpoints/runs_2_5_internal_qa.md">internal QA notes</a></li>
+        <li>Human reviewers may compare findings separately; agents did not use the reviewer answer key as evidence</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="artefacts">
+      <h2 id="artefacts">Technical artefacts</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Demo README</h3>
+          <p class="card-purpose">Generator commands and run overview.</p>
+          <a class="card-link" href="warehouse-demo/README.md">View</a>
+        </article>
+        <article class="card">
+          <h3>Demo run index</h3>
+          <p class="card-purpose">Full artefact map across Runs 1–5.</p>
+          <a class="card-link" href="warehouse-demo/source-notes/demo_run_index.md">View</a>
+        </article>
+        <article class="card">
+          <h3>Profiling report</h3>
+          <p class="card-purpose">Source grain, linkage, volumes and DQ.</p>
+          <a class="card-link" href="warehouse-demo/profile-output/source_profiling_report.md">View</a>
+        </article>
+        <article class="card">
+          <h3>Design proposal</h3>
+          <p class="card-purpose">Staging and dimensional model proposal.</p>
+          <a class="card-link" href="warehouse-demo/design/warehouse_design_proposal.md">View</a>
+        </article>
+        <article class="card">
+          <h3>SQL README</h3>
+          <p class="card-purpose">Azure SQL-style DDL and QA views.</p>
+          <a class="card-link" href="warehouse-demo/sql/README.md">View</a>
+        </article>
+        <article class="card">
+          <h3>Pipeline overview</h3>
+          <p class="card-purpose">ADF-style JSON specifications.</p>
+          <a class="card-link" href="warehouse-demo/pipelines/pipeline_overview.md">View</a>
+        </article>
+        <article class="card">
+          <h3>Agent operating model</h3>
+          <p class="card-purpose">Agent rules and technical reference (§E).</p>
+          <a class="card-link" href="agent-operating-model.html#cat-e">View</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">Synthetic DRH warehouse demonstration only. Not official reporting. Not RDY public data. No patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

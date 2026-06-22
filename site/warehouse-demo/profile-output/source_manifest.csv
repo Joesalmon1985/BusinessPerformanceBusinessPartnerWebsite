@@ -1,0 +1,20 @@
+FileName,SystemName,RowCount,PrimaryDateColumn,MinDate,MaxDate,GrainDescription,KnownSyntheticPurpose,GeneratedByScript
+carecall_contacts.csv,CareCall,25942,ContactDate,2025-09-01,2026-05-31,One row per front-door contact,Urgent care and related contact records,create_synthetic_source_data.py
+carecall_call_events.csv,CareCall,77784,EventDateTime,2025-09-01,2026-05-31,One row per call-handling event,Queue and handling events linked to contacts,create_synthetic_source_data.py
+carecase_cases.csv,CareCase,3631,OpenedDateTime,2025-09-01,2026-06-01,One row per IUCS case,Case management records from urgent care pathway,create_synthetic_source_data.py
+carecase_case_events.csv,CareCase,17837,EventDateTime,2025-09-01,2026-06-02,One row per case lifecycle event,Case audit and status events,create_synthetic_source_data.py
+carecase_clinician_contacts.csv,CareCase,7276,ContactDateTime,2025-09-02,2026-06-06,One row per clinician contact on a case,Clinical contact activity on cases,create_synthetic_source_data.py
+legendary_care_patients.csv,Legendary Care,6390,DateOfBirth,1945-01-01,2015-12-28,One row per patient,Fictional EPR patient demographic extract,create_synthetic_source_data.py
+legendary_care_referrals.csv,Legendary Care,7928,ReferralDateTime,2025-09-01,2026-06-03,One row per referral,Referral records across services,create_synthetic_source_data.py
+legendary_care_appointments.csv,Legendary Care,10920,ScheduledDateTime,2025-09-05,2026-06-23,One row per appointment,Scheduled appointment records,create_synthetic_source_data.py
+legendary_care_encounters.csv,Legendary Care,8158,EncounterDateTime,2025-09-02,2026-07-01,One row per encounter,Clinical encounter activity,create_synthetic_source_data.py
+rosterflow_staff.csv,RosterFlow,145,ActiveFrom,2024-04-01,2024-04-01,One row per staff member,Staff roster dimension,create_synthetic_source_data.py
+rosterflow_shifts.csv,RosterFlow,40926,ShiftDate,2025-09-01,2026-05-31,One row per planned or worked shift,Staff shift patterns and bank usage,create_synthetic_source_data.py
+rosterflow_absence.csv,RosterFlow,105,StartDate,2025-09-01,2026-05-27,One row per absence episode,Sickness and leave records,create_synthetic_source_data.py
+ledgerwise_cost_centres.csv,LedgerWise,5,,,,One row per cost centre,Finance cost centre reference,create_synthetic_source_data.py
+ledgerwise_ledger.csv,LedgerWise,7360,PostingDate,2025-09-01,2026-05-31,One row per ledger posting line,Pay and non-pay spend transactions,create_synthetic_source_data.py
+localops_user_id_mapping.xlsx,LocalOps,145,ValidFromDate,2024-04-01,2024-04-01,Spreadsheet extract,Cross-system staff username mapping,create_synthetic_source_data.py
+localops_team_mapping.xlsx,LocalOps,6,,,,Spreadsheet extract,Team and cost centre crosswalk,create_synthetic_source_data.py
+localops_validation_notes.xlsx,LocalOps,6,NoteDate,2025-11-14,2026-03-01,Spreadsheet extract,Manual data quality and operational notes,create_synthetic_source_data.py
+localops_waiting_list_adjustments.xlsx,LocalOps,3,AdjustmentDate,2025-10-03,2026-02-20,Spreadsheet extract,Manual waiting list corrections,create_synthetic_source_data.py
+localops_extract_change_log.xlsx,LocalOps,3,ChangeDate,2025-12-04,2026-02-28,Spreadsheet extract,Extract and inclusion rule change log,create_synthetic_source_data.py
