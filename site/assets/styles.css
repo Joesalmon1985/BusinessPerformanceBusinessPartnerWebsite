@@ -563,6 +563,26 @@ tbody tr.hidden {
   overflow-x: auto;
 }
 
+.conversation-excerpt {
+  margin: 1.25rem 0;
+}
+
+.conversation-turn {
+  margin-bottom: 1rem;
+}
+
+.conversation-turn .conversation-label {
+  margin-bottom: 0.35rem;
+}
+
+.conversation-turn--user .prompt-snippet {
+  border-left: 3px solid #6C757D;
+}
+
+.conversation-turn--agent .prompt-snippet {
+  border-left: 3px solid var(--nhs-blue);
+}
+
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;

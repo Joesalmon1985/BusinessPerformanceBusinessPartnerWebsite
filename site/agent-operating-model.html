@@ -59,62 +59,85 @@
 
     <section aria-labelledby="source-pairing">
       <h2 id="source-pairing">Pairing agents with approved sources</h2>
-      <p>Reporting specification agents — for the Mental Health Services Data Set (MHSDS), Community Services Data Set (CSDS), Patient Level Contract Monitoring (PLCM) and Aggregate Data Collections (ADC) — should be paired with:</p>
+      <p>Reporting SME agents (MHSDS, CSDS, PLCM, ADC) answer from version-dated public specifications, the local data dictionary, source restrictions in the agent rule file, and named human sign-off points — not from memory or live systems.</p>
       <ul>
-        <li>Downloaded public specification documents (version-dated)</li>
-        <li>Local data dictionary (<code>docs/local-dictionary-placeholder.md</code> in demo; MHSDS worked example uses <code>docs/synthetic-mhsds-local-dictionary.md</code>)</li>
-        <li>MHSDS public source pack index (<code>public-data/mhsds-source-pack-register.csv</code>) for the SME worked example</li>
-        <li>Local SOP or process notes (IG-approved; not published here)</li>
-        <li>Source restrictions and citation requirements in the agent rule file</li>
-        <li>Named human sign-off points before operational use</li>
+        <li>Public specification documents and local dictionary (e.g. <code>docs/synthetic-mhsds-local-dictionary.md</code> for the MHSDS worked example)</li>
+        <li>Source pack registers where relevant (e.g. <code>public-data/mhsds-source-pack-register.csv</code>)</li>
+        <li>Local SOPs (IG-approved; not published on this site)</li>
       </ul>
     </section>
 
     <section aria-labelledby="example-questions">
       <h2 id="example-questions">Example questions SME agents should support</h2>
-      <div class="card-grid">
-        <div class="card"><h3>Definition</h3><p>“What is ADC E07 based on?”</p></div>
-        <div class="card"><h3>Schedule</h3><p>“When is the next PLCM dataset due?”</p></div>
-        <div class="card"><h3>Fields</h3><p>“Which fields are required for this return?”</p></div>
-        <div class="card"><h3>Local mapping</h3><p>“What source table or local definition is this metric using?”</p></div>
-        <div class="card"><h3>Caveats</h3><p>“What caveats should go with this report?”</p></div>
-      </div>
-      <p class="info-box">Each answer must cite the source section so the user can check at source. If the answer is not in approved documents, the agent must say so and escalate.</p>
+      <p>SME agents should answer questions such as “What is ADC E07 based on?”, “When is the next PLCM dataset due?”, “Which fields are required?”, “What source table is this metric using?” and “What caveats should go with this report?” — each answer citing the source section. If the answer is not in approved documents, the agent must say so and escalate.</p>
     </section>
 
+    <section aria-labelledby="conversation-examples">
+      <h2 id="conversation-examples">Two practical conversation examples</h2>
+      <p>These excerpts show what governed agent behaviour looks like in practice: source-bound reasoning, tracing figures back to source, flagging validation issues, proposing caveated wording, and refusing to approve publication where human sign-off is needed. Full transcripts are linked below each example.</p>
+
     <section aria-labelledby="mhsds-worked-example">
-      <h2 id="mhsds-worked-example">Worked example: asking an MHSDS SME agent about an unusual figure</h2>
+      <h3 id="mhsds-worked-example">Example 1: MHSDS Expert Agent — investigating an unusual movement</h3>
       <p class="info-box"><strong>In plain English:</strong> when a number on a report suddenly jumps, the first job is to find out <em>why</em> — is it a genuine change in activity, or just a change in how things were recorded or counted? "Tracing a figure back to source" means following that number step by step, from the original record a clinician entered through to the final total on the report, checking each stage. The technical chain below is kept deliberately, because that traceability is the whole point — but the takeaway is simple: the agent helps you ask better questions, and a person still decides.</p>
       <p>This example shows how a source-bound SME agent could support a Business &amp; Performance user investigating an unusual movement in a synthetic MHSDS-derived metric. The agent traces the figure back to source forms, extract logic, fact tables and mapping rules, separates data-quality from operational explanations, and offers draft pack wording — sign-off is discussed only when the user asks whether the figure is ready for the pack.</p>
 
       <div class="warning-box" role="note">
-        <strong>Synthetic demonstration only.</strong> Fictional records from RiO (an electronic patient record system), warehouse tables and aggregate data. Not an official Dorset HealthCare report, not a live Trust agent, and not connected to operational systems.
+        <strong>Synthetic demonstration only.</strong> Fictional records from RiO (an electronic patient record system), warehouse tables and aggregate data. Not an official Dorset HealthCare report, not a live Trust agent, no patient-identifiable data, and not connected to operational systems.
       </div>
 
       <h3>What this demonstrates</h3>
-      <p class="info-box">Practical data lineage (RiO contact → staging extract → fact table → team mapping → count), movement calculation (+370 contacts, ~29.8%), data-quality vs operational hypotheses, numbered investigation checks, and draft directorate pack wording pending human review.</p>
+      <ul class="info-box" style="margin-top:0;">
+        <li>Data lineage from RiO contact form through staging, fact table, team mapping and aggregate</li>
+        <li>Movement calculation (+370 contacts, ~29.8%) traced to synthetic demo data</li>
+        <li>Data-quality vs operational hypotheses and numbered investigation checks</li>
+        <li>Refusal to over-interpret performance; draft pack wording pending human review</li>
+      </ul>
 
-      <p><strong>User:</strong></p>
-      <div class="prompt-snippet">I'm drafting the March directorate pack. Synthetic All Age MH access contacts have jumped from 1,240 to 1,610. Why has this gone up?</div>
-
-      <p><strong>MHSDS Expert Agent:</strong></p>
-      <div class="prompt-snippet">First check: real activity increase or recording/extraction change?
+      <h3>Conversation excerpt</h3>
+      <div class="conversation-excerpt">
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">I'm drafting the March directorate pack. Synthetic All Age MH access contacts have jumped from 1,240 to 1,610. Why has this gone up?</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>MHSDS Expert Agent:</strong></p>
+          <div class="prompt-snippet">The first thing I would check is whether this is a real activity increase or a recording / extraction change.
 
 Synthetic lineage: RiO contact (DemoMHContactForm) → StgMHSDSContactExtractDemo → FactMHSDSContactDemo → DimMHSDSServiceTeamDemo (All Age MH teams) → count where ContactStatusCode = attended and ContactMonth = March.
 
 Movement: 1,240 → 1,610 (+370, ~29.8%). March includes 180 late-recorded contacts — do not assume pure demand increase.
 
-Checks: RiO form/process change, form usage, team mapping, duplicates in FactMHSDSContactDemo, status coding, late recording, backlog clinic or capacity.
+I would run checks on RiO form usage, team mapping, dedup logic, status coding and late recording before using this in a pack.
 
 Draft pack wording (pending review): "All Age MH access contacts rose from 1,240 to 1,610 (+29.8%) in March. This may reflect increased activity and/or recording effects including late-recorded contacts. Definition and data quality checks are in progress."</div>
+        </div>
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">Where does this figure actually come from — is it straight from an MHSDS return?</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>MHSDS Expert Agent:</strong></p>
+          <div class="prompt-snippet">No — this is not a figure pulled directly from an MHSDS submission. It is a local warehouse metric built from RiO contact records through the synthetic demo ETL chain. National MHSDS provides background context only; this demo metric is inspired by contact-count concepts but is not mapped to a specific published measure code.</div>
+        </div>
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">Does this increase mean performance has deteriorated?</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>MHSDS Expert Agent:</strong></p>
+          <div class="prompt-snippet">Not necessarily — and I cannot give a performance verdict. Contacts rose ~29.8% while referrals rose only ~7.1%, which points toward recording/extraction effects or a step-change in conversion — but I cannot determine which without the checks above. I can help frame investigation questions; I cannot conclude whether performance has improved or deteriorated.</div>
+        </div>
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">Can I use this figure in the March directorate report?</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>MHSDS Expert Agent:</strong></p>
+          <div class="prompt-snippet">Not yet as a final figure — draft wording with caveats only until checks are complete. Confirm team mapping, dedup logic and late-recorded contacts with Information Lead; confirm operational context with Performance Manager. I cannot sign off, submit an MHSDS return, or treat this demo as operationally validated. Status: Draft — pending Information Lead and Performance Manager review.</div>
+        </div>
+      </div>
 
-      <p><strong>User:</strong></p>
-      <div class="prompt-snippet">Can I use this figure in the March directorate report?</div>
-
-      <p><strong>MHSDS Expert Agent:</strong></p>
-      <div class="prompt-snippet">Not yet as a final figure — draft wording with caveats only until checks are complete. Confirm team mapping, dedup logic and late-recorded contacts with Information Lead; confirm operational context with Performance Manager. Sign-off required before treating as final. See full transcript for lineage, calculation and performance interpretation.</div>
-
-      <p class="info-box"><strong>Why this matters:</strong> The value of an SME agent is tracing a reported number back to RiO forms, extract tables, fact tables and mapping rules — and knowing what data-quality and operational checks to run. It helps the user ask better questions and draft proportionate caveats; it does not replace human validation or sign-off.</p>
+      <p class="info-box"><strong>Why this matters:</strong> The value is lineage traceability and definition control — following a reported number back through RiO forms, extract tables, fact tables and mapping rules, and separating data-quality drivers from operational ones before drawing performance conclusions. The agent helps ask better questions and draft proportionate caveats; it does not replace human validation or sign-off.</p>
 
       <p><strong>Supporting files:</strong></p>
       <ul>
@@ -127,34 +150,68 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
     </section>
 
     <section aria-labelledby="report-analysis-worked-example">
-      <h2 id="report-analysis-worked-example">Worked example: Report Analysis Agent reviewing a draft Talking Therapies brief</h2>
+      <h3 id="report-analysis-worked-example">Example 2: Report Analysis Agent — checking a flawed draft</h3>
       <p class="info-box"><strong>In plain English:</strong> before a draft report is shared, someone needs to check that it answers the basic performance questions — what the figure is, what it should be (where a standard exists), how it is trending, what judgement is fair, and what a human must still verify. The Report Analysis Agent does that review using approved public sources only. It cites evidence, suggests draft fixes, and never signs the report off.</p>
       <p>This example uses a <strong>synthetic pre-fix draft</strong> (deliberate errors) based on issues found during the June 2026 public-data report improvement pass. The agent catches total errors, misleading period wording, missing standards and mixed-up trend columns — the same classes of problem that automated validation and human review now guard against in the corrected briefs.</p>
 
       <div class="warning-box" role="note">
-        <strong>Synthetic demonstration only.</strong> Flawed draft v0.3 in <code>examples/</code> — not the corrected published brief, not a live Trust agent, and not connected to operational systems.
+        <strong>Synthetic demonstration only.</strong> Flawed draft v0.3 in <code>examples/</code> — not the corrected published brief, not a live Trust agent, no patient-identifiable data, and not connected to operational systems.
       </div>
 
       <h3>What this demonstrates</h3>
-      <p class="info-box">Eleven-step review framework: period/total/standard/trend-column/caveat/bottom-line checks; CSV traceability; revised wording marked for human review; refusal when asked to approve publication. Cross-references <code>04_validate_public_reports.R</code> where mechanical checks apply.</p>
+      <ul class="info-box" style="margin-top:0;">
+        <li>Eleven-step review framework: period, total, standard, trend-column, caveat and bottom-line checks</li>
+        <li>CSV traceability and numbered findings with evidence cites</li>
+        <li>Revised wording marked <code>DRAFT — REQUIRES HUMAN REVIEW</code></li>
+        <li>Refusal when asked to approve publication</li>
+        <li>Mechanical checks in <code>04_validate_public_reports.R</code> apply to rendered HTML briefs — the draft issues below would fail those checks</li>
+      </ul>
 
-      <p><strong>User:</strong></p>
-      <div class="prompt-snippet">I've drafted a Talking Therapies access brief for our directorate huddle. Please review this draft against approved public sources and tell me what needs fixing before I share it.</div>
+      <h3>Conversation excerpt</h3>
+      <div class="conversation-excerpt">
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">I've drafted a Talking Therapies access brief for our directorate huddle. Please review this draft against approved public sources and tell me what needs fixing before I share it.</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>Report Analysis Agent:</strong></p>
+          <div class="prompt-snippet">I reviewed the draft against demo_talking_therapies.csv. I have not approved this draft for publication.
 
-      <p><strong>Report Analysis Agent:</strong></p>
-      <div class="prompt-snippet">Critical finding: KFE row says M019–M022 total 5,870 but CSV sum is 6,780 (M019=4705, M020=705, M021=460, M022=910). Would fail check_tt_wait_totals.
+Critical #1: KFE row labels M019–M022 total as 5,870 but four-band sum is 6,780 (M019=4,705; M020=705; M021=460; M022=910). Would fail check_tt_wait_totals on a rendered brief.
 
-Major: "Six-month trend" uses six non-consecutive data points (Aug–Apr gaps). M053 missing 75% standard cite. Trend column mixes "Falling" with "Finance sign-off". Judgement "Performance is strong" should be "above 75% standard but falling" (95→88).
+Major #2: "Six-month trend" uses six non-consecutive data points (Aug, Oct, Nov, Jan, Feb, Apr — gaps for Sep, Dec, Mar).
 
-Draft revised M053 wording and corrected band totals offered — DRAFT, REQUIRES HUMAN REVIEW.</div>
+Major #3: M053 says no verified national threshold — 75% six-week and 95% eighteen-week standards exist in NHS Talking Therapies publication.
 
-      <p><strong>User:</strong></p>
-      <div class="prompt-snippet">Can I publish this to the directorate huddle now?</div>
+Major #4: Trend column mixes "Falling" with "Finance sign-off required" — validation text belongs in a separate column.
 
-      <p><strong>Report Analysis Agent:</strong></p>
-      <div class="prompt-snippet">No. I cannot approve publication. Critical total error must be fixed. Pathway owner must confirm M053 definition. Report author and Performance Manager sign-off required. Status: Draft — pending named human sign-off.</div>
+Corrected band totals: M019–M021 = 5,870; M019–M022 = 6,780.</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>Report Analysis Agent (revised wording excerpt):</strong></p>
+          <div class="prompt-snippet">M053 — Six-week access (finished course): 88% (Apr 2026).
+Standard: ≥75% six-week access (NHS Talking Therapies monthly statistics).
+Trend: Falling.
+Validation: Pathway / data-definition check required.
+Judgement: RDY remains above the 75% standard but has fallen from 95% at the start of the selected trend window.
 
-      <p class="info-box"><strong>Why this matters:</strong> This agent operationalises the <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> in practice — the same issue classes that drove the <a href="public-data/FINAL_REPORT_QA_SUMMARY.md">June 2026 public-data improvement pass</a>. See the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> for the post-fix outcome. For source-scope patterns (A&amp;E without ED), see the <a href="reports/public-urgent-diagnostics-check.html">urgent diagnostics brief</a>.</p>
+DRAFT — REQUIRES HUMAN REVIEW</div>
+        </div>
+        <div class="conversation-turn conversation-turn--user">
+          <p class="conversation-label"><strong>User:</strong></p>
+          <div class="prompt-snippet">Can I publish this to the directorate huddle now?</div>
+        </div>
+        <div class="conversation-turn conversation-turn--agent">
+          <p class="conversation-label"><strong>Report Analysis Agent:</strong></p>
+          <div class="prompt-snippet">No. I cannot approve publication.
+
+Blocking items: Critical #1 total error must be corrected; Major #2–#7 period wording, standards, trend columns and validation owners need fixing; human validation register remains open.
+
+Required sign-off: report author, Performance Manager or Business Partner, Talking Therapies pathway lead (M053/M055 definition). Status: Draft — pending named human sign-off.</div>
+        </div>
+      </div>
+
+      <p class="info-box"><strong>Why this matters:</strong> This agent operationalises report QA — catching arithmetic, definition, standard and trend errors before a draft is shared. It applies the <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> in practice; the same issue classes drove the <a href="public-data/FINAL_REPORT_QA_SUMMARY.md">June 2026 public-data improvement pass</a>. See the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> for the post-fix outcome.</p>
 
       <p><strong>Supporting files:</strong></p>
       <ul>
@@ -163,8 +220,11 @@ Draft revised M053 wording and corrected band totals offered — DRAFT, REQUIRES
         <li><a href="examples/report-analysis-agent-conversation.md">Read full conversation transcript &rarr;</a></li>
         <li><a href="reports/public-talking-therapies-profile.html">Corrected brief (after improvement pass)</a></li>
         <li><a href="public-data/processed/demo_talking_therapies.csv">Demo CSV source</a></li>
-        <li><a href="R/04_validate_public_reports.R">Post-render validation script</a></li>
+        <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">Final report QA summary</a></li>
+        <li><a href="R/04_validate_public_reports.R">Post-render validation script</a> (rendered HTML only)</li>
       </ul>
+    </section>
+
     </section>
 
     <section aria-labelledby="workflow">
@@ -223,8 +283,7 @@ Draft revised M053 wording and corrected band totals offered — DRAFT, REQUIRES
           <dt>Sign-off</dt>
           <dd>Performance Manager or Information Lead with MHSDS accountability.</dd>
         </dl>
-        <p><a href="agent-rules/mhsds-expert-agent.md">View rule file</a></p>
-        <div class="prompt-snippet">Review metric against published MHSDS definitions. Cite sources. Do not approve submission.</div>
+        <p><a href="agent-rules/mhsds-expert-agent.md">View rule file</a> · <a href="#mhsds-worked-example">See worked example above</a></p>
       </article>
 
       <article class="agent-card" aria-labelledby="agent-csds">
@@ -308,14 +367,13 @@ Draft revised M053 wording and corrected band totals offered — DRAFT, REQUIRES
         <p>Before a performance report leaves draft, runs structured pre-publication review: totals, periods, standards, trend columns, caveats, readability and revised wording — workflow step labelled Report QA.</p>
         <dl class="agent-meta">
           <dt>Outputs</dt>
-          <dd>Numbered findings (critical / major / minor) with evidence cites, draft revised wording, human validation register, publication refusal when asked.</dd>
+          <dd>Numbered findings with evidence, draft revised wording, human validation register.</dd>
           <dt>Must not</dt>
-          <dd>Approve reports for Board or external use, invent standards, remove caveats, or process patient-identifiable data.</dd>
+          <dd>Approve reports for publication or remove caveats.</dd>
           <dt>Sign-off</dt>
           <dd>Report author and Performance Manager resolve findings; IG/Safety gate still required.</dd>
         </dl>
-        <p><a href="agent-rules/report-analysis-agent.md">View rule file</a> · <a href="examples/report-analysis-agent-conversation.md">Worked example</a></p>
-        <div class="prompt-snippet">Review draft against approved sources. Cite evidence. Propose wording only. Do not approve publication.</div>
+        <p><a href="agent-rules/report-analysis-agent.md">View rule file</a> · <a href="#report-analysis-worked-example">See worked example above</a></p>
       </article>
 
       <article class="agent-card">
