@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worked example: Report Analysis Agent conversation — Joe Salmon demonstration site</title>
+  <meta name="description" content="Worked example: Report Analysis Agent conversation">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../examples/report-analysis-agent-conversation.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Worked example: Report Analysis Agent conversation</h1>
+<p><strong>Demonstration only.</strong> Synthetic flawed draft v0.3. Not an official Dorset HealthCare report or live Trust agent.</p>
+<h2>What this example shows</h2>
+<p>This is a <strong>curated worked example</strong> — not a verbatim chat transcript. It demonstrates how the Report Analysis Agent would review a flawed draft before publication: numbered findings with evidence cites, revised wording marked for human review, and refusal to approve.</p>
+<p>The findings are grounded in the <strong>June 2026 public-data improvement pass</strong> documented in <a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">FINAL_REPORT_QA_SUMMARY.md</a>. The flawed draft is fictional; the CSV figures, validation checks and corrected brief are real site artefacts.</p>
+<h2 id="evidence-chain">Evidence chain</h2>
+
+<h3>Agent rule and inputs</h3>
+<ul>
+<li><a href="../agent-rules/report-analysis-agent.html">Report Analysis and Improvement Agent rule</a></li>
+<li><a href="synthetic-draft-talking-therapies-flawed.html">Flawed draft input</a></li>
+<li><a href="../../reports/public-talking-therapies-profile.html">Corrected Talking Therapies brief (after improvement pass)</a></li>
+</ul>
+<h3>Evidence data</h3>
+<ul>
+<li><a href="../../public-data/processed/demo_talking_therapies.csv">Demo CSV — RDY Talking Therapies extract</a> — source for M019–M022, M053, M055 figures cited below</li>
+<li><a href="../../public-data/processed/trend_talking_therapies_rdy.csv">Trend CSV — RDY Talking Therapies time series</a> — chronological trend data used in corrected brief</li>
+</ul>
+<h3>Checks and scripts</h3>
+<ul>
+<li><a href="../../R/04_validate_public_reports.R">Post-render validation script</a> — <a href="../../R/04_validate_public_reports.R"><code>check_tt_wait_totals</code></a>, <a href="../../R/04_validate_public_reports.R"><code>check_kfe_trend_column</code></a>, <a href="../../R/04_validate_public_reports.R"><code>check_required_sections</code></a> (applied to rendered HTML briefs)</li>
+<li><a href="../../R/03_render_public_reports.R">Report render pipeline</a> — generates corrected <code>public-*.html</code> briefs</li>
+</ul>
+<h3>Improvement pass / audit trail</h3>
+<ul>
+<li><a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">Final report QA summary</a> — June 2026 improvement pass acceptance criteria</li>
+<li><a href="../public-data/PUBLIC_REPORTS_METHOD.html">Public reports method</a> — KFE column model and validation usage</li>
+</ul>
+<hr />
+<h2>Turn 1 — Please review this draft</h2>
+<p><strong>User:</strong></p>
+<p>I've drafted a Talking Therapies access brief for our directorate huddle. Please review this draft against approved public sources and tell me what needs fixing before I share it.</p>
+<p>Attached: <a href="synthetic-draft-talking-therapies-flawed.html">synthetic-draft-talking-therapies-flawed.md</a></p>
+<p><strong>Report Analysis Agent:</strong></p>
+<h2>Review summary</h2>
+<ul>
+<li><strong>Report:</strong> IAPT six-month access brief — author draft v0.3</li>
+<li><strong>Classification:</strong> public aggregate (Provider / RDY demo extract)</li>
+<li><strong>Reviewed against:</strong> report-analysis-agent.md v1.0</li>
+<li><strong>Demonstration only</strong> — not a live Trust agent</li>
+</ul>
+<p>I reviewed the draft against <a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> and the NHS Talking Therapies publication standards referenced in the corrected site brief. Below are numbered findings with evidence. I have <strong>not</strong> approved this draft for publication.</p>
+<h2>Findings</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Severity</th>
+<th>Step</th>
+<th>Finding</th>
+<th>Evidence</th>
+<th>Type</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Critical</td>
+<td>4</td>
+<td>KFE row labels <strong>M019–M022 total: 5,870</strong> but four-band sum is <strong>6,780</strong></td>
+<td>Draft KFE vs <a href="../../public-data/processed/demo_talking_therapies.csv">CSV</a>: M019=4705, M020=705, M021=460, M022=910 → 5870+910=6780. Would fail <a href="../../R/04_validate_public_reports.R"><code>check_tt_wait_totals</code></a>.</td>
+<td>Fact</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Major</td>
+<td>3</td>
+<td><strong>“Six-month trend”</strong> for Aug 2025–Apr 2026 uses <strong>six non-consecutive</strong> data points (gaps: no Sep, Dec, Mar)</td>
+<td>Draft trend note lists Aug, Oct, Nov, Jan, Feb, Apr only; <a href="../../public-data/processed/trend_talking_therapies_rdy.csv">trend CSV</a> has gaps</td>
+<td>Fact</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Major</td>
+<td>5</td>
+<td>M053 says <strong>no verified national threshold</strong> — <strong>75% six-week</strong> and <strong>95% eighteen-week</strong> standards exist in NHS Digital publication</td>
+<td>Standard not in extract row alone; documented in national Talking Therapies statistics; fixed in <a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> criterion M053</td>
+<td>Interpretation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Major</td>
+<td>7–8</td>
+<td><strong>Trend column mixes</strong> “Falling” with “Finance sign-off required”</td>
+<td>Violates KFE model; would fail <a href="../../R/04_validate_public_reports.R"><code>check_kfe_trend_column</code></a></td>
+<td>Fact</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Major</td>
+<td>9</td>
+<td>Judgement <strong>“Performance is strong”</strong> misses <strong>above 75% standard but falling</strong> (95→88 in window)</td>
+<td>Draft trend note + M053=88% vs 75% standard</td>
+<td>Interpretation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Major</td>
+<td>2, 8</td>
+<td><strong>Finance check</strong> on M053 access metric — wrong owner; should be <strong>pathway / data-definition</strong></td>
+<td>Generic finance wording copied from finance reports</td>
+<td>Recommendation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Major</td>
+<td>1</td>
+<td>Title uses legacy <strong>“IAPT”</strong> and <strong>“six-month”</strong> — national name is <strong>NHS Talking Therapies</strong>; period is six data points not six consecutive months</td>
+<td>Draft title vs Apr 2026 publication naming</td>
+<td>Recommendation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Minor</td>
+<td>9</td>
+<td><strong>Self-referrals (M002=1,370, ~76% of M001=1,815)</strong> buried in audit — material demand-route insight</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> M001, M002 rows</td>
+<td>Interpretation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Minor</td>
+<td>5, 9</td>
+<td>No <strong>18-week access (M055=99%)</strong> or signpost that complete access view needs both standards</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">CSV</a> M055 row present; draft omits</td>
+<td>Recommendation</td>
+<td>confirmed</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Minor</td>
+<td>9</td>
+<td>No <strong>bottom-line</strong> paragraph for non-technical reader; no <strong>Provider/RDY scope</strong> badge</td>
+<td>Would fail <a href="../../R/04_validate_public_reports.R"><code>check_required_sections</code></a> on rendered briefs</td>
+<td>Recommendation</td>
+<td>confirmed</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Turn 2 — Revised wording (excerpt)</h2>
+<p><strong>Report Analysis Agent:</strong></p>
+<h3>M053 — Six-week access (draft KFE row)</h3>
+<blockquote>
+<p><strong>M053 — Six-week access (finished course):</strong> 88% (Apr 2026).<br />
+<strong>Standard:</strong> ≥75% six-week access (NHS Talking Therapies monthly statistics — access standards; published April 2026; confidence: confirmed).<br />
+<strong>Trend:</strong> Falling.<br />
+<strong>Validation:</strong> Pathway / data-definition check required.<br />
+<strong>Judgement:</strong> RDY remains above the 75% six-week access standard but has fallen from 95% at the start of the selected trend window — pathway review needed before breach risk.<br />
+<strong>Human check:</strong> Talking Therapies pathway lead to confirm enter-treatment definition alignment.</p>
+</blockquote>
+<p><code>DRAFT — REQUIRES HUMAN REVIEW</code></p>
+<h3>M019–M022 waiting bands (draft KFE row)</h3>
+<blockquote>
+<p><strong>Latest:</strong> M019–M021: <strong>5,870</strong>; M019–M022: <strong>6,780</strong> (Apr 2026).<br />
+<strong>Judgement:</strong> 910 open referrals with no activity over 120 days (M022) — key pathway risk signal.<br />
+<strong>Human check:</strong> Pathway owner to confirm how “no activity” is coded vs local waiting list.</p>
+</blockquote>
+<h3>Suggested headline (draft)</h3>
+<blockquote>
+<p>Six-week access remains above the 75% national standard at 88%, but the selected trend window shows a falling pattern. Self-referrals account for most referrals (M002: 1,370 of 1,815). Open-referral waiting-band totals need pathway-owner validation — use both M019–M021 and M019–M022 totals.</p>
+</blockquote>
+<h3>Suggested period caption</h3>
+<blockquote>
+<p><strong>Period:</strong> Six available monthly data points: Aug 2025 – Apr 2026 (non-consecutive months in extract).</p>
+</blockquote>
+<hr />
+<h2>Turn 3 — Human validation register</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Owner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Correct M019–M022 totals and band labels</td>
+<td>Report author</td>
+<td>pending</td>
+</tr>
+<tr>
+<td>Confirm M053 / M055 denominators and local enter-treatment tracking</td>
+<td>Talking Therapies pathway lead</td>
+<td>needs owner confirmation</td>
+</tr>
+<tr>
+<td>Confirm suppression handling (36/200 rows)</td>
+<td>Information Lead</td>
+<td>conditional</td>
+</tr>
+<tr>
+<td>Apply period caption and NHS Talking Therapies naming</td>
+<td>Report author</td>
+<td>pending</td>
+</tr>
+</tbody>
+</table></div>
+<h2>IG / Safety handoff</h2>
+<p><strong>Recommendation: PASS</strong> (for this public aggregate demo — no PID detected, no unpublished internal documents cited).</p>
+<p>Escalate to IG/Safety Agent if draft is later combined with unpublished internal data or disclosive small numbers.</p>
+<hr />
+<h2>Turn 4 — Can I publish this now?</h2>
+<p><strong>User:</strong></p>
+<p>Can I publish this to the directorate huddle now?</p>
+<p><strong>Report Analysis Agent:</strong></p>
+<p><strong>No.</strong> I cannot approve publication.</p>
+<p><strong>Blocking items:</strong></p>
+<ol>
+<li><strong>Critical #1</strong> — waiting-band total error must be corrected and verified against <a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> (M019–M021 = 5,870; M019–M022 = 6,780).</li>
+<li><strong>Major #2–#7</strong> — period wording, standards, trend/validation columns, judgement, title and validation owners need fixing.</li>
+<li><strong>Human validation register</strong> — all items remain open.</li>
+</ol>
+<p><strong>Required sign-off before any share:</strong></p>
+<ul>
+<li>Report author (apply corrections)</li>
+<li>Performance Manager or Business &amp; Performance Business Partner (review findings)</li>
+<li>Talking Therapies pathway lead (M053/M055 definition confirmation)</li>
+<li>IG / Safety Agent PASS if workflow includes unpublished material (not required for this public demo only)</li>
+</ul>
+<p><strong>Status label:</strong> Draft — pending named human sign-off.</p>
+<p>I can help you apply the draft wording above; I cannot clear this brief for operational use.</p>
+<hr />
+<h2>Closing summary</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td>Flawed draft v0.3 (<a href="synthetic-draft-talking-therapies-flawed.html">synthetic-draft-talking-therapies-flawed.md</a>)</td>
+</tr>
+<tr>
+<td>Critical finding</td>
+<td>M019–M022 total mislabelled (5,870 vs 6,780)</td>
+</tr>
+<tr>
+<td>Script checks</td>
+<td>Would fail <a href="../../R/04_validate_public_reports.R"><code>check_tt_wait_totals</code></a>, <a href="../../R/04_validate_public_reports.R"><code>check_kfe_trend_column</code></a>, <a href="../../R/04_validate_public_reports.R"><code>check_required_sections</code></a></td>
+</tr>
+<tr>
+<td>After reference</td>
+<td><a href="../../reports/public-talking-therapies-profile.html">Corrected brief</a> from June 2026 improvement pass</td>
+</tr>
+<tr>
+<td>Publication</td>
+<td><strong>Not approved</strong> — human sign-off required</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Finding-to-evidence map</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Finding (short)</th>
+<th>Evidence file</th>
+<th>Validation / QA reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>M019–M022 total error</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> M019–M022 rows</td>
+<td><a href="../../R/04_validate_public_reports.R"><code>check_tt_wait_totals</code></a>; <a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> TT totals criterion</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Non-consecutive trend period</td>
+<td><a href="../../public-data/processed/trend_talking_therapies_rdy.csv">trend_talking_therapies_rdy.csv</a></td>
+<td><a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> period captions</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Missing 75% / 18-week standards</td>
+<td>National publication (see corrected brief)</td>
+<td><a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> M053 criterion</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Trend column mixes validation text</td>
+<td>Flawed draft KFE table</td>
+<td><a href="../../R/04_validate_public_reports.R"><code>check_kfe_trend_column</code></a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Weak judgement on falling access</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> M053</td>
+<td><a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> falling judgement criterion</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Wrong validation owner</td>
+<td>Flawed draft KFE table</td>
+<td>Agent rule step 8</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Legacy IAPT / six-month wording</td>
+<td>Flawed draft title</td>
+<td><a href="../public-data/PUBLIC_REPORTS_METHOD.html">PUBLIC_REPORTS_METHOD.md</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Buried self-referral insight</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> M001, M002</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Missing M055 18-week standard</td>
+<td><a href="../../public-data/processed/demo_talking_therapies.csv">demo_talking_therapies.csv</a> M055</td>
+<td><a href="../public-data/FINAL_REPORT_QA_SUMMARY.html">QA summary</a> 18-week criterion</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Missing bottom line / scope badge</td>
+<td>Flawed draft structure</td>
+<td><a href="../../R/04_validate_public_reports.R"><code>check_required_sections</code></a></td>
+</tr>
+</tbody>
+</table></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

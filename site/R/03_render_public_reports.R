@@ -414,9 +414,9 @@ nof_audit_verify_body <- function(audit_df, raw_display_path, raw_url) {
     '<ul class="nhs-list-compact">',
     '<li><a href="../public-data/processed/demo_nof_overview.csv">demo_nof_overview.csv</a> (truncated convenience sample)</li>',
     '<li><a href="../public-data/metadata/public_report_audit_nof_overview.csv">public_report_audit_nof_overview.csv</a></li>',
-    '<li><a href="../public-data/metadata/public_report_audit_nof_overview.md">public_report_audit_nof_overview.md</a></li>',
+    '<li><a href="../docs-html/public-data/metadata/public_report_audit_nof_overview.html">public_report_audit_nof_overview.md</a></li>',
     '<li><a href="../public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a></li>',
-    '<li><a href="../public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a></li>',
+    '<li><a href="../docs-html/public-data/PUBLIC_REPORTS_METHOD.html">PUBLIC_REPORTS_METHOD.md</a></li>',
     '<li><a href="../governance-and-benefits.html">Governance and benefits</a></li>',
     '</ul>',
     '<p><strong>Raw source file</strong> (not linked — large file): <code>', esc(raw_display_path), '</code></p>',
@@ -452,7 +452,7 @@ traceability_verify_body <- function(intro, demo_files, filter_note_ids, inspect
     '<p><strong>Filter / inspection notes:</strong></p><ul class="nhs-list-compact">',
     paste(c(filter_items, inspect_items), collapse = ""), '</ul>',
     '<p><strong>Method documentation:</strong> ',
-    '<a href="../public-data/PUBLIC_REPORTS_METHOD.md">PUBLIC_REPORTS_METHOD.md</a> · ',
+    '<a href="../docs-html/public-data/PUBLIC_REPORTS_METHOD.html">PUBLIC_REPORTS_METHOD.md</a> · ',
     '<a href="../public-data/DATA_SOURCE_REGISTER.csv">DATA_SOURCE_REGISTER.csv</a> · ',
     '<a href="../governance-and-benefits.html">Governance and benefits</a></p>',
     '</div>'
@@ -800,7 +800,7 @@ verify_intro_short <- function(demo_link_html = "", trace_sentence = NULL) {
     '<ul class="nhs-list-compact">',
     if (nzchar(demo_link_html)) demo_link_html else "",
     '<li><a href="../public-data/DATA_SOURCE_REGISTER.csv">Source register</a></li>',
-    '<li><a href="../public-data/PUBLIC_REPORTS_METHOD.md">Method document</a></li>',
+    '<li><a href="../docs-html/public-data/PUBLIC_REPORTS_METHOD.html">Method document</a></li>',
     '</ul>'
   )
 }
@@ -2400,7 +2400,7 @@ write_public_report <- function(filename, title, subtitle, body) {
     '<a href="#main-content" class="skip-link">Skip to main content</a>',
     '<div class="nhs-report-nav"><a href="../draft-reports.html">&larr; All reports</a>',
     '<a href="../agent-operating-model.html">Agent operating model</a>',
-    '<a href="../public-data/PUBLIC_REPORTS_METHOD.md">Report method</a></div>',
+    '<a href="../docs-html/public-data/PUBLIC_REPORTS_METHOD.html">Report method</a></div>',
     '<header class="nhs-report-header"><p class="report-meta">', REPORT_BADGE_META, '</p>',
     '<h1>', esc(title), '</h1><p class="report-meta">', esc(subtitle), '</p></header>',
     '<main id="main-content" class="nhs-report-main">',
@@ -2690,7 +2690,7 @@ build_performance_overview <- function() {
       paste0(
         '<li><a href="../public-data/processed/demo_nof_overview.csv">demo_nof_overview.csv</a></li>',
         '<li><a href="../public-data/metadata/public_report_audit_nof_overview.csv">Audit CSV</a></li>',
-        '<li><a href="../public-data/metadata/public_report_audit_nof_overview.md">Audit MD</a></li>'
+        '<li><a href="../docs-html/public-data/metadata/public_report_audit_nof_overview.html">Audit MD</a></li>'
       ),
       "Each ranked metric traces to the NHS England NOF file via the audit CSV — median and rank are pass-through fields, not recalculated."
     )

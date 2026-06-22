@@ -1,6 +1,6 @@
 # Cloudflare Pages Deployment
 
-This site is a **static** HTML/CSS/JavaScript microsite. The deployable folder is `/site`. No build step, backend, or environment variables are required.
+This site is a **static** HTML/CSS/JavaScript microsite. The deployable folder is `/site`. A lightweight Python build step renders allow-listed Markdown documentation to HTML before deploy.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ Best for a quick demonstration without Git integration.
    - Cloudflare will deploy and provide a `*.pages.dev` URL
 
 4. **Settings**
-   - **Build command:** none (leave empty)
+   - **Build command:** `pip install -r requirements.txt && python3 tools/render_markdown_docs.py` (for Direct Upload, run locally before zipping)
    - **Build output directory:** `/` (root of upload)
    - **Environment variables:** none required
 
@@ -73,7 +73,7 @@ Best for version control and automatic redeployment on push.
    |---------|-------|
    | Production branch | `main` (or your default branch) |
    | Root directory | `/` (repo root) |
-   | Build command | *(leave empty)* or `exit 0` |
+   | Build command | `pip install -r requirements.txt && python3 tools/render_markdown_docs.py` |
    | Build output directory | `site` |
 
    Cloudflare Pages has a **25 MiB per-file limit**. Large raw NHS downloads must not be committed to Git (see `.gitignore`).
@@ -126,9 +126,12 @@ done
 # Must print nothing — this is the deploy safety check
 ```
 
-**Regenerate before deploy if data changed:**
+**Regenerate before deploy if data or documentation changed:**
 
 ```bash
+pip install -r requirements.txt
+python3 tools/render_markdown_docs.py
+
 cd site/R
 Rscript 01_generate_synthetic_data.R
 Rscript 03_sync_mandatory_register_html.R

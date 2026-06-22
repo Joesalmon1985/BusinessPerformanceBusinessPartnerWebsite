@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADF-style pipeline overview (demonstration specification) — Joe Salmon demonstration site</title>
+  <meta name="description" content="ADF-style pipeline overview (demonstration specification)">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/pipelines/pipeline_overview.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>ADF-style pipeline overview (demonstration specification)</h1>
+<blockquote>
+<p><strong>Not deployed.</strong> Fictional linked services and datasets for Demo Rivers Health warehouse demo.</p>
+</blockquote>
+<h2>Orchestration</h2>
+<pre><code class="language-mermaid">flowchart LR
+    pl1[pl_ingest_source_csv] --&gt; pl2[pl_stage_and_conform]
+    pl2 --&gt; pl3[pl_load_dwh_facts]
+    pl3 --&gt; pl4[pl_refresh_marts]
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Pipeline</th>
+<th>Schedule</th>
+<th>Depends on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pl_ingest_source_csv</code></td>
+<td>Daily 02:30 UTC</td>
+<td>Source CSV drop</td>
+</tr>
+<tr>
+<td><code>pl_stage_and_conform</code></td>
+<td>Daily 03:00 UTC</td>
+<td>Ingest complete</td>
+</tr>
+<tr>
+<td><code>pl_load_dwh_facts</code></td>
+<td>Daily 03:30 UTC</td>
+<td>Staging DQ pass</td>
+</tr>
+<tr>
+<td><code>pl_refresh_marts</code></td>
+<td>Daily 04:00 UTC</td>
+<td>Facts loaded</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Linked services (fictional)</h2>
+<ul>
+<li><code>ls_demo_blob</code> — Azure Blob <code>demorivers-src</code> / <code>source-data/</code></li>
+<li><code>ls_demo_sql</code> — Azure SQL <code>DemoRiversDWH</code> (demo server placeholder)</li>
+<li><code>ls_demo_keyvault</code> — Key Vault placeholder (no real secrets)</li>
+</ul>
+<h2>DQ gates between activities</h2>
+<ol>
+<li>Row count vs <code>source_manifest.csv</code> tolerance ±0%</li>
+<li>Referential integrity contact→case (warn not fail)</li>
+<li><code>date_boundary_mismatch_flag</code> summary logged</li>
+<li>Extract change log join for reporting month</li>
+</ol>
+<p>See JSON specs in this folder and <a href="../../../warehouse-demo/pipelines/pipeline_parameters.md"><code>pipeline_parameters.md</code></a>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

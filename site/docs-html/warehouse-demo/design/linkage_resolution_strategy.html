@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linkage resolution strategy — Joe Salmon demonstration site</title>
+  <meta name="description" content="Linkage resolution strategy">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/design/linkage_resolution_strategy.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Linkage resolution strategy</h1>
+<p>Based on <code>linkage_analysis.csv</code> and profiling report section 4.</p>
+<h2>DIRECT_CARECASE</h2>
+<ul>
+<li>Use <code>CareCaseCaseId</code> on contact when valid in <code>carecase_cases</code> (referential integrity pass).</li>
+<li>Populate <code>FactCareCase.SourceContactKey</code> from <code>SourceContactId</code> when present.</li>
+<li>Orphan IDs (47): load contact fact with <code>orphan_case_id_flag=1</code>; do not join to case.</li>
+</ul>
+<h2>DIRECT_LEGENDARY</h2>
+<ul>
+<li>Use <code>LegendaryCareReferralId</code> / <code>LegendaryCareEncounterId</code> on contact when populated.</li>
+<li>Facts load independently; optional link via <code>SourceCareCallContactId</code> on referral when present.</li>
+</ul>
+<h2>INFERRED_MATCH</h2>
+<p><strong>Do not auto-promote to direct FK in facts.</strong></p>
+<ol>
+<li>Staging identifies candidate pairs: same <code>PatientPseudoId</code>, case <code>OpenedDateTime</code> within ±24h of <code>ContactDateTime</code>, no direct IDs.</li>
+<li>Insert into <code>BridgeCareCallInferredCase</code> with <code>inference_rule_id</code>, <code>confidence_score</code> (demo: fixed 0.75).</li>
+<li>Mart measures: report <strong>direct</strong> and <strong>inferred</strong> linkage counts separately.</li>
+</ol>
+<h2>AMBIGUOUS</h2>
+<ol>
+<li>Parse <code>AmbiguousMatchIds</code> (pipe-delimited) into <code>BridgeCareCallReferralCandidate</code> — one row per candidate.</li>
+<li>No default winner; reporting uses primary candidate only after human mapping table (future) or highest <code>ReferralDateTime</code> proximity (documented assumption).</li>
+</ol>
+<h2>CALLBACK_DUPLICATE</h2>
+<ul>
+<li>Preserve <code>CallbackOfContactId</code> on <code>FactCareCallContact</code>.</li>
+<li>Dedup policy for marts: <strong>count all contacts</strong> vs <strong>count distinct patient-day</strong> — human decision (see review pack).</li>
+</ul>
+<h2>NO_CASE</h2>
+<ul>
+<li>No bridge rows; contact fact only.</li>
+</ul>
+<h2>CareCase without SourceContactId</h2>
+<ul>
+<li>Load <code>FactCareCase</code> with null contact key.</li>
+<li>Set <code>is_extract_inclusion_case</code> from staging.</li>
+<li>Operational IUCS conversion metrics exclude these unless reviewer approves inclusion rule.</li>
+</ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

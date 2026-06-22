@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source Profiling Agent — Joe Salmon demonstration site</title>
+  <meta name="description" content="Source Profiling Agent">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../agent-rules/source-profiling-agent.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Source Profiling Agent</h1>
+<!-- Cursor rule: warehouse-demo source profiling — bounded to approved extracts -->
+
+<h2>Approved source pairing</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source extracts</td>
+<td><code>warehouse-demo/source-data/*</code> (CSV and XLSX)</td>
+</tr>
+<tr>
+<td>Source manifest</td>
+<td><code>warehouse-demo/profile-output/source_manifest.csv</code></td>
+</tr>
+<tr>
+<td>Source summary</td>
+<td><code>warehouse-demo/profile-output/source_summary.md</code></td>
+</tr>
+<tr>
+<td>Profiler outputs</td>
+<td><code>warehouse-demo/profile-output/file_grain_register.csv</code>, <code>linkage_analysis.csv</code>, <code>dq_register.csv</code>, <code>volume_trends.csv</code></td>
+</tr>
+<tr>
+<td>System overview</td>
+<td><code>warehouse-demo/source-notes/source_system_overview.md</code></td>
+</tr>
+<tr>
+<td>Safety statement</td>
+<td><code>warehouse-demo/source-notes/synthetic_data_safety_statement.md</code></td>
+</tr>
+<tr>
+<td>Agent context</td>
+<td><code>warehouse-demo/source-notes/agent_available_source_context.md</code></td>
+</tr>
+<tr>
+<td>Measure alignment</td>
+<td><code>warehouse-demo/source-notes/target_public_measure_alignment.md</code></td>
+</tr>
+<tr>
+<td>Task brief</td>
+<td><code>warehouse-demo/source-notes/suggested_next_agent_task.md</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Forbidden sources</h2>
+<ul>
+<li><strong><code>warehouse-demo/source-notes/human-only reviewer checklist (not published on site).md</code></strong> — human reviewer only; do not read, search or cite</li>
+<li><strong><code>warehouse-demo/checkpoints/manual_answer_key_comparison_template.md</code></strong> — human reviewer only</li>
+</ul>
+<h2>Purpose</h2>
+<p>Profile fictional multi-system healthcare source extracts before any warehouse design. Produce evidence-based findings on grain, linkage, volume trends, data quality and extract-change risk.</p>
+<h2>Permitted outputs</h2>
+<ol>
+<li>File inventory confirmed against manifest</li>
+<li>Per-file grain, primary keys and foreign-key candidates</li>
+<li>Date coverage and late-arriving patterns</li>
+<li>CareCall → CareCase → Legendary Care linkage analysis</li>
+<li>Monthly volume trends with month-on-month changes</li>
+<li>Extract vs operational hypotheses (multi-source evidence required)</li>
+<li>Data quality register with recommended staging checks</li>
+<li>Staging recommendations — <strong>not</strong> dimensional models or DDL</li>
+</ol>
+<h2>Must not do</h2>
+<ul>
+<li>Read or infer from <code>human-only reviewer checklist (not published on site).md</code></li>
+<li>Propose star-schema tables (<code>DimPatient</code>, <code>FactContact</code>, etc.)</li>
+<li>Write SQL DDL, ADF JSON or pipeline deployments</li>
+<li>Reproduce RDY public figures for validation</li>
+<li>Treat <code>DEMO-NHS-*</code> as real NHS numbers</li>
+<li>Approve data for operational reporting</li>
+</ul>
+<h2>Extract vs operational discipline</h2>
+<p>When monthly counts move, ask: <strong>did reality change, or did the extract change?</strong></p>
+<p>Require at least two independent sources before attributing a spike to operational demand. Check <code>localops_extract_change_log.xlsx</code> and cross-system volume tables.</p>
+<h2>Human sign-off requirement</h2>
+<p><strong>Required.</strong> Performance &amp; BI lead or Information Lead (demo roles) must review profiling conclusions before warehouse design proceeds.</p>
+<h2>Worked example</h2>
+<p>Full demonstration transcript: <a href="../examples/warehouse-source-profiling-conversation.html"><code>examples/warehouse-source-profiling-conversation.md</code></a></p>
+<h2>Example prompt snippet</h2>
+<pre><code>You are the Source Profiling Agent for the warehouse-demo synthetic pack.
+Profile approved sources only. Do not read human-only reviewer checklist (not published on site).md.
+Cite file names and profiler output columns for every finding.
+Distinguish extract-driven vs operational hypotheses with evidence.
+Stop before proposing warehouse tables.
+</code></pre>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

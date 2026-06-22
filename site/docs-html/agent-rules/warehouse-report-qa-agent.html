@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse report QA — agent addendum — Joe Salmon demonstration site</title>
+  <meta name="description" content="Warehouse report QA — agent addendum">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../agent-rules/warehouse-report-qa-agent.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Warehouse report QA — agent addendum</h1>
+<p>Extends <a href="report-analysis-agent.html">report-analysis-agent.md</a> for warehouse-demo urgent care briefs.</p>
+<h2>Additional checks</h2>
+<ol>
+<li><strong>Extract vs operational</strong> — If case counts rise without IUCS corroboration, check <code>localops_extract_change_log.xlsx</code> and <code>volume_trends.csv</code> <code>CasesWithoutSourceContactId</code>.</li>
+<li><strong>Stock vs activity</strong> — IUCS contacts are activity; open referrals are stock; do not conflate in narrative.</li>
+<li><strong>Operational case filter</strong> — Use <code>OperationalCaseOpenedCount</code> not raw <code>CaseOpenedCount</code> when <code>ExtractInclusionFlag</code> cases present.</li>
+<li><strong>Synthetic caveat</strong> — All DRH figures are <code>_synthetic=TRUE</code>; not RDY-calibrated.</li>
+<li><strong>Evidence sources</strong> — <code>profile-output/source_profiling_report.md</code>, <code>volume_trends.csv</code>, <code>demo_provider_month_measures.csv</code> only.</li>
+</ol>
+<h2>Forbidden</h2>
+<ul>
+<li><code>human-only reviewer checklist (not published on site).md</code></li>
+</ul>
+<h2>Worked example</h2>
+<p><a href="../examples/warehouse-report-qa-conversation.html">warehouse-report-qa-conversation.md</a></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

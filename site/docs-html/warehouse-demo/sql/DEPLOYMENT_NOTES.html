@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deployment notes (demonstration only) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Deployment notes (demonstration only)">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/sql/DEPLOYMENT_NOTES.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Deployment notes (demonstration only)</h1>
+<h2>Scope</h2>
+<p>These scripts are <strong>specification artefacts</strong> for the warehouse-demo worked example. They are syntactically plausible Azure SQL but:</p>
+<ul>
+<li><strong>Not executed</strong> against a live Azure SQL database in the generation session unless a local SQL Server instance is available</li>
+<li><strong>No Azure subscription</strong>, credentials, Key Vault secrets or ADF workspace required</li>
+<li><strong>Not for production</strong> use</li>
+</ul>
+<h2>What was not executed locally</h2>
+<p>If no SQL Server / Azure SQL endpoint was available during generation:</p>
+<ul>
+<li><code>CREATE DATABASE</code> and table DDL were not validated by execution</li>
+<li><code>load/load_from_csv.py</code> was run in <code>--dry-run</code> mode only (row counts printed, no INSERT)</li>
+<li>QA views were not materialised</li>
+</ul>
+<p>Re-validate in Azure Data Studio or <code>sqlcmd</code> before citing in live environments.</p>
+<h2>IG</h2>
+<ul>
+<li>Source data is synthetic (<code>DEMO-NHS-*</code> identifiers)</li>
+<li>Do not load real patient or staff data into these objects</li>
+</ul>
+<h2>Post-load verification</h2>
+<p>Compare row counts to <a href="EXPECTED_SYNTHETIC_LOAD_COUNTS.html"><code>EXPECTED_SYNTHETIC_LOAD_COUNTS.md</code></a>.</p>
+<p>Query <code>qa.MonthlyContactCaseTrend</code> — expect March 2026 case opens elevated vs IUCS contacts (profiling pattern).</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

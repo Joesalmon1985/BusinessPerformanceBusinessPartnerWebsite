@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse demo — synthetic source-data pack — Joe Salmon demonstration site</title>
+  <meta name="description" content="Warehouse demo — synthetic source-data pack">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../warehouse-demo/README.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Warehouse demo — synthetic source-data pack</h1>
+<p>Demonstration-only fictional source-system extracts for an agentic warehouse-design worked example.</p>
+<h2>Runs</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Focus</th>
+<th>Command / location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Source data</td>
+<td><code>generator/create_synthetic_source_data.py</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Source profiling</td>
+<td><code>profiler/profile_sources.py</code></td>
+</tr>
+<tr>
+<td>3–5</td>
+<td>Design, SQL, ADF, reporting</td>
+<td>See <a href="source-notes/demo_run_index.html"><code>source-notes/demo_run_index.md</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Regenerate source data (Run 1)</h2>
+<pre><code class="language-bash">cd site/warehouse-demo/generator
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python create_synthetic_source_data.py
+</code></pre>
+<h2>Run source profiler (Run 2)</h2>
+<pre><code class="language-bash">cd site/warehouse-demo/profiler
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python profile_sources.py
+</code></pre>
+<h2>End-to-end (Runs 1–5)</h2>
+<pre><code class="language-bash"># Run 1 — source data
+cd site/warehouse-demo/generator &amp;&amp; python create_synthetic_source_data.py
+
+# Run 2 — profile
+cd site/warehouse-demo/profiler &amp;&amp; python profile_sources.py
+
+# Run 5 — mart measures (offline equivalent of ADF mart refresh)
+cd site/warehouse-demo/generator &amp;&amp; python build_provider_month_measures.py
+</code></pre>
+<p>SQL artefacts: <a href="sql/README.html"><code>sql/README.md</code></a> · Pipelines: <a href="pipelines/pipeline_overview.html"><code>pipelines/pipeline_overview.md</code></a></p>
+<p>Corrected report: <a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html"><code>reports/urgent-care-provider-month-brief.html</code></a></p>
+<p><strong>Human reviewers only:</strong> <code>source-notes/human-only reviewer checklist (not published on site).md</code> (not for profiling agents).</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

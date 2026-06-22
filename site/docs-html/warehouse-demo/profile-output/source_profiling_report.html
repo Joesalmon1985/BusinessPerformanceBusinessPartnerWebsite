@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source profiling report (demonstration draft) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Source profiling report (demonstration draft)">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/profile-output/source_profiling_report.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Source profiling report (demonstration draft)</h1>
+<blockquote>
+<p><strong>Synthetic demonstration only.</strong> Profile of fictional Demo Rivers Health (DRH) source extracts. Pending human review before warehouse design.</p>
+</blockquote>
+<p><strong>Prepared by:</strong> Source Profiling Agent (worked example)<br />
+<strong>Inputs:</strong> <code>source-data/*</code>, <code>source_manifest.csv</code>, profiler outputs (<code>file_grain_register.csv</code>, <code>volume_trends.csv</code>, <code>linkage_analysis.csv</code>, <code>dq_register.csv</code>), <code>localops_extract_change_log.xlsx</code><br />
+<strong>Period:</strong> September 2025 – May 2026</p>
+<hr />
+<h2>1. Inventory</h2>
+<p>All 19 files in <code>source_manifest.csv</code> are present under <code>source-data/</code>. Row counts match manifest for all CSV extracts (see <code>file_grain_register.csv</code>, <code>RowCountMatch=TRUE</code>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>System</th>
+<th>Files</th>
+<th>Total rows (approx.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CareCall</td>
+<td>2</td>
+<td>103,726</td>
+</tr>
+<tr>
+<td>CareCase</td>
+<td>3</td>
+<td>28,744</td>
+</tr>
+<tr>
+<td>Legendary Care</td>
+<td>4</td>
+<td>33,396</td>
+</tr>
+<tr>
+<td>RosterFlow</td>
+<td>3</td>
+<td>41,176</td>
+</tr>
+<tr>
+<td>LedgerWise</td>
+<td>2</td>
+<td>7,365</td>
+</tr>
+<tr>
+<td>LocalOps</td>
+<td>5 spreadsheets</td>
+<td>163</td>
+</tr>
+</tbody>
+</table></div>
+<p>No unexpected gaps. XLSX extracts read successfully via profiler.</p>
+<hr />
+<h2>2. Grain and keys</h2>
+<p>See <code>file_grain_register.csv</code> for full register. Summary:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Grain</th>
+<th>Primary key</th>
+<th>Key foreign keys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>carecall_contacts.csv</code></td>
+<td>One row per contact</td>
+<td><code>ContactId</code></td>
+<td><code>CareCaseCaseId</code>, <code>LegendaryCareReferralId</code>, <code>PatientPseudoId</code></td>
+</tr>
+<tr>
+<td><code>carecase_cases.csv</code></td>
+<td>One row per case</td>
+<td><code>CaseId</code></td>
+<td><code>SourceContactId</code>, <code>PatientPseudoId</code></td>
+</tr>
+<tr>
+<td><code>legendary_care_referrals.csv</code></td>
+<td>One row per referral</td>
+<td><code>ReferralId</code></td>
+<td><code>PatientPseudoId</code>, <code>SourceCareCallContactId</code></td>
+</tr>
+<tr>
+<td><code>rosterflow_shifts.csv</code></td>
+<td>One row per shift</td>
+<td><code>ShiftId</code></td>
+<td><code>SyntheticStaffId</code></td>
+</tr>
+<tr>
+<td><code>ledgerwise_ledger.csv</code></td>
+<td>One row per posting</td>
+<td><code>LedgerLineId</code></td>
+<td><code>CostCentreCode</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>CareCaseCaseId</code> on contacts is not always a valid <code>CaseId</code> (47 orphan values per DQ003). Staging should not assume referential integrity without validation.</p>
+<hr />
+<h2>3. Date coverage</h2>
+<ul>
+<li>CareCall contacts: 2025-09-01 to 2026-05-31  </li>
+<li>CareCase cases opened: 2025-09-01 to 2026-06-01 (small number in 2026-06)  </li>
+<li>Reporting focus: nine calendar months Sep 2025 – May 2026</li>
+</ul>
+<p><strong>Date-boundary pattern (Dec 2025):</strong> 46 IUCS contacts have <code>ContactDate</code> one calendar day earlier than <code>CreatedDateTime</code> (DQ001). <code>localops_extract_change_log.xlsx</code> records a CareCall export schedule change on 2025-12-04 (batch window moved to 02:00 UTC). Staging should flag <code>date_boundary_mismatch</code> rather than deduplicating blindly.</p>
+<hr />
+<h2>4. Linkage analysis</h2>
+<p>From <code>linkage_analysis.csv</code>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>LinkageScenario</th>
+<th>Contacts</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NO_CASE</code></td>
+<td>16,376 (63%)</td>
+<td>Expected for non-IUCS and signposted contacts</td>
+</tr>
+<tr>
+<td><code>DIRECT_CARECASE</code></td>
+<td>4,754</td>
+<td><code>CareCaseCaseId</code> populated; most IDs valid in <code>carecase_cases</code></td>
+</tr>
+<tr>
+<td><code>DIRECT_LEGENDARY</code></td>
+<td>1,708</td>
+<td>Legendary referral/encounter IDs on contact</td>
+</tr>
+<tr>
+<td><code>INFERRED_MATCH</code></td>
+<td>1,250</td>
+<td>No direct ID; requires patient + time-window inference</td>
+</tr>
+<tr>
+<td><code>AMBIGUOUS</code></td>
+<td>1,016</td>
+<td><code>AmbiguousMatchIds</code> lists multiple candidates</td>
+</tr>
+<tr>
+<td><code>CALLBACK_DUPLICATE</code></td>
+<td>838</td>
+<td><code>CallbackOfContactId</code> populated</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Direct match quality:</strong> Orphan <code>CareCaseCaseId</code> (47 rows) and cases with <code>SourceContactId</code> not in <code>carecall_contacts</code> require DQ gates before fact loading.</p>
+<p><strong>Recommendation:</strong> Land linkage scenario code in staging; use bridge table for <code>AMBIGUOUS</code> and <code>INFERRED_MATCH</code>; do not force single match in ETL.</p>
+<hr />
+<h2>5. Volume trends</h2>
+<p>From <code>volume_trends.csv</code>:</p>
+<h3>CareCall IUCS (monthly)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Month</th>
+<th>IUCS</th>
+<th>MoM %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-09 – 11 (baseline)</td>
+<td>~1,263 avg</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2026-01</td>
+<td>1,592</td>
+<td>+22.4% vs prior month</td>
+</tr>
+<tr>
+<td>2026-02</td>
+<td>1,477</td>
+<td>-7.2%</td>
+</tr>
+<tr>
+<td>2026-03</td>
+<td>1,272</td>
+<td>-13.9%</td>
+</tr>
+</tbody>
+</table></div>
+<p>Jan–Feb 2026 show elevated IUCS vs Sep–Nov baseline (DQ007, DQ008). Feb also shows higher urgent-care bank shifts (219 vs ~190 prior months) and agency nursing spend on <code>CC-URG-401</code> (~£61k in Feb).</p>
+<h3>CareCase cases opened</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Month</th>
+<th>Cases opened</th>
+<th>Without SourceContactId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-02</td>
+<td>525</td>
+<td>123</td>
+</tr>
+<tr>
+<td>2026-03</td>
+<td><strong>542</strong></td>
+<td><strong>322</strong></td>
+</tr>
+<tr>
+<td>2026-04</td>
+<td>362</td>
+<td>151</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>March 2026 pattern:</strong> Case opens rise (+3% MoM) while IUCS contacts <strong>fall</strong> (-14% MoM). Cases without <code>SourceContactId</code> jump from 123 (Feb) to 322 (Mar) — majority of March increase.</p>
+<p><code>localops_extract_change_log.xlsx</code> (ChangeDate 2026-02-28, SystemName CareCase) records an inclusion rule change for <code>NightlyCaseExtract</code> effective from the March run. <strong>Hypothesis:</strong> March case increase may be extract-driven rather than front-door demand. Requires cross-source corroboration — CareCall IUCS does not support an operational surge in March.</p>
+<h3>Jan–Feb operational pattern (alternative hypothesis)</h3>
+<p>January–February show coordinated signals:</p>
+<ul>
+<li>IUCS contacts elevated vs baseline  </li>
+<li>Case opens elevated (461 Jan, 525 Feb) with most retaining <code>SourceContactId</code>  </li>
+<li>Urgent-care bank shifts elevated in Feb  </li>
+<li>Agency nursing spend present on urgent-care cost centre  </li>
+<li><code>localops_validation_notes.xlsx</code> references bank-holiday pressure and recovery plan (Feb 2026)</li>
+</ul>
+<p><strong>Hypothesis:</strong> Jan–Feb uplift may reflect genuine operational pressure, distinct from March pattern.</p>
+<hr />
+<h2>6. Extract vs reality</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>CareCall IUCS</th>
+<th>CareCase</th>
+<th>RosterFlow</th>
+<th>LedgerWise</th>
+<th>Extract log</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jan–Feb uplift</td>
+<td>Up</td>
+<td>Up (with source link)</td>
+<td>Bank shifts up</td>
+<td>Agency spend</td>
+<td>No CareCase rule change</td>
+</tr>
+<tr>
+<td>March case spike</td>
+<td><strong>Down</strong></td>
+<td>Up (many no source)</td>
+<td>Flat/down</td>
+<td>Flat</td>
+<td><strong>CareCase inclusion change</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Before attributing March cases to demand, rule out extract inclusion change.</p>
+<hr />
+<h2>7. Data quality register</h2>
+<p>See <code>dq_register.csv</code>. Priority items:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Severity</th>
+<th>Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DQ001</td>
+<td>High</td>
+<td>Dec 2025 date boundary mismatches (46)</td>
+</tr>
+<tr>
+<td>DQ002</td>
+<td>High</td>
+<td>Cases without SourceContactId (322 in Mar 2026)</td>
+</tr>
+<tr>
+<td>DQ003</td>
+<td>Medium</td>
+<td>Orphan CareCaseCaseId on contacts (47)</td>
+</tr>
+<tr>
+<td>DQ004</td>
+<td>Medium</td>
+<td>Expired LocalOps mappings still present (9)</td>
+</tr>
+<tr>
+<td>DQ005</td>
+<td>Low</td>
+<td>Ambiguous match rows (1,016)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>8. Staging recommendations</h2>
+<ol>
+<li><strong>Raw landing:</strong> One table per source file; preserve all columns including <code>LinkageScenario</code>, <code>ExtractInclusionFlag</code>, <code>ExtractBatchDate</code>.</li>
+<li><strong>DQ gates before facts:</strong> Referential integrity (contact↔case), date-boundary flag, mapping confidence tier from LocalOps.</li>
+<li><strong>Do not collapse ambiguous matches</strong> in staging — route to bridge/link table.</li>
+<li><strong>Month attribution:</strong> Use <code>ContactDate</code> and <code>CreatedDateTime</code> separately; document which drives reporting month for contacts affected by DQ001.</li>
+<li><strong>Extract metadata:</strong> Join volume QA to <code>localops_extract_change_log</code> by month and system.</li>
+</ol>
+<p><strong>Explicit non-goals for this pass:</strong> No dimensional model, no fact tables, no ADF pipelines.</p>
+<hr />
+<h2>Open questions for human reviewer</h2>
+<ol>
+<li>Which date column is authoritative for CareCall monthly reporting when DQ001 fires?  </li>
+<li>Should <code>ExtractInclusionFlag=1</code> cases be excluded from operational IUCS conversion metrics?  </li>
+<li>Confirm LocalOps mapping confidence rules for expired <code>ValidToDate</code> rows.  </li>
+<li>Is the March CareCase increase accepted as extract-driven pending data owner confirmation?</li>
+</ol>
+<p><strong>Status:</strong> Draft — pending Information Lead / Performance &amp; BI sign-off.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

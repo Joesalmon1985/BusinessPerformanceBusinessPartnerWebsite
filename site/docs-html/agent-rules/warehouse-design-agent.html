@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Design Agent — Joe Salmon demonstration site</title>
+  <meta name="description" content="Warehouse Design Agent">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../agent-rules/warehouse-design-agent.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Warehouse Design Agent</h1>
+<!-- Cursor rule: warehouse-demo conceptual design — no DDL or ADF -->
+
+<h2>Approved source pairing</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profiling report</td>
+<td><code>warehouse-demo/profile-output/source_profiling_report.md</code></td>
+</tr>
+<tr>
+<td>Profiler outputs</td>
+<td><code>warehouse-demo/profile-output/file_grain_register.csv</code>, <code>linkage_analysis.csv</code>, <code>dq_register.csv</code>, <code>volume_trends.csv</code></td>
+</tr>
+<tr>
+<td>Design task brief</td>
+<td><code>warehouse-demo/source-notes/suggested_run3_agent_task.md</code></td>
+</tr>
+<tr>
+<td>System overview</td>
+<td><code>warehouse-demo/source-notes/source_system_overview.md</code></td>
+</tr>
+<tr>
+<td>Agent context</td>
+<td><code>warehouse-demo/source-notes/agent_available_source_context.md</code></td>
+</tr>
+<tr>
+<td>Measure alignment</td>
+<td><code>warehouse-demo/source-notes/target_public_measure_alignment.md</code></td>
+</tr>
+<tr>
+<td>Run 2 checkpoint</td>
+<td><code>warehouse-demo/checkpoints/run2_checkpoint.md</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Forbidden sources</h2>
+<ul>
+<li><code>warehouse-demo/source-notes/human-only reviewer checklist (not published on site).md</code></li>
+<li><code>warehouse-demo/checkpoints/manual_answer_key_comparison_template.md</code></li>
+</ul>
+<h2>Purpose</h2>
+<p>Propose a conceptual warehouse design (staging, dimensions, facts, marts) from profiling evidence. Prepare human review pack — not production build.</p>
+<h2>Permitted outputs</h2>
+<ul>
+<li>Layered architecture (raw → stg → dwh → mart)</li>
+<li>Staging table definitions (logical)</li>
+<li>Dimension and fact proposals with grains</li>
+<li>Linkage resolution strategy (bridge tables, inferred matches)</li>
+<li>Conformed dimension approach via LocalOps</li>
+<li>Design assumptions, risks and open decisions</li>
+<li>Human review pack with questions (no planted answers)</li>
+</ul>
+<h2>Must not do</h2>
+<ul>
+<li>Write <code>CREATE TABLE</code>, ADF JSON or deployment scripts</li>
+<li>Assume real PAS/EPR supplier schemas</li>
+<li>Read human answer key</li>
+<li>Reproduce RDY public figures</li>
+<li>Skip linkage/DQ issues identified in profiling</li>
+</ul>
+<h2>Human sign-off requirement</h2>
+<p><strong>Required.</strong> Information Lead and Performance Manager must review <code>design/human_review_pack.md</code> before SQL build (Run 4).</p>
+<h2>Worked example</h2>
+<p><a href="../examples/warehouse-design-conversation.html"><code>examples/warehouse-design-conversation.md</code></a></p>
+<h2>Example prompt snippet</h2>
+<pre><code>You are the Warehouse Design Agent. Propose staging and dimensional models from profiling outputs only.
+Use bridge tables for ambiguous CareCall–Legendary links.
+Document ExtractInclusionFlag handling for CareCase.
+Do not write SQL or ADF. Produce human_review_pack.md with open questions.
+</code></pre>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

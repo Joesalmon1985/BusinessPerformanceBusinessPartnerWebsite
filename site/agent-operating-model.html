@@ -142,11 +142,12 @@ Draft pack wording (pending review): "All Age MH access contacts rose from 1,240
 
       <p><strong>Supporting files:</strong></p>
       <ul>
-        <li><a href="agent-rules/mhsds-expert-agent.md">MHSDS Expert Agent rule</a></li>
-        <li><a href="docs/synthetic-mhsds-local-dictionary.md">Synthetic local dictionary</a></li>
-        <li><a href="examples/mhsds-sme-agent-conversation.md">Read full conversation transcript &rarr;</a></li>
+        <li><a href="docs-html/agent-rules/mhsds-expert-agent.html">MHSDS Expert Agent rule</a></li>
+        <li><a href="docs-html/docs/synthetic-mhsds-local-dictionary.html">Synthetic local dictionary</a></li>
+        <li><a href="docs-html/examples/mhsds-sme-agent-conversation.html">Read full worked example &rarr;</a> (<a href="docs-html/examples/mhsds-sme-agent-conversation.html#evidence-chain">evidence chain</a>)</li>
         <li><a href="public-data/mhsds-source-pack-register.csv">MHSDS source pack register</a></li>
         <li><a href="data/synthetic_mhsds_sme_demo.csv">Synthetic aggregate demo data</a></li>
+        <li><a href="reports/public-mh-access-profile.html">Related public MHSDS brief</a> (real RDY aggregates — separate strand)</li>
       </ul>
     </section>
 
@@ -212,16 +213,18 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         </div>
       </div>
 
-      <p class="info-box"><strong>Why this matters:</strong> This agent operationalises report QA — catching arithmetic, definition, standard and trend errors before a draft is shared. It applies the <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> in practice; the same issue classes drove the <a href="public-data/FINAL_REPORT_QA_SUMMARY.md">June 2026 public-data improvement pass</a>. See the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> for the post-fix outcome.</p>
+      <p class="info-box"><strong>Why this matters:</strong> This agent operationalises report QA — catching arithmetic, definition, standard and trend errors before a draft is shared. It applies the <a href="governance-and-benefits.html#checklist">AI assurance checklist</a> in practice; the same issue classes drove the <a href="docs-html/public-data/FINAL_REPORT_QA_SUMMARY.html">June 2026 public-data improvement pass</a>. See the corrected <a href="reports/public-talking-therapies-profile.html">Talking Therapies brief</a> for the post-fix outcome.</p>
 
       <p><strong>Supporting files:</strong></p>
       <ul>
-        <li><a href="agent-rules/report-analysis-agent.md">Report Analysis and Improvement Agent rule</a></li>
-        <li><a href="examples/synthetic-draft-talking-therapies-flawed.md">Flawed draft input (v0.3)</a></li>
-        <li><a href="examples/report-analysis-agent-conversation.md">Read full conversation transcript &rarr;</a></li>
+        <li><a href="docs-html/agent-rules/report-analysis-agent.html">Report Analysis and Improvement Agent rule</a></li>
+        <li><a href="docs-html/examples/synthetic-draft-talking-therapies-flawed.html">Flawed draft input (v0.3)</a></li>
+        <li><a href="docs-html/examples/report-analysis-agent-conversation.html">Read full worked example &rarr;</a> (<a href="docs-html/examples/report-analysis-agent-conversation.html#evidence-chain">evidence chain</a>)</li>
         <li><a href="reports/public-talking-therapies-profile.html">Corrected brief (after improvement pass)</a></li>
         <li><a href="public-data/processed/demo_talking_therapies.csv">Demo CSV source</a></li>
-        <li><a href="public-data/FINAL_REPORT_QA_SUMMARY.md">Final report QA summary</a></li>
+        <li><a href="public-data/processed/trend_talking_therapies_rdy.csv">Trend CSV source</a></li>
+        <li><a href="docs-html/public-data/FINAL_REPORT_QA_SUMMARY.html">Final report QA summary</a> (June 2026 improvement pass)</li>
+        <li><a href="docs-html/public-data/PUBLIC_REPORTS_METHOD.html">Public reports method</a></li>
         <li><a href="R/04_validate_public_reports.R">Post-render validation script</a> (rendered HTML only)</li>
       </ul>
     </section>
@@ -478,9 +481,9 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         </dl>
         <p>
           <a href="agent-rules/source-profiling-agent.md">View rule file</a> ·
-          <a href="warehouse-demo/profile-output/source_profiling_report.md">Profiling report</a> ·
-          <a href="examples/warehouse-source-profiling-conversation.md">Worked conversation</a> ·
-          <a href="warehouse-demo/source-notes/demo_run_index.md">Demo index</a>
+          <a href="docs-html/warehouse-demo/profile-output/source_profiling_report.html">Profiling report</a> ·
+          <a href="docs-html/examples/warehouse-source-profiling-conversation.html">Worked conversation</a> ·
+          <a href="docs-html/warehouse-demo/source-notes/demo_run_index.html">Demo index</a>
         </p>
       </article>
 
@@ -497,8 +500,8 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         </dl>
         <p>
           <a href="agent-rules/warehouse-design-agent.md">View rule file</a> ·
-          <a href="warehouse-demo/design/warehouse_design_proposal.md">Design proposal</a> ·
-          <a href="examples/warehouse-design-conversation.md">Worked conversation</a>
+          <a href="docs-html/warehouse-demo/design/warehouse_design_proposal.html">Design proposal</a> ·
+          <a href="docs-html/examples/warehouse-design-conversation.html">Worked conversation</a>
         </p>
       </article>
 
@@ -526,7 +529,7 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         <p>Azure SQL DDL, QA views and ADF-style JSON specifications — demonstration only, not deployed.</p>
         <p>
           <a href="warehouse-demo/sql/README.md">SQL README</a> ·
-          <a href="warehouse-demo/pipelines/pipeline_overview.md">Pipeline overview</a> ·
+          <a href="docs-html/warehouse-demo/pipelines/pipeline_overview.html">Pipeline overview</a> ·
           <a href="warehouse-demo/marts/demo_provider_month_measures.csv">Mart CSV</a>
         </p>
       </article>
@@ -535,10 +538,10 @@ Required sign-off: report author, Performance Manager or Business Partner, Talki
         <h3>Report QA (warehouse briefs)</h3>
         <p>Report Analysis Agent checks flawed urgent-care brief against profiler evidence — extract vs operational, stock vs activity.</p>
         <p>
-          <a href="agent-rules/warehouse-report-qa-agent.md">QA addendum</a> ·
-          <a href="examples/warehouse-draft-urgent-care-brief-flawed.md">Flawed draft</a> ·
+          <a href="docs-html/agent-rules/warehouse-report-qa-agent.html">QA addendum</a> ·
+          <a href="docs-html/examples/warehouse-draft-urgent-care-brief-flawed.html">Flawed draft</a> ·
           <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">Corrected brief</a> ·
-          <a href="examples/warehouse-report-qa-conversation.md">QA conversation</a>
+          <a href="docs-html/examples/warehouse-report-qa-conversation.html">QA conversation</a>
         </p>
       </article>
 

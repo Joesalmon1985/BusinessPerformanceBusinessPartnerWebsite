@@ -127,22 +127,22 @@
       <h2 id="stages">What happened at each stage</h2>
 
       <h3>6. How synthetic source data was created</h3>
-      <p>A Python generator created CSV/XLSX extracts, manifest and summary for fictional Demo Rivers Health. See <a href="warehouse-demo/README.md">warehouse-demo README</a> and <a href="warehouse-demo/source-notes/demo_run_index.md">demo run index</a>.</p>
+      <p>A Python generator created CSV/XLSX extracts, manifest and summary for fictional Demo Rivers Health. See <a href="warehouse-demo/README.md">warehouse-demo README</a> and <a href="docs-html/warehouse-demo/source-notes/demo_run_index.html">demo run index</a>.</p>
 
       <h3>7. How agents profiled the messy source data</h3>
-      <p>A Source Profiling Agent documented grain, linkage, volume trends, a data-quality register and extract-change risk — without proposing dimensional models or SQL. Outputs: <a href="warehouse-demo/profile-output/source_profiling_report.md">profiling report</a>, <a href="examples/warehouse-source-profiling-conversation.md">worked conversation</a>.</p>
+      <p>A Source Profiling Agent documented grain, linkage, volume trends, a data-quality register and extract-change risk — without proposing dimensional models or SQL. Outputs: <a href="docs-html/warehouse-demo/profile-output/source_profiling_report.html">profiling report</a>, <a href="docs-html/examples/warehouse-source-profiling-conversation.html">worked conversation</a>.</p>
 
       <h3>8. How agents proposed the warehouse design</h3>
-      <p>A Warehouse Design Agent proposed staging, dimensions, bridge tables and linkage strategy from profiling evidence. See <a href="warehouse-demo/design/warehouse_design_proposal.md">design proposal</a> and <a href="warehouse-demo/design/human_review_pack.md">human review pack</a>.</p>
+      <p>A Warehouse Design Agent proposed staging, dimensions, bridge tables and linkage strategy from profiling evidence. See <a href="docs-html/warehouse-demo/design/warehouse_design_proposal.html">design proposal</a> and <a href="docs-html/warehouse-demo/design/human_review_pack.html">human review pack</a>.</p>
 
       <h3>9. How Azure SQL-style artefacts were generated</h3>
       <p>DDL, QA views and deployment notes — specification only, not deployed to live Azure SQL. See <a href="warehouse-demo/sql/README.md">SQL README</a> and <a href="warehouse-demo/sql/DEPLOYMENT_NOTES.md">deployment notes</a>.</p>
 
       <h3>10. How ADF-style pipeline specifications were generated</h3>
-      <p>JSON pipeline specs for ingest, staging refresh and mart build. See <a href="warehouse-demo/pipelines/pipeline_overview.md">pipeline overview</a>.</p>
+      <p>JSON pipeline specs for ingest, staging refresh and mart build. See <a href="docs-html/warehouse-demo/pipelines/pipeline_overview.html">pipeline overview</a>.</p>
 
       <h3>11. How the mock warehouse supported report QA</h3>
-      <p>Provider-month mart measures were built offline. A flawed urgent-care brief was corrected after Report QA against profiler evidence. See <a href="examples/warehouse-draft-urgent-care-brief-flawed.md">flawed draft</a>, <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">corrected brief</a> and <a href="examples/warehouse-report-qa-conversation.md">QA conversation</a>.</p>
+      <p>Provider-month mart measures were built offline. A flawed urgent-care brief was corrected after Report QA against profiler evidence. See <a href="docs-html/examples/warehouse-draft-urgent-care-brief-flawed.html">flawed draft</a>, <a href="warehouse-demo/reports/urgent-care-provider-month-brief.html">corrected brief</a> and <a href="docs-html/examples/warehouse-report-qa-conversation.html">QA conversation</a>.</p>
     </section>
 
     <section aria-labelledby="findings">
@@ -173,7 +173,7 @@
       <ul>
         <li>SQL and ADF are demonstration artefacts — not executed on live Azure</li>
         <li>Mart built by offline Python script, not a live pipeline</li>
-        <li>Partial DDL vs full design documentation — see <a href="warehouse-demo/checkpoints/runs_2_5_internal_qa.md">internal QA notes</a></li>
+        <li>Partial DDL vs full design documentation — see <a href="docs-html/warehouse-demo/checkpoints/runs_2_5_internal_qa.html">internal QA notes</a></li>
         <li>Human reviewers may compare findings separately; agents did not use the reviewer answer key as evidence</li>
       </ul>
     </section>
@@ -189,17 +189,17 @@
         <article class="card">
           <h3>Demo run index</h3>
           <p class="card-purpose">Full artefact map across Runs 1–5.</p>
-          <a class="card-link" href="warehouse-demo/source-notes/demo_run_index.md">View</a>
+          <a class="card-link" href="docs-html/warehouse-demo/source-notes/demo_run_index.html">View</a>
         </article>
         <article class="card">
           <h3>Profiling report</h3>
           <p class="card-purpose">Source grain, linkage, volumes and DQ.</p>
-          <a class="card-link" href="warehouse-demo/profile-output/source_profiling_report.md">View</a>
+          <a class="card-link" href="docs-html/warehouse-demo/profile-output/source_profiling_report.html">View</a>
         </article>
         <article class="card">
           <h3>Design proposal</h3>
           <p class="card-purpose">Staging and dimensional model proposal.</p>
-          <a class="card-link" href="warehouse-demo/design/warehouse_design_proposal.md">View</a>
+          <a class="card-link" href="docs-html/warehouse-demo/design/warehouse_design_proposal.html">View</a>
         </article>
         <article class="card">
           <h3>SQL README</h3>
@@ -209,7 +209,7 @@
         <article class="card">
           <h3>Pipeline overview</h3>
           <p class="card-purpose">ADF-style JSON specifications.</p>
-          <a class="card-link" href="warehouse-demo/pipelines/pipeline_overview.md">View</a>
+          <a class="card-link" href="docs-html/warehouse-demo/pipelines/pipeline_overview.html">View</a>
         </article>
         <article class="card">
           <h3>Agent operating model</h3>

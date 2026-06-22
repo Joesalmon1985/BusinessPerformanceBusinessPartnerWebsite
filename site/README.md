@@ -36,6 +36,17 @@ Rscript 03_sync_mandatory_register_html.R
 Rscript 02_render_reports.R
 ```
 
+## Regenerate documentation HTML
+
+Allow-listed Markdown artefacts are published as styled HTML under `site/docs-html/` for Cloudflare Pages.
+
+```bash
+pip install -r requirements.txt   # once
+python3 tools/render_markdown_docs.py
+```
+
+Run this after editing published `.md` files or before deploy. Generated HTML is committed so local preview works without the script.
+
 ## Site structure
 
 ```

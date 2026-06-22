@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Reports Method — Joe Salmon demonstration site</title>
+  <meta name="description" content="Public Reports Method">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../draft-reports.html">Draft reports</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../public-data/PUBLIC_REPORTS_METHOD.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Public Reports Method</h1>
+<p>How the six <strong>agent-assisted analytical briefs</strong> under <code>site/reports/public-*.html</code> were generated for the Dorset HealthCare (RDY) demonstration site.</p>
+<blockquote>
+<p><strong>Agentic AI was used to accelerate discovery, preparation, checking and drafting. The analysis remains bounded by the public aggregate data available, and any operational interpretation would require local subject matter review, data owner confirmation and accountable sign-off.</strong></p>
+</blockquote>
+<h2>Overview</h2>
+<ol>
+<li><strong>Public-data pipeline</strong> (<code>site/public-data/01–04_*.R</code>) downloads official NHS aggregate publications, filters RDY rows, and creates demo CSV extracts in <code>site/public-data/processed/</code>.</li>
+<li><strong>Report render script</strong> (<code>site/R/03_render_public_reports.R</code>) reads those demo CSVs (and selected full RDY extracts where demo files are column-limited), computes descriptive statistics, and writes static HTML using the <strong>agent-assisted analytical brief template</strong>.</li>
+<li><strong>Styling</strong> (<code>site/assets/nhs-report.css</code>) applies NHS-inspired colours without NHS logo or implied endorsement.</li>
+</ol>
+<p>See also: <a href="../../public-data/AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md">AGENT_ANALYTICAL_BRIEF_REFRAME_PLAN.md</a> for the reframe specification.</p>
+<h2>Agent-assisted analytical brief template</h2>
+<p>Each public report follows this review-first structure (rendered by <code>agent_brief_sections()</code>):</p>
+<ol>
+<li>Title and short subtitle (report header)</li>
+<li>Public-data caveat box</li>
+<li><strong>What the agent was asked to do</strong> (business question, dataset, first-draft note)</li>
+<li><strong>Data used</strong> (sources, period, RDY filter, historic trend availability)</li>
+<li><strong>What this report can and cannot tell us</strong> (scope and limits)</li>
+<li><strong>Headline reading</strong> (3–5 plain-English takeaways)</li>
+<li><strong>Provider / RDY scope badge</strong> (MHSDS, CSDS, Talking Therapies only)</li>
+<li><strong>Priority callout</strong> (top 1–3 review flags where applicable)</li>
+<li><strong>Key findings explained</strong> — enriched table with period caption (see column model below)</li>
+<li><strong>Trend summary</strong> (unique headings per source where historic data exists)</li>
+<li><strong>Human validation checklist</strong> (4–6 plain-English bullets)</li>
+<li><strong>Bottom line</strong> — one paragraph for non-technical readers</li>
+<li><strong>Why this is useful</strong> — short box on agent triangulation value</li>
+<li><strong>Audit trail and source checks</strong> (collapsible: prompt excerpt, grouped findings, draft interpretation, supporting tables)</li>
+</ol>
+<p>Grouped findings and draft interpretation are collapsed into the audit trail to reduce repetition above the fold.</p>
+<h3>Key findings explained — column model</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Spec field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Figure / measure</td>
+<td><code>figure</code></td>
+<td>Metric name and ID</td>
+</tr>
+<tr>
+<td>Latest value</td>
+<td><code>latest</code></td>
+<td>RDY value for reporting period</td>
+</tr>
+<tr>
+<td>Standard / expected</td>
+<td><code>standard_detail</code> + <code>standard_metadata</code></td>
+<td>National target or scoring threshold with traceable cite</td>
+</tr>
+<tr>
+<td>Peer median</td>
+<td><code>peer_detail</code></td>
+<td>Published peer median/rank (NOF) or previous-period comparator</td>
+</tr>
+<tr>
+<td>Trend</td>
+<td><code>trend</code> / <code>trend_label</code></td>
+<td>Direction only — Rising, Falling, Stable, Not available, etc.</td>
+</tr>
+<tr>
+<td>Validation status</td>
+<td><code>validation_status</code></td>
+<td>Definition check / Finance sign-off / Local owner confirmation</td>
+</tr>
+<tr>
+<td>Judgement</td>
+<td><code>judgement</code></td>
+<td>Sharp "so what?" one-liner</td>
+</tr>
+<tr>
+<td>Human check</td>
+<td><code>human_check</code></td>
+<td>Named owner or review action</td>
+</tr>
+</tbody>
+</table></div>
+<p>Trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Rising, Falling, Stable, Volatile. Validation statuses use a separate badge column — never mixed into Trend.</p>
+<p>Comparator priority: official standard (if in source) → published peer median/rank (NOF only) → previous comparable period → none stated honestly.</p>
+<h3>Source metadata for curated standards</h3>
+<p>Manually curated standards and enriched public context include:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source_url</code></td>
+<td>Reader can trace the standard</td>
+</tr>
+<tr>
+<td><code>source_title</code></td>
+<td>Avoids mystery hardcoding</td>
+</tr>
+<tr>
+<td><code>source_publication_date</code></td>
+<td>Shows whether the standard is current</td>
+</tr>
+<tr>
+<td><code>accessed_date</code></td>
+<td>Public demo audit trail</td>
+</tr>
+<tr>
+<td><code>confidence</code></td>
+<td><code>confirmed</code> / <code>inferred</code> / <code>needs_owner_check</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Applied to <code>NOF_METRIC_SPEC</code>, Talking Therapies 75%/95% standards, CSDS CHS waiting-list signpost and CQC context. Rendered as inline <code>&lt;cite class="nhs-standard-cite"&gt;</code> in the standard column.</p>
+<h3>Period label convention</h3>
+<p>Every main table and trend chart includes an explicit reporting period or trend window via <code>period_caption_html()</code>. Where headline window differs from supporting extract window, both are stated (e.g. six-month display vs eight-month stacked extract).</p>
+<p>Reports are indexed on <code>site/draft-reports.html</code> as worked examples of agent-assisted analytical briefs.</p>
+<h2>Demo CSVs used</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Primary demo CSV</th>
+<th>Additional processed files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public-performance-overview.html</code></td>
+<td><code>demo_nof_overview.csv</code></td>
+<td><code>demo_assurance_profile.csv</code></td>
+</tr>
+<tr>
+<td><code>public-mh-access-profile.html</code></td>
+<td><code>demo_mhsds_activity.csv</code></td>
+<td><code>trend_mhsds_access_rdy.csv</code> (primary); demo slice for audit</td>
+</tr>
+<tr>
+<td><code>public-community-services-profile.html</code></td>
+<td><code>demo_csds_activity.csv</code></td>
+<td><code>trend_csds_activity_rdy.csv</code> (8 months)</td>
+</tr>
+<tr>
+<td><code>public-talking-therapies-profile.html</code></td>
+<td><code>demo_talking_therapies.csv</code></td>
+<td><code>rdy_talking_therapies_*time_series.csv</code></td>
+</tr>
+<tr>
+<td><code>public-assurance-profile.html</code></td>
+<td><code>demo_assurance_profile.csv</code></td>
+<td><code>rdy_dspt_rdy_assessment_history.csv</code>, CQC context note</td>
+</tr>
+<tr>
+<td><code>public-urgent-diagnostics-check.html</code></td>
+<td><code>demo_dm01_diagnostics.csv</code>, <code>demo_kh03_beds.csv</code></td>
+<td><code>rdy_ae_monthly_*.csv</code>, full <code>rdy_dm01_monthly_*.csv</code>, <code>trend_ae_rdy.csv</code>, <code>trend_dm01_rdy.csv</code>, <code>trend_kh03_beds_rdy.csv</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>If a demo CSV is missing, the render script writes a data-availability page rather than inventing figures.</p>
+<h2>Statistical methods applied</h2>
+<p>All analysis is <strong>descriptive</strong> and bounded by published aggregates:</p>
+<ul>
+<li><strong>Latest-period values</strong> from the demo extract reporting period columns</li>
+<li><strong>Peer comparison</strong> (NOF): rank, median, lower/upper quartile where present — not significance testing</li>
+<li><strong>Counts and sums</strong> where numeric; suppressed values (<code>*</code>) excluded from numeric calculations</li>
+<li><strong>Top-N tables</strong> and <strong>bar charts</strong> (base R HTML) for largest numeric measures</li>
+<li><strong>Plain-English metric/theme commentary cards</strong> with agent flags (Potential strength, Review locally, Watch / clarify, Definition check required, Source validation only, Trend not available)</li>
+<li><strong>Key figures explained table</strong> with standardized trend direction labels: Improving, Worsening, Broadly stable, Mixed / unclear, Not available from current extract, Source validation only, Definition check required</li>
+<li><strong>Comparator priority:</strong> official standard (if in source) → published peer median/rank (NOF only) → previous comparable period → none stated honestly</li>
+<li><strong>Trend tables and charts</strong> where downloaded time-series extracts contain ≥2 comparable periods for the same measure (latest vs previous month, absolute and percentage change; rolling mean only if ≥3 periods)</li>
+<li><strong>Source presence checks</strong> (urgent/diagnostics report) for RDY row existence</li>
+<li><strong>Missingness / suppression counts</strong> flagged explicitly</li>
+</ul>
+<p>Not used: p-values, causal inference, forecasting, or blending with synthetic data.</p>
+<h2>Why causal claims are avoided</h2>
+<p>Public aggregate data:</p>
+<ul>
+<li>May be <strong>provisional</strong> or revised (MHSDS, CSDS, Talking Therapies)</li>
+<li>Uses <strong>suppression and rounding</strong></li>
+<li>Spans <strong>different breakdowns</strong> (ICB resident vs provider, referral source splits)</li>
+<li>Cannot explain <strong>local operational context</strong> (pathways, workforce, definitions)</li>
+</ul>
+<p>The briefs describe <em>what a governed agent can produce from the public file</em> and <em>what a human must still check</em> — not <em>why performance changed</em>.</p>
+<h2>Public aggregate vs local operational data</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Public aggregate</th>
+<th>Local operational</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>National publication schedules</td>
+<td>Real-time warehouse / PAS extracts</td>
+</tr>
+<tr>
+<td>RDY-filtered open data</td>
+<td>Service-line validated KPIs</td>
+</tr>
+<tr>
+<td>Peer medians from NOF</td>
+<td>Internal targets and trajectories</td>
+</tr>
+<tr>
+<td>Annual KO41a / ERIC snapshots</td>
+<td>Live complaints / estates systems</td>
+</tr>
+</tbody>
+</table></div>
+<p>Business partners bridge these layers — public data informs questions; local data answers them.</p>
+<h2>How the Cursor agent assisted</h2>
+<ul>
+<li>Discovered and downloaded official publication files</li>
+<li>Documented sources in <code>DATA_SOURCE_REGISTER.csv</code></li>
+<li>Filtered RDY rows with documented matching rules</li>
+<li>Created demo extracts and the agent brief render script</li>
+<li>Drafted per-report questions, prompt excerpts, process steps, first-draft narrative and reviewer questions</li>
+</ul>
+<p>Human reviewers must still:</p>
+<ul>
+<li>Confirm metric definitions against NHS England / NHS Digital guidance</li>
+<li>Verify publication status (provisional vs final)</li>
+<li>Align periods with local reporting cycles</li>
+<li>Obtain named owner sign-off before operational or Board use</li>
+</ul>
+<h2>Rerun instructions</h2>
+<pre><code class="language-bash"># 1. Refresh public data (requires network)
+cd site/public-data
+Rscript 01_download_public_data.R
+Rscript 02_inspect_public_data.R
+Rscript 03_filter_dorset_healthcare.R
+Rscript 04_create_demo_extracts.R
+
+# 1b. Historic trend stack (optional — requires network; does not overwrite existing raw files)
+Rscript 05_download_historic_public_data.R
+</code></pre>
+<p>Historic pipeline outputs (when stacking succeeds):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Trend file</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>processed/trend_csds_activity_rdy.csv</code></td>
+<td>CSDS CareActivities / ActivityType</td>
+</tr>
+<tr>
+<td><code>processed/trend_ae_rdy.csv</code></td>
+<td>A&amp;E provider monthly (source validation)</td>
+</tr>
+<tr>
+<td><code>processed/trend_dm01_rdy.csv</code></td>
+<td>DM01 full-extract monthly</td>
+</tr>
+<tr>
+<td><code>processed/trend_kh03_beds_rdy.csv</code></td>
+<td>KH03 recent snapshots (≤6 quarters, post-2020)</td>
+</tr>
+<tr>
+<td><code>processed/latest_kh03_beds_rdy.csv</code></td>
+<td>KH03 latest snapshot only</td>
+</tr>
+<tr>
+<td><code>processed/trend_mhsds_access_rdy.csv</code></td>
+<td>MHSDS MHS23/MHS01/MHS29/MHS69 Provider (primary six-month brief source)</td>
+</tr>
+<tr>
+<td><code>processed/trend_mhs23_rdy.csv</code></td>
+<td>MHSDS MHS23 compatibility slice (deprecated — use access file)</td>
+</tr>
+<tr>
+<td><code>processed/trend_fft_rdy.csv</code></td>
+<td>FFT org-level (if found)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Register and run summary: <code>HISTORIC_SOURCE_REGISTER.csv</code>, <code>HISTORIC_PUBLIC_DATA_RUN_SUMMARY.md</code>.</p>
+<pre><code class="language-bash"># 2. Render public HTML reports (offline OK if CSVs exist)
+Rscript site/R/03_render_public_reports.R
+
+# 2b. Standalone post-render validation (also runs automatically at end of step 2)
+Rscript site/R/04_validate_public_reports.R
+</code></pre>
+<h3>Post-render validation (<code>04_validate_public_reports.R</code>)</h3>
+<p>After each render, the pipeline checks all six <code>public-*.html</code> files for:</p>
+<ul>
+<li>Duplicate <code>&lt;h2&gt;</code> section headings within a file</li>
+<li>Validation wording misplaced in the Trend column (Definition check, Finance, Source validation only)</li>
+<li>Talking Therapies M019–M021 and M019–M022 totals vs <code>demo_talking_therapies.csv</code></li>
+<li>Chronological order of month labels in time-series bar charts</li>
+<li>Missing period captions on Key findings explained sections</li>
+<li>Missing bottom-line and why-this-is-useful sections</li>
+<li>KH03 quarterly snapshot wording on the urgent-care report</li>
+</ul>
+<p>Validation fails the render with a numbered issue list if any check fails. Add new <code>check_*()</code> functions as failure modes are discovered.</p>
+<p>The <a href="../agent-rules/report-analysis-agent.html">Report Analysis and Improvement Agent</a> provides a human-judgement layer above this script — standards interpretation, readability, revised wording and publication refusal — with a <a href="../examples/report-analysis-agent-conversation.html">worked example</a> on the operating model page.</p>
+<h2>Known limitations in this run</h2>
+<ul>
+<li><strong>FFT</strong>: org-level RDY rows not found in downloaded summary XLSX — see <code>metadata/fft_manual_download_needed.md</code></li>
+<li><strong>KH03</strong>: latest snapshot in public file may lag NHS England “latest quarter” — verify on source site; trend uses recent snapshots only (not full 2007–2024 history)</li>
+<li><strong>A&amp;E</strong>: RDY row reflects other emergency admissions, not ED attendances (no ED at RDY); historic stack is source validation only</li>
+<li><strong>DM01</strong>: audiology may dominate activity; historic trend requires full-extract monthly ZIPs (not aggregate REVISED bundles)</li>
+<li><strong>MHS23</strong>: stacked from MHSDS main_data monthly files — not the Provider time-series bundle</li>
+<li><strong>CSDS / MHSDS / A&amp;E trends</strong>: provisional monthly data; descriptive period-on-period only — not causal performance claims</li>
+</ul>
+<h2>Recommended next improvement</h2>
+<ul>
+<li>Obtain <strong>FFT org-level</strong> or setting-level rows to fill the assurance gap (manual download steps in metadata)</li>
+<li>Align <strong>KH03</strong> to the latest NHS England publication quarter when the overnight page updates</li>
+<li>Add more <strong>DM01 full-extract</strong> months if FY scrape misses older months</li>
+<li>Optional Talking Therapies outcome measures (M192, M186) for a separate outcome brief</li>
+</ul>
+<p>See <a href="../../public-data/NEXT_COMMENTARY_IMPROVEMENTS.md">NEXT_COMMENTARY_IMPROVEMENTS.md</a>, <a href="../../public-data/HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md">HISTORIC_PUBLIC_DATA_EXPANSION_PLAN.md</a>, and <a href="FINAL_REPORT_QA_SUMMARY.html">FINAL_REPORT_QA_SUMMARY.md</a> for the latest report QA pass.</p>
+<h2>Traceability and verification</h2>
+<p>Every public brief figure should be traceable back through the pipeline:</p>
+<ol>
+<li><strong>Report HTML table or KPI</strong> → demo CSV in <code>site/public-data/processed/demo_*.csv</code></li>
+<li><strong>Demo CSV</strong> → full RDY processed extract (<code>site/public-data/processed/rdy_*.csv</code>)</li>
+<li><strong>Processed extract</strong> → raw public file in <code>site/public-data/raw/</code> (filtered to RDY only)</li>
+<li><strong>Raw file</strong> → NHS England / NHS Digital source URL in <code>DATA_SOURCE_REGISTER.csv</code></li>
+</ol>
+<p>All reports include a <strong>How to verify these figures</strong> section at the bottom of the narrative (before the final human-review warning in the template flow, with human review as the closing gate).</p>
+<h3>NOF performance overview (full audit)</h3>
+<p>The NOF brief includes <strong>plain-English agent commentary</strong> for each displayed metric (see “Agent commentary on selected metrics”), a <strong>How to read this table</strong> guide, and machine-readable audit outputs:</p>
+<ul>
+<li><code>site/public-data/metadata/public_report_audit_nof_overview.csv</code> — one row per displayed metric</li>
+<li><code>site/public-data/metadata/public_report_audit_nof_overview.md</code> — plain-English verification guide</li>
+</ul>
+<p>Metric polarity and definitions should be confirmed against the <a href="https://www.england.nhs.uk/long-read/nhs-oversight-framework-csv-metadata-file/">official NHS England NOF technical metric specification</a> — this long-read was not bulk-downloaded in the public-data pipeline.</p>
+<p>Audit summary and per-metric detail appear in collapsible blocks under <strong>How to verify these figures</strong>.</p>
+<p><strong>Important:</strong> <code>Value</code>, <code>Median_value</code>, and <code>Rank</code> in the NOF brief are <strong>NHS England published fields</strong> from the official NOF data CSV. This demo does <strong>not</strong> recalculate medians, ranks, or league tables.</p>
+<p>To verify a figure manually:</p>
+<ol>
+<li>Open the audit CSV or HTML verification section for the metric.</li>
+<li>Use <code>RDY_row_identifier</code> to find the row in the processed and raw NOF files.</li>
+<li>Confirm <code>Value</code>, <code>Median_value</code>, and <code>Rank</code> match exactly.</li>
+<li>Check <code>Comparator_rows_used</code> against the count of numeric trust rows in the raw file for the same Quarter + Metric_ID + Reporting_date.</li>
+<li>Confirm rank direction and metric definition against NHS England metadata before operational use.</li>
+</ol>
+<p>Regenerating reports also regenerates the audit CSV and MD:</p>
+<pre><code class="language-bash">Rscript site/R/03_render_public_reports.R
+</code></pre>
+<h3>Other public briefs (verification appendix)</h3>
+<p>Briefs for MHSDS, CSDS, Talking Therapies, assurance, and urgent/diagnostics include <strong>How to verify these figures</strong> linking to demo CSVs, filter notes, and governance documentation. Technical detail (full A&amp;E columns, assurance index with all columns, CQC context note) is in collapsible verification blocks where appropriate.</p>
+<h3>Human reviewer checklist</h3>
+<p>Before relying on any public report figure operationally:</p>
+<ul>
+<li>Confirm publication quarter and whether a newer release supersedes the extract</li>
+<li>Check provisional vs final status and suppression rules</li>
+<li>Verify RDY matching against local ODS register</li>
+<li>Do not treat published rank or median as a significance test</li>
+<li>Confirm metric polarity (higher/lower better) against NHS England definitions</li>
+<li>Obtain accountable sign-off from the relevant data owner</li>
+</ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

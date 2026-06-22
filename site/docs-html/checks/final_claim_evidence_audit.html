@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 1 — Final claim and evidence audit — Joe Salmon demonstration site</title>
+  <meta name="description" content="Phase 1 — Final claim and evidence audit">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Private review/support note for understanding and assurance of the demonstration site.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../checks/final_claim_evidence_audit.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Phase 1 — Final claim and evidence audit</h1>
+<p><strong>Purpose:</strong> Record significant claims across the demonstration site that could affect credibility, and check each against the evidence visible or linked on the site.</p>
+<p><strong>Reviewer:</strong> Final critical sweep (human-directed AI review).
+<strong>Date:</strong> June 2026.
+<strong>Role reference:</strong> <a href="../../docs/152-S030.26_Business_Performance_Business_Partner_Job_Description.txt"><code>docs/152-S030.26_Business_Performance_Business_Partner_Job_Description.txt</code></a> and <a href="../../docs/152-S030.26_Business_Performance_Business_Partner_Person_Specification.txt"><code>docs/152-S030.26_Business_Performance_Business_Partner_Person_Specification.txt</code></a> — both confirmed present and used only as an internal alignment reference.</p>
+<p><strong>Claim types:</strong> public-data | synthetic-data | AI/agentic capability | personal/application | governance/safety | technical implementation | role-suitability.</p>
+<p><strong>Assessment scale:</strong> Supported | Supported – clearer wording | Unclear / needs caveat | Unsupported / remove-or-evidence.</p>
+<p>The <strong>Action</strong> column is updated after Phase 6 so this audit records both the original issue and any correction made (<code>Action applied</code> / <code>No change needed</code> / <code>Flagged for Joe</code>).</p>
+<hr />
+<h2>Summary of findings</h2>
+<ul>
+<li>No fabricated or unsupported public-data figures found. Public reports use real published NHS aggregate values for RDY with consistent "demonstration only / human review required" caveats.</li>
+<li>Synthetic Demo Rivers Health (DRH) material is clearly labelled fictional throughout.</li>
+<li>Azure SQL / ADF material is consistently framed as specification artefact, not live deployment.</li>
+<li>No occurrences of <code>proves</code>, <code>automates performance management</code>, <code>production-ready</code>, <code>perfect for this role</code>, or <code>automatically approves</code> in public-facing claims (only <code>proves</code> appears inside a deliberately flawed draft that the QA example then rejects).</li>
+<li>Main credibility issues are wording-level: a homepage counting inconsistency, a casual builder anecdote, an over-broad "synthetic only" caveat on the governance page, and <code>In production</code> badges that can scan as live Trust status.</li>
+<li>Personal/application claims (operational leadership, performance experience, SQL) are appropriate for an application but are <strong>not</strong> evidenced by the site itself; they are flagged for Joe to support through CV/interview.</li>
+</ul>
+<hr />
+<h2>Claim register</h2>
+<h3>Homepage — <code>site/index.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>"The site now includes three linked demonstrations" (L69)</td>
+<td>technical</td>
+<td>Five cards/pages are listed immediately below</td>
+<td>Unsupported / inconsistent</td>
+<td>Reword to describe the actual content (five linked pages across three strands: public reporting, governance/operating model, synthetic warehouse)</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>2</td>
+<td>"built entirely by a cursor agent … while Spain beat Saudi Arabia" (L105)</td>
+<td>personal</td>
+<td>None; off-topic anecdote</td>
+<td>Supported – clearer wording</td>
+<td>Replace with neutral phrasing about human direction and review</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Agentic AI "can help NHS business and performance teams work faster, more clearly and more consistently" (L44)</td>
+<td>AI capability</td>
+<td>Draft reports + mandatory map demonstrate drafting/checking</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>4</td>
+<td>"AI cannot and should not replace professional judgement" (L60)</td>
+<td>governance/safety</td>
+<td>Reinforced site-wide</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Personal capability list: NHS operational management, performance/service improvement, SQL/reporting (L150–158)</td>
+<td>personal/application</td>
+<td>Not evidenced by the site (demonstration artefacts only)</td>
+<td>Unclear / needs caveat</td>
+<td>Keep as application statement; site already frames itself as "demonstration of approach", so no public change. Flag that this rests on Joe's CV/interview</td>
+<td>Flagged for Joe</td>
+</tr>
+<tr>
+<td>6</td>
+<td>"This is not a finished Trust product. It is a demonstration of approach." (L161)</td>
+<td>role-suitability</td>
+<td>Whole site</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>7</td>
+<td>No backend, no connection to live Trust systems (L112–113)</td>
+<td>technical</td>
+<td>Static site; consistent with rest of site</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Draft reports — <code>site/draft-reports.html</code> and <code>site/reports/public-*.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>"Six worked examples … using public aggregate NHS data for Dorset HealthCare" (L34)</td>
+<td>public-data</td>
+<td>Public reports cite NHS England / NHS Digital sources with access dates</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>9</td>
+<td>"first draft for human review … not official … should not be used for operational decision-making" (L35)</td>
+<td>governance/safety</td>
+<td>Caveat box + per-report warnings/footers</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>10</td>
+<td>"repeatable workflow that links source data, processing and narrative" via R scripts (L130–132)</td>
+<td>technical</td>
+<td><code>DATA_SOURCE_REGISTER.csv</code>, <code>R/03_*</code>, <code>R/04_*</code> linked</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Talking Therapies: "RDY at 88% remains above the 75% six-week access standard but has fallen from 95%"</td>
+<td>public-data</td>
+<td>Cited NHS Talking Therapies statistics with confidence note</td>
+<td>Supported</td>
+<td>No change needed (figures unchanged)</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>12</td>
+<td>CQC "Overall Outstanding" (public-assurance-profile)</td>
+<td>public-data</td>
+<td>Cited as July 2019 main report, "regulatory context only"</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Briefs demonstrate turning data into "clear, useful performance intelligence" (L45)</td>
+<td>role-suitability</td>
+<td>Report structure shown</td>
+<td>Supported</td>
+<td>Add one subtle sentence on decision support for senior operational/clinical readers</td>
+<td>Action applied</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Mandatory reporting map — <code>site/mandatory-reporting-map.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td>Returns marked "In production" assurance status (table rows)</td>
+<td>technical/public-data</td>
+<td>Strong caveat box says statuses are "illustrative sample data"</td>
+<td>Supported – clearer wording</td>
+<td>Add a short sentence directly above the table restating that assurance badges are illustrative demo metadata, not verified Trust status</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Demo due dates (e.g. 2026-04-15)</td>
+<td>technical</td>
+<td>Caveat states dates are illustrative</td>
+<td>Supported</td>
+<td>No change needed (covered by caveat + new table note)</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>16</td>
+<td>"the kind of clear overview a Business &amp; Performance Business Partner would want" (L33)</td>
+<td>role-suitability</td>
+<td>Register table demonstrates this</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>17</td>
+<td>AI "would not approve anything" — owners sign off (L77)</td>
+<td>governance/safety</td>
+<td>Warning box</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Public reference links point to published NHS sources</td>
+<td>public-data</td>
+<td>External links to digital.nhs.uk / england.nhs.uk etc.</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Data warehouse demo — <code>site/data-warehouse-agent-demo.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>19</td>
+<td>"Demo Rivers Health is fictional … not Dorset HealthCare, RDY, patient-identifiable … Azure SQL and ADF material … not a live deployment" (caveat)</td>
+<td>synthetic/technical</td>
+<td>Caveat box; DEPLOYMENT_NOTES.md; SQL README</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>20</td>
+<td>"DRH and RDY must not be read as the same provider" (§4)</td>
+<td>synthetic-data</td>
+<td>Explicit separation section</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Agents "can support data engineering, source profiling, documentation, validation, reporting assurance and analysis — but does not replace accountable human review" (§1)</td>
+<td>AI capability</td>
+<td>Worked artefacts + checkpoints linked</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Reader reports classify Jan–Feb escalation / March spike / December boundary</td>
+<td>AI capability</td>
+<td>Synthetic reports hedge with "needs review / treat as extract-driven"</td>
+<td>Supported – clearer wording</td>
+<td>Ensure a role-relevance note frames these as draft agent readings that distinguish genuine change from data artefact (not validated findings)</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>23</td>
+<td>No explicit role-relevance framing on this page</td>
+<td>role-suitability</td>
+<td>Page is method-focused</td>
+<td>Unclear / needs caveat</td>
+<td>Add a short "why this matters for performance partnering" note after §1 (capacity/demand signals, reporting assurance, change vs artefact)</td>
+<td>Action applied</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Agent operating model — <code>site/agent-operating-model.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>"how agentic AI could be operationalised safely in a Business &amp; Performance team" (L34)</td>
+<td>AI capability</td>
+<td>Agent rules + worked examples</td>
+<td>Supported – clearer wording</td>
+<td>Soften "operationalised" to plainer wording ("used safely") to reduce production-implying tone</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Agent "Must not: Read human answer key …" (L475, L494)</td>
+<td>governance/safety</td>
+<td>Refers to reviewer-only file in <code>warehouse-demo/source-notes/</code></td>
+<td>Supported – clearer wording</td>
+<td>Rephrase to "human-only reviewer checklist (not an agent source)" so the public page does not surface the raw filename</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Agents are "narrow, source-bound assistant … never the decision-maker" (L44)</td>
+<td>AI capability</td>
+<td>Rule files define bounded scope</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Workflows end in IG/Safety gate and named human sign-off</td>
+<td>governance/safety</td>
+<td>Sign-off roles listed per agent</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>28</td>
+<td>"June 2026 public-data report improvement pass" caught total/period/standard/trend errors (L156)</td>
+<td>technical</td>
+<td>Flawed draft + corrected brief + QA summary linked</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Governance and benefits — <code>site/governance-and-benefits.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>29</td>
+<td>"personal demonstration site using synthetic data" (caveat L38) and footer (L140)</td>
+<td>public/synthetic</td>
+<td>The site also uses <strong>public aggregate</strong> data (draft reports, mandatory map)</td>
+<td>Unclear / over-broad</td>
+<td>Broaden to "public aggregate and synthetic demonstration data" to match the homepage footer</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Control: "Synthetic data for demonstration — this site uses fabricated aggregates only" (L67)</td>
+<td>public/synthetic</td>
+<td>Same inconsistency as #29</td>
+<td>Unclear / over-broad</td>
+<td>Reword to reflect both public aggregate and synthetic data</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Benefits list (faster drafts, consistent structure, reusable SME rules, etc.)</td>
+<td>AI capability</td>
+<td>Demonstrated across site</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Controls list (no PID without IG approval, named sign-off, audit log, etc.)</td>
+<td>governance/safety</td>
+<td>Reflected in agent rules + checkpoints</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Closing line ties checklist to "judgement and leadership the … role calls for"</td>
+<td>role-suitability</td>
+<td>Checklist demonstrated</td>
+<td>Supported</td>
+<td>Optionally add a short link to public service values / validated information (JD 1.8, person spec 2.4) where it fits naturally</td>
+<td>Action applied</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Synthetic warehouse reports — <code>site/warehouse-demo/reports/*.html</code></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>34</td>
+<td>"Synthetic demonstration only … Not RDY public data … Human sign-off required" (caveats)</td>
+<td>synthetic/safety</td>
+<td>Title, meta, caveat, footer on each</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>35</td>
+<td>"Likely genuine — needs review" / "treat as extract-driven until confirmed"</td>
+<td>AI capability</td>
+<td>Hedged classifications, synthetic data</td>
+<td>Supported</td>
+<td>No change needed (hedging is appropriate)</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>36</td>
+<td>SQL "not deployed to live Azure"</td>
+<td>technical</td>
+<td>Stated in report + DEPLOYMENT_NOTES.md</td>
+<td>Supported</td>
+<td>No change needed</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>urgent-care-provider-month-brief.html</code> nav omits warehouse demo page + public draft reports</td>
+<td>technical/navigation</td>
+<td>Sibling reports link both</td>
+<td>Supported – clearer wording</td>
+<td>Align nav bar with sibling warehouse reports</td>
+<td>Action applied</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Legacy synthetic drafts — <code>site/reports/</code> (non-<code>public-*</code>, orphaned)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim (paraphrase)</th>
+<th>Type</th>
+<th>Evidence on site</th>
+<th>Assessment</th>
+<th>Recommended fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>38</td>
+<td>~~<code>mandatory-returns-assurance-log.html</code>~~ (removed)</td>
+<td>technical</td>
+<td>Outdated legacy synthetic report; superseded by <code>mandatory-reporting-map.html</code></td>
+<td>Unsupported / remove</td>
+<td>Removed entirely at Joe's request; generator block removed from <code>R/02_render_reports.R</code></td>
+<td>Action applied — file deleted</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Other legacy drafts (all-age MH, CYP, demand/capacity, LD) carry "synthetic data only" + "not reviewed or approved"</td>
+<td>synthetic/safety</td>
+<td>Header/caveat/footer present</td>
+<td>Supported</td>
+<td>No change needed (orphaned but safe)</td>
+<td>No change needed</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Claims requiring Joe's manual evidence (not provable by the site)</h2>
+<ul>
+<li>Substantial senior NHS management experience (person spec 2.1).</li>
+<li>Experience managing performance and change in a complex organisation (2.2).</li>
+<li>Developing performance frameworks (2.3).</li>
+<li>Contract/SLA negotiation (2.7).</li>
+<li>Leadership, negotiation and influencing (3.1, 5.5).</li>
+<li>Masters-level qualification / recognised management qualification (1.1, 1.2).</li>
+</ul>
+<p>These are appropriately presented as application statements on the homepage. The site demonstrates <strong>method and thinking</strong>; it cannot evidence employment history. Joe should ensure the homepage capability list matches his CV and supporting statement.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

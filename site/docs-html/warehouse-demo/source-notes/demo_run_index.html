@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse demo — run index — Joe Salmon demonstration site</title>
+  <meta name="description" content="Warehouse demo — run index">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/source-notes/demo_run_index.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Warehouse demo — run index</h1>
+<blockquote>
+<p>Self-contained index for the agentic warehouse-design demonstration. Synthetic data only.</p>
+</blockquote>
+<h2>Runs (complete)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Focus</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Synthetic source-data pack</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Agent definitions + source profiling</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Warehouse design proposal</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Azure SQL artefacts</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ADF specs + reporting QA demo</td>
+<td>Complete</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Workflow</h2>
+<pre><code>source-data → profile → design → SQL → ADF → mart → report QA → human review
+</code></pre>
+<h2>Run 1 — Source pack</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generator</td>
+<td><a href="../../../warehouse-demo/generator/create_synthetic_source_data.py"><code>generator/create_synthetic_source_data.py</code></a></td>
+</tr>
+<tr>
+<td>Source extracts</td>
+<td><a href="../../../warehouse-demo/source-data"><code>source-data/</code></a></td>
+</tr>
+<tr>
+<td>Manifest</td>
+<td><a href="../../../warehouse-demo/profile-output/source_manifest.csv"><code>profile-output/source_manifest.csv</code></a></td>
+</tr>
+<tr>
+<td>Human answer key</td>
+<td>human-only reviewer checklist (not published on site) — <strong>reviewers only</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Run 2 — Profiling</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent rule</td>
+<td><a href="../../agent-rules/source-profiling-agent.html"><code>../../agent-rules/source-profiling-agent.md</code></a></td>
+</tr>
+<tr>
+<td>Profiler</td>
+<td><a href="../../../warehouse-demo/profiler/profile_sources.py"><code>../profiler/profile_sources.py</code></a></td>
+</tr>
+<tr>
+<td>Profiling report</td>
+<td><a href="../profile-output/source_profiling_report.html"><code>../profile-output/source_profiling_report.md</code></a></td>
+</tr>
+<tr>
+<td>Conversation</td>
+<td><a href="../../examples/warehouse-source-profiling-conversation.html"><code>../../examples/warehouse-source-profiling-conversation.md</code></a></td>
+</tr>
+<tr>
+<td>Checkpoint</td>
+<td><a href="../../../warehouse-demo/checkpoints/run2_checkpoint.md"><code>../checkpoints/run2_checkpoint.md</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Run 3 — Design</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent rule</td>
+<td><a href="../../agent-rules/warehouse-design-agent.html"><code>../../agent-rules/warehouse-design-agent.md</code></a></td>
+</tr>
+<tr>
+<td>Design proposal</td>
+<td><a href="../design/warehouse_design_proposal.html"><code>../design/warehouse_design_proposal.md</code></a></td>
+</tr>
+<tr>
+<td>Human review pack</td>
+<td><a href="../design/human_review_pack.html"><code>../design/human_review_pack.md</code></a></td>
+</tr>
+<tr>
+<td>Conversation</td>
+<td><a href="../../examples/warehouse-design-conversation.html"><code>../../examples/warehouse-design-conversation.md</code></a></td>
+</tr>
+<tr>
+<td>Checkpoint</td>
+<td><a href="../../../warehouse-demo/checkpoints/run3_checkpoint.md"><code>../checkpoints/run3_checkpoint.md</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Run 4 — SQL</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL README</td>
+<td><a href="../sql/README.html"><code>../sql/README.md</code></a></td>
+</tr>
+<tr>
+<td>Expected load counts</td>
+<td><a href="../sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.html"><code>../sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.md</code></a></td>
+</tr>
+<tr>
+<td>Demo loader</td>
+<td><a href="../../../warehouse-demo/sql/load/load_from_csv.py"><code>../sql/load/load_from_csv.py</code></a></td>
+</tr>
+<tr>
+<td>Checkpoint</td>
+<td><a href="../../../warehouse-demo/checkpoints/run4_checkpoint.md"><code>../checkpoints/run4_checkpoint.md</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Run 5 — Pipelines + reporting</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pipeline overview</td>
+<td><a href="../pipelines/pipeline_overview.html"><code>../pipelines/pipeline_overview.md</code></a></td>
+</tr>
+<tr>
+<td>Measure builder</td>
+<td><a href="../../../warehouse-demo/generator/build_provider_month_measures.py"><code>../generator/build_provider_month_measures.py</code></a></td>
+</tr>
+<tr>
+<td>Mart CSV</td>
+<td><a href="../../../warehouse-demo/marts/demo_provider_month_measures.csv"><code>../marts/demo_provider_month_measures.csv</code></a></td>
+</tr>
+<tr>
+<td>Flawed draft</td>
+<td><a href="../../examples/warehouse-draft-urgent-care-brief-flawed.html"><code>../../examples/warehouse-draft-urgent-care-brief-flawed.md</code></a></td>
+</tr>
+<tr>
+<td>Corrected brief</td>
+<td><a href="../../../warehouse-demo/reports/urgent-care-provider-month-brief.html"><code>../reports/urgent-care-provider-month-brief.html</code></a></td>
+</tr>
+<tr>
+<td>QA conversation</td>
+<td><a href="../../examples/warehouse-report-qa-conversation.html"><code>../../examples/warehouse-report-qa-conversation.md</code></a></td>
+</tr>
+<tr>
+<td>QA agent addendum</td>
+<td><a href="../../agent-rules/warehouse-report-qa-agent.html"><code>../../agent-rules/warehouse-report-qa-agent.md</code></a></td>
+</tr>
+<tr>
+<td>Checkpoint</td>
+<td><a href="../../../warehouse-demo/checkpoints/run5_checkpoint.md"><code>../checkpoints/run5_checkpoint.md</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Reader-facing pages (post Runs 1–5)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explanatory hub</td>
+<td><a href="../../../data-warehouse-agent-demo.html"><code>../../data-warehouse-agent-demo.html</code></a></td>
+</tr>
+<tr>
+<td>Legacy pointer</td>
+<td><a href="../../../warehouse-demo/agentic-warehouse-build.html"><code>../agentic-warehouse-build.html</code></a> — redirects to top-level page</td>
+</tr>
+<tr>
+<td>Urgent-care analysis</td>
+<td><a href="../../../warehouse-demo/reports/synthetic-urgent-care-analysis.html"><code>../reports/synthetic-urgent-care-analysis.html</code></a></td>
+</tr>
+<tr>
+<td>Reporting-table assurance</td>
+<td><a href="../../../warehouse-demo/reports/synthetic-reporting-table-assurance.html"><code>../reports/synthetic-reporting-table-assurance.html</code></a></td>
+</tr>
+<tr>
+<td>Corrected brief</td>
+<td><a href="../../../warehouse-demo/reports/urgent-care-provider-month-brief.html"><code>../reports/urgent-care-provider-month-brief.html</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Checkpoints (audit trail)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Do not rewrite after later runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/run2_checkpoint.md"><code>run2_checkpoint.md</code></a></td>
+<td>Preserves Run 2 state</td>
+</tr>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/run3_checkpoint.md"><code>run3_checkpoint.md</code></a></td>
+<td>Preserves Run 3 state</td>
+</tr>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/run4_checkpoint.md"><code>run4_checkpoint.md</code></a></td>
+<td>Preserves Run 4 state</td>
+</tr>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/run5_checkpoint.md"><code>run5_checkpoint.md</code></a></td>
+<td>Session complete</td>
+</tr>
+<tr>
+<td><a href="../checkpoints/runs_2_5_internal_qa.html"><code>runs_2_5_internal_qa.md</code></a></td>
+<td>Internal consistency QA (Runs 2–5)</td>
+</tr>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/reporting_pages_checkpoint.md"><code>reporting_pages_checkpoint.md</code></a></td>
+<td>Reader-facing pages created</td>
+</tr>
+<tr>
+<td><a href="../../../warehouse-demo/checkpoints/dedicated_page_checkpoint.md"><code>dedicated_page_checkpoint.md</code></a></td>
+<td>Top-level dedicated page</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Human reviewer only</h2>
+<ul>
+<li>human-only reviewer checklist (not published on site)</li>
+<li>human-only reviewer checklist (not published on site) — fill in after session</li>
+</ul>
+<h2>Site integration</h2>
+<ul>
+<li><a href="../../../agent-operating-model.html#cat-e">Agent operating model</a></li>
+<li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo hub</a></li>
+<li><a href="../../../draft-reports.html">Public draft reports</a> (RDY — separate provider)</li>
+</ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

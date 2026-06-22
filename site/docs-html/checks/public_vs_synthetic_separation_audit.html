@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 2 — Public vs synthetic data separation audit — Joe Salmon demonstration site</title>
+  <meta name="description" content="Phase 2 — Public vs synthetic data separation audit">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Private review/support note for understanding and assurance of the demonstration site.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../checks/public_vs_synthetic_separation_audit.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Phase 2 — Public vs synthetic data separation audit</h1>
+<p><strong>Purpose:</strong> Confirm the site keeps three content types clearly separated, so a reader never mistakes one for another:</p>
+<ol>
+<li><strong>Public aggregate data</strong> — real published NHS figures for Dorset HealthCare (RDY).</li>
+<li><strong>Synthetic Demo Rivers Health (DRH)</strong> — fictional source systems and warehouse.</li>
+<li><strong>Governance / operating model</strong> — explanation of how agents would be used, with illustrative rules.</li>
+</ol>
+<p><strong>Critical rules checked:</strong>
+- Public RDY pages must not imply they use synthetic DRH data.
+- Synthetic DRH pages must not imply they use real Dorset HealthCare / RDY / patient / staff / supplier / NHS-internal data.
+- Azure SQL / ADF must not be implied as live deployment.</p>
+<p>The <strong>Action</strong> column records the correction made after Phase 6.</p>
+<hr />
+<h2>Result summary</h2>
+<p>Separation is <strong>strong overall</strong>. The warehouse demo and draft-report pages explicitly distinguish DRH from RDY, and the synthetic reports carry layered caveats. The only real gap is the <strong>governance page</strong>, whose "synthetic only" wording understates the public-aggregate strand and could confuse a reader about what data the site uses. A homepage one-liner naming the three content types and a nav fix on one warehouse report further reduce blur risk.</p>
+<hr />
+<h2>Checks</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Finding</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RDY/public pages clearly labelled as public aggregate data</td>
+<td>All six <code>reports/public-*.html</code> carry meta "Public aggregate data · RDY · Demonstration only" + caveat box + footer "Not NHS-endorsed". <code>draft-reports.html</code> hero and caveat say "public aggregate NHS data"</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Synthetic DRH pages clearly labelled fictional</td>
+<td><code>data-warehouse-agent-demo.html</code> and all three <code>warehouse-demo/reports/*.html</code> state "Synthetic demonstration only / fictional DRH / not RDY" in title, meta, caveat and footer</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Warehouse demo page does not blur public and synthetic evidence</td>
+<td>§4 "How this differs from the draft reports page" explicitly separates RDY public data from DRH synthetic systems; "DRH and RDY must not be read as the same provider"</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Draft-reports → warehouse links carry separation wording</td>
+<td><code>draft-reports.html</code> related-demo info box: "separate <strong>synthetic</strong> end-to-end workflow … should not be read alongside these RDY briefs as the same provider"</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Report nav bars don't imply synthetic reports are public NHS reports</td>
+<td>Warehouse report nav links to "Warehouse demo / Public draft reports / Agent operating model"; public report nav links to "All reports / Agent operating model / Report method". Labels keep the two families distinct</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Azure / ADF not implied as live</td>
+<td>Consistent "specification artefact only / not a live deployment / not deployed to live Azure" across warehouse demo, SQL README, DEPLOYMENT_NOTES.md, report bodies</td>
+<td>Pass</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td>Caveats prominent enough</td>
+<td>Caveat boxes appear above the fold on every page; per-report footers reinforce</td>
+<td>Pass (minor improvements below)</td>
+<td>See gaps</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Gaps and low-risk fixes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Location</th>
+<th>Issue</th>
+<th>Fix</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>governance-and-benefits.html</code> caveat box (L38) and footer (L140)</td>
+<td>"using synthetic data" implies the whole site is synthetic; the site also uses public aggregate data</td>
+<td>Reword to "public aggregate and synthetic demonstration data"</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>governance-and-benefits.html</code> controls bullet (L67)</td>
+<td>"this site uses fabricated aggregates only" contradicts the public-data draft reports and mandatory map</td>
+<td>Reword to acknowledge public aggregate <strong>and</strong> synthetic demonstration data</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>index.html</code> purpose section</td>
+<td>The three content types are listed across cards but not named together early, so a quick scanner may not register the separation</td>
+<td>Add one sentence naming the three content types (public aggregate briefs; synthetic DRH warehouse; governance/operating model)</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>warehouse-demo/reports/urgent-care-provider-month-brief.html</code> nav</td>
+<td>Nav omits the warehouse demo page and public draft reports, unlike sibling reports — weakens "this is the synthetic strand" signposting</td>
+<td>Align nav bar with sibling warehouse reports</td>
+<td>Action applied</td>
+</tr>
+<tr>
+<td>5</td>
+<td>~~<code>reports/mandatory-returns-assurance-log.html</code>~~ (removed)</td>
+<td>Outdated legacy synthetic report</td>
+<td>Removed entirely; mandatory reporting map is the current assurance view</td>
+<td>Action applied — file deleted</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Cross-reference matrix (for reviewers)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Strand</th>
+<th>Provider label</th>
+<th>Real or fictional</th>
+<th>Azure</th>
+<th>Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public reporting</td>
+<td>RDY / Dorset HealthCare</td>
+<td>Real published aggregates</td>
+<td>Not used</td>
+<td><code>draft-reports.html</code>, <code>reports/public-*.html</code>, <code>mandatory-reporting-map.html</code> (public reference links)</td>
+</tr>
+<tr>
+<td>Synthetic warehouse</td>
+<td>Demo Rivers Health (DRH)</td>
+<td>Fictional</td>
+<td>Spec artefact only</td>
+<td><code>data-warehouse-agent-demo.html</code>, <code>warehouse-demo/**</code></td>
+</tr>
+<tr>
+<td>Governance / model</td>
+<td>n/a (illustrative roles)</td>
+<td>Illustrative templates</td>
+<td>n/a</td>
+<td><code>agent-operating-model.html</code>, <code>governance-and-benefits.html</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Conclusion:</strong> After the four low-risk fixes, public and synthetic strands are clearly separated and no page implies live Azure deployment or cross-contaminates real and fictional data.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

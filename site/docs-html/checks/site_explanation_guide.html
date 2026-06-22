@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website explanation guide — Joe Salmon demonstration site</title>
+  <meta name="description" content="Website explanation guide">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Private review/support note for understanding and assurance of the demonstration site.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../checks/site_explanation_guide.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Website explanation guide</h1>
+<p>Companion notes for Joe Salmon — use while browsing the demonstration site. This is <strong>not</strong> public website text.</p>
+<hr />
+<h2>How to use this guide</h2>
+<p>Keep this file open beside the live site. Use the headings to jump to the page you are on. When you explain the site to someone else, lead with caveats: personal demonstration, not official Trust reporting, human review required.</p>
+<p>Each page section follows the same pattern:</p>
+<ul>
+<li><strong>What this page is for</strong> — plain-English purpose  </li>
+<li><strong>Why it matters for the application</strong> — link to the Business &amp; Performance Business Partner role  </li>
+<li><strong>What to notice while browsing</strong> — what to point at on screen  </li>
+<li><strong>How Joe can explain it</strong> — short spoken script  </li>
+<li><strong>Caveats to remember</strong> — warnings  </li>
+<li><strong>Useful links on this page</strong> — only the important ones  </li>
+</ul>
+<p><strong>Path convention:</strong> Page locations are shown as <code>site/...</code> paths. Clickable links use <code>../</code> from this folder (for example <a href="../../index.html">Homepage</a>).</p>
+<h3>Interview-use caveat</h3>
+<p>The website demonstrates approach, thinking and technical capability. It does <strong>not</strong> by itself evidence every employment criterion. Use the application form, CV and interview examples for senior management, contract negotiation, leadership, influencing and managing competing priorities.</p>
+<p>That matches what the site QA audits recorded: the site shows method well; leadership track record and formal qualifications belong in your application materials, not on the website.</p>
+<hr />
+<h2>One-minute explanation of the whole site</h2>
+<p>You can say something like this:</p>
+<p>“This is a personal demonstration site I built to support my application for the Business &amp; Performance Business Partner role. It is not an official Dorset HealthCare website.</p>
+<p>It shows how I would approach performance work in practice: turning public NHS data into clear, caveated first-draft briefs; keeping mandatory reporting organised; using agentic AI with governance; and walking through a synthetic data-warehouse example from messy source files to reporting QA.</p>
+<p>The public briefs use published aggregate data for Dorset HealthCare as provider — RDY. The warehouse demo uses entirely fictional Demo Rivers Health data — DRH. Those two must not be mixed up.</p>
+<p>Everything on the site is a draft or demonstration. A named person would still validate definitions, check figures, agree interpretation and sign off before any operational use.”</p>
+<hr />
+<h2>The three strands of the site</h2>
+<p>The site has three kinds of content, kept deliberately separate:</p>
+<h3>1. Public aggregate reporting examples</h3>
+<ul>
+<li><strong>What:</strong> Six agent-assisted analytical briefs built from published NHS data filtered to RDY (Dorset HealthCare as provider).  </li>
+<li><strong>Where:</strong> <a href="../../draft-reports.html">Draft reports</a> and the six <code>site/reports/public-*.html</code> pages.  </li>
+<li><strong>Data type:</strong> Real public aggregate statistics — not patient-identifiable, not internal Trust data.  </li>
+<li><strong>Point:</strong> Shows how performance intelligence can be structured: figure, standard or comparator, trend, caveats, human checks.</li>
+</ul>
+<h3>2. Agent operating model and governance</h3>
+<ul>
+<li><strong>What:</strong> How bounded AI agents could support performance teams safely — SME agents, report QA, IG boundaries, human sign-off.  </li>
+<li><strong>Where:</strong> <a href="../../agent-operating-model.html">Agent operating model</a>, <a href="../../governance-and-benefits.html">Governance and benefits</a>, <a href="../../mandatory-reporting-map.html">Mandatory reporting map</a>.  </li>
+<li><strong>Data type:</strong> Illustrative rules and sample register metadata; public reference links where available.  </li>
+<li><strong>Point:</strong> AI can draft and organise; people remain accountable for definitions, validation and sign-off.</li>
+</ul>
+<h3>3. Synthetic data warehouse demonstration</h3>
+<ul>
+<li><strong>What:</strong> End-to-end worked example for fictional Demo Rivers Health (DRH): source profiling → warehouse design → SQL/pipeline specs → mart → report QA.  </li>
+<li><strong>Where:</strong> <a href="../../data-warehouse-agent-demo.html">Warehouse demo</a> and three pages under <code>site/warehouse-demo/reports/</code>.  </li>
+<li><strong>Data type:</strong> Synthetic CSV/XLSX extracts — fictional systems, fictional patients and staff identifiers.  </li>
+<li><strong>Point:</strong> Shows upstream work behind performance reporting: data quality, linkage, extract changes, and telling real pressure from data artefacts.</li>
+</ul>
+<h3>Separation rules (repeat whenever needed)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RDY ≠ DRH</strong></td>
+<td>Dorset HealthCare public data and fictional Demo Rivers Health are different providers and different datasets.</td>
+</tr>
+<tr>
+<td><strong>Not official Trust reporting</strong></td>
+<td>Personal demonstration only — not operationally validated.</td>
+</tr>
+<tr>
+<td><strong>Agent outputs are drafts</strong></td>
+<td>Human review, owner confirmation and sign-off always required.</td>
+</tr>
+<tr>
+<td><strong>Azure SQL / ADF not live</strong></td>
+<td>DDL and pipeline JSON are specification artefacts, not a deployed warehouse.</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Page-by-page guide</h2>
+<h3>Page: What this website is about (Homepage)</h3>
+<p><strong>Path:</strong> <code>site/index.html</code> · <a href="../../index.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Orientation. It explains why the site exists, the main idea (agentic AI supporting performance work with human accountability), the three content types, how the site was built, and what it is designed to show about performance, assurance, service improvement and responsible AI.</p>
+<h4>Why it matters for the application</h4>
+<p>This page frames the whole application story: you are not just claiming skills — you are showing how you think about performance partnering, validated information, and governed use of new technology. It connects operational experience with data and reporting thinking.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>The subtitle: “public and synthetic data only”.  </li>
+<li>The <strong>demonstration caveat</strong> box at the bottom — not official Dorset HealthCare.  </li>
+<li>The card grid naming five areas: mandatory map, draft reports, agent model, governance, warehouse demo.  </li>
+<li>The four “how I think” cards: performance, assurance, service improvement, responsible AI.  </li>
+<li>“How this was built” — Cursor agent under your direction; static site; no live Trust connection.  </li>
+<li>Explore buttons linking to all main sections.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This is my personal demo site for the application. It shows how I would use public data, structured reporting and responsible AI to support business and performance work — always with human review. It is not a finished Trust product.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Not an official Dorset HealthCare website or report.  </li>
+<li>Leadership and senior management experience come from your CV and interview — the homepage lists skills but does not prove employment history.  </li>
+<li>No backend database; no connection to live systems.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a>  </li>
+<li><a href="../../draft-reports.html">Draft reports</a>  </li>
+<li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a>  </li>
+<li><a href="../../agent-operating-model.html">Agent operating model</a>  </li>
+<li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+</ul>
+<hr />
+<h3>Page: Draft reports</h3>
+<p><strong>Path:</strong> <code>site/draft-reports.html</code> · <a href="../../draft-reports.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Hub for six worked examples of agent-assisted analytical briefs using <strong>public aggregate NHS data</strong> for RDY. It explains the review-first report structure and how the briefs were created (public sources → R processing → rendered HTML).</p>
+<h4>Why it matters for the application</h4>
+<p>A Business &amp; Performance Business Partner turns data into useful performance intelligence — not just numbers, but figure, comparator, trend, caveats and what still needs checking. This page shows that workflow in practice.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Hero states <strong>public aggregate NHS data</strong> and “first draft for human review”.  </li>
+<li>The list of what each brief contains: question, data used, headline reading, key findings, human validation checklist, bottom line, audit trail.  </li>
+<li>Six cards linking to the public reports.  </li>
+<li>“How these briefs were created” — reproducible R workflow, not hand-waved text.  </li>
+<li>The <strong>related demonstration</strong> info box: warehouse demo is <strong>separate synthetic DRH</strong> — not the same provider as these RDY briefs.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“These are first drafts an agent helped structure from published NHS files. Each one says what the figure is, how it compares, whether it is moving, what caveats apply, and what a human owner must still confirm. They are prompts for review, not board-ready reports.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Not official Dorset HealthCare reports.  </li>
+<li>Public data may be provisional or delayed vs local operational position.  </li>
+<li>Most briefs use <strong>Provider/RDY rows only</strong> — not Dorset population or ICB-resident views.  </li>
+<li>Median and rank on NOF brief are NHS England pass-through fields — not recalculated here.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li>Six public reports (see <a href="#explaining-the-public-reports">Explaining the public reports</a> below)  </li>
+<li><code>site/public-data/PUBLIC_REPORTS_METHOD.md</code> — method documentation  </li>
+<li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a> — synthetic strand, clearly separated</li>
+</ul>
+<hr />
+<h3>Page: Mandatory reporting map</h3>
+<p><strong>Path:</strong> <code>site/mandatory-reporting-map.html</code> · <a href="../../mandatory-reporting-map.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>A proof-of-concept register of NHS mandatory and statutory returns: return name, owner, frequency, due date, assurance status, risk, notes and public reference link. It also explains how agentic AI could help maintain such a register from public specifications.</p>
+<h4>Why it matters for the application</h4>
+<p>The role involves NHS reporting and monitoring requirements, assurance meetings and knowing who owns what. This page shows the kind of overview a business partner needs at a glance — and how AI could reduce admin without replacing owners.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Subtitle: “synthetic metadata only” for local fields.  </li>
+<li>Caveat: owners, due dates and assurance statuses are <strong>illustrative sample data</strong>.  </li>
+<li>Note above the table: “In production” badges are demo labels, not verified Trust status.  </li>
+<li>Public reference links point to real published NHS sources.  </li>
+<li>“How agentic AI could help” vs “However, the agent would not approve anything.”</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This is the kind of register I would want in a performance team — what is due, who owns it, where the risks are. AI could help draft and maintain the structure from public specs, but named owners still own the local truth and sign-off.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Not a complete or official Dorset HealthCare register.  </li>
+<li>Local owners, source systems and escalation routes are demonstration placeholders.  </li>
+<li>In a live Trust, every return would be checked against local SOPs and governance.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/data/mandatory_returns_register.csv</code> — extended fields behind the table  </li>
+<li><a href="../../agent-operating-model.html">Agent operating model</a> — if asked about automating register maintenance</li>
+</ul>
+<hr />
+<h3>Page: Agent operating model</h3>
+<p><strong>Path:</strong> <code>site/agent-operating-model.html</code> · <a href="../../agent-operating-model.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Practical framework for how bounded AI agents could support a Business &amp; Performance team: core principles, SME agents paired with approved sources, workflow diagrams, agent catalogue (categories A–E), and two conversation examples.</p>
+<h4>Why it matters for the application</h4>
+<p>Shows responsible AI thinking — not hype. Agents are narrow, source-bound assistants with citations and escalation; humans keep accountability for validation, judgement and sign-off. That matches assurance and IG expectations in NHS performance work.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Definition of “an agent”: narrow brief, fixed approved sources, cites answers, escalates when out of scope.  </li>
+<li><strong>Example 1:</strong> MHSDS Expert Agent tracing an unusual movement — data lineage, DQ vs operational hypotheses, refuses to approve publication.  </li>
+<li><strong>Example 2:</strong> Report Analysis Agent reviewing a flawed Talking Therapies draft — flags errors before publication.  </li>
+<li>Workflow diagrams ending in <strong>Human sign-off</strong>.  </li>
+<li>Category <strong>E:</strong> Warehouse design demo — links to synthetic DRH work.  </li>
+<li>IG/Safety Agent can block the workflow.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“An agent here means a well-briefed assistant for one task — bound to approved sources, always citing where an answer came from. It can draft, structure, check and explain, but it does not sign off returns or make operational decisions.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Agent rules in <code>site/agent-rules/</code> are illustrative templates — not deployed in production.  </li>
+<li>MHSDS worked example uses synthetic demonstration records — not a live Trust agent.  </li>
+<li>Local SOPs and IG-approved dictionaries are referenced but not published on the site.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><a href="../../agent-operating-model.html#mhsds-worked-example">MHSDS worked example</a>  </li>
+<li><a href="../../agent-operating-model.html#report-analysis-worked-example">Report Analysis worked example</a>  </li>
+<li><a href="../../agent-operating-model.html#cat-e">Category E — Warehouse demo</a>  </li>
+<li><code>site/agent-rules/</code> — rule files (technical evidence)</li>
+</ul>
+<hr />
+<h3>Page: Agentic AI data warehouse demonstration</h3>
+<p><strong>Path:</strong> <code>site/data-warehouse-agent-demo.html</code> · <a href="../../data-warehouse-agent-demo.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Hub for the synthetic DRH warehouse story — what happens <strong>before</strong> a reporting table exists. Walks through source profiling, design, SQL/pipeline artefacts, marts, report QA, and the three key data-quality stories (Jan–Feb, March, December).</p>
+<h4>Why it matters for the application</h4>
+<p>Real performance reporting depends on upstream data quality. This demo shows capacity/demand signals, reporting assurance before a table is trusted, and — critically — distinguishing genuine operational change from a data artefact. Agent classifications are draft readings for human confirmation, not validated findings.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li><strong>Synthetic demonstration only</strong> — DRH fictional, not RDY, not live Azure.  </li>
+<li>Three reader-facing report cards.  </li>
+<li>End-to-end workflow diagram: extracts → profile → design → SQL → pipelines → marts → QA → human review.  </li>
+<li>Section 4 explicitly separates this from <a href="../../draft-reports.html">draft reports</a> (public RDY data).  </li>
+<li>Fictional source systems list (CareCall, CareCase, etc.).  </li>
+<li>“Likely genuine vs likely artefact” summary for three periods.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This goes one step earlier in the data journey. It starts with messy fictional source extracts and shows how bounded agents could help profile the data, propose a warehouse design, create SQL and pipeline specs, build a mart, and QA a brief — with human review at every stage. It is synthetic because we cannot put real patient data on a public demo site.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Demo Rivers Health (DRH) must not be read as Dorset HealthCare (RDY).  </li>
+<li>Azure SQL and ADF material is specification only — not deployed.  </li>
+<li>Mart built offline by Python script, not a live pipeline.  </li>
+<li>Do not treat agent “likely genuine / likely artefactual” labels as confirmed findings.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">Urgent-care warehouse analysis</a>  </li>
+<li><a href="../../warehouse-demo/reports/synthetic-reporting-table-assurance.html">Reporting-table assurance</a>  </li>
+<li><a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html">Corrected provider-month brief</a>  </li>
+<li>Technical cards: <code>site/warehouse-demo/README.md</code>, profiling report, design proposal, SQL README, pipeline overview</li>
+</ul>
+<hr />
+<h3>Page: Governance and benefits</h3>
+<p><strong>Path:</strong> <code>site/governance-and-benefits.html</code> · <a href="../../governance-and-benefits.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Balanced view of responsible agentic AI: benefits (faster drafts, consistency, audit trail, more time for judgement) vs controls (no PID without IG approval, human sign-off, source-linked definitions, version-controlled rules). Includes an interactive AI assurance checklist.</p>
+<h4>Why it matters for the application</h4>
+<p>Shows you understand both opportunity and risk — accountability, validated information, transparency and public service values. The checklist is the kind of gate a performance team would use before sharing AI-assisted output with services or Board.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Benefits and controls side by side — neither fearful nor reckless.  </li>
+<li>Checklist items: data approved? definition linked? human owner named? caveats included?  </li>
+<li>Site uses <strong>public aggregate and synthetic demonstration data</strong> — stated explicitly in controls.  </li>
+<li>Closing link between checklist and accountability / validated information.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“Used well, agents can speed up first drafts and keep structure consistent. Used carelessly, they create risk. This page is the control framework: clear benefits, hard boundaries, and a checklist a human owner runs before anything goes to services or directors.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Checklist is illustrative for the demonstration — a live Trust would embed this in local governance.  </li>
+<li>Building the site with a Cursor agent is mentioned as an example of human-directed AI use — not autonomous publication.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li>Cross-references to <a href="../../draft-reports.html">draft reports</a> and <a href="../../data-warehouse-agent-demo.html">warehouse demo</a>  </li>
+<li>Agent rules and audit trail concepts on <a href="../../agent-operating-model.html">agent operating model</a></li>
+</ul>
+<hr />
+<h3>Page: Synthetic urgent-care warehouse analysis</h3>
+<p><strong>Path:</strong> <code>site/warehouse-demo/reports/synthetic-urgent-care-analysis.html</code> · <a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Main narrative investigation page for the DRH warehouse demo. Answers: how does the mock warehouse support investigation of urgent-care movements in early 2026, separating genuine operational pressure from extract or attribution artefacts?</p>
+<h4>Why it matters for the application</h4>
+<p>This is the business-facing story of the warehouse work — triangulating sources, flagging when numbers move together vs when they diverge, and naming what a data owner must confirm. That is core performance partnering when figures shift.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Three finding blocks with figure / comparator / trend / judgement / evidence / human confirmation tables.  </li>
+<li><strong>Jan–Feb:</strong> IUCS contacts elevated; cases and agency spend corroborate — likely genuine, needs review.  </li>
+<li><strong>March:</strong> Cases up, IUCS down; many cases without CareCall link; CareCase extract rule change — likely artefactual.  </li>
+<li><strong>December:</strong> 46 date-boundary mismatches; CareCall export schedule change — attribution issue.  </li>
+<li>Caveat banner: synthetic DRH, not RDY, human sign-off required.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This is where the warehouse demo becomes a performance conversation. In Jan and Feb several sources move together — contacts, cases, bank shifts, spend — which suggests possible real pressure, but still needs an operational lead to confirm. In March cases rise but urgent contacts fall, and the extract log shows a CareCase rule change — so I would not treat March as a demand surge without validation.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>All figures are synthetic DRH — not Dorset HealthCare operational data.  </li>
+<li>Judgements are draft agent classifications — not signed-off findings.  </li>
+<li>Evidence comes from profiler outputs and mart CSVs — not live warehouse queries.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/warehouse-demo/marts/demo_provider_month_measures.csv</code>  </li>
+<li><code>site/warehouse-demo/profile-output/volume_trends.csv</code>  </li>
+<li><code>site/warehouse-demo/profile-output/source_profiling_report.md</code>  </li>
+<li><a href="../../data-warehouse-agent-demo.html">Warehouse demo hub</a></li>
+</ul>
+<hr />
+<h3>Page: Synthetic reporting-table assurance</h3>
+<p><strong>Path:</strong> <code>site/warehouse-demo/reports/synthetic-reporting-table-assurance.html</code> · <a href="../../warehouse-demo/reports/synthetic-reporting-table-assurance.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Pre-trust checks on mock warehouse and mart tables before anyone trusts them for narrative use — analogous to mandatory reporting assurance. Row counts, missing keys, linkage ambiguity, expired mappings, date-boundary flags, extract change impacts.</p>
+<h4>Why it matters for the application</h4>
+<p>Assurance work is not just about statutory returns — it is about knowing whether a reporting table is fit for purpose before it feeds a brief or board paper. This page shows that discipline applied to a synthetic mart.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Assurance results table: check, figure, comparator, trend, status, human action.  </li>
+<li>Row count reconciliation vs source manifest — pass at demo load.  </li>
+<li>March spike in cases without <code>SourceContactId</code> — review required.  </li>
+<li>1,016 ambiguous call-to-case matches — do not force a single match.  </li>
+<li>Extract change log cross-reference for March divergence.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“Before I would use a reporting table in a performance brief, I would want checks like this — row counts, keys, linkage quality, extract changes. Agents can help run and document the checks; a BI or information lead still signs off.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Not valid NHS submissions — fictional DRH only.  </li>
+<li>QA view SQL is spec only — not deployed to live Azure.  </li>
+<li>“Pass — demo” means consistent with synthetic load expectations, not production certification.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/warehouse-demo/sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.md</code>  </li>
+<li><code>site/warehouse-demo/profile-output/dq_register.csv</code>  </li>
+<li><code>site/warehouse-demo/design/linkage_resolution_strategy.md</code>  </li>
+<li><a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">Urgent-care analysis</a> — interprets the same DQ signals</li>
+</ul>
+<hr />
+<h3>Page: Urgent care provider-month brief (corrected)</h3>
+<p><strong>Path:</strong> <code>site/warehouse-demo/reports/urgent-care-provider-month-brief.html</code> · <a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Corrected urgent-care brief after Report QA — the kind of output a performance reader would see once profiling evidence is applied. Provider-month measures for DRH Sep 2025–May 2026 with headline reading, caveats and bottom line.</p>
+<h4>Why it matters for the application</h4>
+<p>Shows the full loop: flawed draft → QA against source evidence → corrected narrative with explicit caveats. That is how AI-assisted reporting should work in practice — not publish the first draft.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Headline reading mirrors the three DQ stories in plain language.  </li>
+<li>Provider-month table: IUCS contacts (activity) vs cases opened (stock-style) vs operational cases vs agency spend.  </li>
+<li>Note on operational case filter (excludes extract-inclusion flag and missing source contact).  </li>
+<li>Caveats: stock vs activity; March extract log; ambiguous linkage; fictional NHS identifiers.  </li>
+<li>Bottom line: do not publish a single “demand surge” narrative without data owner validation.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This is the corrected brief after QA. It separates activity from stock measures, flags March as extract-driven until confirmed, and refuses to over-interpret December date boundaries. It is what I would put in front of a service lead — still a draft needing sign-off, but much safer than the first version.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Synthetic only; <code>_synthetic=TRUE</code> tagging in source data.  </li>
+<li>Not RDY-calibrated — fictional trust.  </li>
+<li>Corrected from a deliberately flawed draft (<code>site/examples/warehouse-draft-urgent-care-brief-flawed.md</code>) — the QA conversation is the teaching point.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><a href="../../agent-operating-model.html#report-analysis-worked-example">Report QA example on agent operating model</a>  </li>
+<li><code>site/examples/warehouse-report-qa-conversation.md</code> — worked QA transcript  </li>
+<li><a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">Synthetic urgent-care analysis</a></li>
+</ul>
+<hr />
+<h3>Page: NHS Oversight Framework performance brief (public)</h3>
+<p><strong>Path:</strong> <code>site/reports/public-performance-overview.html</code> · <a href="../../reports/public-performance-overview.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>First-draft RDY performance brief from public NHS Oversight Framework (NOF) data — which metrics exist, peer median/rank position, quarter-over-quarter trends where available, and priority review flags.</p>
+<h4>Why it matters for the application</h4>
+<p>Shows KPI thinking at trust level: figure, standard, peer position, trend, validation status, named human check. Flags areas that may need local review without claiming to explain why performance changed.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Priority flags: long-stay adult MH inpatients (OF0063), UCR 2-hour (OF0057), crisis 24h face-to-face (OF0016), relative cost index (OF0086).  </li>
+<li>Main metric table with peer median, rank, trend badges, validation status.  </li>
+<li>“What this report can and cannot tell us” — cannot explain why or confirm local position.  </li>
+<li>Audit trail linking to NHS England published fields — median/rank not recalculated.  </li>
+<li>Human validation checklist and bottom line for business partner use.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This brief triangulates public NOF data for RDY. It highlights where published rank and peer median suggest local review priorities — long-stay inpatients and urgent community response among them — but every figure still needs the service or finance owner to confirm definition and local position before any action.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Public aggregate only; not official Dorset HealthCare reporting.  </li>
+<li>Most metrics are latest-quarter snapshots; only four have QoQ trend in this demo.  </li>
+<li>Rank direction (whether higher or lower is better) needs confirmation against NHS England definitions.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/demo_nof_overview.csv</code>  </li>
+<li><code>site/public-data/PUBLIC_REPORTS_METHOD.md</code>  </li>
+<li><a href="../../draft-reports.html">Draft reports hub</a></li>
+</ul>
+<p><em>Full comparison of all six public reports: <a href="#explaining-the-public-reports">Explaining the public reports</a>.</em></p>
+<hr />
+<h3>Page: MHSDS access and activity profile (public)</h3>
+<p><strong>Path:</strong> <code>site/reports/public-mh-access-profile.html</code> · <a href="../../reports/public-mh-access-profile.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Six-month public MHSDS briefing for RDY as <strong>provider</strong>: open referrals, people in contact, contacts, and CYP two-contact measure — with descriptive trends and validation flags.</p>
+<h4>Why it matters for the application</h4>
+<p>Mental health access and activity are central to an MH/community trust. The brief shows stock vs activity thinking and when not to infer access performance from contact counts alone.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Scope badge: Provider/RDY only — not ICB-resident population.  </li>
+<li>Open referrals (MHS23) and in-contact counts (MHS01) rising over six months; contacts (MHS29) broadly stable.  </li>
+<li><strong>MHS69</strong> volatile — large April movement; major validation flag, not operational improvement.  </li>
+<li>MHS01 renamed nationally from April 2026 — definition change risk.  </li>
+<li>Provisional MHSDS; suppressed values excluded from averages.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“Over six months, caseload-style measures rose while contact volume was flat. That might mean pressure on open referrals, but it does not prove access got worse or better — and MHS69 needs a data owner before anyone treats the April jump as real improvement.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Cannot combine provider and resident breakdowns into one headline.  </li>
+<li>Provisional monthly MHSDS may revise.  </li>
+<li>Stock measures ≠ activity measures — do not conflate.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/trend_mhsds_access_rdy.csv</code>  </li>
+<li><a href="../../agent-operating-model.html#mhsds-worked-example">Agent operating model — MHSDS trace example</a></li>
+</ul>
+<hr />
+<h3>Page: CSDS community activity profile (public)</h3>
+<p><strong>Path:</strong> <code>site/reports/public-community-services-profile.html</code> · <a href="../../reports/public-community-services-profile.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>CSDS community <strong>activity</strong> profile for RDY — March 2026 snapshot plus six-month descriptive trends for Assessment and Clinical Intervention where the historic stack supports them.</p>
+<h4>Why it matters for the application</h4>
+<p>Community services performance needs honest scope limits. This brief shows activity counts, coding quality flags, and signposting to the right source for waiting times.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>MoM up for Assessment and Clinical Intervention in March, but <strong>six-month trend down</strong> vs start of window.  </li>
+<li><strong>“Other”</strong> is 42% of activity — major interpretability flag.  </li>
+<li>Explicit note: community <strong>waiting times</strong> need CHS SitRep / NHS waiting-list data, not CSDS activity alone.  </li>
+<li>Activity counts are coded submissions — not unique patients.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This is an activity profile, not a community waiting-time report. March ticked up month-on-month but six-month movement is down for key types, and nearly half the activity sits in ‘Other’ — so I would want the CSDS owner to validate coding before drawing service conclusions.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Cannot prove referral demand, waiting times or team performance from public aggregate CSDS.  </li>
+<li>Provisional monthly CSDS.  </li>
+<li>Provider/RDY scope only.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/trend_csds_activity_rdy.csv</code>  </li>
+<li>NHS England community waiting-list publication (linked in report)</li>
+</ul>
+<hr />
+<h3>Page: NHS Talking Therapies access and waits (public)</h3>
+<p><strong>Path:</strong> <code>site/reports/public-talking-therapies-profile.html</code> · <a href="../../reports/public-talking-therapies-profile.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Public NHS Talking Therapies (IAPT) access and waits brief for RDY: referrals, self-referral mix, six-week and eighteen-week access standards, open referrals with no activity by waiting band.</p>
+<h4>Why it matters for the application</h4>
+<p>Access standards, pathway mix and waiting-band stock are everyday performance partnering topics. The brief applies national standards where documented and flags pathway-owner validation.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>M053 six-week access: <strong>88%</strong> — above 75% national standard but <strong>falling</strong> in trend window.  </li>
+<li>M055 eighteen-week: 99% in latest month — still needs denominator check.  </li>
+<li>Self-referrals ~75% of referrals — confirm expected locally.  </li>
+<li>M019–M022 waiting bands: 6,780 open referrals with no activity; 910 over 120 days.  </li>
+<li>36 suppressed provider rows — do not infer from missing cells.  </li>
+<li>Outcomes/recovery not covered — access brief only.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“RDY remains above national six-week and eighteen-week access standards in the latest month, but six-week access is trending down — worth a pathway review before it becomes a breach risk. Self-referrals dominate volume, and the waiting-band figures need the IAPT lead to confirm how ‘no activity’ is coded locally.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Access measures ≠ clinical outcomes or recovery rates.  </li>
+<li>Link to <a href="../../agent-operating-model.html#report-analysis-worked-example">Report Analysis worked example</a> is about QA methodology — not claiming this brief was published after live QA in Trust.  </li>
+<li>Non-consecutive months in some trend extracts.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/demo_talking_therapies.csv</code>  </li>
+<li><a href="../../agent-operating-model.html#report-analysis-worked-example">Agent operating model — flawed draft QA</a></li>
+</ul>
+<hr />
+<h3>Page: Public statutory assurance source map</h3>
+<p><strong>Path:</strong> <code>site/reports/public-assurance-profile.html</code> · <a href="../../reports/public-assurance-profile.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Maps which public assurance artefacts contain RDY rows — KO41a complaints, ERIC estates, DSPT IG assessment history, FFT gap, CQC regulatory context. A <strong>source map</strong>, not a performance scorecard.</p>
+<h4>Why it matters for the application</h4>
+<p>Assurance partnering means knowing which sources exist, what each is useful for, where gaps are, and who to speak to next — without blending unrelated returns into one league table.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>KO41a 2024-25: 403 new complaints, 98 upheld — complaints team confirms themes.  </li>
+<li>ERIC 2024/25: estates benchmarking context — not good/bad score.  </li>
+<li>DSPT: latest public assessment Standards met — confirm current-year v8 submission with IG.  </li>
+<li>FFT: <strong>no org-level RDY rows</strong> in downloaded summary — workflow gap, not proof of poor experience.  </li>
+<li>CQC: Outstanding overall (main report 2019) — regulatory context only.  </li>
+<li>“Who to speak to” column on assurance source map table.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“This tells me which statutory assurance sources actually contain RDY rows and what each can safely support in a conversation. It is not a composite score — it is a navigation aid so I know to call the complaints team, estates lead, IG owner or patient experience lead as appropriate.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Cannot combine into one assurance score or operational IG conclusion.  </li>
+<li>Annual snapshots — may lag operational position.  </li>
+<li>CQC ratings may be dated; focused inspections may be newer.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/demo_assurance_profile.csv</code>  </li>
+<li><code>site/public-data/metadata/fft_manual_download_needed.md</code> — FFT org-level gap notes</li>
+</ul>
+<hr />
+<h3>Page: Urgent care, diagnostics and beds source check (public)</h3>
+<p><strong>Path:</strong> <code>site/reports/public-urgent-diagnostics-check.html</code> · <a href="../../reports/public-urgent-diagnostics-check.html">Open</a></p>
+<h4>What this page is for</h4>
+<p>Checks whether RDY appears in public A&amp;E, DM01 diagnostics and KH03 bed-stock files; explains what each source can safely support for a <strong>trust without a Type 1/2 emergency department</strong>.</p>
+<h4>Why it matters for the application</h4>
+<p>Not every national urgent-care metric applies to an MH/community trust. This brief shows source-applicability thinking — validating service model before drawing ED-style conclusions.</p>
+<h4>What to notice while browsing</h4>
+<ul>
+<li>Sources grouped for checking convenience — <strong>not</strong> one performance pathway.  </li>
+<li>A&amp;E: RDY present; <strong>zero Type 1/2 attendances</strong> — source validation, not ED performance.  </li>
+<li>DM01 Apr 2026: audiology dominates waiting-list volume (2,306 of 2,361).  </li>
+<li>KH03: quarterly mental illness bed snapshots — may lag A&amp;E/DM01 dates.  </li>
+<li>Bottom line: applicability check, not unified urgent-care performance report.</li>
+</ul>
+<h4>How Joe can explain it</h4>
+<p>“For RDY I checked whether these national files actually apply. A&amp;E confirms we do not run a Type 1/2 ED — so those rows validate coding, not A&amp;E performance. DM01 is mainly an audiology/community diagnostics picture here. KH03 gives quarterly MH bed-stock context. Each needs a local owner before operational use.”</p>
+<h4>Caveats to remember</h4>
+<ul>
+<li>Does not prove urgent care or diagnostic performance standing.  </li>
+<li>Small A&amp;E “other emergency admissions” counts need service-model confirmation.  </li>
+<li>KH03 latest snapshot in extract may be older than monthly DM01/A&amp;E.</li>
+</ul>
+<h4>Useful links on this page</h4>
+<ul>
+<li><code>site/public-data/processed/trend_ae_rdy.csv</code>, <code>trend_dm01_rdy.csv</code>, <code>trend_kh03_beds_rdy.csv</code>  </li>
+<li>Filter notes in <code>site/public-data/metadata/</code></li>
+</ul>
+<hr />
+<h2>Explaining the public reports</h2>
+<p>Quick reference for all six RDY public briefs. Each is a <strong>first draft</strong> from published aggregate data — human review required.</p>
+<h3>Jargon used across the reports</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Plain English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Figure</strong></td>
+<td>The latest published value for RDY from the NHS source file.</td>
+</tr>
+<tr>
+<td><strong>Standard / expected</strong></td>
+<td>National target or threshold where one exists in published guidance (e.g. 75% six-week IAPT access).</td>
+</tr>
+<tr>
+<td><strong>Peer median / rank</strong></td>
+<td>NHS England published comparators for the peer group — on the NOF brief, <strong>not recalculated</strong> by this demo.</td>
+</tr>
+<tr>
+<td><strong>Trend</strong></td>
+<td>Descriptive direction over available historic months — not proof of cause.</td>
+</tr>
+<tr>
+<td><strong>Provider / RDY rows</strong></td>
+<td>Trust as <strong>provider</strong> of services — not Dorset population or ICB-resident views.</td>
+</tr>
+<tr>
+<td><strong>Stock vs activity</strong></td>
+<td><strong>Stock:</strong> caseload at a point in time (e.g. open referrals). <strong>Activity:</strong> events in the month (e.g. contacts). They tell different stories.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>1. Performance overview (NOF)</h3>
+<ul>
+<li><strong>Question:</strong> Where does RDY sit on NOF metrics vs peer median and rank?  </li>
+<li><strong>Notice:</strong> Priority review on long-stay inpatients, UCR, crisis 24h contact, cost index.  </li>
+<li><strong>Does not prove:</strong> Why metrics moved; that public figures match latest internal dashboards.  </li>
+<li><strong>Role link:</strong> Trust-wide KPI scanning and prioritising what to validate with service and finance owners.</li>
+</ul>
+<h3>2. MHSDS access profile</h3>
+<ul>
+<li><strong>Question:</strong> Six-month MHSDS access and activity for RDY provider?  </li>
+<li><strong>Notice:</strong> Stock up, contacts flat; MHS69 volatile — do not read April spike as improvement.  </li>
+<li><strong>Does not prove:</strong> Access improved or worsened; ICB-resident picture.  </li>
+<li><strong>Role link:</strong> Mental health data quality and cautious access narrative.</li>
+</ul>
+<h3>3. Community services profile (CSDS)</h3>
+<ul>
+<li><strong>Question:</strong> What did community <strong>activity</strong> look like in Mar 2026 and over six months?  </li>
+<li><strong>Notice:</strong> MoM up, six-month down; 42% “Other” category.  </li>
+<li><strong>Does not prove:</strong> Waiting times — need CHS waiting-list sources.  </li>
+<li><strong>Role link:</strong> Honest scope limits and coding-quality flags for community services.</li>
+</ul>
+<h3>4. Talking Therapies profile</h3>
+<ul>
+<li><strong>Question:</strong> IAPT referrals, access standards and waiting bands for RDY?  </li>
+<li><strong>Notice:</strong> Above six-week standard but falling trend; heavy self-referral mix.  </li>
+<li><strong>Does not prove:</strong> Recovery, reliable improvement or clinical outcomes.  </li>
+<li><strong>Role link:</strong> Pathway access monitoring and early breach-risk conversation.</li>
+</ul>
+<h3>5. Assurance profile</h3>
+<ul>
+<li><strong>Question:</strong> Which assurance sources have RDY rows and who should you call?  </li>
+<li><strong>Notice:</strong> KO41a, ERIC, DSPT confirmed; FFT org gap; CQC context only.  </li>
+<li><strong>Does not prove:</strong> Composite assurance rating or operational IG compliance.  </li>
+<li><strong>Role link:</strong> Statutory assurance navigation and meeting preparation.</li>
+</ul>
+<h3>6. Urgent, diagnostics and beds check</h3>
+<ul>
+<li><strong>Question:</strong> Do A&amp;E, DM01 and KH03 apply to RDY and what can each support?  </li>
+<li><strong>Notice:</strong> Zero Type 1/2 A&E; audiology-heavy DM01; quarterly KH03 beds.  </li>
+<li><strong>Does not prove:</strong> ED performance or a single urgent-care dashboard.  </li>
+<li><strong>Role link:</strong> Service-model-aware use of national sources.</li>
+</ul>
+<hr />
+<h2>Explaining the synthetic data warehouse demo</h2>
+<h3>The story in seven steps</h3>
+<ol>
+<li><strong>Synthetic source data created</strong> — Python generator produced fictional CSV/XLSX extracts for Demo Rivers Health (CareCall, CareCase, Legendary Care, RosterFlow, LedgerWise, LocalOps).  </li>
+<li><strong>Agents profiled messy sources</strong> — grain, keys, linkage scenarios, volume trends, data-quality register, extract-change risks.  </li>
+<li><strong>Agents proposed warehouse design</strong> — staging with DQ flags, dimensions, facts, bridge tables for ambiguous matches, provider-month marts.  </li>
+<li><strong>SQL artefacts generated</strong> — Azure SQL-style DDL and QA views (<strong>specification only</strong>, not live deployment).  </li>
+<li><strong>Pipeline specs generated</strong> — ADF-style JSON for ingest, stage, load, refresh marts (<strong>not live</strong>).  </li>
+<li><strong>Reporting tables and QA examples produced</strong> — offline mart CSV; flawed brief corrected after Report QA; three HTML reader pages.  </li>
+<li><strong>Site explains findings</strong> — urgent-care analysis, reporting-table assurance, corrected brief — all with human review gates.</li>
+</ol>
+<h3>Fictional source systems</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>System</th>
+<th>Role in the demo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CareCall</strong></td>
+<td>Urgent and unscheduled care contacts (IUCS pathway)</td>
+</tr>
+<tr>
+<td><strong>CareCase</strong></td>
+<td>Case management — case opens and status</td>
+</tr>
+<tr>
+<td><strong>Legendary Care</strong></td>
+<td>Referrals and encounters</td>
+</tr>
+<tr>
+<td><strong>RosterFlow</strong></td>
+<td>Bank and substantive staff shifts</td>
+</tr>
+<tr>
+<td><strong>LedgerWise</strong></td>
+<td>Agency and bank spend by cost centre</td>
+</tr>
+<tr>
+<td><strong>LocalOps spreadsheets</strong></td>
+<td>Extract change logs, user ID mappings, validation notes</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Three data-quality stories (primary evidence: profiling report and urgent-care analysis)</h3>
+<p><strong>1. Jan–Feb 2026 — possible genuine operational pressure</strong></p>
+<ul>
+<li>IUCS contacts elevated (~1,592 Jan, ~1,477 Feb) vs Sep–Nov baseline ~1,263.  </li>
+<li>Operational cases, urgent-care bank shifts and agency spend move in the same direction.  </li>
+<li>LocalOps validation notes reference bank-holiday pressure.  </li>
+<li><strong>Interpretation:</strong> Several sources corroborate — may reflect real pressure, but urgent care and performance leads must confirm before board or service reporting.  </li>
+<li><strong>Not proof of:</strong> Cause (demand vs capacity vs coding); sustained trend beyond Feb.</li>
+</ul>
+<p><strong>2. March 2026 — likely extract / data issue</strong></p>
+<ul>
+<li>Case opens rise (542, +3% MoM) but IUCS contacts <strong>fall</strong> (1,272, −14% MoM).  </li>
+<li>322 of 542 March cases lack CareCall <code>SourceContactId</code> (vs 123 in Feb).  </li>
+<li>LocalOps extract change log records <strong>CareCase inclusion rule change</strong> effective March run (2026-02-28).  </li>
+<li><strong>Interpretation:</strong> Pattern fits extract-driven case inflation more than front-door demand surge — CareCall activity does not support the same story.  </li>
+<li><strong>Not proof of:</strong> That March is entirely non-operational — data owner must confirm rule change impact.</li>
+</ul>
+<p><strong>3. December 2025 — date-boundary / reporting period issue</strong></p>
+<ul>
+<li>46 IUCS contacts have <code>ContactDate</code> one calendar day earlier than <code>CreatedDateTime</code> date (DQ001).  </li>
+<li>CareCall export schedule moved to 02:00 UTC on 2025-12-04 per extract change log.  </li>
+<li><strong>Interpretation:</strong> Month attribution may be wrong for those contacts — flag, do not silently dedupe.  </li>
+<li><strong>Not proof of:</strong> Operational change in December — headline MoM movement was modest (+4.6% IUCS).</li>
+</ul>
+<hr />
+<h2>Shorter notes for supporting artefacts</h2>
+<p>These are mainly <strong>technical evidence</strong>. Reader-facing pages above are what you show in an interview first.</p>
+<h3><code>site/warehouse-demo/source-notes/demo_run_index.md</code></h3>
+<p><a href="../warehouse-demo/source-notes/demo_run_index.html">Open</a></p>
+<p>Table of contents for warehouse Runs 1–5: source pack → profiling → design → SQL → pipelines/mart/QA. Use when you need to find a specific artefact path. An internal reviewer checklist exists for warehouse QA — that is for reviewers only, not evidence for this guide.</p>
+<h3><code>site/warehouse-demo/profile-output/source_profiling_report.md</code></h3>
+<p><a href="../warehouse-demo/profile-output/source_profiling_report.html">Open</a></p>
+<p>First deep-dive on synthetic sources: file inventory, grain and keys, linkage scenarios, volume trends, extract vs reality table, DQ register priorities. <strong>Primary evidence</strong> for the three DQ stories.</p>
+<h3><code>site/warehouse-demo/design/warehouse_design_proposal.md</code></h3>
+<p><a href="../warehouse-demo/design/warehouse_design_proposal.html">Open</a></p>
+<p>How profiling findings became design choices: staging flags, bridge tables, provider-month marts, open decisions in human review pack. Status: draft pending human review — not approved for production.</p>
+<h3><code>site/warehouse-demo/sql/README.md</code></h3>
+<p><a href="../warehouse-demo/sql/README.html">Open</a></p>
+<p>DDL run order and optional local loader. <strong>Demonstration specification</strong> — explicitly not deployed to live Azure SQL.</p>
+<h3><code>site/warehouse-demo/pipelines/pipeline_overview.md</code></h3>
+<p><a href="../warehouse-demo/pipelines/pipeline_overview.html">Open</a></p>
+<p>Four fictional ADF pipelines with schedules and DQ gates between activities. Shows how loads would be orchestrated in a real project — JSON specs only.</p>
+<h3><code>site/checks/final_site_critical_sweep_checkpoint.md</code></h3>
+<p><a href="final_site_critical_sweep_checkpoint.html">Open</a></p>
+<p>What was QA’d before submission: separation, caveats, nav fixes, role-framing inserts. Lists what the site <strong>cannot</strong> prove (leadership, qualifications, contract negotiation — CV/interview).</p>
+<h3><code>site/checks/business_performance_role_alignment_audit.md</code></h3>
+<p><a href="business_performance_role_alignment_audit.html">Open</a></p>
+<p>Private map from site pages to job description themes (Strong / Adequate / Weak / Missing). Useful prep — not for showing interviewers unless they ask about alignment methodology.</p>
+<hr />
+<h2>Questions Joe might be asked and suggested answers</h2>
+<h3>Why did you build a website for the application?</h3>
+<p>“A CV lists skills; this site shows the <strong>method</strong> in one place — public-data briefs, assurance thinking, governed agents and a synthetic warehouse walkthrough. It keeps public and synthetic data separated and every output marked as draft. It is easier to explore than a long PDF appendix.”</p>
+<h3>Is this official Dorset HealthCare reporting?</h3>
+<p>“No. It is a personal demonstration site. Every page says so. Nothing here should be used for operational decisions without local validation.”</p>
+<h3>What data did you use?</h3>
+<p>“Two separate types: published <strong>aggregate NHS data</strong> for RDY on the draft reports, and entirely <strong>fictional synthetic data</strong> for the Demo Rivers Health warehouse demo. No patient-identifiable or confidential Trust data.”</p>
+<h3>What is agentic AI in this context?</h3>
+<p>“AI assistants given a <strong>narrow written brief</strong> and <strong>approved sources</strong> — for example one return’s published specification. They draft, structure, check and cite. They stop and escalate when something is outside their sources. They do not sign off or submit returns.”</p>
+<h3>Does this mean AI replaces analysts?</h3>
+<p>“No. It reduces admin-heavy first-draft work so analysts and business partners spend more time on judgement, stakeholder conversations and validation. The site repeats that humans own definitions, figures, interpretation and sign-off.”</p>
+<h3>Why use synthetic data for the warehouse demo?</h3>
+<p>“Real patient data, staff records and live Azure resources cannot go on a public application site. Synthetic data lets me show realistic multi-system mess — extract changes, linkage problems, date boundaries — without confidentiality risk.”</p>
+<h3>What does the data warehouse demo show?</h3>
+<p>“The journey <strong>before</strong> a reporting table exists: profile sources, design a warehouse, spec SQL and pipelines, build a mart, assure the table, QA a brief. The business punchline is telling Jan–Feb corroborated pressure from a March extract artefact.”</p>
+<h3>How does this relate to the Business &amp; Performance Business Partner role?</h3>
+<p>“It touches performance management, NHS reporting, validated information, senior-readable narratives, capacity/demand signals, assurance and governance — through worked examples. Senior management and leadership examples come from my application and interview, not from the site alone.”</p>
+<h3>What would still need human review?</h3>
+<p>“Everything operational: metric definitions, source freshness, figure accuracy, interpretation, caveats, whether a brief is fit for a service meeting or Board, and formal sign-off. Agent outputs are starting points.”</p>
+<h3>What are the limitations of the site?</h3>
+<p>“Static HTML — no live database. Warehouse SQL/ADF not deployed. Public data may be provisional. Agent ‘likely genuine / artefactual’ labels are draft. It does not evidence every person-spec criterion.”</p>
+<h3>What would you do next if this were a real Trust project?</h3>
+<p>“IG and information governance approval for data and tools; named owners to validate definitions; connect to approved sources and local dictionaries; pilot one bounded agent with audit logging; deploy warehouse through normal change control; never skip Report QA before distribution.”</p>
+<hr />
+<h2>Things not to claim</h2>
+<p>Do <strong>not</strong> say:</p>
+<ul>
+<li>“This is official Trust reporting.”  </li>
+<li>“This uses real patient data.”  </li>
+<li>“This is a production Azure warehouse.”  </li>
+<li>“The agent proved the answer.”  </li>
+<li>“AI can sign off reports.”  </li>
+<li>“This alone proves I meet every role criterion.”  </li>
+<li>“This demonstrates I have led at senior management level” — unless you support that from CV/interview, not the site.  </li>
+<li>“This shows contract/SLA negotiation experience” — site does not cover that.  </li>
+</ul>
+<p>Also avoid implying live deployment, Trust endorsement, or that public brief figures match current internal dashboards without validation.</p>
+<p>See <strong>Interview-use caveat</strong> at the top — the site supports the application but does not replace work-history evidence for senior management, negotiation, leadership, influencing or managing competing priorities.</p>
+<hr />
+<h2>If asked for technical detail</h2>
+<p>Stay brief. The business story matters more than syntax in most conversations.</p>
+<p><strong>Useful angles:</strong></p>
+<ul>
+<li>“The technical artefacts are there as evidence that the demonstration is <strong>concrete</strong> — not because I expect you to read every SQL file in an interview.”  </li>
+<li>“The important business point is <strong>source-to-report assurance</strong>: profiling messy inputs, checking a table before you trust it, and separating real operational change from a data artefact.”  </li>
+<li>“In a real Trust project, data owners, IG, analysts and operational leads would validate definitions before anything went near a board pack.”</li>
+</ul>
+<h3>“So did you actually build a warehouse?”</h3>
+<p>Answer honestly:</p>
+<ul>
+<li>There is <strong>no live Azure deployment</strong>. DDL and pipeline JSON are <strong>demonstration specifications</strong>.  </li>
+<li>Synthetic source data was generated locally; the mart was built with an <strong>offline Python script</strong>, not a running ADF pipeline.  </li>
+<li>What <strong>was</strong> built end-to-end is the <strong>method</strong> — profile → design → spec artefacts → mart → QA’d brief — with checkpoints and human review gates visible on the site.  </li>
+<li>Offer the <strong>reader-facing pages</strong>: <a href="../../data-warehouse-agent-demo.html">warehouse demo hub</a>, <a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">urgent-care analysis</a>, <a href="../../warehouse-demo/reports/synthetic-reporting-table-assurance.html">reporting-table assurance</a>. Open <code>site/warehouse-demo/sql/</code> only if they explicitly want depth.</li>
+</ul>
+<p><strong>Redirect phrases:</strong></p>
+<ul>
+<li>“Happy to point you at the profiling report or the assurance checklist.”  </li>
+<li>“The SQL folder is supporting evidence — the story is on the analysis page.”</li>
+</ul>
+<hr />
+<h2>Best route through the site for an interviewer</h2>
+<p>About <strong>5–10 minutes</strong>. Adjust depth to their interest.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Page</th>
+<th>Point out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="../../index.html">Homepage</a></td>
+<td>Three content types; demonstration caveat; built with agent under your direction</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="../../draft-reports.html">Draft reports</a></td>
+<td>Review-first brief structure; public RDY data only</td>
+</tr>
+<tr>
+<td>3</td>
+<td>One public report — <a href="../../reports/public-performance-overview.html">NOF overview</a> or <a href="../../reports/public-talking-therapies-profile.html">Talking Therapies</a></td>
+<td>Figure, standard, trend, human check; priority flags or access standards</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></td>
+<td>Workflow diagram; <strong>DRH ≠ RDY</strong>; synthetic only</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="../../warehouse-demo/reports/synthetic-urgent-care-analysis.html">Urgent-care analysis</a></td>
+<td>Three DQ stories: Jan–Feb vs March vs December</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="../../agent-operating-model.html">Agent operating model</a></td>
+<td>MHSDS trace or Report QA example; human sign-off</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="../../governance-and-benefits.html">Governance</a></td>
+<td>Benefits vs controls; assurance checklist</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Optional if they ask about returns:</strong> <a href="../../mandatory-reporting-map.html">Mandatory reporting map</a> — illustrative owners, real public reference links.</p>
+<hr />
+<h2>Final short script (60–90 seconds)</h2>
+<p>“This is a personal demonstration site for my Business &amp; Performance Business Partner application — not an official Dorset HealthCare website.</p>
+<p>It shows how I would approach the role in practice. One part uses published NHS aggregate data to produce caveated first-draft performance briefs for RDY — figure, comparator, trend, and what a human owner must still check. Another part explains how bounded AI agents could support reporting and assurance work safely, with governance and human sign-off at every step.</p>
+<p>There is also a synthetic warehouse demonstration for a fictional trust — Demo Rivers Health — that walks from messy source extracts through profiling, design, and reporting QA. That is separate from the public RDY briefs. The key business lesson there is telling when several sources corroborate possible operational pressure versus when a spike is more likely an extract or data-quality artefact.</p>
+<p>Nothing on the site is operationally validated. I built it with a Cursor agent under my direction, using public and synthetic data only. The value is the method — clear performance narrative, assurance discipline, and responsible use of AI — and I would still rely on named owners to validate definitions and sign off before any real operational use.”</p>
+<hr />
+<p><em>Guide version: companion to demonstration site as of June 2026. For internal use by Joe Salmon only.</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

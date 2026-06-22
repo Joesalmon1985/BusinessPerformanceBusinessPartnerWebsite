@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final site critical sweep — checkpoint — Joe Salmon demonstration site</title>
+  <meta name="description" content="Final site critical sweep — checkpoint">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Private review/support note for understanding and assurance of the demonstration site.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../checks/final_site_critical_sweep_checkpoint.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Final site critical sweep — checkpoint</h1>
+<p><strong>Date:</strong> June 2026
+<strong>Type:</strong> Evidence, clarity, separation and role-alignment sweep (not a redesign)
+<strong>Outcome:</strong> Low-risk wording, caveat, link and role-framing fixes applied. No data, figures, SQL, generators or report calculations changed.</p>
+<hr />
+<h2>1. Files reviewed</h2>
+<p><strong>Main pages:</strong> <code>index.html</code>, <code>data-warehouse-agent-demo.html</code>, <code>draft-reports.html</code>, <code>agent-operating-model.html</code>, <code>governance-and-benefits.html</code>, <code>mandatory-reporting-map.html</code>.</p>
+<p><strong>Reports:</strong> all six <code>reports/public-*.html</code>; all three <code>warehouse-demo/reports/*.html</code>; legacy synthetic drafts under <code>reports/</code> (read, recorded as orphaned).</p>
+<p><strong>Supporting docs (read/spot-checked):</strong> warehouse-demo SQL README and DEPLOYMENT_NOTES, demo_run_index, profiling report references, agent rule files (§E), governance checklist, role documents in <code>docs/</code>.</p>
+<p><strong>Redirect stub:</strong> <code>warehouse-demo/agentic-warehouse-build.html</code> (confirmed stub only).</p>
+<hr />
+<h2>2. Files changed (this sweep)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index.html</code></td>
+<td>Fixed "three linked demonstrations" miscount; named the three content types for early separation; added one subtle role-relevance sentence; replaced casual "Spain beat Saudi Arabia" anecdote with neutral wording; added Warehouse demo to the Explore buttons; removed "New:" label from warehouse demo card</td>
+</tr>
+<tr>
+<td><code>governance-and-benefits.html</code></td>
+<td>Broadened "synthetic data only" caveat box, control bullet and footer to "public aggregate and synthetic demonstration data"; linked the assurance checklist closing line to public service values of transparency and accountability and validated information</td>
+</tr>
+<tr>
+<td><code>data-warehouse-agent-demo.html</code></td>
+<td>Added a "Why this matters for performance partnering" note (capacity/demand, reporting assurance, genuine change vs data artefact; agent classifications are draft readings, not validated findings); renamed section 3 from "Why this was added to the site" to "How this fits the rest of the site"</td>
+</tr>
+<tr>
+<td><code>draft-reports.html</code></td>
+<td>Added one sentence on caveated performance narrative and decision support for senior operational/clinical readers</td>
+</tr>
+<tr>
+<td><code>agent-operating-model.html</code></td>
+<td>Softened "operationalised safely" to "used safely"; rephrased two "Read human answer key" must-not items to "human-only reviewer checklist (not an agent source)" so the raw filename is not surfaced on a public page</td>
+</tr>
+<tr>
+<td><code>mandatory-reporting-map.html</code></td>
+<td>Added a short note above the table: owners/dates/assurance badges (incl. "In production") are illustrative sample data, not verified Trust status; public reference links are real</td>
+</tr>
+<tr>
+<td><code>warehouse-demo/reports/urgent-care-provider-month-brief.html</code></td>
+<td>Aligned the nav bar with sibling warehouse reports (added Warehouse demo and Public draft reports links)</td>
+</tr>
+<tr>
+<td><code>reports/mandatory-returns-assurance-log.html</code></td>
+<td><strong>Deleted</strong> — outdated legacy synthetic report; superseded by <code>mandatory-reporting-map.html</code></td>
+</tr>
+<tr>
+<td><code>R/02_render_reports.R</code></td>
+<td>Removed generator block for the assurance log so the file is not recreated on render</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Audit files created in <code>site/checks/</code>:</strong> <code>final_claim_evidence_audit.md</code>, <code>public_vs_synthetic_separation_audit.md</code>, <code>business_performance_role_alignment_audit.md</code>, <code>final_readability_clarity_audit.md</code>, <code>final_link_navigation_audit.md</code>, and this checkpoint.</p>
+<blockquote>
+<p>Note on git state: <code>site/warehouse-demo/</code>, <code>site/data-warehouse-agent-demo.html</code>, several <code>site/examples/*.md</code>, three <code>site/agent-rules/*.md</code> and <code>site/checks/</code> are <strong>untracked</strong> (the warehouse-demo feature was built in a prior session and is not yet committed). Edits to those files are present on disk but do not appear in <code>git diff</code> of tracked files. <code>.gitignore</code>, <code>agent-rules/README.md</code> and most of <code>agent-operating-model.html</code>'s insertions are pre-existing uncommitted work from that build, not from this sweep.</p>
+</blockquote>
+<hr />
+<h2>3. Summary of low-risk fixes applied</h2>
+<ul>
+<li>Corrected a factual/counting inconsistency on the homepage.</li>
+<li>Removed an unprofessional casual anecdote.</li>
+<li>Made the public-vs-synthetic data scope honest and consistent on the governance page.</li>
+<li>Made the "In production" badges on the mandatory map clearly illustrative.</li>
+<li>Removed a raw reviewer-only filename from a public page; kept the human-only reviewer tool referenced appropriately in internal checkpoint/governance docs.</li>
+<li>Added brief, plain-English role relevance to four pages without overselling.</li>
+<li>Fixed the two navigation gaps (homepage Explore; one warehouse report nav).</li>
+</ul>
+<p>No high-risk changes were made. Report figures, conclusions, generated data, SQL logic and generators are untouched.</p>
+<hr />
+<h2>4. Unsupported or weak claims still requiring Joe's manual evidence</h2>
+<p>These are application statements the site cannot itself prove; they should be evidenced in the CV, supporting statement and interview:</p>
+<ul>
+<li>Senior NHS management experience; managing performance and change in a complex organisation (person spec 2.1, 2.2).</li>
+<li>Developing performance frameworks (2.3).</li>
+<li>Contract / SLA negotiation, management and delivery (2.7).</li>
+<li>Leadership, negotiation, influencing, representing the Trust externally (3.1, 5.5).</li>
+<li>Managing concurrent projects and competing demands (5.8, 5.9).</li>
+<li>Formal qualifications: Masters level / recognised management qualification (1.1, 1.2).</li>
+</ul>
+<p>Also removed at Joe's request: the outdated legacy synthetic <code>reports/mandatory-returns-assurance-log.html</code> (superseded by <code>mandatory-reporting-map.html</code>). The generator block was removed from <code>R/02_render_reports.R</code> so it will not be recreated.</p>
+<hr />
+<h2>5. Role-alignment strengths</h2>
+<p>Demonstrated concretely (not merely asserted):</p>
+<ul>
+<li>Performance management and KPI thinking.</li>
+<li>NHS reporting and monitoring requirements (mandatory map + public briefs).</li>
+<li>Accurate, validated and useful information (validation scripts, QA checklists, DQ register, confidence levels).</li>
+<li>Governance, accountability and safe AI use (named sign-off, IG gate, audit trail).</li>
+<li>SQL and statistical / complex-data analysis (warehouse artefacts, R workflow) — both person-spec desirables.</li>
+<li>Distinguishing genuine operational change from data artefact — directly relevant to service improvement.</li>
+</ul>
+<h2>6. Role-alignment gaps</h2>
+<p>Better evidenced by Joe than the site: matrix working / engagement track record, leadership and influencing, contract negotiation, managing competing priorities, and budget-data depth (the site touches activity and workforce signals more than finance).</p>
+<hr />
+<h2>7. Pages that still feel long or dense (acceptable, no rewrite)</h2>
+<ul>
+<li><code>agent-operating-model.html</code> — longest and most jargon-dense, but leads with plain-English framing, includes "In plain English" boxes, and signposts non-technical readers to the warehouse demo. No deletion recommended.</li>
+<li><code>data-warehouse-agent-demo.html</code> — 14 sections, but reader-facing report cards and the new role-relevance note give non-technical entry points.</li>
+</ul>
+<hr />
+<h2>8. Verification results</h2>
+<ul>
+<li><strong>Link check:</strong> <code>ALL INTERNAL LINKS RESOLVE</code> across the ten key pages, both before and after edits. No broken targets.</li>
+<li><strong><code>git diff --stat</code> (tracked):</strong> changes limited to <code>index.html</code>, <code>draft-reports.html</code>, <code>governance-and-benefits.html</code>, <code>mandatory-reporting-map.html</code>, <code>agent-operating-model.html</code> (this sweep), plus pre-existing uncommitted <code>.gitignore</code> and <code>agent-rules/README.md</code>.</li>
+<li><strong><code>git diff -- site/public-data site/warehouse-demo/source-data site/warehouse-demo/marts</code>:</strong> empty. No data files changed.</li>
+<li><strong><code>git diff -- site/reports</code>:</strong> empty. No public or legacy report figures changed.</li>
+<li><strong>Generated data files:</strong> no CSV/XLSX modified.</li>
+<li><strong>Risky-phrase grep:</strong> all occurrences appropriate and caveated:</li>
+<li><code>live Azure</code> / <code>production deployment</code> — all negated ("not deployed", "not executed", "not production deployment").</li>
+<li><code>real patient</code> — all in prohibition/negation context.</li>
+<li><code>guarantee</code> / <code>guaranteed</code> — only in must-not / anti-hype lists.</li>
+<li><code>proves</code> — only inside the deliberately flawed QA draft, which the agent then rejects.</li>
+<li>
+<p><code>automatically approves</code>, <code>perfect for this role</code> — no matches.</p>
+</li>
+<li>
+<p><strong>Public/synthetic separation:</strong> Pass. DRH and RDY are explicitly separated; governance wording corrected; no page implies live Azure deployment.</p>
+</li>
+<li><strong>Answer-key leakage:</strong> Pass. <code>human-only reviewer checklist (not published on site).md</code> now appears only in internal forbidden-source lists, reviewer-only notes, checkpoints and the demo index (all marked reviewers-only). The two public-facing surfacings on <code>agent-operating-model.html</code> were rephrased to "human-only reviewer checklist (not an agent source)".</li>
+</ul>
+<hr />
+<h2>9. Final recommendation</h2>
+<p><strong>Ready with minor manual review.</strong></p>
+<p>The site is credible, honest about public vs synthetic data and AI limitations, readable for a non-technical NHS audience, and now connects its demonstrations to the Business &amp; Performance Business Partner role without overselling. The only outstanding items are Joe's personal/application claims (experience, qualifications, leadership, negotiation), which belong in the CV, supporting statement and interview rather than on a demonstration site.</p>
+<p><strong>Read first:</strong> this file (<code>site/checks/final_site_critical_sweep_checkpoint.md</code>), then <code>site/checks/business_performance_role_alignment_audit.md</code> for the role mapping and manual-evidence gaps.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

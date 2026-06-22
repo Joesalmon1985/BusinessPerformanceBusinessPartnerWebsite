@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic MHSDS local dictionary (demonstration only) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Synthetic MHSDS local dictionary (demonstration only)">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../docs/synthetic-mhsds-local-dictionary.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Synthetic MHSDS local dictionary (demonstration only)</h1>
+<blockquote>
+<p><strong>Synthetic demonstration logic only.</strong> This is not an official Dorset HealthCare or Trust data dictionary. It is invented for this personal demonstration site and is not for operational use, submission or reporting.</p>
+</blockquote>
+<p>Real Trust metric definitions are IG-controlled, versioned and maintained by an Information Lead. Any figure used in a live report must be validated against the approved local dictionary and signed off by the accountable owner.</p>
+<p>RiO is named below as a plausible PAS for demo context only — <strong>not</strong> asserting real Dorset HealthCare schema, forms or warehouse objects.</p>
+<hr />
+<h2>Synthetic data lineage (Metric 1 — demonstration only)</h2>
+<p>End-to-end fictional lineage for <strong>Synthetic All Age Mental Health Access Contacts</strong>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Fictional artefact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source system</td>
+<td>RiO contact / appointment record (synthetic demo reference — not live Trust)</td>
+</tr>
+<tr>
+<td>Source form / fields</td>
+<td><code>DemoMHContactForm</code>; fields <code>ContactStatusCode</code>, <code>ContactDate</code>, <code>AppointmentType</code>, <code>TeamCode</code></td>
+</tr>
+<tr>
+<td>Staging extract</td>
+<td><code>StgMHSDSContactExtractDemo</code> — nightly RiO → warehouse staging</td>
+</tr>
+<tr>
+<td>Team mapping</td>
+<td><code>DimMHSDSServiceTeamDemo</code> — maps <code>TeamCode</code> to All Age MH inclusion flag (<code>AllAgeMHFlag</code>)</td>
+</tr>
+<tr>
+<td>Fact table</td>
+<td><code>FactMHSDSContactDemo</code> — one row per contact event after ETL and deduplication</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td><code>ContactStatusCode = 'ATT'</code> (attended); <code>ContactMonth = ReportingMonth</code>; <code>AllAgeMHFlag = 1</code></td>
+</tr>
+<tr>
+<td>Dedup logic</td>
+<td><code>ROW_NUMBER()</code> on <code>(PersonID, ContactDate, TeamCode)</code> keeping earliest attended row (synthetic rule)</td>
+</tr>
+<tr>
+<td>Late recording flag</td>
+<td><code>LateRecordedFlag = 1</code> where contact date falls in a prior month but record created in reporting month</td>
+</tr>
+<tr>
+<td>Reporting output</td>
+<td>Aggregate count → <a href="../../data/synthetic_mhsds_sme_demo.csv"><code>data/synthetic_mhsds_sme_demo.csv</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Lineage flow:</strong></p>
+<pre><code>RiO contact / appointment record (DemoMHContactForm)
+  → StgMHSDSContactExtractDemo
+  → FactMHSDSContactDemo (join DimMHSDSServiceTeamDemo)
+  → filter: attended + reporting month + All Age MH teams
+  → aggregate count
+  → synthetic_mhsds_sme_demo.csv
+</code></pre>
+<hr />
+<h2>Metric 1: Synthetic All Age Mental Health Access Contacts</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Metric name</strong></td>
+<td>Synthetic All Age Mental Health Access Contacts</td>
+</tr>
+<tr>
+<td><strong>Plain-English definition</strong></td>
+<td>Count of attended contacts recorded in the reporting month for selected all-age mental health access services in this synthetic demo.</td>
+</tr>
+<tr>
+<td><strong>Source system</strong></td>
+<td>RiO (synthetic demo reference)</td>
+</tr>
+<tr>
+<td><strong>Source form</strong></td>
+<td><code>DemoMHContactForm</code></td>
+</tr>
+<tr>
+<td><strong>Key fields</strong></td>
+<td><code>ContactStatusCode</code>, <code>ContactDate</code>, <code>AppointmentType</code>, <code>TeamCode</code>, <code>PersonID</code> (synthetic demo field names)</td>
+</tr>
+<tr>
+<td><strong>Extract table</strong></td>
+<td><code>StgMHSDSContactExtractDemo</code></td>
+</tr>
+<tr>
+<td><strong>Fact table</strong></td>
+<td><code>FactMHSDSContactDemo</code></td>
+</tr>
+<tr>
+<td><strong>Mapping table</strong></td>
+<td><code>DimMHSDSServiceTeamDemo</code></td>
+</tr>
+<tr>
+<td><strong>Numerator</strong></td>
+<td>Attended contacts where <code>ContactStatusCode = 'ATT'</code> and <code>ContactDate</code> falls within the reporting month</td>
+</tr>
+<tr>
+<td><strong>Denominator</strong></td>
+<td>Not applicable (count metric)</td>
+</tr>
+<tr>
+<td><strong>Dedup rule</strong></td>
+<td><code>ROW_NUMBER()</code> on <code>(PersonID, ContactDate, TeamCode)</code> — keep earliest attended row per synthetic demo rule</td>
+</tr>
+<tr>
+<td><strong>Included synthetic services</strong></td>
+<td>Demo Community MH Access Team; Demo All Age Crisis Resolution Team; Demo Primary Care Liaison MH Service (via <code>AllAgeMHFlag = 1</code> in <code>DimMHSDSServiceTeamDemo</code>)</td>
+</tr>
+<tr>
+<td><strong>Excluded synthetic services</strong></td>
+<td>Inpatient wards; LD/autism specialist teams; IAPT/Talking Therapies (separate pathway in demo); admin-only contacts</td>
+</tr>
+<tr>
+<td><strong>Reporting period</strong></td>
+<td>Calendar month (e.g. 2026-02, 2026-03)</td>
+</tr>
+<tr>
+<td><strong>Known caveats</strong></td>
+<td>Synthetic PAS extract logic; late-recorded contacts may appear in a later month (<code>LateRecordedFlag</code>); duplicate contact rules not fully validated in demo</td>
+</tr>
+<tr>
+<td><strong>Owner / sign-off role</strong></td>
+<td>Synthetic demo: Information Lead (MHSDS accountability) and Performance Manager</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Pseudologic (synthetic demo):</strong></p>
+<pre><code class="language-sql">SELECT COUNT(*)
+FROM FactMHSDSContactDemo f
+JOIN DimMHSDSServiceTeamDemo d ON f.TeamCode = d.TeamCode
+WHERE f.ContactStatusCode = 'ATT'
+  AND f.ContactMonth = @ReportingMonth
+  AND d.AllAgeMHFlag = 1
+</code></pre>
+<hr />
+<h2>Metric 2: Synthetic First Attended Contact Rate</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Metric name</strong></td>
+<td>Synthetic First Attended Contact Rate</td>
+</tr>
+<tr>
+<td><strong>Plain-English definition</strong></td>
+<td>Proportion of referrals received in the reporting month where a first attended contact occurred in the same month (synthetic demo logic).</td>
+</tr>
+<tr>
+<td><strong>Numerator</strong></td>
+<td>First attended contacts in the reporting month (<code>FirstContactFlag = 1</code> in <code>FactMHSDSContactDemo</code>)</td>
+</tr>
+<tr>
+<td><strong>Denominator</strong></td>
+<td>Referrals received in the reporting month (from synthetic referral extract — demo only)</td>
+</tr>
+<tr>
+<td><strong>Included synthetic services</strong></td>
+<td>Same as Metric 1</td>
+</tr>
+<tr>
+<td><strong>Excluded synthetic services</strong></td>
+<td>Same as Metric 1; referrals closed before first contact with no attended contact are excluded from numerator but remain in denominator</td>
+</tr>
+<tr>
+<td><strong>Reporting period</strong></td>
+<td>Calendar month</td>
+</tr>
+<tr>
+<td><strong>Known caveats</strong></td>
+<td>Sensitive to referral timing within the month; not comparable to national MHSDS published measures without mapping validation</td>
+</tr>
+<tr>
+<td><strong>Owner / sign-off role</strong></td>
+<td>Synthetic demo: Information Lead and Performance Manager</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Metric 3: Synthetic Referral-to-First-Contact Median Wait</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Metric name</strong></td>
+<td>Synthetic Referral-to-First-Contact Median Wait</td>
+</tr>
+<tr>
+<td><strong>Plain-English definition</strong></td>
+<td>Median number of days from referral date to first attended contact for referrals reaching first contact in the reporting month (synthetic demo logic).</td>
+</tr>
+<tr>
+<td><strong>Numerator</strong></td>
+<td>Days from referral to first attended contact (per referral reaching first contact in month)</td>
+</tr>
+<tr>
+<td><strong>Denominator</strong></td>
+<td>Count of referrals reaching first attended contact in the reporting month (for median calculation)</td>
+</tr>
+<tr>
+<td><strong>Included synthetic services</strong></td>
+<td>Same as Metric 1</td>
+</tr>
+<tr>
+<td><strong>Excluded synthetic services</strong></td>
+<td>Same as Metric 1; referrals with no first attended contact in the month are excluded</td>
+</tr>
+<tr>
+<td><strong>Reporting period</strong></td>
+<td>Calendar month (based on first contact date)</td>
+</tr>
+<tr>
+<td><strong>Known caveats</strong></td>
+<td>Does not reflect full pathway wait for referrals still waiting; affected by late recording and DNA/rebook patterns</td>
+</tr>
+<tr>
+<td><strong>Owner / sign-off role</strong></td>
+<td>Synthetic demo: Information Lead and Performance Manager</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Demo data reference</h2>
+<p>Aggregate figures for these metrics are in <a href="../../data/synthetic_mhsds_sme_demo.csv"><code>data/synthetic_mhsds_sme_demo.csv</code></a>.</p>
+<p>Public MHSDS source references are in <a href="../../public-data/mhsds-source-pack-register.csv"><code>public-data/mhsds-source-pack-register.csv</code></a>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

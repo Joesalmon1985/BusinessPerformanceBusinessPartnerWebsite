@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL artefacts — Demo Rivers Health warehouse — Joe Salmon demonstration site</title>
+  <meta name="description" content="SQL artefacts — Demo Rivers Health warehouse">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/sql/README.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>SQL artefacts — Demo Rivers Health warehouse</h1>
+<p>Demonstration-only Azure SQL DDL. <strong>Not deployed to live Azure.</strong></p>
+<h2>Run order</h2>
+<ol>
+<li><code>00_create_schema.sql</code> — database and schemas (<code>raw</code>, <code>stg</code>, <code>dwh</code>, <code>mart</code>, <code>qa</code>)</li>
+<li><code>staging/01_raw_carecall.sql</code> — example raw land pattern</li>
+<li><code>staging/02_raw_other_sources.sql</code> — additional raw tables for loader/ADF targets</li>
+<li><code>staging/01_stg_tables.sql</code> — staging with DQ flags</li>
+<li><code>dimensions/02_dim_tables.sql</code></li>
+<li><code>facts/03_fact_tables.sql</code></li>
+<li><code>marts/04_mart_tables.sql</code></li>
+<li><code>views/05_qa_views.sql</code></li>
+</ol>
+<h2>Optional local load</h2>
+<pre><code class="language-bash">cd site/warehouse-demo/sql/load
+pip install pandas pyodbc  # pyodbc only if SQL Server available
+python load_from_csv.py --dry-run
+</code></pre>
+<p>See <a href="DEPLOYMENT_NOTES.html"><code>DEPLOYMENT_NOTES.md</code></a> for execution limits.</p>
+<h2>Related</h2>
+<ul>
+<li>Design: <a href="../../../warehouse-demo/design"><code>../design/</code></a></li>
+<li>Expected counts: <a href="EXPECTED_SYNTHETIC_LOAD_COUNTS.html"><code>EXPECTED_SYNTHETIC_LOAD_COUNTS.md</code></a></li>
+</ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

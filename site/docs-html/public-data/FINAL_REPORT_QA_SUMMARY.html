@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Report QA Summary — Joe Salmon demonstration site</title>
+  <meta name="description" content="Final Report QA Summary">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../draft-reports.html">Draft reports</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../public-data/FINAL_REPORT_QA_SUMMARY.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Final Report QA Summary</h1>
+<p><strong>Generated:</strong> 2026-06-21 (public-data report improvement plan — full implementation pass)</p>
+<blockquote>
+<p>Public-data demonstration only — not official Dorset HealthCare reporting. All figures require human review and local owner confirmation.</p>
+</blockquote>
+<h2>Scope of this pass</h2>
+<p>Implementation of the <strong>public-data report improvement plan</strong>:</p>
+<ul>
+<li><strong>Data-error fixes:</strong> TT M019–M022 totals (5,870 and 6,780), KH03 quarter wording, DM01 period labels, CSDS 6/8-month distinction, chronological trend charts, unique section headings</li>
+<li><strong>Enriched KFE table:</strong> Standard/expected, peer median, trend, validation status and judgement columns with source metadata cites</li>
+<li><strong>Per-report content:</strong> NOF spec enrichment and priority callouts; MHSDS/CSDS/TT access-activity profiles; assurance source map; urgent-care applicability check</li>
+<li><strong>Layout slimming:</strong> Collapsed grouped findings and draft interpretation into audit trail; bottom line and why-this-is-useful sections; provider scope badges</li>
+<li><strong>Automated validation:</strong> <code>site/R/04_validate_public_reports.R</code> wired to render pipeline</li>
+<li><strong>CSS:</strong> Priority callout, scope badge, bottom line, validation badges, period captions, mobile KFE stacking</li>
+</ul>
+<p><strong>Regenerate reports:</strong></p>
+<pre><code class="language-bash">Rscript site/R/03_render_public_reports.R
+Rscript site/R/04_validate_public_reports.R
+</code></pre>
+<hr />
+<h2>Automated validation</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All six <code>public-*.html</code> files regenerate without error</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Post-render validation script passes</td>
+<td><strong>Pass</strong> (6 files)</td>
+</tr>
+<tr>
+<td>No duplicate <code>&lt;h2&gt;</code> headings within any report</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Trend column free of validation-status wording</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>TT M019–M021 (5,870) and M019–M022 (6,780) in HTML</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Time-series chart labels in chronological order</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Period captions on Key findings explained sections</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Bottom line and why-this-is-useful on all reports</td>
+<td><strong>Pass</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Acceptance criteria (content and structure)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No contradictory totals (M019–M022, DM01 periods, KH03 quarter count)</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Trend column shows direction only; validation in separate column</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>NOF table: figure, standard, peer, trend, judgement, human check</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>OF0063 and UCR prominently flagged in NOF headline/callout</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>MHS69 April spike as validation priority with FY-reset explanation</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>M053 75% standard + falling judgement; 18-week standard included</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>CSDS MoM-up / 6-month-down headline; Other category flagged</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Assurance traceable KO41a/ERIC values; source map with currentness-risk</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Urgent-care chronological charts; grouping rationale stated</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Each report has bottom line paragraph</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>MHSDS, CSDS, TT show Provider/RDY scope badge</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>No duplicate section headings within any report</td>
+<td><strong>Pass</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Visual QA (desktop and mobile)</h2>
+<p><strong>Desktop (≥1024px):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KFE table columns readable with horizontal scroll wrapper</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Priority callouts visually distinct</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Validation badges legible in separate column</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Collapsed audit sections use <code>&lt;details&gt;</code></td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>No oversized coloured cells / blue-blob regression</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Standard cites render as inline footnotes</td>
+<td><strong>Pass</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Mobile (≤480px):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KFE table stacks per-row (thead hidden, block layout)</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Chart labels readable; chronological order preserved</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Scope badge and bottom line visible without excessive scroll</td>
+<td><strong>Pass</strong></td>
+</tr>
+<tr>
+<td>Collapsible summaries present and tappable</td>
+<td><strong>Pass</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Visual inspection completed on all six reports: <code>public-performance-overview.html</code>, <code>public-mh-access-profile.html</code>, <code>public-community-services-profile.html</code>, <code>public-talking-therapies-profile.html</code>, <code>public-assurance-profile.html</code>, <code>public-urgent-diagnostics-check.html</code>.</p>
+<hr />
+<h2>Files changed in this pass</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>site/R/03_render_public_reports.R</code></td>
+<td>Shared helpers, enriched KFE, per-report content, slim layout, validation wiring</td>
+</tr>
+<tr>
+<td><code>site/R/04_validate_public_reports.R</code></td>
+<td>New post-render validation checks</td>
+</tr>
+<tr>
+<td><code>site/assets/nhs-report.css</code></td>
+<td>New component styles; mobile KFE stacking</td>
+</tr>
+<tr>
+<td><code>site/draft-reports.html</code></td>
+<td>Revised card titles, descriptions, structure note</td>
+</tr>
+<tr>
+<td><code>site/public-data/PUBLIC_REPORTS_METHOD.md</code></td>
+<td>KFE column model, metadata schema, validation usage</td>
+</tr>
+<tr>
+<td><code>site/public-data/FINAL_REPORT_QA_SUMMARY.md</code></td>
+<td>This document</td>
+</tr>
+<tr>
+<td><code>site/reports/public-*.html</code></td>
+<td>Regenerated (six files)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Remaining caveats before deployment</h2>
+<ol>
+<li><strong>FFT org-level gap</strong> — manual download may still be needed (<code>metadata/fft_manual_download_needed.md</code>)</li>
+<li><strong>KH03 snapshot lag</strong> — trend file ends Jun 2024; verify latest quarter on NHS England site</li>
+<li><strong>NOF demo CSV truncated</strong> — full audit CSV/MD provided for verification</li>
+<li><strong>Provisional monthly data</strong> — MHSDS, CSDS, IAPT may revise on final refresh</li>
+<li><strong>Period mismatch across sources</strong> — urgent report documents A&amp;E May 2026 vs KH03 Jun 2024 explicitly</li>
+</ol>
+<hr />
+<h2>Ready for final site QA / deployment?</h2>
+<p><strong>Yes — ready for final human review and site QA.</strong></p>
+<p>All six public reports meet the improvement plan acceptance criteria. Automated validation passes on regenerate. Operational use still requires local data owner confirmation and accountable sign-off.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

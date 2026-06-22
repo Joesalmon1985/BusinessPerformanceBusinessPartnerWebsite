@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expected synthetic load counts — Joe Salmon demonstration site</title>
+  <meta name="description" content="Expected synthetic load counts">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/sql/EXPECTED_SYNTHETIC_LOAD_COUNTS.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Expected synthetic load counts</h1>
+<blockquote>
+<p><strong>Run 4 SQL verification aid.</strong> Separate from Run 1 <code>human-only reviewer checklist (not published on site).md</code>.<br />
+Counts match <code>source_manifest.csv</code> from synthetic source pack (seed 42).</p>
+</blockquote>
+<h2>raw / stg row counts (post full load)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Expected rows</th>
+<th>Source file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>raw.CareCallContact</td>
+<td>25,942</td>
+<td>carecall_contacts.csv</td>
+</tr>
+<tr>
+<td>raw.CareCase</td>
+<td>3,631</td>
+<td>carecase_cases.csv</td>
+</tr>
+<tr>
+<td>raw.LegendaryReferral</td>
+<td>7,928</td>
+<td>legendary_care_referrals.csv</td>
+</tr>
+<tr>
+<td>raw.RosterFlowShift</td>
+<td>40,926</td>
+<td>rosterflow_shifts.csv</td>
+</tr>
+<tr>
+<td>raw.LedgerPosting</td>
+<td>7,360</td>
+<td>ledgerwise_ledger.csv</td>
+</tr>
+</tbody>
+</table></div>
+<h2>QA view expectations</h2>
+<h3>qa.MonthlyContactCaseTrend</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ReportingMonth</th>
+<th>IUCSContactCount (approx)</th>
+<th>CaseOpenedCount (approx)</th>
+<th>CasesWithoutSourceContact (approx)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-02</td>
+<td>1,477</td>
+<td>525</td>
+<td>123</td>
+</tr>
+<tr>
+<td>2026-03</td>
+<td>1,272</td>
+<td>542</td>
+<td>322</td>
+</tr>
+</tbody>
+</table></div>
+<p>March: cases up, IUCS down, cases without source contact sharply up.</p>
+<h3>qa.OrphanCareCaseSourceContact</h3>
+<p>Non-zero orphan <code>SourceContactId</code> rows possible (background noise).</p>
+<h3>qa.ExpiredLocalOpsMappingInUse</h3>
+<p>~9 rows with expired <code>ValidToDate</code> per profiling DQ004.</p>
+<h2>mart.ProviderMonthUrgentCare</h2>
+<p>Populated by Run 5 measure builder or ADF mart refresh spec — 9 months × 1 provider (DRH).</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

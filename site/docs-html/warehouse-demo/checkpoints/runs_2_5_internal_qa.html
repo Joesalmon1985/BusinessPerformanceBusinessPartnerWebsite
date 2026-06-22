@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Runs 2–5 internal QA findings — Joe Salmon demonstration site</title>
+  <meta name="description" content="Runs 2–5 internal QA findings">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/checkpoints/runs_2_5_internal_qa.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Runs 2–5 internal QA findings</h1>
+<p><strong>Date:</strong> 2026-06-22<br />
+<strong>Scope:</strong> Internal consistency only (no new features).<br />
+<strong>Answer key:</strong> Not read during this QA pass.</p>
+<h2>Summary</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Missing deliverable files</td>
+<td>Pass — all planned artefacts present</td>
+</tr>
+<tr>
+<td>Markdown / repo links</td>
+<td>Pass — no broken relative links in warehouse-demo or examples</td>
+</tr>
+<tr>
+<td>HTML hrefs (agent-operating-model)</td>
+<td>Pass — 15 warehouse-related targets exist</td>
+</tr>
+<tr>
+<td>JSON pipeline specs</td>
+<td>Pass — 4/4 valid JSON</td>
+</tr>
+<tr>
+<td><code>site/reports/</code> modified</td>
+<td>Pass — not modified</td>
+</tr>
+<tr>
+<td><code>draft-reports.html</code> modified</td>
+<td>Pass — not modified</td>
+</tr>
+<tr>
+<td>Answer-key leakage (agent outputs)</td>
+<td>Pass — no planted counts in profiling report; forbidden lists only elsewhere</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Issues found and disposition</h2>
+<h3>Fixed (low-risk)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Issue</th>
+<th>Fix applied</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA-01</td>
+<td>Corrected HTML brief showed Mar operational cases <strong>220</strong> but <code>demo_provider_month_measures.csv</code> has <strong>197</strong> for same filter</td>
+<td>Updated <a href="../../../warehouse-demo/reports/urgent-care-provider-month-brief.html"><code>reports/urgent-care-provider-month-brief.html</code></a></td>
+</tr>
+<tr>
+<td>QA-02</td>
+<td>Jan operational cases showed em dash; mart CSV has <strong>274</strong></td>
+<td>Same HTML table row updated</td>
+</tr>
+<tr>
+<td>QA-03</td>
+<td><code>qa.ExpiredLocalOpsMappingInUse</code> references <code>stg.LocalOpsUserMapping</code> — table missing from DDL</td>
+<td>Added to <a href="../../../warehouse-demo/sql/staging/01_stg_tables.sql"><code>sql/staging/01_stg_tables.sql</code></a></td>
+</tr>
+<tr>
+<td>QA-04</td>
+<td>Loader/ADF/EXPECTED counts reference <code>raw.CareCase</code>, <code>raw.LegendaryReferral</code>, etc. — only <code>raw.CareCallContact</code> had DDL</td>
+<td>Added <a href="../../../warehouse-demo/sql/staging/02_raw_other_sources.sql"><code>sql/staging/02_raw_other_sources.sql</code></a>; README run order updated</td>
+</tr>
+<tr>
+<td>QA-05</td>
+<td>HTML caveat cited <code>linkage_resolution_strategy.md</code> without working relative path</td>
+<td>Linked to <code>../design/linkage_resolution_strategy.md</code></td>
+</tr>
+<tr>
+<td>QA-06</td>
+<td>Agent operating model section still titled "in progress" after Run 5</td>
+<td>Title updated to "Warehouse design demo"</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Documented — no fix (by design or out of scope)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Issue</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA-07</td>
+<td><a href="../../../warehouse-demo/sql/views/05_qa_views.sql"><code>qa.MonthlyContactCaseTrend</code></a> uses <code>FULL OUTER JOIN</code> on month only — can mis-aggregate cases vs contacts</td>
+<td>Demo QA view; profiling uses Python <code>volume_trends.csv</code> instead</td>
+</tr>
+<tr>
+<td>QA-08</td>
+<td>SQL DDL incomplete vs design (<code>staging_model.md</code> lists many stg/raw tables)</td>
+<td>Artefact spec only; not all sources have CREATE TABLE scripts</td>
+</tr>
+<tr>
+<td>QA-09</td>
+<td>ADF JSON references stored procedures (<code>stg.usp_*</code>, <code>mart.usp_*</code>) not defined in SQL folder</td>
+<td>Expected for pipeline specs; procedures not in demo scope</td>
+</tr>
+<tr>
+<td>QA-10</td>
+<td>Flawed brief uses invented open-referral figures (4,200 / 4,350)</td>
+<td>Intentional QA trap — not sourced from mart</td>
+</tr>
+<tr>
+<td>QA-11</td>
+<td>Flawed brief claims "42% surge" for March</td>
+<td>Intentional error for Report QA demo</td>
+</tr>
+<tr>
+<td>QA-12</td>
+<td><code>suggested_next_agent_task.md</code> still describes Run 2 profiling</td>
+<td>Superseded by <code>suggested_run3_agent_task.md</code>; retained as historical Run 1 handoff</td>
+</tr>
+<tr>
+<td>QA-13</td>
+<td><code>2026-06</code> partial month in volume/mart outputs</td>
+<td>Source data edge rows; profiling includes with caveat</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Answer-key references (expected)</h3>
+<p>References to <code>human-only reviewer checklist (not published on site).md</code> appear only in: forbidden-source lists, human-only checkpoints, comparison template, README reviewer note. <strong>No leakage into</strong> <code>source_profiling_report.md</code> or agent conversations (except intentional flawed draft errors).</p>
+<h2>Cross-artifact consistency checks</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mar 2026 cases opened 542</td>
+<td>Consistent: volume_trends, mart, profiling report, HTML</td>
+</tr>
+<tr>
+<td>Mar IUCS 1,272</td>
+<td>Consistent across profiler and mart</td>
+</tr>
+<tr>
+<td>Mar cases without SourceContactId 322</td>
+<td>Consistent: volume_trends, DQ002, profiling report</td>
+</tr>
+<tr>
+<td>Feb operational cases 402</td>
+<td>Consistent: mart CSV and corrected HTML (after QA-01/02)</td>
+</tr>
+<tr>
+<td>Agency spend Feb ~£61,356</td>
+<td>Consistent: volume_trends, mart, HTML</td>
+</tr>
+<tr>
+<td>Table names SQL ↔ ADF ↔ design</td>
+<td>Core names align (<code>raw.CareCallContact</code>, <code>stg.CareCase</code>, <code>mart.ProviderMonthUrgentCare</code>)</td>
+</tr>
+<tr>
+<td>Checkpoint immutability</td>
+<td><code>run2</code>–<code>run4</code> checkpoints not rewritten during this QA</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Re-verification commands</h2>
+<pre><code class="language-bash">python3 -m json.tool site/warehouse-demo/pipelines/pl_ingest_source_csv.json &gt; /dev/null
+cd site/warehouse-demo/profiler &amp;&amp; .venv/bin/python profile_sources.py
+cd site/warehouse-demo/sql/load &amp;&amp; python3 load_from_csv.py --dry-run
+</code></pre>
+<p><strong>QA status:</strong> Pass with documented limitations. Low-risk fixes applied.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

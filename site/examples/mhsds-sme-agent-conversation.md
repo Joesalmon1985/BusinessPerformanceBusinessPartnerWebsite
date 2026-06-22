@@ -2,12 +2,34 @@
 
 **Demonstration only.** Synthetic aggregate data. Not an official Dorset HealthCare report or live Trust agent.
 
-## Supporting files
+## What this example shows
+
+This is an **illustrative worked example** — not a verbatim chat transcript. It demonstrates how the MHSDS Expert Agent would trace a local figure to source, separate data-quality from operational hypotheses, and refuse to approve publication without human sign-off.
+
+This example uses **synthetic demonstration data only**. It is a different strand from the public RDY briefs — there is no June 2026 improvement pass or automated validation script for this SME demo.
+
+<h2 id="evidence-chain">Evidence chain</h2>
+
+### Agent rule
 
 - [MHSDS Expert Agent rule](../agent-rules/mhsds-expert-agent.md)
-- [Synthetic local dictionary](../docs/synthetic-mhsds-local-dictionary.md)
-- [Synthetic aggregate data](../data/synthetic_mhsds_sme_demo.csv)
-- [MHSDS source pack register](../public-data/mhsds-source-pack-register.csv)
+
+### Evidence data
+
+- [Synthetic aggregate data](../data/synthetic_mhsds_sme_demo.csv) — pre-aggregated demo figures cited in the dialogue
+- [MHSDS source pack register](../public-data/mhsds-source-pack-register.csv) — approved national source references
+
+### Definitions
+
+- [Synthetic local dictionary](../docs/synthetic-mhsds-local-dictionary.md) — local metric lineage and calculation logic
+
+### Related public brief (separate strand)
+
+- [Public MHSDS access profile](../reports/public-mh-access-profile.html) — uses real public MHSDS aggregates for RDY; not connected to the synthetic SME demo above
+
+### Checks and scripts
+
+No automated validation script applies to this synthetic SME strand — figures are illustrative only.
 
 ---
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse design proposal (demonstration draft) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Warehouse design proposal (demonstration draft)">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/design/warehouse_design_proposal.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Warehouse design proposal (demonstration draft)</h1>
+<blockquote>
+<p><strong>Synthetic demonstration only.</strong> Conceptual design for Demo Rivers Health (DRH). Not approved for production.</p>
+</blockquote>
+<h2>Executive summary</h2>
+<p>Profiling (Run 2) identified multi-system urgent-care sources with <strong>imperfect linkage</strong>, <strong>extract-rule sensitivity</strong> (CareCase March 2026) and <strong>operational uplift</strong> (Jan–Feb 2026). This proposal adopts a <strong>medallion architecture</strong> with explicit DQ gates and bridge tables for ambiguous matches.</p>
+<p><strong>Scope:</strong> IUCS front-door pathway slice across CareCall, CareCase, Legendary Care, RosterFlow, LedgerWise and LocalOps mappings.</p>
+<h2>Design principles</h2>
+<ol>
+<li><strong>Land raw, validate in staging</strong> — preserve source columns including <code>LinkageScenario</code>, <code>ExtractInclusionFlag</code>, export metadata.</li>
+<li><strong>Do not force single match</strong> — bridge table for <code>AMBIGUOUS</code> and optional inference table for <code>INFERRED_MATCH</code>.</li>
+<li><strong>Separate extract artefacts from operations</strong> — flag-driven exclusion or parallel reporting measures for <code>ExtractInclusionFlag</code> and admin-status cases.</li>
+<li><strong>Conform via LocalOps with confidence tiers</strong> — staff/team mappings respect <code>MappingConfidence</code> and <code>ValidToDate</code>.</li>
+<li><strong>Provider-month marts last</strong> — loose MHSDS-style stock/activity measures; not RDY-calibrated.</li>
+</ol>
+<h2>Layer diagram</h2>
+<pre><code>source-data (CSV/XLSX)
+    → raw.*           (1:1 land)
+    → stg.*           (typed, DQ flags)
+    → dwh.Dim*        (conformed dimensions)
+    → dwh.Fact*       (events and transactions)
+    → dwh.Bridge*     (ambiguous / inferred linkage)
+    → mart.ProviderMonth*  (aggregates for reporting)
+</code></pre>
+<h2>Key profiling inputs</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Design response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>March cases without SourceContactId</td>
+<td>Staging flag <code>is_extract_inclusion_case</code>; mart filter for operational cases</td>
+</tr>
+<tr>
+<td>Dec date-boundary mismatches</td>
+<td>Staging <code>date_boundary_mismatch_flag</code>; separate reporting date columns</td>
+</tr>
+<tr>
+<td>Ambiguous Legendary matches</td>
+<td><code>BridgeCareCallReferralCandidate</code></td>
+</tr>
+<tr>
+<td>Expired LocalOps mappings</td>
+<td><code>DimStaff</code> mapping confidence attribute</td>
+</tr>
+<tr>
+<td>Jan–Feb multi-source uplift</td>
+<td>No special model — preserved in facts for trend analysis</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Open decisions (see human_review_pack.md)</h2>
+<ol>
+<li>Operational case definition — exclude <code>ExtractInclusionFlag=1</code>?  </li>
+<li>Primary contact reporting date when <code>date_boundary_mismatch_flag=1</code>.  </li>
+<li>SCD type for <code>DimTeam</code> given name drift.  </li>
+<li>Whether inferred matches enter facts automatically or via reviewer approval table.</li>
+</ol>
+<h2>Related documents</h2>
+<ul>
+<li><a href="../../../warehouse-demo/design/staging_model.md"><code>staging_model.md</code></a></li>
+<li><a href="../../../warehouse-demo/design/dimensional_model.md"><code>dimensional_model.md</code></a></li>
+<li><a href="../../../warehouse-demo/design/conformed_dimensions.md"><code>conformed_dimensions.md</code></a></li>
+<li><a href="linkage_resolution_strategy.html"><code>linkage_resolution_strategy.md</code></a></li>
+<li><a href="../../../warehouse-demo/design/design_assumptions_and_risks.md"><code>design_assumptions_and_risks.md</code></a></li>
+</ul>
+<p><strong>Status:</strong> Draft — pending human review.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>

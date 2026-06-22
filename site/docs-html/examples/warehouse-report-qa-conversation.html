@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worked example: Warehouse report QA conversation — Joe Salmon demonstration site</title>
+  <meta name="description" content="Worked example: Warehouse report QA conversation">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../agent-operating-model.html">Agent operating model</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../examples/warehouse-report-qa-conversation.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Worked example: Warehouse report QA conversation</h1>
+<p><strong>Demonstration only.</strong></p>
+<h2>What this example shows</h2>
+<p>This is a <strong>curated worked example</strong> from <strong>Run 5</strong> of the Demo Rivers Health warehouse demo — not a verbatim chat transcript. It follows the same flawed-draft → QA review → corrected brief chain as the <a href="report-analysis-agent-conversation.html">public Talking Therapies QA example</a>, but on synthetic DRH mart data.</p>
+<h2 id="evidence-chain">Evidence chain</h2>
+
+<h3>Agent rule and inputs / outputs</h3>
+<ul>
+<li><a href="../agent-rules/report-analysis-agent.html">Report Analysis Agent rule</a> — QA framework applied to synthetic brief</li>
+<li><a href="warehouse-draft-urgent-care-brief-flawed.html">Flawed draft</a> — deliberate errors including "42% surge" claim (QA-11 in internal audit)</li>
+<li><a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html">Corrected brief</a> — post-QA outcome</li>
+</ul>
+<h3>Evidence data</h3>
+<ul>
+<li><a href="../../warehouse-demo/profile-output/volume_trends.csv">Volume trends</a> — IUCS contacts, cases opened, cases without SourceContactId</li>
+<li><a href="../../warehouse-demo/marts/demo_provider_month_measures.csv">Provider-month measures mart</a> — corrected brief measure columns</li>
+<li><a href="../../warehouse-demo/source-data/localops_extract_change_log.xlsx">Extract change log</a> — CareCase inclusion rule change (March 2026)</li>
+</ul>
+<h3>Checks and scripts</h3>
+<ul>
+<li><a href="../../warehouse-demo/generator/build_provider_month_measures.py">Measure builder script</a> — generates mart CSV from synthetic sources</li>
+</ul>
+<h3>Audit trail</h3>
+<ul>
+<li><a href="../warehouse-demo/checkpoints/runs_2_5_internal_qa.html">Runs 2–5 internal QA</a> — QA-11 documents intentional "42% surge" error in flawed draft</li>
+<li><a href="../warehouse-demo/source-notes/demo_run_index.html">Demo run index</a> — Run 5 artefact register</li>
+</ul>
+<hr />
+<h2>Turn 1 — Review the March headline</h2>
+<p><strong>User:</strong></p>
+<p>The draft says March case surge proves the recovery plan worked. Is that supported?</p>
+<p><strong>Report Analysis Agent:</strong></p>
+<p><strong>No — blocking issue.</strong></p>
+<p>Evidence from <a href="../../warehouse-demo/profile-output/volume_trends.csv">volume_trends.csv</a>:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Month</th>
+<th>IUCS contacts</th>
+<th>Cases opened</th>
+<th>Cases without SourceContactId</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-02</td>
+<td>1,477</td>
+<td>525</td>
+<td>123</td>
+</tr>
+<tr>
+<td>2026-03</td>
+<td>1,272</td>
+<td>542</td>
+<td>322</td>
+</tr>
+</tbody>
+</table></div>
+<p>IUCS contacts <strong>fell</strong> 13.9% in March. Cases without <code>SourceContactId</code> rose from 123 to 322 — most of the March movement.</p>
+<p><a href="../../warehouse-demo/source-data/localops_extract_change_log.xlsx">localops_extract_change_log.xlsx</a> records a CareCase inclusion rule change effective March run. The draft did not reference this.</p>
+<p><strong>Severity:</strong> Critical — misattributes extract-driven movement as operational success.</p>
+<hr />
+<h2>Turn 2 — Stock vs activity error</h2>
+<p><strong>User:</strong></p>
+<p>The draft uses cases opened and IUCS contacts interchangeably. Flag it.</p>
+<p><strong>Report Analysis Agent:</strong></p>
+<p><strong>Major issue.</strong> IUCS contacts are <strong>activity</strong> in-period. Open referrals are <strong>stock</strong> at a point in time. Case opens are flow, not stock.</p>
+<p>Corrected brief must separate measures and cite <a href="../../warehouse-demo/marts/demo_provider_month_measures.csv">demo_provider_month_measures.csv</a> columns explicitly.</p>
+<hr />
+<h2>Turn 3 — Can we publish?</h2>
+<p><strong>User:</strong></p>
+<p>Board pack tomorrow — OK to publish?</p>
+<p><strong>Report Analysis Agent:</strong></p>
+<p><strong>No.</strong></p>
+<p>Blocking: Critical March interpretation; Major stock/activity conflation; missing extract-change caveat; no human sign-off.</p>
+<p>Required: Performance &amp; BI lead, Urgent Care pathway lead, Information Lead (demo roles).</p>
+<p>See corrected brief: <a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html">urgent-care-provider-month-brief.html</a></p>
+<hr />
+<h2>Closing summary</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td><a href="warehouse-draft-urgent-care-brief-flawed.html">Flawed draft</a> — intentional "42% surge" and stock/activity errors</td>
+</tr>
+<tr>
+<td>Critical finding</td>
+<td>March case rise misattributed as operational success; IUCS contacts fell 13.9%</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td><a href="../../warehouse-demo/profile-output/volume_trends.csv">volume_trends.csv</a>, <a href="../../warehouse-demo/source-data/localops_extract_change_log.xlsx">extract change log</a></td>
+</tr>
+<tr>
+<td>After reference</td>
+<td><a href="../../warehouse-demo/reports/urgent-care-provider-month-brief.html">Corrected brief</a></td>
+</tr>
+<tr>
+<td>Audit note</td>
+<td>QA-11 in <a href="../warehouse-demo/checkpoints/runs_2_5_internal_qa.html">Runs 2–5 internal QA</a></td>
+</tr>
+<tr>
+<td>Publication</td>
+<td><strong>Not approved</strong> — human sign-off required</td>
+</tr>
+</tbody>
+</table></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

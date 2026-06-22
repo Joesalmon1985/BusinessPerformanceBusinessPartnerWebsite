@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human review pack (design sign-off) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Human review pack (design sign-off)">
+  <link rel="stylesheet" href="../../../assets/styles.css">
+  <link rel="stylesheet" href="../../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../../governance-and-benefits.html">Governance and benefits</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+      <div class="caveat-box"><p>Synthetic Demo Rivers Health material only — not Dorset HealthCare/RDY public data.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../../data-warehouse-agent-demo.html">Warehouse demo</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../../warehouse-demo/design/human_review_pack.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Human review pack (design sign-off)</h1>
+<blockquote>
+<p><strong>For Information Lead and Performance Manager (demo roles).</strong> Questions only — no pre-filled answers.</p>
+</blockquote>
+<h2>Decision log</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Decision ID</th>
+<th>Topic</th>
+<th>Options</th>
+<th>Decision</th>
+<th>Decided by</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D001</td>
+<td>Operational case definition</td>
+<td>A) Exclude ExtractInclusionFlag=1 B) Separate measure C) Include all</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D002</td>
+<td>Contact reporting date (DQ001)</td>
+<td>A) ContactDate B) CreatedDateTime C) Dual publish</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D003</td>
+<td>Ambiguous match default</td>
+<td>A) No default B) Nearest referral time C) Manual table</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D004</td>
+<td>Callback dedup in marts</td>
+<td>A) All contacts B) Distinct patient-day</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>D005</td>
+<td>Inferred match in facts</td>
+<td>A) Bridge only B) Auto-promote high confidence</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Sign-off checklist</h2>
+<ul>
+<li>[ ] Staging model reviewed against source extracts</li>
+<li>[ ] Linkage strategy acceptable for IUCS reporting</li>
+<li>[ ] ExtractInclusionFlag handling agreed</li>
+<li>[ ] LocalOps mapping confidence rules agreed</li>
+<li>[ ] Provider-month mart measures defined (stock vs activity)</li>
+<li>[ ] IG / synthetic data caveats acceptable for demo site</li>
+<li>[ ] Approved to proceed to SQL artefacts (Run 4)</li>
+</ul>
+<h2>Questions for reviewers</h2>
+<ol>
+<li>Should March 2026 admin-status cases appear in <strong>operational</strong> IUCS case-open measures?  </li>
+<li>Is <code>CreatedDateTime</code> or <code>ContactDate</code> authoritative for CareCall monthly counts when date-boundary flag is set?  </li>
+<li>Are bridge tables sufficient for ambiguous matches, or is a manual resolution workflow required?  </li>
+<li>Which staff mapping confidence levels are trusted for finance ↔ roster joins?  </li>
+<li>Should provider-month marts use calendar month or financial month for ledger spend?  </li>
+<li>What caveats must appear on any published demo brief using this warehouse?</li>
+</ol>
+<h2>Escalation</h2>
+<p>If profiling hypotheses (extract-driven March vs operational Jan–Feb) are disputed, pause Run 4 SQL build until data owner confirms extract change log entries.</p>
+<p><strong>Status:</strong> Awaiting human input.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/site.js"></script>
+</body>
+</html>
