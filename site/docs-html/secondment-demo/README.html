@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secondment migration demo (DRH) — Joe Salmon demonstration site</title>
+  <meta name="description" content="Secondment migration demo (DRH)">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+        <li><a href="../../six-months-trusted-performance.html">Six-month plan</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../secondment-demo/README.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Secondment migration demo (DRH)</h1>
+<p>Synthetic <strong>Legendary Care → PathwayOne</strong> migration scenario for the <em>Six Months to Trusted Performance</em> interview section.</p>
+<h2>Timeline summary</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>When</th>
+<th>Key point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Sep–Nov 2025</td>
+<td>Old system only</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Dec 2025 – Jan 2026</td>
+<td><strong>Parallel running</strong> — both feeds</td>
+</tr>
+<tr>
+<td>C</td>
+<td>1 Feb 2026</td>
+<td>Weekly referral supplement <strong>discontinued</strong></td>
+</tr>
+<tr>
+<td>D</td>
+<td>Feb–Mar 2026</td>
+<td>Open-case extract tail; definition crunch</td>
+</tr>
+<tr>
+<td>E</td>
+<td>31 Mar 2026</td>
+<td>Legacy extracts end</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Apr–May 2026</td>
+<td>PathwayOne only (+ history in warehouse)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Regenerate data</h2>
+<pre><code class="language-bash">python3 site/secondment-demo/generator/create_migration_scenario_data.py
+</code></pre>
+<h2>Key files</h2>
+<ul>
+<li><code>data/legendary_cmht_cases.csv</code> — old case-based world</li>
+<li><code>data/pathwayone_actions.csv</code> — new action-based world</li>
+<li><code>data/reconciliation_monthly.csv</code> — Mar 2026 dashboard vs agreed gap</li>
+<li><code>data_dictionary.md</code> — field definitions</li>
+<li><code>data/data_manifest.csv</code> — auto-generated inventory</li>
+</ul>
+<p>Anchor patient for centrepiece: <strong>DRH-PAT-002896</strong>.</p>
+<p>Not connected to live Trust systems. DRH ≠ RDY.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

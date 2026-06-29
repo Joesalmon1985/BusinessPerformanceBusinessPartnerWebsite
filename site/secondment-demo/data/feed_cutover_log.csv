@@ -1,0 +1,6 @@
+feed_id,active_from,active_to,description,status
+legendary_weekly_referral,2025-09-01,2026-01-31,Weekly referral supplement,Discontinued
+legendary_nightly_case,2025-09-01,2026-03-31,Nightly case extract,Full then open-case only
+legendary_open_case_only,2026-02-01,2026-03-31,Pre-cutover open cases only,Active
+pathwayone_api_ingest,2025-11-01,2026-05-31,PathwayOne cloud ingest,Pilot then primary
+pathwayone_primary,2026-02-01,2026-05-31,PathwayOne system of record,Active

@@ -1,0 +1,9 @@
+benefit_id,benefit_description,baseline,target,status,owner,evidence,target_month
+BEN-01,Agreed referral definition embedded,3 competing definitions,Single OPT-C signed off,Amber,Performance lead,kpi-definitions-register,M3
+BEN-02,Monthly reconciliation routine,Ad hoc,Scheduled pack before SLT,Green,BI lead,validation-and-reconciliation,M4
+BEN-03,Reporting confidence model live,None,All must-not-fail reports flagged,Green,Performance lead,reporting-confidence-model,M4
+BEN-04,Demand/capacity insight for CMHT,Spreadsheet only,Weekly pack with productivity,Green,Service manager,demand-capacity-productivity,M4
+BEN-05,Board-safe senior brief template,Inconsistent packs,Template with confidence column,Amber,Performance lead,senior-performance-brief,M5
+BEN-06,Migration risk register maintained,Tacit knowledge,Owned register with review dates,Green,Performance lead,migration-risk-register,M3
+BEN-07,Reusable change playbook,None,Documented 10-step model,Amber,Performance lead,reusable-change-model,M6
+BEN-08,Handover pack complete,n/a,All artefacts owned and located,Red,Performance lead,handover-documentation,M6

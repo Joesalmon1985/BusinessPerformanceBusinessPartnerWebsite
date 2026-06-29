@@ -1,0 +1,9 @@
+old_pathway_status,new_action_type,action_category,mapping_note
+Referred,ACCESS_RECEIVED,Access,Direct
+Accepted,ACCESS_ACCEPTED,Access,Direct
+Rejected,ACCESS_REJECTED,Access,Depends on rejection reason
+Waiting,ACCESS_WAITING,Access,Many-to-one
+FirstContact,CARE_FIRST_CONTACT,Care,Pathway start candidate
+InTreatment,CARE_ONGOING,Care,Activity inclusion varies
+Closed,OUTCOME_CLOSED,Outcome,Closure event
+AdminClosure,ADMIN_CANCEL,Admin,Exclude from clinical counts

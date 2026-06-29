@@ -1,0 +1,11 @@
+step,month,phase,activity,artefact_produced,reuse_note
+1,M1,Listen,"Map stakeholders, feeds, reports",Reporting requirements map,Start every migration here
+2,M1,Baseline,Document current definitions and volumes,Baseline reconciliation,Compare before/after
+3,M2,Define,Facilitate agreed KPI definitions,KPI definitions register,Do not skip service sign-off
+4,M2,Map,Build source-to-report lineage,Source-to-report map,Update when feeds change
+5,M3,Control,Maintain migration risk register,Risk register,Review weekly in parallel run
+6,M3,Validate,Implement validation checks,Validation register,Automate where possible
+7,M4,Prototype,Build local performance packs,Demand/capacity pack,Test with service managers
+8,M5,Reconcile,Monthly old vs new vs agreed,Reconciliation outputs,Critical in phase D
+9,M5,Embed,Apply confidence model before publish,Confidence register,Mark must-not-fail reports
+10,M6,Handover,Document and transfer ownership,Handover pack,Playbook becomes template for next change

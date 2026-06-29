@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migration scenario — Legendary Care to PathwayOne</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="secondment-nav">
+    <a href="../six-months-trusted-performance.html">Six-month plan</a> &rarr;
+    <a href="definition-migration.html">Definition migration</a> &rarr; Migration scenario
+  </div>
+  <main id="main-content">
+    <div class="hero">
+      <h1>Migration scenario</h1>
+      <p class="hero-lead">Demo Rivers Health (DRH): All Age MH Access moves from Legendary Care to PathwayOne while reporting shifts to DemoRivers Cloud DWH.</p>
+    </div>
+    <div class="answer-part">
+      <h2>What I hope to achieve</h2>
+      <p>Migration reporting risk register, must-not-fail report list, fallback routes, feed cutover clarity, and protected local performance products during parallel running.</p>
+    </div>
+    <div class="answer-part">
+      <h2>My approach to succeed</h2>
+      <p>Map phases explicitly — parallel running is not the same event as feed discontinuation. Track risks with owners; reconcile while both worlds exist.</p>
+    </div>
+
+    <section id="slide-timeline" class="slide-frame" aria-labelledby="phased-timeline">
+      <h2 id="phased-timeline">Phased timeline — parallel run vs feed cutover</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Phase</th>
+              <th scope="col">When</th>
+              <th scope="col">Legendary Care</th>
+              <th scope="col">PathwayOne</th>
+              <th scope="col">Performance experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">A Old only</th><td>Sep–Nov 2025</td><td>System of record</td><td>Pilot only</td><td>Single definition world</td></tr>
+            <tr><th scope="row">B Parallel</th><td>Dec 2025 – Jan 2026</td><td>Both feeds active</td><td>Rolling go-live</td><td>Dual-world reconciliation risk</td></tr>
+            <tr><th scope="row">C Referral cutover</th><td>1 Feb 2026</td><td>Weekly referral feed stops</td><td>New access only</td><td>Dashboard may still refresh</td></tr>
+            <tr><th scope="row">D Extract tail</th><td>Feb–Mar 2026</td><td>Open cases only</td><td>System of record</td><td>Definition crunch — Mar reporting</td></tr>
+            <tr><th scope="row">E Legacy ends</th><td>31 Mar 2026</td><td>Extracts stop</td><td>Sole source</td><td>Embed agreed definitions</td></tr>
+            <tr><th scope="row">F New only</th><td>Apr–May 2026</td><td>History in warehouse</td><td>Primary</td><td>Agreed logic from actions</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="../secondment-demo/data/feed_cutover_log.csv">feed_cutover_log.csv</a></p>
+    </section>
+
+    <section class="slide-frame" aria-labelledby="risk-register">
+      <h2 id="risk-register">Migration reporting risk register (extract)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">ID</th><th scope="col">Risk</th><th scope="col">Owner</th><th scope="col">Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>R001</td><td>Definition drift during parallel run</td><td>Performance lead</td><td>Agreed KPI register</td></tr>
+            <tr><td>R002</td><td>Dashboard refreshes with wrong meaning</td><td>BI lead</td><td>Reconciliation + confidence flags</td></tr>
+            <tr><td>R003</td><td>Referral feed discontinued Feb</td><td>IM&amp;T</td><td>Feed cutover log</td></tr>
+            <tr><td>R005</td><td>MHSDS-like uses legacy logic</td><td>Mandatory reporting owner</td><td>Side-by-side test</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="../secondment-demo/data/migration_risk_register.csv">Full risk register</a> · <a href="deliverables/migration-risk-register.html">Handover deliverable</a> · <a href="definition-migration.html">Definition migration centrepiece</a></p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only. DRH ≠ RDY.</p></div></footer>
+  <script src="../assets/site.js"></script>
+</body>
+</html>

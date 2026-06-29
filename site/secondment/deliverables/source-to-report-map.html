@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source-to-report map — DRH handover deliverable</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="secondment-nav">
+    <a href="../../six-months-trusted-performance.html">Six-month plan</a> &rarr;
+    <a href="index.html">Handover deliverables</a> &rarr; Source-to-report map
+  </div>
+  <main id="main-content">
+    <div class="hero">
+      <p class="deliverable-badge">Handover deliverable · 2 of 11 · Target M2</p>
+      <h1>Source-to-report map</h1>
+      <p class="hero-lead">Operational chain from service event through source data to management decision.</p>
+    </div>
+    <div class="info-box" role="note"><strong>DRH migration context:</strong> Legendary Care (case-based) → PathwayOne (action-based). Parallel run Dec 2025–Jan 2026; Mar 2026 definition crunch.</div>
+    
+    <section class="slide-frame"><h2>Maintained source-to-report map</h2>
+    <div class="definition-chain-flow" role="img" aria-label="Definition chain"><span class="definition-chain-step">Service reality</span><span class="definition-chain-step">System capture</span><span class="definition-chain-step">Source data</span><span class="definition-chain-step">Warehouse logic</span><span class="definition-chain-step">KPI / report</span><span class="definition-chain-step">Validation &amp; sign-off</span><span class="definition-chain-step definition-chain-step--action">Management action</span></div>
+    <p>This deliverable <strong>is</strong> the maintained source-to-report map. The interactive page displays filtered views of the same underlying CSV — one map, many views.</p>
+    <p><strong>Summary:</strong> 33 rows · 7 report names · 5 source tables.</p>
+    <div class="table-wrap"><table><thead><tr><th>View</th><th>Open interactive map</th></tr></thead><tbody>
+    <tr><td>Full map</td><td><a href="../source-to-report.html">source-to-report.html</a></td></tr>
+    <tr><td>MHSDS-like submission</td><td><a href="../source-to-report.html?report=MHSDS-like%20monthly%20submission">Filtered view</a></td></tr>
+    <tr><td>Local demand pack</td><td><a href="../source-to-report.html?report=Local%20demand%20and%20access%20performance%20pack">Filtered view</a></td></tr>
+    <tr><td>Referral received (KPI-01)</td><td><a href="../source-to-report.html?preset=referral-received">Preset</a></td></tr>
+    <tr><td>PathwayOne source changes</td><td><a href="../source-to-report.html?preset=pathwayone">Preset</a></td></tr>
+    <tr><td>Low confidence</td><td><a href="../source-to-report.html?preset=low-confidence">Preset</a></td></tr>
+    </tbody></table></div>
+    <p class="analysis-narrative">Do not maintain separate hand-authored tables — add or edit rows in the canonical CSV and regenerate this site.</p>
+    <div class="sign-off-block"><strong>Sign-off:</strong> BI lead + mandatory reporting owner — draft lineage, review quarterly.</div>
+    <p><a href="../source-to-report.html">Interactive map</a> ·
+    <a href="../../secondment-demo/data/source_to_report_map.csv">source_to_report_map.csv</a> ·
+    <a href="../reports/mhsds-like-submission.html">MHSDS-like submission</a></p></section>
+    <nav class="deliverable-nav" aria-label="Deliverable navigation">
+      <a href="kpi-definitions-register.html">&larr; Previous: KPI definitions</a>
+      <a href="index.html">All deliverables</a>
+      <a href="migration-risk-register.html">Next: Migration Risk Register &rarr;</a>
+    </nav>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only.</p></div></footer>
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

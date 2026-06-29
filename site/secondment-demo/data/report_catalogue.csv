@@ -1,0 +1,9 @@
+report_id,report_name,audience,frequency,owner,requirement_ids,confidence_mar2026,data_sources
+RPT-01,Executive MH dashboard,SLT,Monthly,Performance lead,REQ-04,Low,Blended legacy pipeline
+RPT-02,MHSDS-like monthly,NHSE,Monthly,Mandatory reporting owner,REQ-01,Medium,fact_referral + fact_access
+RPT-03,CSDS-like monthly,NHSE,Monthly,CSDS owner,REQ-05,Medium,fact_activity
+RPT-04,Waiting list and pathway risk,CMHT managers,Weekly,Service manager,REQ-03,Medium,pathwayone_actions
+RPT-05,Demand and capacity pack,Directorate,Weekly,Performance lead,REQ-06,High,demand_capacity_weekly
+RPT-06,Senior performance brief,SLT / Board,Monthly,Performance lead,REQ-02 REQ-04,Low,Multiple — see source map
+RPT-07,Data quality and confidence,BI + performance,Monthly,BI lead,REQ-07,High,validation_checks_register
+RPT-08,Reconciliation pack,Performance + BI,Monthly,Performance lead,REQ-01 REQ-04,High,reconciliation_monthly

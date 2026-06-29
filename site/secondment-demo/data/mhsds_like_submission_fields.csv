@@ -1,0 +1,7 @@
+metric_code,metric_label,value,definition_used,source_fact,episode_basis,submission_status,confidence
+MHS23,Open referrals at end of reporting period,16,Episode open/waiting at month end; mhsds_like_inclusion_flag=1,fact_mh_referral_episode,16 episodes in stock snapshot,Draft,Medium
+MHS01,People with open referral with services at month end,13,Open referral in contact — Apr 2026 label analogue,fact_mh_referral_episode,13 distinct open episodes,Draft,Medium
+MHS29,Contacts in reporting period,3,Clinical contacts only — exclude admin,fact_mh_referral_episode,Sum clinical_contact_count Mar 2026,Pending reconciliation,Medium
+DRH-REF-OPT-C,Referrals received (agreed OPT-C),134,Hybrid OPT-C — submit after sign-off,fact_mh_referral_episode,134 agreed (reconciliation_monthly),Agreed pending workshop,Low
+DRH-REF-DASH,Referrals received (dashboard — do not submit),154,Legacy dashboard pipeline,fact_referral (legacy),154 — VAL-06 failed,Not for submission,Low
+DRH-FC14,First contact within 14 days (%),80,Wait clock at referral received; denominator OPT-C,fact_mh_referral_episode,4/5 episodes,Draft,Medium

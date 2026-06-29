@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local demand and capacity pack — DRH</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <div class="nhs-report-nav">
+    <a href="../../six-months-trusted-performance.html">&larr; Six-month plan</a>
+    <a href="../evidence-and-reports.html">All reports</a>
+  </div>
+  <p class="nhs-caveat">Part of handover deliverable: <a href="../deliverables/demand-capacity-productivity.html">Demand, capacity and productivity insight</a></p>
+  <header class="nhs-report-header">
+    <p class="report-meta">Local performance product &middot; DRH synthetic</p>
+    <h1>Demand and capacity pack</h1>
+  </header>
+  <main class="nhs-report-main">
+    <div class="report-support-block">
+      <p><strong>Shares <code>fact_mh_referral_episode</code> with the <a href="mhsds-like-submission.html">MHSDS-like Mar 2026 submission</a></strong> — same episode grain, different roll-up and inclusion rules for local operational use.</p>
+    </div>
+    <div class="report-support-block">
+      <p><strong>What this supports:</strong></p>
+      <ul>
+        <li>Weekly capacity meetings and workforce planning</li>
+        <li>Separating backlog growth from referral definition change</li>
+        <li>Agency spend review alongside contacts delivered (KPI-08)</li>
+      </ul>
+      <p><strong>Definition risk:</strong> Referrals-in-week uses agreed KPI-01 — do not mix with dashboard count.</p>
+    </div>
+    <div class="nhs-caveat">Synthetic weekly demand/capacity — supports service decisions alongside definition work.</div>
+    <div class="nhs-kpi-row">
+      <div class="nhs-kpi"><span class="nhs-kpi-value">264</span><span class="nhs-kpi-label">Backlog (W21)</span></div>
+      <div class="nhs-kpi"><span class="nhs-kpi-value">0.82</span><span class="nhs-kpi-label">Workforce availability</span></div>
+      <div class="nhs-kpi"><span class="nhs-kpi-value">£15,960</span><span class="nhs-kpi-label">Agency spend (week)</span></div>
+    </div>
+    <section class="nhs-section">
+      <h2>Weekly trend</h2>
+      <table>
+        <thead><tr><th>Week</th><th>Demand</th><th>Capacity</th><th>Backlog</th></tr></thead>
+        <tbody>
+          <tr><td>2026-W10</td><td>185</td><td>180</td><td>125</td></tr>
+          <tr><td>2026-W18</td><td>208</td><td>195</td><td>212</td></tr>
+          <tr><td>2026-W21</td><td>218</td><td>200</td><td>264</td></tr>
+        </tbody>
+      </table>
+      <p>Genuine demand pressure alongside definition change — both need separating in narrative.</p>
+    </section>
+    <p><a href="../source-to-report.html?report=Local%20demand%20and%20access%20performance%20pack">View in source-to-report map</a> · <a href="../../secondment-demo/data/demand_capacity_weekly.csv">demand_capacity_weekly.csv</a> · <a href="../../secondment-demo/data/local_demand_access_pack_metrics.csv">local_demand_access_pack_metrics.csv</a> · <a href="../../secondment-demo/data/fact_mh_referral_episode.csv">fact_mh_referral_episode.csv</a></p>
+  </main>
+  <footer class="nhs-report-footer"><p>Synthetic DRH demonstration only.</p></footer>
+</body>
+</html>

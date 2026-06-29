@@ -1,0 +1,7 @@
+team_code,old_case_referrals,new_action_referrals,agreed_referrals,dashboard_referrals,notes
+AA-MH-NORTH-01,42,48,38,44,Admin inflation + duplicates
+AA-MH-SOUTH-01,38,45,36,41,Parallel duplicate period
+AA-MH-EAST-01,35,40,33,37,Pathway start ambiguity
+AA-CRISIS-01,22,25,20,23,Rejected referral definition
+AA-PCL-01,14,10,7,9,National yes local no
+TOTAL,151,168,134,154,Trust total Mar 2026

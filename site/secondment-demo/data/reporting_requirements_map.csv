@@ -1,0 +1,8 @@
+req_id,stakeholder,business_question,mandatory_or_local,kpi_ref,report_ref,priority
+REQ-01,NHSE mandatory returns,How many MH referrals received?,Mandatory,KPI-01,MHSDS-like monthly,Must-not-fail
+REQ-02,Directorate lead,Are we meeting first contact standards?,Local,KPI-04,Senior performance brief,High
+REQ-03,CMHT service manager,What is waiting list pressure by team?,Local,KPI-03,Waiting list risk,High
+REQ-04,Board,Headline MH access performance trend?,Local,KPI-01,Executive MH dashboard,Must-not-fail
+REQ-05,CSDS return owner,Community activity counts?,Mandatory,KPI-05,CSDS-like monthly,Must-not-fail
+REQ-06,Finance,Agency cost vs activity delivered?,Local,KPI-08,Demand-capacity pack,Medium
+REQ-07,IM&T programme,Are feeds aligned post-cutover?,Local,n/a,Validation pack,High

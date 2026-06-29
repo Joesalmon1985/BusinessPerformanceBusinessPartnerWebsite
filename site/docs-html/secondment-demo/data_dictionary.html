@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secondment demo — data dictionary — Joe Salmon demonstration site</title>
+  <meta name="description" content="Secondment demo — data dictionary">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/docs.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="site-title">Joe Salmon - Business &amp; Performance Business Partner Application</p>
+      <p class="site-subtitle">Supporting documentation</p>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    </div>
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../mandatory-reporting-map.html">Mandatory reporting map</a></li>
+        <li><a href="../../draft-reports.html">Draft reports</a></li>
+        <li><a href="../../data-warehouse-agent-demo.html">Warehouse demo</a></li>
+        <li><a href="../../agent-operating-model.html">Agent operating model</a></li>
+        <li><a href="../../governance-and-benefits.html">Governance and benefits</a></li>
+        <li><a href="../../six-months-trusted-performance.html">Six-month plan</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="docs-article">
+      <div class="caveat-box"><p>Supporting documentation for Joe Salmon's Business &amp; Performance Business Partner demonstration site. Demonstration material only.</p></div>
+    <nav class="docs-toolbar" aria-label="Document navigation">
+      <a href="../../index.html">&larr; Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a href="../../index.html">Home</a>
+      <span class="docs-toolbar-sep" aria-hidden="true">·</span>
+      <a class="docs-source-link" href="../../secondment-demo/data_dictionary.md">View source Markdown</a>
+    </nav>
+    <article class="docs-content">
+<h1>Secondment demo — data dictionary</h1>
+<blockquote>
+<p>Synthetic demonstration data only. Demo Rivers Health (DRH) — not Dorset HealthCare (RDY).</p>
+</blockquote>
+<p>Field-level definitions for migration scenario artefacts. See <a href="README.html">README</a> for timeline and regeneration.</p>
+<h2>Definition options (referral count)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Rule (plain English)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPT-A</td>
+<td>Count Legendary Care cases where <code>ReferralDate</code> falls in the reporting month</td>
+</tr>
+<tr>
+<td>OPT-B</td>
+<td>Count PathwayOne <code>ACCESS_ACCEPTED</code> actions in the reporting month</td>
+</tr>
+<tr>
+<td>OPT-C</td>
+<td><strong>Agreed hybrid:</strong> pre-Feb-2026 use old case logic; from Feb-2026 use action rules with admin/duplicate exclusions and rejection-reason handling</td>
+</tr>
+<tr>
+<td>DASH</td>
+<td>Legacy dashboard pipeline — blends feeds without full reconciliation (Mar 2026 shows +2% vs agreed)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>legendary_cmht_cases.csv</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+<th>DQ notes</th>
+<th>Service question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CaseId</td>
+<td>string</td>
+<td>Legacy case identifier</td>
+<td>Case LC-10001</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PatientPseudoId</td>
+<td>string</td>
+<td>Pseudonymised patient</td>
+<td>DRH-PAT-002896</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ReferralDate</td>
+<td>date</td>
+<td>Date referral received</td>
+<td>2025-12-08</td>
+<td></td>
+<td>When referred?</td>
+</tr>
+<tr>
+<td>PathwayStatus</td>
+<td>string</td>
+<td>Case status</td>
+<td>Rejected</td>
+<td></td>
+<td>Pathway state</td>
+</tr>
+<tr>
+<td>PathwayStartDate</td>
+<td>date</td>
+<td>Pathway start on case</td>
+<td>2025-12-08</td>
+<td>May differ from first contact</td>
+<td>When did pathway start?</td>
+</tr>
+<tr>
+<td>FirstContactDate</td>
+<td>date</td>
+<td>First clinical contact</td>
+<td>2026-01-10</td>
+<td>Nullable</td>
+<td>Contacts / waiting</td>
+</tr>
+<tr>
+<td>ClosureDate</td>
+<td>date</td>
+<td>Case closure</td>
+<td>2026-03-20</td>
+<td>Nullable</td>
+<td>Has pathway closed?</td>
+</tr>
+<tr>
+<td>ResponsibleTeam</td>
+<td>string</td>
+<td>Team code (old or new)</td>
+<td>CMHT-N</td>
+<td>Remap issues</td>
+<td>Which team owns it?</td>
+</tr>
+<tr>
+<td>ReportingMonth</td>
+<td>string</td>
+<td>Month for performance reporting</td>
+<td>2026-01</td>
+<td>Ambiguity across systems</td>
+<td>Which month to count?</td>
+</tr>
+<tr>
+<td>OutcomeText</td>
+<td>string</td>
+<td>Outcome / rejection reason</td>
+<td>Wrong service</td>
+<td></td>
+<td>Outcome</td>
+</tr>
+<tr>
+<td>ContactCount</td>
+<td>int</td>
+<td>Contacts on case</td>
+<td>2</td>
+<td></td>
+<td>Activity inclusion</td>
+</tr>
+<tr>
+<td>SourceSystem</td>
+<td>string</td>
+<td>Always LegendaryCare</td>
+<td>LegendaryCare</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>pathwayone_actions.csv</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+<th>DQ notes</th>
+<th>Service question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ActionId</td>
+<td>string</td>
+<td>Action event ID</td>
+<td>ACT-90001</td>
+<td>Duplicates possible</td>
+<td></td>
+</tr>
+<tr>
+<td>PatientPseudoId</td>
+<td>string</td>
+<td>Patient link</td>
+<td>DRH-PAT-002896</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ActionType</td>
+<td>string</td>
+<td>Access/Care/Outcome/Admin</td>
+<td>ACCESS_REJECTED</td>
+<td></td>
+<td>Pathway mapping</td>
+</tr>
+<tr>
+<td>ActionDate</td>
+<td>date</td>
+<td>Event date</td>
+<td>2025-12-08</td>
+<td></td>
+<td>Referral / activity timing</td>
+</tr>
+<tr>
+<td>RejectionReason</td>
+<td>string</td>
+<td>If rejected</td>
+<td>CLINICAL_TRIAGE</td>
+<td>Affects inclusion</td>
+<td>Rejected = received?</td>
+</tr>
+<tr>
+<td>TeamCode</td>
+<td>string</td>
+<td>Team on action</td>
+<td>AA-MH-NORTH-01</td>
+<td>INVALID_TEAM possible</td>
+<td>Team ownership</td>
+</tr>
+<tr>
+<td>Notes</td>
+<td>string</td>
+<td>DQ / scenario notes</td>
+<td>Admin inflate</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IncludeInReferralCount_NewDefault</td>
+<td>int</td>
+<td>1=include in default new count</td>
+<td>0</td>
+<td></td>
+<td>National vs local rules</td>
+</tr>
+</tbody>
+</table></div>
+<h2>reconciliation_monthly.csv</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reporting_month</td>
+<td>YYYY-MM</td>
+</tr>
+<tr>
+<td>old_case_count</td>
+<td>OPT-A style count</td>
+</tr>
+<tr>
+<td>new_action_count_default</td>
+<td>OPT-B style count</td>
+</tr>
+<tr>
+<td>agreed_definition_count</td>
+<td>OPT-C agreed count</td>
+</tr>
+<tr>
+<td>dashboard_displayed_count</td>
+<td>What the dashboard shows</td>
+</tr>
+<tr>
+<td>dashboard_vs_agreed_pct</td>
+<td>% difference (Mar 2026 = +14.9% ≈ +2% narrative on dashboard side)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>feed_cutover_log.csv</h2>
+<p>Documents <strong>parallel run</strong> (Dec–Jan) vs <strong>referral feed cutover</strong> (Feb) vs <strong>legacy extract end</strong> (Mar).</p>
+<h2>Other files</h2>
+<p>See <code>data_manifest.csv</code> for grain, row counts and linked HTML pages.</p>
+<h3>Handover deliverable datasets (new / expanded)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+<th>Linked page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kpi_definitions_register.csv</code></td>
+<td>Layered KPI definition chains (service → sign-off)</td>
+<td><code>secondment/deliverables/kpi-definitions-register.html</code></td>
+</tr>
+<tr>
+<td><code>source_to_report_map.csv</code></td>
+<td>Report-first field lineage (report_name, report_field filterable)</td>
+<td><code>secondment/deliverables/source-to-report-map.html</code></td>
+</tr>
+<tr>
+<td><code>source_to_report_map_mhsds_view.csv</code></td>
+<td>MHSDS-like rows filtered from map</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>source_to_report_map_local_demand_view.csv</code></td>
+<td>Local demand pack rows filtered from map</td>
+<td><code>secondment/reports/local-demand-capacity-pack.html</code></td>
+</tr>
+<tr>
+<td><code>fact_mh_referral_episode.csv</code></td>
+<td>Central episode fact — feeds mandatory and local products</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>mhsds_like_submission_monthly.csv</code></td>
+<td>Submission header (provider, month, sign-off)</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>mhsds_like_submission_fields.csv</code></td>
+<td>One row per submission field (MHS23, MHS01, MHS29, DRH-REF-*)</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>mhsds_like_validation_checks.csv</code></td>
+<td>VAL-MH-* pre-submission checks</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>mhsds_like_reconciliation_summary.csv</code></td>
+<td>Referral count build-up 151/168/134/154</td>
+<td><code>secondment/reports/mhsds-like-submission.html</code></td>
+</tr>
+<tr>
+<td><code>definition_decision_log.csv</code></td>
+<td>OPT-A/B/C and rejection/wait-clock decisions</td>
+<td><code>secondment/definition-migration.html</code></td>
+</tr>
+<tr>
+<td><code>local_demand_access_pack_metrics.csv</code></td>
+<td>Local pack metrics from same fact</td>
+<td><code>secondment/reports/local-demand-capacity-pack.html</code></td>
+</tr>
+<tr>
+<td><code>reporting_requirements_map.csv</code></td>
+<td>Stakeholder questions and KPI refs</td>
+<td><code>secondment/deliverables/report-catalogue.html</code></td>
+</tr>
+<tr>
+<td><code>report_catalogue.csv</code></td>
+<td>Report names, owners, confidence</td>
+<td><code>secondment/deliverables/report-catalogue.html</code></td>
+</tr>
+<tr>
+<td><code>validation_checks_register.csv</code></td>
+<td>Pre-publish validation rules and Mar 2026 results</td>
+<td><code>secondment/deliverables/validation-and-reconciliation.html</code></td>
+</tr>
+<tr>
+<td><code>reconciliation_detail_mar2026.csv</code></td>
+<td>Team/vignette build-up of 154 vs 134</td>
+<td><code>secondment/deliverables/validation-and-reconciliation.html</code></td>
+</tr>
+<tr>
+<td><code>productivity_by_team.csv</code></td>
+<td>Contacts per WTE by team and week</td>
+<td><code>secondment/deliverables/demand-capacity-productivity.html</code></td>
+</tr>
+<tr>
+<td><code>improvement_benefits_tracker.csv</code></td>
+<td>Benefits linked to six-month outcomes</td>
+<td><code>secondment/deliverables/improvement-benefits-tracker.html</code></td>
+</tr>
+<tr>
+<td><code>handover_documentation_register.csv</code></td>
+<td>Document register for M6 handover</td>
+<td><code>secondment/deliverables/handover-documentation.html</code></td>
+</tr>
+<tr>
+<td><code>change_playbook.csv</code></td>
+<td>Ten-step reusable migration playbook</td>
+<td><code>secondment/deliverables/reusable-change-model.html</code></td>
+</tr>
+<tr>
+<td><code>senior_brief_sections.csv</code></td>
+<td>Brief template sections with Mar 2026 text</td>
+<td><code>secondment/deliverables/senior-performance-brief.html</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>kpi_definitions_register.csv (layered columns)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>service_definition</td>
+<td>What the measure means in the real service</td>
+</tr>
+<tr>
+<td>system_capture</td>
+<td>What staff do and what the source system records</td>
+</tr>
+<tr>
+<td>fact_table_definition</td>
+<td>Warehouse fact / derivation logic</td>
+</tr>
+<tr>
+<td>reporting_use</td>
+<td>Mandatory vs local reporting use</td>
+</tr>
+<tr>
+<td>exclusions_caveats</td>
+<td>Inclusion/exclusion rules and migration caveats</td>
+</tr>
+<tr>
+<td>validation_check</td>
+<td>How we know the chain is still intact</td>
+</tr>
+<tr>
+<td>owners_sign_off</td>
+<td>Operational, BI, performance and final sign-off roles</td>
+</tr>
+</tbody>
+</table></div>
+<h3>source_to_report_map.csv (canonical map — one map, many views)</h3>
+<p>Single source of truth for report-first and source-first lineage. The interactive page at <code>secondment/source-to-report.html</code> filters this CSV client-side; filtered exports (<code>source_to_report_map_mhsds_view.csv</code>, etc.) are convenience downloads only.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>map_row_id</td>
+<td>STR-001 etc. — stable row identifier</td>
+</tr>
+<tr>
+<td>report_name</td>
+<td>Filter key — e.g. MHSDS-like monthly submission</td>
+</tr>
+<tr>
+<td>report_type</td>
+<td>Mandatory / Local / Assurance / Source impact</td>
+</tr>
+<tr>
+<td>report_section</td>
+<td>Section or table within the report</td>
+</tr>
+<tr>
+<td>report_field</td>
+<td>Output field on the report</td>
+</tr>
+<tr>
+<td>metric_code</td>
+<td>MHS23, MHS01, DRH-REF-OPT-C, KPI-01, etc.</td>
+</tr>
+<tr>
+<td>kpi_id</td>
+<td>KPI-01 when linked to KPI register; else blank</td>
+</tr>
+<tr>
+<td>service_event</td>
+<td>Real-world service event</td>
+</tr>
+<tr>
+<td>warehouse_fact_or_dimension</td>
+<td>Primary fact — usually fact_mh_referral_episode</td>
+</tr>
+<tr>
+<td>inclusion_rule / exclusion_rule</td>
+<td>National vs local counting rules</td>
+</tr>
+<tr>
+<td>national_or_local_use</td>
+<td>National / Local / Both / Assurance</td>
+</tr>
+<tr>
+<td>related_output_file</td>
+<td>CSV or report artefact this row feeds</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>Vignettes, reconciliation notes, preset hints</td>
+</tr>
+<tr>
+<td>reporting_confidence</td>
+<td>High / Medium / Low for Mar 2026</td>
+</tr>
+</tbody>
+</table></div>
+<p>Filtered exports (not separate truth): <code>source_to_report_map_mhsds_view.csv</code>, <code>source_to_report_map_local_demand_view.csv</code>.</p>
+<h3>fact_mh_referral_episode.csv</h3>
+<p>Central episode grain derived from <code>legendary_cmht_cases</code> + <code>pathwayone_actions</code>. Key fields:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>episode_id</td>
+<td>Synthetic episode identifier</td>
+</tr>
+<tr>
+<td>derivation_rule</td>
+<td>OPT-C, OPT-A, DASH, etc.</td>
+</tr>
+<tr>
+<td>mhsds_like_inclusion_flag</td>
+<td>1 = include in MHSDS-like submission roll-up</td>
+</tr>
+<tr>
+<td>local_reporting_inclusion_flag</td>
+<td>1 = include in local demand pack</td>
+</tr>
+<tr>
+<td>first_contact_wait_days</td>
+<td>Wait clock — definition-sensitive (see DEC-03)</td>
+</tr>
+<tr>
+<td>reporting_month</td>
+<td>YYYY-MM for monthly roll-ups</td>
+</tr>
+</tbody>
+</table></div>
+<p>Mar 2026 referrals received (agreed OPT-C) = <strong>134</strong>; dashboard logic = <strong>154</strong> (reconciliation_monthly / mhsds_like_reconciliation_summary).</p>
+<h3>reporting_requirements_map.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requirement_id</td>
+<td>REQ-01 etc.</td>
+</tr>
+<tr>
+<td>stakeholder</td>
+<td>Who needs the answer</td>
+</tr>
+<tr>
+<td>question</td>
+<td>Business question</td>
+</tr>
+<tr>
+<td>mandatory_or_local</td>
+<td>Mandatory / Local</td>
+</tr>
+<tr>
+<td>kpi_ref</td>
+<td>KPI-01 etc.</td>
+</tr>
+<tr>
+<td>report_ref</td>
+<td>Report catalogue ID</td>
+</tr>
+</tbody>
+</table></div>
+<h3>report_catalogue.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>report_id</td>
+<td>CAT-01 etc.</td>
+</tr>
+<tr>
+<td>report_name</td>
+<td>Report title</td>
+</tr>
+<tr>
+<td>audience</td>
+<td>SLT, NHSE, service etc.</td>
+</tr>
+<tr>
+<td>frequency</td>
+<td>Monthly, weekly</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Role title</td>
+</tr>
+<tr>
+<td>requirement_ids</td>
+<td>Linked REQ IDs</td>
+</tr>
+<tr>
+<td>confidence_mar2026</td>
+<td>High / Medium / Low</td>
+</tr>
+<tr>
+<td>data_sources</td>
+<td>Primary feeds</td>
+</tr>
+</tbody>
+</table></div>
+<h3>validation_checks_register.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>check_id</td>
+<td>VAL-01 etc.</td>
+</tr>
+<tr>
+<td>rule</td>
+<td>Validation rule</td>
+</tr>
+<tr>
+<td>source</td>
+<td>Table or pipeline</td>
+</tr>
+<tr>
+<td>expected</td>
+<td>Expected outcome</td>
+</tr>
+<tr>
+<td>mar2026_result</td>
+<td>Actual result</td>
+</tr>
+<tr>
+<td>pass_fail</td>
+<td>Pass / Fail</td>
+</tr>
+<tr>
+<td>action</td>
+<td>Follow-up</td>
+</tr>
+</tbody>
+</table></div>
+<h3>reconciliation_detail_mar2026.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>level</td>
+<td>Trust total or team/vignette</td>
+</tr>
+<tr>
+<td>old_case_count</td>
+<td>OPT-A</td>
+</tr>
+<tr>
+<td>new_action_count</td>
+<td>OPT-B default</td>
+</tr>
+<tr>
+<td>agreed_count</td>
+<td>OPT-C</td>
+</tr>
+<tr>
+<td>dashboard_count</td>
+<td>Dashboard displayed</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>e.g. duplicate ActionId</td>
+</tr>
+</tbody>
+</table></div>
+<h3>productivity_by_team.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>team_code</td>
+<td>AA-MH-NORTH-01 etc.</td>
+</tr>
+<tr>
+<td>week</td>
+<td>W10, W21</td>
+</tr>
+<tr>
+<td>available_hours</td>
+<td>WTE availability</td>
+</tr>
+<tr>
+<td>contacts_delivered</td>
+<td>Care contacts</td>
+</tr>
+<tr>
+<td>contacts_per_wte</td>
+<td>Productivity metric</td>
+</tr>
+</tbody>
+</table></div>
+<h3>improvement_benefits_tracker.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>benefit_id</td>
+<td>BEN-01 etc.</td>
+</tr>
+<tr>
+<td>benefit</td>
+<td>Benefit description</td>
+</tr>
+<tr>
+<td>baseline</td>
+<td>Starting point</td>
+</tr>
+<tr>
+<td>target</td>
+<td>Target state</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Green / Amber / Red</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Role title</td>
+</tr>
+<tr>
+<td>evidence_link</td>
+<td>Deliverable or report</td>
+</tr>
+<tr>
+<td>month</td>
+<td>M1–M6</td>
+</tr>
+</tbody>
+</table></div>
+<h3>handover_documentation_register.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>doc_id</td>
+<td>DOC-01 etc.</td>
+</tr>
+<tr>
+<td>document_name</td>
+<td>Artefact name</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Why it exists</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Role title</td>
+</tr>
+<tr>
+<td>location</td>
+<td>Path or URL</td>
+</tr>
+<tr>
+<td>handover_status</td>
+<td>Draft / Ready</td>
+</tr>
+</tbody>
+</table></div>
+<h3>change_playbook.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>step</td>
+<td>1–10</td>
+</tr>
+<tr>
+<td>phase</td>
+<td>Listen, map, define etc.</td>
+</tr>
+<tr>
+<td>activity</td>
+<td>What to do</td>
+</tr>
+<tr>
+<td>artefact_produced</td>
+<td>Deliverable produced</td>
+</tr>
+<tr>
+<td>reuse_note</td>
+<td>How to reuse</td>
+</tr>
+</tbody>
+</table></div>
+<h3>senior_brief_sections.csv</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>section</td>
+<td>Bottom line, headlines etc.</td>
+</tr>
+<tr>
+<td>content_template</td>
+<td>Template wording</td>
+</tr>
+<tr>
+<td>mar2026_example</td>
+<td>Filled example</td>
+</tr>
+<tr>
+<td>confidence</td>
+<td>High / Medium / Low</td>
+</tr>
+</tbody>
+</table></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">This is a personal demonstration site using synthetic and public reference data only. It is not an official Dorset HealthCare website or report and does not contain confidential or patient-identifiable information.</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

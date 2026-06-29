@@ -1,0 +1,5 @@
+decision_id,topic,options_tested,agreed_rule,sign_off,owner
+DEC-01,Referral received definition,OPT-A/B/C/DASH,OPT-C hybrid,Directorate workshop 2026-03-25,Performance lead
+DEC-02,Rejected referral counts as received?,Include all / exclude all / reason-based,Exclude unless CLINICAL_TRIAGE,Clinical lead,Clinical lead
+DEC-03,First contact wait clock start,Referral received / accepted / pathway start,Referral received (KPI-04),Agreed,Clinical lead
+DEC-04,National vs local team inclusion,PC Liaison national flag,Local yes; national no for AA-PCL-01,Mandatory + performance,Mandatory reporting owner

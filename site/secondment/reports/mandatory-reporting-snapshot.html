@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandatory reporting snapshot (illustrative) — DRH</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <div class="nhs-report-nav">
+    <a href="../../six-months-trusted-performance.html">&larr; Six-month plan</a>
+    <a href="../definition-migration.html">Definition migration</a>
+    <a href="../evidence-and-reports.html">All reports</a>
+  </div>
+  <header class="nhs-report-header">
+    <p class="report-meta">Illustrative mandatory snapshot &middot; DRH synthetic &middot; Mar 2026</p>
+    <h1>MHSDS-like / CSDS-like / ADC-like snapshot</h1>
+    <p class="report-meta">Not an official national return — demonstration labels only</p>
+  </header>
+  <main id="main-content" class="nhs-report-main">
+    <div class="nhs-caveat"><strong>Synthetic demonstration:</strong> Illustrative only. Mar 2026 shows dashboard vs agreed referral divergence — see <a href="../definition-migration.html#reconciliation">reconciliation</a>.</div>
+    <section class="nhs-section">
+      <h2>MHSDS-like (illustrative)</h2>
+      <p><a href="../source-to-report.html?report=MHSDS-like%20monthly%20submission">View in source-to-report map</a> · <a href="mhsds-like-submission.html"><strong>Full Mar 2026 submission pack</strong></a> · <a href="../../secondment-demo/data/mandatory_mhsds_like_monthly.csv">Legacy snapshot CSV</a> · <a href="../../secondment-demo/data/fact_mh_referral_episode.csv">fact_mh_referral_episode.csv</a></p>
+      <dl class="definition-chain-mini">
+        <dt>Source requirement</dt><dd>Referral episodes from Legendary Care and/or PathwayOne access actions</dd>
+        <dt>Business definition</dt><dd>Referrals received — agreed OPT-C hybrid (134 Mar 2026), not dashboard logic (154)</dd>
+        <dt>Transformation</dt><dd>fact_mh_referral_episode with OPT-C derivation_rule and inclusion flags</dd>
+        <dt>Validation</dt><dd>Monthly reconciliation; VAL-06 failed Mar 2026 — dashboard figure submitted in error</dd>
+        <dt>Sign-off</dt><dd>Mandatory reporting owner + performance lead before submission</dd>
+        <dt>Risk if wrong</dt><dd>False assurance to NHSE; local Board narrative diverges from mandatory return</dd>
+      </dl>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Measure</th><th>Value</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Referrals (dashboard logic)</td><td>154</td><td>Not agreed definition</td></tr>
+            <tr><td>Referrals (agreed OPT-C)</td><td>134</td><td>Post-reconciliation</td></tr>
+            <tr><td>Contacts</td><td>420</td><td>Cross-check with CSDS-like</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="nhs-section">
+      <h2>CSDS-like (illustrative)</h2>
+      <dl class="definition-chain-mini">
+        <dt>Source requirement</dt><dd>CARE_ONGOING and CARE_FIRST_CONTACT actions from PathwayOne</dd>
+        <dt>Business definition</dt><dd>Clinical contacts only — KPI-05; exclude admin and duplicate ActionId</dd>
+        <dt>Transformation</dt><dd>fact_activity with action-type filter and DQ exclusions</dd>
+        <dt>Validation</dt><dd>CSDS-like cross-check; admin inflation vignette DRH-PAT-003201</dd>
+        <dt>Sign-off</dt><dd>CSDS owner before mandatory submission</dd>
+        <dt>Risk if wrong</dt><dd>Over-reported activity inflates workforce productivity narrative</dd>
+      </dl>
+      <table>
+        <thead><tr><th>Activity type</th><th>Count</th></tr></thead>
+        <tbody>
+          <tr><td>Assessment</td><td>890</td></tr>
+          <tr><td>Clinical Intervention</td><td>1,120</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="nhs-section">
+      <h2>Urgent Care ADC-like (illustrative)</h2>
+      <p>ADC_E07_ANALOGUE: 2,840 contacts — separate urgent-care strand; see <a href="../../data-warehouse-agent-demo.html">warehouse demo</a> for IUCS context.</p>
+    </section>
+    <p><a href="reports/mhsds-like-submission.html">MHSDS-like Mar 2026 submission</a> · <a href="../../secondment-demo/data/mandatory_mhsds_like_monthly.csv">Legacy snapshot CSV</a> · <a href="../../secondment-demo/data/fact_mh_referral_episode.csv">fact_mh_referral_episode.csv</a></p>
+  </main>
+  <footer class="nhs-report-footer"><p>Human review required. Synthetic DRH only.</p></footer>
+</body>
+</html>

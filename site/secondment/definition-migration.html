@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Definition migration — case-based to action-based</title>
+  <meta name="description" content="Centrepiece worked example: Legendary Care to PathwayOne definition migration at Demo Rivers Health.">
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="secondment-nav">
+    <a href="../six-months-trusted-performance.html">Six-month plan</a> &rarr; <strong>Definition migration</strong>
+  </div>
+  <main id="main-content">
+    <div class="hero">
+      <h1>Definition migration</h1>
+      <p class="hero-lead">The risk is not just data migration. It is definition migration. Worked example: All Age MH Access moving from case-based Legendary Care to action-based PathwayOne.</p>
+    </div>
+
+    <div class="answer-part">
+      <h2>What I hope to achieve</h2>
+      <p>Agreed KPI and pathway definitions that still answer the service questions after the source model changes — signed off by service, BI, IM&amp;T and performance colleagues, with reconciliation evidence for mandatory and local reporting months.</p>
+    </div>
+    <div class="answer-part">
+      <h2>My approach to succeed</h2>
+      <p>Test multiple definition options against known patients and old-system outputs while both feeds are available; reconcile monthly; mark reporting confidence; facilitate agreement on what each report must mean before embedding logic in the warehouse or dashboards.</p>
+    </div>
+
+    <div class="definition-chain-intro" role="note">
+      <p><strong>Definition chain:</strong> A measure is only safe to use when we can trace it from the real service event, through system capture and data logic, into the final report and the action taken from it.</p>
+    </div>
+    <div class="definition-chain-flow" role="img" aria-label="Definition chain from service to action">
+      <span class="definition-chain-step">Service reality</span>
+      <span class="definition-chain-step">System capture</span>
+      <span class="definition-chain-step">Source data</span>
+      <span class="definition-chain-step">Warehouse logic</span>
+      <span class="definition-chain-step">KPI / report</span>
+      <span class="definition-chain-step">Validation &amp; sign-off</span>
+      <span class="definition-chain-step definition-chain-step--action">Management action</span>
+    </div>
+
+    <section id="slide-dm-problem" class="slide-frame" aria-labelledby="dm-problem">
+      <h2 id="dm-problem">Case-based vs action-based</h2>
+      <p>Legendary Care holds one case record per pathway. PathwayOne holds separate access, care, outcome and admin actions. Mandatory and local reporting still need case-like answers.</p>
+      <div class="compare-panel">
+        <section>
+          <h3>Old — Legendary Care (case)</h3>
+          <p>One row: referral date, status, contacts, outcome, closure, team, reporting month.</p>
+        </section>
+        <section>
+          <h3>New — PathwayOne (actions)</h3>
+          <p>Many rows: ACCESS_*, CARE_*, OUTCOME_*, ADMIN_* events — no single case object.</p>
+        </section>
+      </div>
+      <div class="timeline-strip" role="img" aria-label="Migration phases B to D">
+        <span class="timeline-phase">B: Parallel Dec–Jan</span>
+        <span class="timeline-phase">C: Referral feed ends Feb</span>
+        <span class="timeline-phase timeline-phase--risk">D: Definition crunch Mar</span>
+      </div>
+      <p><a href="migration-scenario.html">Full migration timeline</a></p>
+    </section>
+
+    <section class="slide-frame" aria-labelledby="service-questions">
+      <h2 id="service-questions">Layered definition comparison</h2>
+      <p>Each row shows the service question, how it was captured before and after migration, competing data definitions, the recommended reporting definition, and who must sign off.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Service question</th>
+              <th scope="col">Old case-based capture</th>
+              <th scope="col">New action-based capture</th>
+              <th scope="col">Competing definitions</th>
+              <th scope="col">Recommended (OPT-C)</th>
+              <th scope="col">Sign-off needed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">When referred?</th><td>Staff open case; ReferralDate recorded</td><td>ACCESS_RECEIVED / ACCEPTED actions</td><td>OPT-A case date vs OPT-B accepted only</td><td>Hybrid: pre-Feb cases; post-Feb agreed access rules</td><td>Service lead + performance + mandatory</td></tr>
+            <tr><th scope="row">Rejected = received?</th><td>Rejected case still counts</td><td>ACCESS_REJECTED with reason code</td><td>Include all vs exclude all rejected</td><td>Exclude unless CLINICAL_TRIAGE</td><td>Clinical lead + performance</td></tr>
+            <tr><th scope="row">Pathway start?</th><td>PathwayStartDate on case</td><td>CARE_FIRST_CONTACT after acceptance</td><td>Access date vs first contact date</td><td>First contact after ACCESS_ACCEPTED</td><td>CMHT clinical lead</td></tr>
+            <tr><th scope="row">Reporting month?</th><td>ReportingMonth field on case</td><td>ActionDate per event</td><td>Event month vs facilitated rule</td><td>Rule per KPI in register</td><td>Performance lead + BI</td></tr>
+            <tr><th scope="row">Activity contacts?</th><td>ContactCount on case</td><td>CARE_ONGOING / CARE_FIRST_CONTACT</td><td>All actions vs clinical only</td><td>Exclude ADMIN_CANCEL and duplicates</td><td>CSDS owner + service manager</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="deliverables/kpi-definitions-register.html">Full layered KPI register</a></p>
+    </section>
+
+    <section id="slide-dm-vignette" class="slide-frame" aria-labelledby="anchor-vignette">
+      <h2 id="anchor-vignette">Anchor patient: DRH-PAT-002896</h2>
+      <p>Rejected referral in December 2025 — old case counts as received; new default excludes unless triage reason applies.</p>
+      <div class="compare-panel">
+        <section>
+          <h3>Legendary Care case</h3>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr><th scope="row">CaseId</th><td>Case LC-10001</td></tr>
+                <tr><th scope="row">ReferralDate</th><td>2025-12-08</td></tr>
+                <tr><th scope="row">PathwayStatus</th><td>Rejected</td></tr>
+                <tr><th scope="row">OutcomeText</th><td>Wrong service</td></tr>
+                <tr><th scope="row">ReportingMonth</th><td>2025-12</td></tr>
+                <tr><th scope="row">Counts as referral (old)</th><td><strong>Yes</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section>
+          <h3>PathwayOne actions</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Action</th><th>Date</th><th>Include default</th></tr></thead>
+              <tbody>
+                <tr><td>ACCESS_REJECTED</td><td>2025-12-08</td><td>No (CLINICAL_TRIAGE)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Counts as referral (new default):</strong> No</p>
+        </section>
+      </div>
+      <p><a href="../secondment-demo/data/legendary_cmht_cases.csv">legendary_cmht_cases.csv</a> · <a href="../secondment-demo/data/pathwayone_actions.csv">pathwayone_actions.csv</a></p>
+    </section>
+
+    <section class="slide-frame" aria-labelledby="three-options">
+      <h2 id="three-options">Three definition options tested</h2>
+      <p>I would not treat a new data model as automatically meaning the same thing in a different format. I would test whether it still answers the service question.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Option</th><th scope="col">Mar 2026 referrals</th><th scope="col">Rule</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">OPT-A Old case</th><td>151</td><td>ReferralDate in month</td></tr>
+            <tr><th scope="row">OPT-B New actions</th><td>168</td><td>ACCESS_ACCEPTED in month</td></tr>
+            <tr><th scope="row">OPT-C Agreed hybrid</th><td>134</td><td>Pre-Feb old; post-Feb action rules with exclusions</td></tr>
+            <tr><th scope="row">Dashboard (legacy)</th><td>154</td><td>Blended pipeline — not reconciled</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="slide-dm-reconcile" class="slide-frame" aria-labelledby="reconciliation">
+      <h2 id="reconciliation">Reconciliation reveal — March 2026</h2>
+      <p>The dangerous point in migration is when the dashboard still refreshes, but the measure no longer means what people think it means.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Source</th><th scope="col">Referral count</th><th scope="col">vs agreed</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Agreed definition (OPT-C)</th><td>134</td><td>Baseline</td></tr>
+            <tr><th scope="row">Dashboard displayed</th><td>154</td><td>+15% (~+2% headline narrative)</td></tr>
+            <tr><th scope="row">Old case logic</th><td>151</td><td>+13%</td></tr>
+            <tr><th scope="row">New action default</th><td>168</td><td>+25%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="confidence-ladder">
+        <span class="confidence-step confidence-step--low">Executive dashboard — Low confidence Mar 2026</span>
+        <span class="confidence-step confidence-step--medium">MHSDS-like — Medium</span>
+        <span class="confidence-step confidence-step--high">After reconciliation — High</span>
+      </div>
+      <p><a href="../secondment-demo/data/reconciliation_monthly.csv">reconciliation_monthly.csv</a> ·
+      <a href="../secondment-demo/data/mhsds_like_reconciliation_summary.csv">mhsds_like_reconciliation_summary.csv</a> ·
+      <a href="../secondment-demo/data/fact_mh_referral_episode.csv">fact_mh_referral_episode.csv</a> ·
+      <a href="reports/mhsds-like-submission.html">MHSDS-like Mar 2026 submission</a></p>
+      <div class="sign-off-block"><strong>Management action (Mar 2026):</strong> Withhold dashboard referral figure from Board; schedule directorate definition workshop; publish agreed 134 with reconciliation note only after sign-off.</div>
+    </section>
+
+    <section class="slide-frame" aria-labelledby="facilitation">
+      <h2 id="facilitation">Business &amp; Performance facilitation</h2>
+      <blockquote class="central-message">I would not just ask BI to fix the report. I would help the service, BI, IM&amp;T and performance colleagues agree what the report now needs to mean.</blockquote>
+      <p>Sign-off involves: service manager (operational reality), BI lead (implementation), IM&amp;T (feeds and cutover), mandatory reporting owner (national returns), performance lead (local products), finance/workforce where capacity or cost narratives depend on the same definitions.</p>
+      <p>
+        <a href="evidence-and-reports.html">Evidence and reports</a> ·
+        <a href="../docs-html/secondment-demo/data_dictionary.html">Data dictionary</a> ·
+        <a href="source-to-report.html?preset=referral-received">Source-to-report map (referral preset)</a>
+      </p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-caveat">Synthetic DRH demonstration only. Not Dorset HealthCare (RDY).</p>
+    </div>
+  </footer>
+  <script src="../assets/site.js"></script>
+</body>
+</html>

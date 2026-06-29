@@ -1,0 +1,5 @@
+definition_id,label,mar2026_count,use_for_submission
+OPT-A,Old case ReferralDate,151,No
+OPT-B,ACCESS_ACCEPTED default,168,No
+OPT-C,Agreed hybrid,134,Yes — after sign-off
+DASH,Dashboard displayed,154,No — withhold from Board

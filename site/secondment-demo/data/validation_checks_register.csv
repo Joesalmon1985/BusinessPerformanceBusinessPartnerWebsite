@@ -1,0 +1,7 @@
+check_id,rule_description,source,expected,mar2026_result,pass_fail,action
+VAL-01,No duplicate ActionId in month,pathwayone_actions,0 duplicates,1 duplicate (DRH-PAT-005663),Fail,Exclude in OPT-C
+VAL-02,All teams map via crosswalk,team_service_code_map,0 INVALID_TEAM,1 INVALID_TEAM row,Fail,Escalate to service manager
+VAL-03,Referral count within ±15% of agreed,reconciliation_monthly,Dashboard within 15% of agreed,+14.9% (154 vs 134),Fail,Do not publish dashboard figure
+VAL-04,Orphan cases without actions post-cutover,legendary_cmht_cases,<5% orphan,3.2%,Pass,Monitor
+VAL-05,Admin actions excluded from activity,pathwayone_actions,ADMIN_CANCEL excluded,2 admin rows flagged,Pass,Embedded in KPI-05
+VAL-06,MHSDS-like matches agreed referrals,mandatory_mhsds_like_monthly,Agreed value submitted,154 submitted (dashboard),Fail,Resubmit with 134 after sign-off

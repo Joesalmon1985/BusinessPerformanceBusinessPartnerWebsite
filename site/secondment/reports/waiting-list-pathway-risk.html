@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waiting list and pathway risk — DRH</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <div class="nhs-report-nav">
+    <a href="../../six-months-trusted-performance.html">&larr; Six-month plan</a>
+    <a href="../definition-migration.html">Definition migration</a>
+  </div>
+  <header class="nhs-report-header">
+    <h1>Waiting list and pathway risk report</h1>
+    <p class="report-meta">Local product &middot; Mar 2026 &middot; Medium confidence</p>
+  </header>
+  <main class="nhs-report-main">
+    <div class="report-support-block">
+      <p><strong>What this supports:</strong></p>
+      <ul>
+        <li>Capacity allocation and prioritisation by team</li>
+        <li>Escalating long waits between access accepted and first contact</li>
+        <li>Service manager review of pathway-start definition (KPI-02)</li>
+      </ul>
+      <p><strong>Definition risk:</strong> Pathway start logic changed from case PathwayStartDate to first CARE_FIRST_CONTACT.</p>
+    </div>
+    <div class="nhs-priority-callout">
+      <p><strong>Definition change flag:</strong> Waiting stock built from ACCESS_WAITING actions may not match old case Waiting status without agreed rules.</p>
+    </div>
+    <section class="nhs-section">
+      <h2>Pathway start ambiguity (example)</h2>
+      <p>DRH-PAT-001552: access accepted 5 Jan; first contact 17 Jan — 12-day gap affects waiting-time narrative depending on definition.</p>
+      <p><a href="../definition-migration.html#anchor-vignette">Anchor and related vignettes</a></p>
+    </section>
+    <p><a href="../../secondment-demo/data/vignette_index.csv">vignette_index.csv</a></p>
+  </main>
+  <footer class="nhs-report-footer"><p>Service manager sign-off required before operational use.</p></footer>
+</body>
+</html>

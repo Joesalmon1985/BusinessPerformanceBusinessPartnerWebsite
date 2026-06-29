@@ -1,0 +1,7 @@
+reporting_month,definition_id,definition_label,referral_count,rule_summary
+2026-03,OPT-A,Old case referral date,151,Cases with ReferralDate in month
+2026-03,OPT-B,New access accepted actions,168,ACCESS_ACCEPTED in month
+2026-03,OPT-C,Agreed hybrid definition,134,Agreed rules with exclusions
+2026-03,DASH,Dashboard displayed,154,Legacy pipeline +2% vs agreed
+2026-01,OPT-A,Old case referral date,156,Parallel run
+2026-01,OPT-C,Agreed hybrid definition,151,Parallel run

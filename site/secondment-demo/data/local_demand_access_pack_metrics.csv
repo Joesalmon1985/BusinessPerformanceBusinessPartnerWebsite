@@ -1,0 +1,5 @@
+metric_code,metric_label,value,source_fact,shared_with_mandatory
+DRH-DEM-WK,Weekly demand index W21,218,fact_mh_referral_episode + demand_capacity_weekly,Same fact; different roll-up
+DRH-BACKLOG,Backlog stock W21,264,fact_mh_referral_episode,Local waiting stock — not MHS23
+DRH-REF-WK,Referrals in week W21 (OPT-C),48,fact_mh_referral_episode,Same OPT-C definition as DRH-REF-OPT-C
+DRH-WAIT-MED,Median wait to first contact (days),12,fact_mh_referral_episode,Clock-start rule shared with DRH-FC14

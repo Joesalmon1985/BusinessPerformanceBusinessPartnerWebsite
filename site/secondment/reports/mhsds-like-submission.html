@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHSDS-like monthly submission — DRH Mar 2026</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <div class="nhs-report-nav">
+    <a href="../../six-months-trusted-performance.html">&larr; Six-month plan</a>
+    <a href="../source-to-report.html">Source-to-report</a>
+    <a href="../definition-migration.html#reconciliation">Reconciliation</a>
+    <a href="../evidence-and-reports.html">All reports</a>
+  </div>
+  <header class="nhs-report-header">
+    <p class="report-meta">MHSDS-like monthly submission &middot; Provider DRH &middot; Mar 2026 &middot; Draft</p>
+    <h1>Mental Health Services Data Set — illustrative submission pack</h1>
+    <p class="report-meta">Not an official NHS England return — demonstration labels and synthetic values only</p>
+  </header>
+  <main id="main-content" class="nhs-report-main">
+    <div class="nhs-caveat"><strong>Synthetic demonstration:</strong> Illustrative submission built from <code>fact_mh_referral_episode</code>. Measure IDs (MHS23, MHS01, MHS29) align with public RDY concepts — values are DRH-only.</div>
+
+    <section class="nhs-section">
+      <h2>Submission summary</h2>
+      <dl class="definition-chain-mini">
+        <dt>Provider</dt><dd>DRH (fictional trust)</dd>
+        <dt>Reporting month</dt><dd>2026-03</dd>
+        <dt>Status</dt><dd>Draft — pending sign-off</dd>
+        <dt>Central fact</dt><dd>fact_mh_referral_episode</dd>
+        <dt>Source systems</dt><dd>Legendary Care + PathwayOne</dd>
+        <dt>Sign-off</dt><dd>Mandatory reporting owner — agreed pending workshop</dd>
+      </dl>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Code</th><th>Field</th><th>Value</th><th>Definition used</th><th>Status</th><th>Confidence</th></tr></thead>
+          <tbody>
+            <tr><td>MHS23</td><td>Open referrals at month end</td><td>16</td><td>Episode open/waiting; mhsds_like_inclusion_flag=1</td><td>Draft</td><td>Medium</td></tr>
+            <tr><td>MHS01</td><td>People with open referral with services</td><td>13</td><td>Open referral in contact — Apr 2026 label analogue</td><td>Draft</td><td>Medium</td></tr>
+            <tr><td>MHS29</td><td>Contacts in reporting period</td><td>3</td><td>Clinical contacts only — exclude admin</td><td>Pending reconciliation</td><td>Medium</td></tr>
+            <tr><td>DRH-REF-OPT-C</td><td>Referrals received (agreed)</td><td><strong>134</strong></td><td>Hybrid OPT-C — submit after sign-off</td><td>Agreed pending workshop</td><td>Low</td></tr>
+            <tr><td>DRH-REF-DASH</td><td>Referrals (dashboard — do not submit)</td><td>154</td><td>Legacy dashboard pipeline</td><td>Not for submission</td><td>Low</td></tr>
+            <tr><td>DRH-FC14</td><td>First contact within 14 days</td><td>80%</td><td>Wait clock at referral received</td><td>Draft</td><td>Medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="../../secondment-demo/data/mhsds_like_submission_fields.csv">mhsds_like_submission_fields.csv</a> · <a href="../../secondment-demo/data/mhsds_like_submission_monthly.csv">submission header</a></p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Reconciliation — referrals received Mar 2026</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Definition</th><th>Label</th><th>Count</th><th>Use for submission?</th></tr></thead>
+          <tbody>
+            <tr><td>OPT-A</td><td>Old case ReferralDate</td><td>151</td><td>No</td></tr>
+            <tr><td>OPT-B</td><td>ACCESS_ACCEPTED default</td><td>168</td><td>No</td></tr>
+            <tr><td>OPT-C</td><td>Agreed hybrid</td><td><strong>134</strong></td><td>Yes — after sign-off</td></tr>
+            <tr><td>DASH</td><td>Dashboard displayed</td><td>154</td><td>No — withhold from Board</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="../../secondment-demo/data/mhsds_like_reconciliation_summary.csv">mhsds_like_reconciliation_summary.csv</a> · <a href="../definition-migration.html#reconciliation">Definition migration</a></p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Validation checks</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Check</th><th>Rule</th><th>Result</th><th>Pass?</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>VAL-MH-01</td><td>No duplicate referral episode</td><td>1 duplicate (DRH-PAT-005663)</td><td>Fail</td><td>Exclude in OPT-C</td></tr>
+            <tr><td>VAL-MH-02</td><td>Team crosswalk complete</td><td>1 INVALID_TEAM (DRH-PAT-000874)</td><td>Fail</td><td>Fix before team reports</td></tr>
+            <tr><td>VAL-MH-03</td><td>Submission matches agreed OPT-C</td><td>Dashboard 154 vs agreed 134</td><td>Fail</td><td>Submit 134 only</td></tr>
+            <tr><td>VAL-MH-04</td><td>MHS29 aligns with clinical actions</td><td>3 from fact vs pathwayone_actions</td><td>Pass</td><td>Monitor admin</td></tr>
+            <tr><td>VAL-MH-05</td><td>Rejected referral rules documented</td><td>DRH-PAT-002896 excluded</td><td>Review</td><td>Clinical sign-off</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><a href="../../secondment-demo/data/mhsds_like_validation_checks.csv">mhsds_like_validation_checks.csv</a></p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Why this matters for service performance</h2>
+      <div class="dual-use-panel">
+        <p>The same <code>fact_mh_referral_episode</code> row can legitimately appear in the local weekly demand pack but be excluded from the MHSDS-like submission — for example Primary Care Liaison where national inclusion rules differ from local operational counting.</p>
+        <p>Both definitions are valid for their purpose. The risk is using the dashboard referral count (154) for Board narrative when the agreed OPT-C count (134) is what mandatory reporting and demand monitoring should use after sign-off.</p>
+        <p><a href="local-demand-capacity-pack.html">Local demand and access pack</a> shares the central fact with different roll-up rules.</p>
+      </div>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Definition migration — old case world vs new action world</h2>
+      <p>Pre-migration: referral received = case opened in Legendary Care. Post-migration: referral received = agreed hybrid of case date and PathwayOne access actions, with exclusions for duplicates, admin, and reason-based rejections.</p>
+      <p><a href="../source-to-report.html?report=MHSDS-like%20monthly%20submission">View in source-to-report map</a> · <a href="../../secondment-demo/data/definition_decision_log.csv">definition_decision_log.csv</a> · <a href="../../secondment-demo/data/source_to_report_map.csv">Canonical map CSV</a> · <a href="../../secondment-demo/data/fact_mh_referral_episode.csv">Episode fact table</a></p>
+    </section>
+
+    <section class="nhs-section">
+      <h2>Official sources consulted</h2>
+      <p>Read-only references — not reproduced in full. See <a href="../../docs-html/secondment-demo/mhsds_like_sources.html">mhsds_like_sources.md</a>.</p>
+      <ul>
+        <li><a href="https://digital.nhs.uk/data-and-information/information-standards/governance/latest-activity/standards-and-collections/dapb0011-mental-health-services-data-set">NHS England MHSDS information standard (DAPB0011 v6.0)</a></li>
+        <li><a href="https://digital.nhs.uk/data-and-information/publications/statistical/mental-health-services-monthly-statistics">Mental Health Services Monthly Statistics</a></li>
+      </ul>
+    </section>
+
+    <p><a href="mandatory-reporting-snapshot.html">&larr; Mandatory reporting snapshot (index)</a></p>
+  </main>
+  <footer class="nhs-report-footer"><p>Human review required. Synthetic DRH only. MHSDS-like — not an official return.</p></footer>
+</body>
+</html>

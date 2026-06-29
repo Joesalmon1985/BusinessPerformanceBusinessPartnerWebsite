@@ -48,6 +48,10 @@ ALLOW_LIST: tuple[str, ...] = (
     "public-data/metadata/public_report_audit_nof_overview.md",
     # Docs
     "docs/synthetic-mhsds-local-dictionary.md",
+    # Secondment demo
+    "secondment-demo/README.md",
+    "secondment-demo/data_dictionary.md",
+    "secondment-demo/mhsds_like_sources.md",
     # Agent rules — worked-example only
     "agent-rules/mhsds-expert-agent.md",
     "agent-rules/report-analysis-agent.md",
@@ -98,6 +102,7 @@ NAV_ITEMS = (
     ("Warehouse demo", "data-warehouse-agent-demo.html"),
     ("Agent operating model", "agent-operating-model.html"),
     ("Governance and benefits", "governance-and-benefits.html"),
+    ("Six-month plan", "six-months-trusted-performance.html"),
 )
 
 LINK_PATTERN = re.compile(r"(!?\[)([^\]]*)\](\([^)]+\))")

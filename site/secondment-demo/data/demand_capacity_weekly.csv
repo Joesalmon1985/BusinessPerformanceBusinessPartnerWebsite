@@ -1,0 +1,5 @@
+week,demand,capacity,backlog,workforce_availability_index,agency_spend_gbp,contacts_delivered,dna_rate,referrals_in_week
+2026-W10,185,180,125,0.92,13875,172,0.08,38
+2026-W14,200,188,158,0.88,14370,180,0.09,42
+2026-W18,208,195,212,0.85,15180,188,0.10,45
+2026-W21,218,200,264,0.82,15960,195,0.11,48

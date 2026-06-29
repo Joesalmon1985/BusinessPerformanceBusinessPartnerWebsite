@@ -1,0 +1,6 @@
+check_id,rule,result,pass_fail,action
+VAL-MH-01,No duplicate referral episode in month,1 duplicate (DRH-PAT-005663),Fail,Exclude in OPT-C
+VAL-MH-02,Team crosswalk complete for submitted episodes,1 INVALID_TEAM (DRH-PAT-000874),Fail,Fix before team reports
+VAL-MH-03,Submission referrals match agreed OPT-C,Dashboard 154 vs agreed 134,Fail,Submit 134 only
+VAL-MH-04,MHS29 aligns with clinical action count,3 from fact vs pathwayone_actions,Pass,Monitor admin
+VAL-MH-05,Rejected referral rules documented,DRH-PAT-002896 excluded,Review,Clinical sign-off

@@ -1,0 +1,7 @@
+reporting_month,old_case_count,new_action_count_default,agreed_definition_count,dashboard_displayed_count,dashboard_vs_agreed_pct,migration_phase,notes
+2025-12,142,138,140,140,0,B,Parallel begins
+2026-01,156,149,151,151,0,B,Dual feed active
+2026-02,148,161,145,148,2.1,C,Referral feed cutover
+2026-03,151,168,134,154,14.9,D,Dashboard +2% narrative; agreed -11%
+2026-04,147,155,143,143,0,F,Legacy extract ended
+2026-05,152,158,149,149,0,F,New only

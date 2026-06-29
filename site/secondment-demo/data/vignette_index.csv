@@ -1,0 +1,6 @@
+PatientPseudoId,scenario_type,migration_phase,centrepiece_display,notes,old_vs_new_summary
+DRH-PAT-002896,anchor_patient,D,True,Rejected referral — old counts received,Old=1 referral; new default=0
+DRH-PAT-001104,parallel_duplicate,B,False,Both systems during parallel run,Duplicate risk
+DRH-PAT-001552,pathway_start_ambiguity,D,False,12-day gap access vs first contact,Pathway start differs
+DRH-PAT-003201,admin_inflation,D,False,Admin actions inflate activity,Activity count diverges
+DRH-PAT-000874,missing_team_code,D,False,INVALID_TEAM in new system,Team remap failed

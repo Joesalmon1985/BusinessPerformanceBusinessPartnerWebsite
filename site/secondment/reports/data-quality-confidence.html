@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data quality and reporting confidence — DRH</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../assets/nhs-report.css">
+</head>
+<body class="nhs-report">
+  <div class="nhs-report-nav">
+    <a href="../../six-months-trusted-performance.html">&larr; Six-month plan</a>
+    <a href="../evidence-and-reports.html">All reports</a>
+  </div>
+  <p class="nhs-caveat">Part of handover deliverable: <a href="../deliverables/reporting-confidence-model.html">Reporting confidence model</a></p>
+  <header class="nhs-report-header">
+    <h1>Data quality and reporting confidence</h1>
+  </header>
+  <main class="nhs-report-main">
+    <div class="report-support-block">
+      <p><strong>What this supports:</strong></p>
+      <ul>
+        <li>Deciding which reports are safe to use during migration</li>
+        <li>Fallback routes when the definition chain is broken or unvalidated</li>
+        <li>Escalation before Board or mandatory submission</li>
+      </ul>
+    </div>
+    <section class="nhs-section">
+      <h2>Reporting confidence register</h2>
+      <table>
+        <thead><tr><th>Report</th><th>Confidence</th><th>Fallback</th></tr></thead>
+        <tbody>
+          <tr><td>Executive MH dashboard</td><td>Low (Mar 2026)</td><td>Manual reconciliation pack</td></tr>
+          <tr><td>MHSDS-like monthly</td><td>Medium</td><td>Legacy pipeline fallback</td></tr>
+          <tr><td>Local demand-capacity pack</td><td>High (Apr 2026)</td><td>n/a</td></tr>
+          <tr><td>Waiting list risk</td><td>Medium</td><td>Old case stock comparison</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <div class="confidence-ladder">
+      <span class="confidence-step confidence-step--high">High — suitable for service review</span>
+      <span class="confidence-step confidence-step--medium">Medium — owner confirmation</span>
+      <span class="confidence-step confidence-step--low">Low — do not use for Board</span>
+      <span class="confidence-step confidence-step--blocked">Blocked without reconciliation</span>
+    </div>
+    <p><a href="../../secondment-demo/data/reporting_confidence_register.csv">reporting_confidence_register.csv</a></p>
+  </main>
+  <footer class="nhs-report-footer"><p>Escalate unsafe or uncertain figures.</p></footer>
+</body>
+</html>
