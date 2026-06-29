@@ -5,5 +5,5 @@ BEN-03,Reporting confidence model live,None,All must-not-fail reports flagged,Gr
 BEN-04,Demand/capacity insight for CMHT,Spreadsheet only,Weekly pack with productivity,Green,Service manager,demand-capacity-productivity,M4
 BEN-05,Board-safe senior brief template,Inconsistent packs,Template with confidence column,Amber,Performance lead,senior-performance-brief,M5
 BEN-06,Migration risk register maintained,Tacit knowledge,Owned register with review dates,Green,Performance lead,migration-risk-register,M3
-BEN-07,Reusable change playbook,None,Documented 10-step model,Amber,Performance lead,reusable-change-model,M6
-BEN-08,Handover pack complete,n/a,All artefacts owned and located,Red,Performance lead,handover-documentation,M6
+BEN-07,Reusable change playbook,None,Documented 10-step model,Amber,Performance lead,six-months-trusted-performance,M6
+BEN-08,Handover pack complete,n/a,All artefacts owned and located,Amber,Performance lead,deliverables/index,M6

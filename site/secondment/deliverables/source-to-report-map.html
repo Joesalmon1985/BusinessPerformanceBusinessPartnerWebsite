@@ -14,29 +14,25 @@
   </div>
   <main id="main-content">
     <div class="hero">
-      <p class="deliverable-badge">Handover deliverable · 2 of 11 · Target M2</p>
+      <p class="deliverable-badge">Handover deliverable · 2 of 7 · Target M2</p>
       <h1>Source-to-report map</h1>
-      <p class="hero-lead">Operational chain from service event through source data to management decision.</p>
+      <p class="hero-lead">Operational chain from service event through source data to management decision — includes report inventory.</p>
     </div>
     <div class="info-box" role="note"><strong>DRH migration context:</strong> Legendary Care (case-based) → PathwayOne (action-based). Parallel run Dec 2025–Jan 2026; Mar 2026 definition crunch.</div>
-    
-    <section class="slide-frame"><h2>Maintained source-to-report map</h2>
-    <div class="definition-chain-flow" role="img" aria-label="Definition chain"><span class="definition-chain-step">Service reality</span><span class="definition-chain-step">System capture</span><span class="definition-chain-step">Source data</span><span class="definition-chain-step">Warehouse logic</span><span class="definition-chain-step">KPI / report</span><span class="definition-chain-step">Validation &amp; sign-off</span><span class="definition-chain-step definition-chain-step--action">Management action</span></div>
-    <p>This deliverable <strong>is</strong> the maintained source-to-report map. The interactive page displays filtered views of the same underlying CSV — one map, many views.</p>
-    <p><strong>Summary:</strong> 33 rows · 7 report names · 5 source tables.</p>
-    <div class="table-wrap"><table><thead><tr><th>View</th><th>Open interactive map</th></tr></thead><tbody>
-    <tr><td>Full map</td><td><a href="../source-to-report.html">source-to-report.html</a></td></tr>
-    <tr><td>MHSDS-like submission</td><td><a href="../source-to-report.html?report=MHSDS-like%20monthly%20submission">Filtered view</a></td></tr>
-    <tr><td>Local demand pack</td><td><a href="../source-to-report.html?report=Local%20demand%20and%20access%20performance%20pack">Filtered view</a></td></tr>
-    <tr><td>Referral received (KPI-01)</td><td><a href="../source-to-report.html?preset=referral-received">Preset</a></td></tr>
-    <tr><td>PathwayOne source changes</td><td><a href="../source-to-report.html?preset=pathwayone">Preset</a></td></tr>
-    <tr><td>Low confidence</td><td><a href="../source-to-report.html?preset=low-confidence">Preset</a></td></tr>
-    </tbody></table></div>
-    <p class="analysis-narrative">Do not maintain separate hand-authored tables — add or edit rows in the canonical CSV and regenerate this site.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> BI lead + mandatory reporting owner — draft lineage, review quarterly.</div>
-    <p><a href="../source-to-report.html">Interactive map</a> ·
-    <a href="../../secondment-demo/data/source_to_report_map.csv">source_to_report_map.csv</a> ·
-    <a href="../reports/mhsds-like-submission.html">MHSDS-like submission</a></p></section>
+    <section class="slide-frame">
+    <p>The canonical source-to-report map is a single filterable table — report inventory, field lineage, owners and confidence in one place.</p>
+    <p><a class="btn btn-primary" href="../source-to-report.html">Open source-to-report map</a>
+    <a class="btn btn-secondary" href="../../secondment-demo/data/source_to_report_map.csv">Download map CSV</a></p>
+    </section>
+    <section class="slide-frame"><h2>Reports at a glance</h2>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Audience</th><th>Freq.</th><th>Owner</th><th>Confidence Mar 26</th></tr></thead>
+    <tbody><tr><td>Executive MH dashboard</td><td>SLT</td><td>Monthly</td><td>Performance lead</td><td>Low</td></tr><tr><td>MHSDS-like monthly</td><td>NHSE</td><td>Monthly</td><td>Mandatory reporting owner</td><td>Medium</td></tr><tr><td>CSDS-like monthly</td><td>NHSE</td><td>Monthly</td><td>CSDS owner</td><td>Medium</td></tr><tr><td>Waiting list and pathway risk</td><td>CMHT managers</td><td>Weekly</td><td>Service manager</td><td>Medium</td></tr><tr><td>Demand and capacity pack</td><td>Directorate</td><td>Weekly</td><td>Performance lead</td><td>High</td></tr><tr><td>Senior performance brief</td><td>SLT / Board</td><td>Monthly</td><td>Performance lead</td><td>Low</td></tr><tr><td>Data quality and confidence</td><td>BI + performance</td><td>Monthly</td><td>BI lead</td><td>High</td></tr><tr><td>Reconciliation pack</td><td>Performance + BI</td><td>Monthly</td><td>Performance lead</td><td>High</td></tr></tbody></table></div>
+    <p><a href="../../secondment-demo/data/report_catalogue.csv">report_catalogue.csv</a></p></section>
+    <section class="slide-frame"><h2>Stakeholder questions</h2>
+    <div class="table-wrap"><table><thead><tr><th>Stakeholder</th><th>Question</th><th>KPI</th><th>Report</th></tr></thead>
+    <tbody><tr><td>NHSE mandatory returns</td><td>How many MH referrals received?</td><td>KPI-01</td><td>MHSDS-like monthly</td></tr><tr><td>Directorate lead</td><td>Are we meeting first contact standards?</td><td>KPI-04</td><td>Senior performance brief</td></tr><tr><td>CMHT service manager</td><td>What is waiting list pressure by team?</td><td>KPI-03</td><td>Waiting list risk</td></tr><tr><td>Board</td><td>Headline MH access performance trend?</td><td>KPI-01</td><td>Executive MH dashboard</td></tr><tr><td>CSDS return owner</td><td>Community activity counts?</td><td>KPI-05</td><td>CSDS-like monthly</td></tr><tr><td>Finance</td><td>Agency cost vs activity delivered?</td><td>KPI-08</td><td>Demand-capacity pack</td></tr><tr><td>IM&amp;T programme</td><td>Are feeds aligned post-cutover?</td><td>n/a</td><td>Validation pack</td></tr></tbody></table></div>
+    <p><a href="../../secondment-demo/data/reporting_requirements_map.csv">reporting_requirements_map.csv</a></p></section>
+    <section class="deliverable-plain-english" aria-labelledby="plain-source-to-report-map"><h2 id="plain-source-to-report-map">In plain English</h2><p>This is a route map from the ward or clinic to the board report. For every figure that appears in a report, it shows where that number comes from in the clinical systems, who owns it, and whether we trust it right now. It also lists which reports exist, who they are for, and which business questions they answer. If a figure looks wrong, you can trace it back without needing to be a data specialist.</p></section>
     <nav class="deliverable-nav" aria-label="Deliverable navigation">
       <a href="kpi-definitions-register.html">&larr; Previous: KPI definitions</a>
       <a href="index.html">All deliverables</a>

@@ -77,14 +77,14 @@ See `data_manifest.csv` for grain, row counts and linked HTML pages.
 | `mhsds_like_reconciliation_summary.csv` | Referral count build-up 151/168/134/154 | `secondment/reports/mhsds-like-submission.html` |
 | `definition_decision_log.csv` | OPT-A/B/C and rejection/wait-clock decisions | `secondment/definition-migration.html` |
 | `local_demand_access_pack_metrics.csv` | Local pack metrics from same fact | `secondment/reports/local-demand-capacity-pack.html` |
-| `reporting_requirements_map.csv` | Stakeholder questions and KPI refs | `secondment/deliverables/report-catalogue.html` |
-| `report_catalogue.csv` | Report names, owners, confidence | `secondment/deliverables/report-catalogue.html` |
+| `reporting_requirements_map.csv` | Stakeholder questions and KPI refs | `secondment/deliverables/source-to-report-map.html` |
+| `report_catalogue.csv` | Report names, owners, confidence | `secondment/deliverables/source-to-report-map.html` |
 | `validation_checks_register.csv` | Pre-publish validation rules and Mar 2026 results | `secondment/deliverables/validation-and-reconciliation.html` |
 | `reconciliation_detail_mar2026.csv` | Team/vignette build-up of 154 vs 134 | `secondment/deliverables/validation-and-reconciliation.html` |
 | `productivity_by_team.csv` | Contacts per WTE by team and week | `secondment/deliverables/demand-capacity-productivity.html` |
-| `improvement_benefits_tracker.csv` | Benefits linked to six-month outcomes | `secondment/deliverables/improvement-benefits-tracker.html` |
-| `handover_documentation_register.csv` | Document register for M6 handover | `secondment/deliverables/handover-documentation.html` |
-| `change_playbook.csv` | Ten-step reusable migration playbook | `secondment/deliverables/reusable-change-model.html` |
+| `improvement_benefits_tracker.csv` | Benefits linked to six-month outcomes | `secondment/deliverables/index.html` |
+| `handover_documentation_register.csv` | Document register for M6 handover | `secondment/deliverables/index.html` |
+| `change_playbook.csv` | Ten-step reusable migration playbook | `six-months-trusted-performance.html#reusable-approach` |
 | `senior_brief_sections.csv` | Brief template sections with Mar 2026 text | `secondment/deliverables/senior-performance-brief.html` |
 
 ### kpi_definitions_register.csv (layered columns)

@@ -11,40 +11,150 @@ OUT = ROOT.parent / "secondment" / "deliverables"
 SOURCE_PAGE_OUT = ROOT.parent / "secondment" / "source-to-report.html"
 
 PAGES = [
-    ("kpi-definitions-register.html", "Agreed KPI and definitions register", "M2", "1 of 11",
+    ("kpi-definitions-register.html", "Agreed KPI and definitions register", "M2", "1 of 7",
      "Layered definitions from service reality through system capture, data logic and sign-off.",
      "index.html", "All deliverables", "source-to-report-map.html"),
-    ("source-to-report-map.html", "Source-to-report map", "M2", "2 of 11",
-     "Operational chain from service event through source data to management decision.",
+    ("source-to-report-map.html", "Source-to-report map", "M2", "2 of 7",
+     "Operational chain from service event through source data to management decision — includes report inventory.",
      "kpi-definitions-register.html", "KPI definitions", "migration-risk-register.html"),
-    ("migration-risk-register.html", "Migration reporting risk register", "M3", "3 of 11",
+    ("migration-risk-register.html", "Migration reporting risk register", "M3", "3 of 7",
      "Owned register of reporting risks — including definition drift, not just feed failure.",
-     "source-to-report-map.html", "Source-to-report map", "report-catalogue.html"),
-    ("report-catalogue.html", "Reporting requirements map and report catalogue", "M2", "4 of 11",
-     "Who needs which question answered, which report delivers it, and what decision it supports.",
-     "migration-risk-register.html", "Migration risk", "validation-and-reconciliation.html"),
-    ("validation-and-reconciliation.html", "Validation checks and reconciliation outputs", "M3–M5", "5 of 11",
+     "source-to-report-map.html", "Source-to-report map", "validation-and-reconciliation.html"),
+    ("validation-and-reconciliation.html", "Validation checks and reconciliation outputs", "M3–M5", "4 of 7",
      "Checks that the definition chain is still intact before publish.",
-     "report-catalogue.html", "Report catalogue", "reporting-confidence-model.html"),
-    ("reporting-confidence-model.html", "Reporting confidence model", "M4", "6 of 11",
+     "migration-risk-register.html", "Migration risk", "reporting-confidence-model.html"),
+    ("reporting-confidence-model.html", "Reporting confidence model", "M4", "5 of 7",
      "Four-tier confidence framework with fallback routes during migration.",
      "validation-and-reconciliation.html", "Validation", "demand-capacity-productivity.html"),
-    ("demand-capacity-productivity.html", "Demand, capacity and productivity insight", "M4", "7 of 11",
+    ("demand-capacity-productivity.html", "Demand, capacity and productivity insight", "M4", "6 of 7",
      "Weekly demand/capacity with productivity by team — separating genuine pressure from definition change.",
      "reporting-confidence-model.html", "Confidence model", "senior-performance-brief.html"),
-    ("senior-performance-brief.html", "Senior performance brief template", "M5", "8 of 11",
+    ("senior-performance-brief.html", "Senior performance brief template", "M5", "7 of 7",
      "Template sections with Mar 2026 filled example and confidence column.",
-     "demand-capacity-productivity.html", "Demand/capacity", "improvement-benefits-tracker.html"),
-    ("improvement-benefits-tracker.html", "Improvement and benefits tracker", "M1–M6", "9 of 11",
-     "Benefits tied to six-month outcomes with RAG status and evidence links.",
-     "senior-performance-brief.html", "Senior brief", "handover-documentation.html"),
-    ("handover-documentation.html", "Handover documentation", "M6", "10 of 11",
-     "Register of documents, owners and handover status for sustain.",
-     "improvement-benefits-tracker.html", "Benefits tracker", "reusable-change-model.html"),
-    ("reusable-change-model.html", "Reusable model for future change", "M6", "11 of 11",
-     "Ten-step playbook reusable for the next service or system migration.",
-     "handover-documentation.html", "Handover docs", "index.html"),
+     "demand-capacity-productivity.html", "Demand/capacity", "index.html"),
 ]
+
+PLAIN_ENGLISH = {
+    "kpi-definitions-register.html": (
+        "In plain English",
+        "This is the agreed dictionary of what we count and what it means. When someone asks "
+        "“how many referrals did we have?”, this register records the answer everyone has signed "
+        "up to — starting in everyday service language, not computer jargon. During a system "
+        "change, the biggest risk is that the number still updates but means something different. "
+        "This document is how we stop that happening.",
+    ),
+    "source-to-report-map.html": (
+        "In plain English",
+        "This is a route map from the ward or clinic to the board report. For every figure that "
+        "appears in a report, it shows where that number comes from in the clinical systems, who "
+        "owns it, and whether we trust it right now. It also lists which reports exist, who they "
+        "are for, and which business questions they answer. If a figure looks wrong, you can trace "
+        "it back without needing to be a data specialist.",
+    ),
+    "migration-risk-register.html": (
+        "In plain English",
+        "This is a live list of things that could go wrong with performance reporting during the "
+        "IT migration — not just “the feed failed”, but “the number looks fine but means something "
+        "different now”. Each risk has an owner and a plan to reduce it. It is reviewed regularly "
+        "while old and new systems run in parallel.",
+    ),
+    "validation-and-reconciliation.html": (
+        "In plain English",
+        "Before we publish performance figures or send them upstairs, these are the checks we run "
+        "to ask: does the number still mean what we think it means? Reconciliation compares the old "
+        "system, the new system, the agreed definition, and what the dashboard shows — side by side. "
+        "If they do not match, we hold publication until people have agreed what to do.",
+    ),
+    "reporting-confidence-model.html": (
+        "In plain English",
+        "This is a simple traffic-light system for how much you can trust a report right now. "
+        "High means signed off and safe to use. Low means the number may update but the meaning has "
+        "not been agreed — so do not put it on a Board slide without checking. It tells senior "
+        "leaders which figures need a caveat and what to use instead.",
+    ),
+    "demand-capacity-productivity.html": (
+        "In plain English",
+        "This is a weekly operational view for service managers: how much demand is coming in, how "
+        "much capacity we have, how long people are waiting, and how productive teams are. It is "
+        "designed for running services day to day — separate from national mandatory returns. It "
+        "helps distinguish real pressure on the ground from numbers that changed because of the "
+        "IT migration.",
+    ),
+    "senior-performance-brief.html": (
+        "In plain English",
+        "This is the short monthly narrative for directors and the Board — the story behind the "
+        "numbers, not just the spreadsheet. Each section includes a confidence rating so leaders "
+        "know which headlines are safe and which need a “handle with care” conversation. The "
+        "Mar 2026 example shows how to explain when the dashboard says one thing but the agreed "
+        "figure says another.",
+    ),
+}
+
+INDEX_ROWS = [
+    ("M2–M3", "Amber", "Agreed KPI and definitions register", "kpi-definitions-register.html"),
+    ("M2", "Draft", "Source-to-report map", "source-to-report-map.html"),
+    ("M3", "Active", "Migration reporting risk register", "migration-risk-register.html"),
+    ("M3–M5", "Active", "Validation checks and reconciliation outputs", "validation-and-reconciliation.html"),
+    ("M4", "Embedded", "Reporting confidence model", "reporting-confidence-model.html"),
+    ("M4", "Prototype", "Demand, capacity and productivity insight", "demand-capacity-productivity.html"),
+    ("M5", "Template ready", "Senior performance brief template", "senior-performance-brief.html"),
+]
+
+def esc(s: str) -> str:
+    return html.escape(s or "")
+
+
+def plain_english_block(fname: str) -> str:
+    heading, text = PLAIN_ENGLISH[fname]
+    return (
+        f'<section class="deliverable-plain-english" aria-labelledby="plain-{fname.replace(".html", "")}">'
+        f'<h2 id="plain-{fname.replace(".html", "")}">{esc(heading)}</h2>'
+        f"<p>{esc(text)}</p></section>"
+    )
+
+
+def build_index_page() -> str:
+    rows = "".join(
+        f'<tr><td>{i}</td><td>{esc(title)}</td><td>{esc(month)}</td><td>{esc(status)}</td>'
+        f'<td><a href="{esc(href)}">View</a></td></tr>'
+        for i, (month, status, title, href) in enumerate(INDEX_ROWS, 1)
+    )
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handover deliverables — DRH worked examples</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="secondment-nav">
+    <a href="../../six-months-trusted-performance.html">Six-month plan</a> &rarr; <strong>Handover deliverables</strong>
+  </div>
+  <main id="main-content">
+    <div class="hero">
+      <h1>Handover deliverables</h1>
+      <p class="hero-lead">Seven worked examples for Demo Rivers Health (DRH) — Legendary Care to PathwayOne migration. Each artefact shows what I would leave behind, with layered definitions where measures matter.</p>
+    </div>
+    <section class="slide-frame">
+      <h2>Deliverable register</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">#</th><th scope="col">Artefact</th><th scope="col">Month</th><th scope="col">Status</th><th scope="col">Link</th></tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+      <p>Centrepiece evidence: <a href="../definition-migration.html">definition migration</a> (case-based vs action-based, Mar 2026 reconciliation). Reusable approach: <a href="../../six-months-trusted-performance.html#reusable-approach">ten-step playbook on the six-month plan</a>.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only. DRH ≠ RDY.</p></div></footer>
+  <script src="../../assets/site.js"></script>
+</body>
+</html>
+"""
 
 LAYER_LABELS = [
     ("service_definition", "Service definition"),
@@ -55,10 +165,6 @@ LAYER_LABELS = [
     ("validation_check", "Validation check"),
     ("owners_sign_off", "Owner / sign-off"),
 ]
-
-
-def esc(s: str) -> str:
-    return html.escape(s or "")
 
 
 def read_csv(name: str) -> list[dict]:
@@ -192,7 +298,6 @@ def build_source_map_table_rows(rows: list[dict]) -> str:
     parts = []
     for r in rows:
         rid = r["map_row_id"]
-        inc_exc = trunc(f"In: {r.get('inclusion_rule', '')} | Ex: {r.get('exclusion_rule', '')}", 70)
         src_field = f"{r.get('source_table', '')}.{r.get('source_field', '')}"
         data_attrs = (
             f'data-row-id="{esc(rid)}" '
@@ -210,41 +315,51 @@ def build_source_map_table_rows(rows: list[dict]) -> str:
             f'data-owner="{esc(_norm_attr(r.get("sign_off_owner", "")))}" '
             f'data-national-local="{esc(_norm_attr(r.get("national_or_local_use", "")))}"'
         )
+        conf = _confidence_bucket(r.get("reporting_confidence", ""))
+        conf_cls = f"map-conf map-conf--{conf.lower()}" if conf else "map-conf"
         parts.append(
             f'<tr class="map-summary-row" {data_attrs}>'
-            f'<td>{esc(r.get("report_name", ""))}</td>'
-            f'<td>{esc(r.get("report_field", ""))}</td>'
-            f'<td>{esc(trunc(r.get("source_system", ""), 28))}</td>'
-            f'<td><code>{esc(trunc(src_field, 36))}</code></td>'
-            f'<td><code>{esc(trunc(r.get("warehouse_fact_or_dimension", ""), 28))}</code></td>'
-            f'<td class="col-notes">{esc(inc_exc)}</td>'
-            f'<td>{esc(_confidence_bucket(r.get("reporting_confidence", "")))}</td>'
-            f'<td>{esc(trunc(r.get("sign_off_owner", ""), 22))}</td>'
-            f'<td>{esc(trunc(r.get("management_decision_supported", ""), 40))}</td>'
-            f'<td><button type="button" class="btn btn-secondary btn-sm map-details-toggle" '
-            f'aria-expanded="false" aria-controls="details-{esc(rid)}" data-target="details-{esc(rid)}">Details</button></td>'
-            f'</tr>'
-        )
-        detail = (
-            f'<dl class="map-details-dl">'
-            f'<div><dt>Map row</dt><dd>{esc(rid)} · {esc(r.get("metric_code", ""))}</dd></div>'
-            f'<div><dt>Service event</dt><dd>{esc(r.get("service_event", ""))}</dd></div>'
-            f'<div><dt>Service definition</dt><dd>{esc(r.get("service_definition", ""))}</dd></div>'
-            f'<div><dt>System / workflow capture</dt><dd>{esc(r.get("system_workflow_capture", ""))}</dd></div>'
-            f'<div><dt>Transformation</dt><dd>{esc(r.get("transformation_rule", ""))}</dd></div>'
-            f'<div><dt>Validation</dt><dd>{esc(r.get("validation_check", ""))}</dd></div>'
-            f'<div><dt>Reconciliation</dt><dd>{esc(r.get("reconciliation_check", ""))}</dd></div>'
-            f'<div><dt>Migration risk</dt><dd>{esc(r.get("migration_risk", ""))}</dd></div>'
-            f'<div><dt>Sign-off</dt><dd>{esc(r.get("sign_off_status", ""))} — {esc(r.get("sign_off_owner", ""))}</dd></div>'
-            f'<div><dt>Related output</dt><dd>{esc(r.get("related_output_file", ""))}</dd></div>'
-            f'<div><dt>Notes</dt><dd>{esc(r.get("notes", ""))}</dd></div>'
-            f'</dl>'
-        )
-        parts.append(
-            f'<tr class="map-details-row hidden" id="details-{esc(rid)}">'
-            f'<td colspan="10"><div class="map-details-panel">{detail}</div></td></tr>'
+            f'<td class="map-col-id"><span class="map-row-id">{esc(rid)}</span>'
+            f'<span class="map-metric-code">{esc(r.get("metric_code", ""))}</span></td>'
+            f'<td class="map-col-report">'
+            f'<span class="map-report-name">{esc(r.get("report_name", ""))}</span>'
+            f'<span class="map-report-field">{esc(r.get("report_field", ""))}</span></td>'
+            f'<td class="map-col-source">'
+            f'<span class="map-source-system">{esc(r.get("source_system", ""))}</span>'
+            f'<code class="map-source-field">{esc(src_field)}</code></td>'
+            f'<td class="map-col-fact"><code>{esc(r.get("warehouse_fact_or_dimension", ""))}</code></td>'
+            f'<td class="map-col-confidence"><span class="{conf_cls}">{esc(conf)}</span></td>'
+            f'<td class="map-col-owner">{esc(r.get("sign_off_owner", ""))}</td>'
+            f'<td class="map-col-action">'
+            f'<details class="map-row-details">'
+            f'<summary>Lineage</summary>'
+            f'<div class="map-details-panel">{_map_detail_dl(r)}</div>'
+            f'</details></td></tr>'
         )
     return "".join(parts)
+
+
+def _map_detail_dl(r: dict) -> str:
+    inc_exc = (
+        f"<strong>Inclusion:</strong> {esc(r.get('inclusion_rule', '') or '—')}<br>"
+        f"<strong>Exclusion:</strong> {esc(r.get('exclusion_rule', '') or '—')}"
+    )
+    return (
+        f'<dl class="map-details-dl">'
+        f'<div><dt>Service event</dt><dd>{esc(r.get("service_event", ""))}</dd></div>'
+        f'<div><dt>Service definition</dt><dd>{esc(r.get("service_definition", ""))}</dd></div>'
+        f'<div><dt>System capture</dt><dd>{esc(r.get("system_workflow_capture", ""))}</dd></div>'
+        f'<div><dt>Transformation</dt><dd>{esc(r.get("transformation_rule", ""))}</dd></div>'
+        f'<div><dt>Inclusion / exclusion</dt><dd>{inc_exc}</dd></div>'
+        f'<div><dt>Validation</dt><dd>{esc(r.get("validation_check", ""))}</dd></div>'
+        f'<div><dt>Reconciliation</dt><dd>{esc(r.get("reconciliation_check", ""))}</dd></div>'
+        f'<div><dt>Decision supported</dt><dd>{esc(r.get("management_decision_supported", ""))}</dd></div>'
+        f'<div><dt>Migration risk</dt><dd>{esc(r.get("migration_risk", ""))}</dd></div>'
+        f'<div><dt>Sign-off</dt><dd>{esc(r.get("sign_off_status", ""))}</dd></div>'
+        f'<div><dt>Related output</dt><dd>{esc(r.get("related_output_file", ""))}</dd></div>'
+        f'<div><dt>Notes</dt><dd>{esc(r.get("notes", "") or "—")}</dd></div>'
+        f'</dl>'
+    )
 
 
 def build_source_to_report_page() -> str:
@@ -274,110 +389,95 @@ def build_source_to_report_page() -> str:
   <title>Source-to-report stack</title>
   <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<body class="page-register">
+<body class="page-source-map">
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <div class="secondment-nav">
     <a href="../six-months-trusted-performance.html">Six-month plan</a> &rarr; Source-to-report stack
   </div>
-  <main id="main-content">
-    <div class="hero">
-      <h1>Source-to-report stack</h1>
-      <p class="hero-lead">One source-to-report map, many views: report-first, source-first, fact-first and risk-first.</p>
-    </div>
+  <main id="main-content" class="source-map-page">
+    <header class="source-map-header">
+      <h1>Source-to-report map</h1>
+      <p class="hero-lead">One canonical map, many views — report-first, source-first, fact-first and risk-first.</p>
+      <p class="source-map-intro">A safety map linking each report field back to the service event it describes. During migration, old and new systems may both produce a referral count — but with different actions, definitions and exclusions. <strong>Report-first:</strong> trace from report field to source. <strong>Source-first:</strong> see which reports change when a source field changes.</p>
+      <p class="source-map-meta">{len(rows)} rows · {n_reports} reports · {n_sources} source fields · <a href="../secondment-demo/data/source_to_report_map.csv">Download CSV</a></p>
+    </header>
 
-    <section class="slide-frame" aria-labelledby="explain">
-      <h2 id="explain">What this map is for</h2>
-      <p>A source-to-report map is a safety map. It stops a report field becoming detached from the service event it is supposed to describe. During migration, this matters because the old and new systems may both produce a referral count, but those counts may be based on different actions, definitions and exclusions.</p>
-      <p>A source-to-report map can be used in two directions. <strong>Report-first:</strong> start with a report field and trace back to source and service meaning. <strong>Source-first:</strong> start with a changing source field and see which reports, KPIs and decisions are affected.</p>
-      <div class="definition-chain-intro" role="note">
-        <p><strong>Definition chain:</strong> Service reality → system capture → source data → warehouse logic → report field → validation → decision.</p>
-        <p>Each row in the table below is one link from a report field back through that chain.</p>
-      </div>
-      <p class="lineage-callout"><strong>Example:</strong> use the <em>Referral received</em> preset to see OPT-C (134) vs dashboard (154) rows in the same canonical map — not a separate worked example.</p>
-    </section>
-
-    <section class="slide-frame" aria-labelledby="presets">
-      <h2 id="presets">Preset views</h2>
+    <div class="map-toolbar">
       <div class="map-preset-bar" role="group" aria-label="Filter presets">
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="mhsds">MHSDS-like submission</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="local-demand">Local demand pack</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="senior-brief">Senior performance brief</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="pathway-risk">Pathway risk report</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="pathwayone">PathwayOne source changes</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="low-confidence">Low confidence rows</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="migration-risks">Definition migration risks</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="awaiting-signoff">Rows awaiting sign-off</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="referral-received">Example: referral received</button>
-        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="central-fact">Central fact (fact_mh_referral_episode)</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="mhsds">MHSDS-like</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="local-demand">Local demand</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="senior-brief">Senior brief</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="pathway-risk">Pathway risk</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="pathwayone">PathwayOne changes</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="low-confidence">Low confidence</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="migration-risks">High migration risk</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="awaiting-signoff">Awaiting sign-off</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="referral-received">Referral received</button>
+        <button type="button" class="btn btn-secondary map-preset-btn" data-preset="central-fact">Central fact</button>
       </div>
-    </section>
-
-    <section aria-labelledby="filters">
-      <h2 id="filters">Filter the canonical map</h2>
-      <div class="filter-panel">
-        <div class="filter-row">
-          <div class="filter-group"><label for="map-filter-report">Report name</label>
-            <select id="map-filter-report">{_select_options(reports, "All reports")}</select></div>
-          <div class="filter-group"><label for="map-filter-report-field">Report field</label>
-            <select id="map-filter-report-field">{_select_options(report_fields, "All fields")}</select></div>
-          <div class="filter-group"><label for="map-filter-report-type">Report type</label>
-            <select id="map-filter-report-type">{_select_options(report_types, "All types")}</select></div>
-          <div class="filter-group"><label for="map-filter-source-system">Source system</label>
-            <select id="map-filter-source-system">{_select_options(source_systems, "All systems")}</select></div>
-          <div class="filter-group"><label for="map-filter-source-table">Source table</label>
-            <select id="map-filter-source-table">{_select_options(source_tables, "All tables")}</select></div>
-          <div class="filter-group"><label for="map-filter-source-field">Source field</label>
-            <select id="map-filter-source-field">{_select_options(source_fields, "All fields")}</select></div>
-          <div class="filter-group"><label for="map-filter-warehouse">Warehouse fact</label>
-            <select id="map-filter-warehouse">{_select_options(warehouses, "All facts")}</select></div>
-          <div class="filter-group"><label for="map-filter-kpi">KPI</label>
-            <select id="map-filter-kpi">{_select_options(kpis, "All KPIs")}</select></div>
-          <div class="filter-group"><label for="map-filter-national-local">National / local</label>
-            <select id="map-filter-national-local">{_select_options(national_local, "All uses")}</select></div>
-          <div class="filter-group"><label for="map-filter-confidence">Confidence</label>
-            <select id="map-filter-confidence">{_select_options(confidences, "All confidence")}</select></div>
-          <div class="filter-group"><label for="map-filter-sign-off">Sign-off status</label>
-            <select id="map-filter-sign-off">{_select_options(sign_offs, "All statuses")}</select></div>
-          <div class="filter-group"><label for="map-filter-risk">Migration risk</label>
-            <select id="map-filter-risk">{_select_options(risks, "All risks")}</select></div>
-          <div class="filter-group"><label for="map-filter-owner">Owner</label>
-            <select id="map-filter-owner">{_select_options(owners, "All owners")}</select></div>
-          <div class="filter-group"><label for="map-filter-search">Text search</label>
-            <input type="search" id="map-filter-search" placeholder="Search map rows…" aria-label="Search source-to-report map"></div>
-          <div class="filter-group"><label>&nbsp;</label>
-            <button type="button" class="btn btn-secondary" id="map-filter-clear">Clear filters</button></div>
-        </div>
+      <div class="map-search-row">
+        <label for="map-filter-search" class="visually-hidden">Search map</label>
+        <input type="search" id="map-filter-search" class="map-search-input" placeholder="Search rows…" aria-label="Search source-to-report map">
+        <button type="button" class="btn btn-secondary" id="map-filter-clear">Clear filters</button>
         <p class="filter-count" id="map-filter-count" aria-live="polite">Showing map rows</p>
       </div>
-    </section>
+      <details class="map-filter-advanced">
+        <summary>Advanced filters</summary>
+        <div class="filter-panel filter-panel--compact">
+          <div class="filter-row">
+            <div class="filter-group"><label for="map-filter-report">Report name</label>
+              <select id="map-filter-report">{_select_options(reports, "All reports")}</select></div>
+            <div class="filter-group"><label for="map-filter-report-field">Report field</label>
+              <select id="map-filter-report-field">{_select_options(report_fields, "All fields")}</select></div>
+            <div class="filter-group"><label for="map-filter-report-type">Report type</label>
+              <select id="map-filter-report-type">{_select_options(report_types, "All types")}</select></div>
+            <div class="filter-group"><label for="map-filter-source-system">Source system</label>
+              <select id="map-filter-source-system">{_select_options(source_systems, "All systems")}</select></div>
+            <div class="filter-group"><label for="map-filter-source-table">Source table</label>
+              <select id="map-filter-source-table">{_select_options(source_tables, "All tables")}</select></div>
+            <div class="filter-group"><label for="map-filter-source-field">Source field</label>
+              <select id="map-filter-source-field">{_select_options(source_fields, "All fields")}</select></div>
+            <div class="filter-group"><label for="map-filter-warehouse">Warehouse fact</label>
+              <select id="map-filter-warehouse">{_select_options(warehouses, "All facts")}</select></div>
+            <div class="filter-group"><label for="map-filter-kpi">KPI</label>
+              <select id="map-filter-kpi">{_select_options(kpis, "All KPIs")}</select></div>
+            <div class="filter-group"><label for="map-filter-national-local">National / local</label>
+              <select id="map-filter-national-local">{_select_options(national_local, "All uses")}</select></div>
+            <div class="filter-group"><label for="map-filter-confidence">Confidence</label>
+              <select id="map-filter-confidence">{_select_options(confidences, "All confidence")}</select></div>
+            <div class="filter-group"><label for="map-filter-sign-off">Sign-off status</label>
+              <select id="map-filter-sign-off">{_select_options(sign_offs, "All statuses")}</select></div>
+            <div class="filter-group"><label for="map-filter-risk">Migration risk</label>
+              <select id="map-filter-risk">{_select_options(risks, "All risks")}</select></div>
+            <div class="filter-group"><label for="map-filter-owner">Owner</label>
+              <select id="map-filter-owner">{_select_options(owners, "All owners")}</select></div>
+          </div>
+        </div>
+      </details>
+    </div>
 
-    <section aria-labelledby="map-table-heading">
-      <h2 id="map-table-heading">Canonical source-to-report map</h2>
-      <p>{len(rows)} rows · {n_reports} reports · {n_sources} source fields. Download: <a href="../secondment-demo/data/source_to_report_map.csv">source_to_report_map.csv</a> · Handover: <a href="deliverables/source-to-report-map.html">deliverable register</a></p>
-      <div class="table-wrap table-wrap--register">
-        <table id="source-map-table" class="register-table source-map-table">
-          <thead>
-            <tr>
-              <th scope="col">Report name</th>
-              <th scope="col">Report field</th>
-              <th scope="col">Source system</th>
-              <th scope="col">Source table.field</th>
-              <th scope="col">Warehouse fact</th>
-              <th scope="col">Inclusion / exclusion</th>
-              <th scope="col">Confidence</th>
-              <th scope="col">Owner</th>
-              <th scope="col">Decision supported</th>
-              <th scope="col">Details</th>
-            </tr>
-          </thead>
-          <tbody>{tbody}</tbody>
-        </table>
-      </div>
-    </section>
+    <div class="table-wrap table-wrap--source-map">
+      <table id="source-map-table" class="source-map-table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Report</th>
+            <th scope="col">Source</th>
+            <th scope="col">Warehouse fact</th>
+            <th scope="col">Conf.</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Lineage</th>
+          </tr>
+        </thead>
+        <tbody>{tbody}</tbody>
+      </table>
+    </div>
 
-    <p><a href="definition-migration.html#reconciliation">Definition migration</a> ·
-    <a href="reports/mhsds-like-submission.html">MHSDS-like submission</a> ·
-    <a href="../docs-html/secondment-demo/mhsds_like_sources.html">Official sources consulted</a></p>
+    <footer class="source-map-footer">
+      <p><a href="definition-migration.html#reconciliation">Definition migration</a> ·
+      <a href="reports/mhsds-like-submission.html">MHSDS-like submission</a> ·
+      <a href="../docs-html/secondment-demo/mhsds_like_sources.html">Official sources</a></p>
+    </footer>
   </main>
   <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only. MHSDS-like — not an official national return.</p></div></footer>
   <script src="../assets/site.js"></script>
@@ -387,52 +487,35 @@ def build_source_to_report_page() -> str:
 
 
 def build_source_to_report_body() -> str:
-    rows = read_csv("source_to_report_map.csv")
-    reports = sorted({r["report_name"] for r in rows if r["report_name"]})
-    sources = sorted({r["source_table"] for r in rows if r["source_table"]})
-    return f"""
-    <section class="slide-frame"><h2>Maintained source-to-report map</h2>
-    {definition_chain_flow()}
-    <p>This deliverable <strong>is</strong> the maintained source-to-report map. The interactive page displays filtered views of the same underlying CSV — one map, many views.</p>
-    <p><strong>Summary:</strong> {len(rows)} rows · {len(reports)} report names · {len(sources)} source tables.</p>
-    <div class="table-wrap"><table><thead><tr><th>View</th><th>Open interactive map</th></tr></thead><tbody>
-    <tr><td>Full map</td><td><a href="../source-to-report.html">source-to-report.html</a></td></tr>
-    <tr><td>MHSDS-like submission</td><td><a href="../source-to-report.html?report=MHSDS-like%20monthly%20submission">Filtered view</a></td></tr>
-    <tr><td>Local demand pack</td><td><a href="../source-to-report.html?report=Local%20demand%20and%20access%20performance%20pack">Filtered view</a></td></tr>
-    <tr><td>Referral received (KPI-01)</td><td><a href="../source-to-report.html?preset=referral-received">Preset</a></td></tr>
-    <tr><td>PathwayOne source changes</td><td><a href="../source-to-report.html?preset=pathwayone">Preset</a></td></tr>
-    <tr><td>Low confidence</td><td><a href="../source-to-report.html?preset=low-confidence">Preset</a></td></tr>
-    </tbody></table></div>
-    <p class="analysis-narrative">Do not maintain separate hand-authored tables — add or edit rows in the canonical CSV and regenerate this site.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> BI lead + mandatory reporting owner — draft lineage, review quarterly.</div>
-    <p><a href="../source-to-report.html">Interactive map</a> ·
-    <a href="../../secondment-demo/data/source_to_report_map.csv">source_to_report_map.csv</a> ·
-    <a href="../reports/mhsds-like-submission.html">MHSDS-like submission</a></p></section>"""
+    catalogue = read_csv("report_catalogue.csv")
+    requirements = read_csv("reporting_requirements_map.csv")
+    cat_rows = "".join(
+        f'<tr><td>{esc(r["report_name"])}</td><td>{esc(r["audience"])}</td>'
+        f'<td>{esc(r["frequency"])}</td><td>{esc(r["owner"])}</td>'
+        f'<td>{esc(r["confidence_mar2026"])}</td></tr>'
+        for r in catalogue
+    )
+    req_rows = "".join(
+        f'<tr><td>{esc(r["stakeholder"])}</td><td>{esc(r["business_question"])}</td>'
+        f'<td>{esc(r["kpi_ref"])}</td><td>{esc(r["report_ref"])}</td></tr>'
+        for r in requirements
+    )
+    return f"""<section class="slide-frame">
+    <p>The canonical source-to-report map is a single filterable table — report inventory, field lineage, owners and confidence in one place.</p>
+    <p><a class="btn btn-primary" href="../source-to-report.html">Open source-to-report map</a>
+    <a class="btn btn-secondary" href="../../secondment-demo/data/source_to_report_map.csv">Download map CSV</a></p>
+    </section>
+    <section class="slide-frame"><h2>Reports at a glance</h2>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Audience</th><th>Freq.</th><th>Owner</th><th>Confidence Mar 26</th></tr></thead>
+    <tbody>{cat_rows}</tbody></table></div>
+    <p><a href="../../secondment-demo/data/report_catalogue.csv">report_catalogue.csv</a></p></section>
+    <section class="slide-frame"><h2>Stakeholder questions</h2>
+    <div class="table-wrap"><table><thead><tr><th>Stakeholder</th><th>Question</th><th>KPI</th><th>Report</th></tr></thead>
+    <tbody>{req_rows}</tbody></table></div>
+    <p><a href="../../secondment-demo/data/reporting_requirements_map.csv">reporting_requirements_map.csv</a></p></section>"""
 
 
 BODY = {
-    "source-to-report-map.html": None,  # generated
-    "migration-risk-register.html": None,
-    "kpi-definitions-register.html": None,
-    "report-catalogue.html": """
-    <section class="slide-frame"><h2>Reporting requirements map</h2>
-    <div class="table-wrap"><table><thead><tr><th>Req</th><th>Stakeholder</th><th>Question</th><th>Decision supported</th><th>KPI</th></tr></thead>
-    <tbody>
-    <tr><td>REQ-01</td><td>NHSE</td><td>How many MH referrals?</td><td>Mandatory return submission</td><td>KPI-01</td></tr>
-    <tr><td>REQ-04</td><td>Board</td><td>Headline access trend?</td><td>SLT assurance — withhold if definition unsafe</td><td>KPI-01</td></tr>
-    <tr><td>REQ-03</td><td>CMHT manager</td><td>Waiting by team?</td><td>Capacity allocation and prioritisation</td><td>KPI-03</td></tr>
-    <tr><td>REQ-02</td><td>Directorate</td><td>First contact standards?</td><td>Access performance review</td><td>KPI-04</td></tr>
-    <tr><td>REQ-05</td><td>CSDS owner</td><td>Community activity?</td><td>Mandatory activity return</td><td>KPI-05</td></tr>
-  </tbody></table></div></section>
-    <section class="slide-frame"><h2>Report catalogue</h2>
-    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Audience</th><th>Freq</th><th>Owner</th><th>Confidence Mar 26</th></tr></thead>
-    <tbody>
-    <tr><td>Executive MH dashboard</td><td>SLT</td><td>Monthly</td><td>Performance lead</td><td>Low</td></tr>
-    <tr><td>MHSDS-like monthly</td><td>NHSE</td><td>Monthly</td><td>Mandatory owner</td><td>Medium</td></tr>
-    <tr><td>Reconciliation pack</td><td>Performance + BI</td><td>Monthly</td><td>Performance lead</td><td>High</td></tr>
-    </tbody></table></div>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Mandatory reporting owner + performance lead — catalogue draft; REQ-01 to REQ-07 mapped.</div>
-    <p><a href="../../secondment-demo/data/reporting_requirements_map.csv">requirements map</a> · <a href="../../secondment-demo/data/report_catalogue.csv">catalogue</a></p></section>""",
     "validation-and-reconciliation.html": """
     <section class="slide-frame"><h2>Is the definition chain still intact? — Mar 2026 checks</h2>
     <div class="table-wrap"><table><thead><tr><th>Check</th><th>Rule</th><th>Result</th><th>Pass?</th></tr></thead>
@@ -491,42 +574,6 @@ BODY = {
     </tbody></table></div>
     <div class="sign-off-block"><strong>Sign-off:</strong> Directorate lead — Mar 2026 draft withheld from Board pending reconciliation.</div>
     <p><a href="../reports/senior-performance-brief.html">Formatted brief (nhs-report)</a> · <a href="../../secondment-demo/data/senior_brief_sections.csv">CSV</a></p></section>""",
-    "improvement-benefits-tracker.html": """
-    <section class="slide-frame"><h2>Benefits tracker</h2>
-    <div class="table-wrap"><table><thead><tr><th>Benefit</th><th>Target</th><th>Status</th><th>Month</th></tr></thead>
-    <tbody>
-    <tr><td>Agreed referral definition</td><td>OPT-C signed off</td><td>Amber</td><td>M3</td></tr>
-    <tr><td>Layered KPI register</td><td>Service-to-sign-off chains</td><td>Amber</td><td>M2</td></tr>
-    <tr><td>Monthly reconciliation</td><td>Scheduled before SLT</td><td>Green</td><td>M4</td></tr>
-    <tr><td>Handover pack complete</td><td>All artefacts owned</td><td>Red</td><td>M6</td></tr>
-    </tbody></table></div>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Performance lead — benefits tracked monthly.</div>
-    <p><a href="../reports/improvement-benefits-tracker.html">Formatted tracker</a> · <a href="../../secondment-demo/data/improvement_benefits_tracker.csv">CSV</a></p></section>""",
-    "handover-documentation.html": """
-    <section class="slide-frame"><h2>Handover documentation register</h2>
-    <div class="table-wrap"><table><thead><tr><th>Document</th><th>Purpose</th><th>Owner</th><th>Status</th></tr></thead>
-    <tbody>
-    <tr><td>KPI definitions register</td><td>Layered definition chains</td><td>Performance lead</td><td>Draft</td></tr>
-    <tr><td>Source-to-report map</td><td>Operational lineage</td><td>BI lead</td><td>Draft</td></tr>
-    <tr><td>Migration risk register</td><td>Definition + technical risks</td><td>Performance lead</td><td>Ready</td></tr>
-    <tr><td>Data dictionary</td><td>Field definitions</td><td>BI lead</td><td>Ready</td></tr>
-    </tbody></table></div>
-    <p class="analysis-narrative">M6 handover: walk through each deliverable with successor and confirm owners.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Successor named — handover walkthrough scheduled M6 week 2.</div>
-    <p><a href="../../docs-html/secondment-demo/data_dictionary.html">Data dictionary</a> · <a href="../../secondment-demo/data/handover_documentation_register.csv">CSV</a></p></section>""",
-    "reusable-change-model.html": """
-    <section class="slide-frame"><h2>Ten-step change playbook</h2>
-    <div class="table-wrap"><table><thead><tr><th>Step</th><th>Month</th><th>Activity</th><th>Artefact</th></tr></thead>
-    <tbody>
-    <tr><td>1</td><td>M1</td><td>Map stakeholders and feeds</td><td>Requirements map</td></tr>
-    <tr><td>3</td><td>M2</td><td>Facilitate layered KPI definitions</td><td><a href="kpi-definitions-register.html">KPI register</a></td></tr>
-    <tr><td>5</td><td>M3</td><td>Migration risk register</td><td><a href="migration-risk-register.html">Risk register</a></td></tr>
-    <tr><td>8</td><td>M5</td><td>Validate definition chains monthly</td><td><a href="validation-and-reconciliation.html">Reconciliation</a></td></tr>
-    <tr><td>10</td><td>M6</td><td>Handover</td><td><a href="handover-documentation.html">Handover pack</a></td></tr>
-    </tbody></table></div>
-    <p class="analysis-narrative">Reusable for the next service migration — the artefacts change; the definition-chain discipline does not.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Performance lead + BI lead — playbook draft for reuse.</div>
-    <p><a href="../../secondment-demo/data/change_playbook.csv">change_playbook.csv</a></p></section>""",
 }
 
 GENERATORS = {
@@ -557,6 +604,7 @@ TEMPLATE = """<!DOCTYPE html>
     </div>
     <div class="info-box" role="note"><strong>DRH migration context:</strong> Legendary Care (case-based) → PathwayOne (action-based). Parallel run Dec 2025–Jan 2026; Mar 2026 definition crunch.</div>
     {body}
+    {plain_english}
     <nav class="deliverable-nav" aria-label="Deliverable navigation">
       <a href="{prev_href}">&larr; {prev_label}</a>
       <a href="index.html">All deliverables</a>
@@ -576,20 +624,36 @@ def get_body(fname: str) -> str:
     return BODY.get(fname, "<p>See linked CSV.</p>")
 
 
+REMOVED_DELIVERABLES = (
+    "report-catalogue.html",
+    "improvement-benefits-tracker.html",
+    "handover-documentation.html",
+    "reusable-change-model.html",
+)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     SOURCE_PAGE_OUT.write_text(build_source_to_report_page(), encoding="utf-8")
     print(f"Wrote {SOURCE_PAGE_OUT.name}")
+    (OUT / "index.html").write_text(build_index_page(), encoding="utf-8")
+    print("Wrote index.html")
     for fname, title, month, badge, lead, prev_href, prev_label, next_href in PAGES:
         next_label = "All deliverables" if next_href == "index.html" else next_href.replace(".html", "").replace("-", " ").title()
         html_out = TEMPLATE.format(
             title=title, badge=badge, month=month, lead=lead,
             body=get_body(fname),
+            plain_english=plain_english_block(fname),
             prev_href=prev_href, prev_label=f"Previous: {prev_label}",
             next_href=next_href, next_label=f"Next: {next_label}",
         )
         (OUT / fname).write_text(html_out, encoding="utf-8")
         print(f"Wrote {fname}")
+    for old in REMOVED_DELIVERABLES:
+        path = OUT / old
+        if path.exists():
+            path.unlink()
+            print(f"Removed {old}")
 
 
 if __name__ == "__main__":

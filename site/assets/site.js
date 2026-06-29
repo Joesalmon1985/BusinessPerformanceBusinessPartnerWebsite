@@ -149,12 +149,9 @@
       var visible = 0;
 
       summaryRows.forEach(function (row) {
-        var detailId = row.getAttribute('data-row-id');
-        var detailRow = detailId ? document.getElementById('details-' + detailId) : null;
-        var rowSignOff = row.getAttribute('data-sign-off') || '';
         var matchSignOff = signOffPartial
-          ? /pending|workshop|withheld|draft|review/i.test(rowSignOff)
-          : signOffMatches(rowSignOff, val('signOff'));
+          ? /pending|workshop|withheld|draft|review/i.test(row.getAttribute('data-sign-off') || '')
+          : signOffMatches(row.getAttribute('data-sign-off') || '', val('signOff'));
 
         var match = (
           (!val('report') || row.getAttribute('data-report') === val('report')) &&
@@ -174,13 +171,6 @@
         );
 
         row.classList.toggle('hidden', !match);
-        if (detailRow) {
-          if (!match) {
-            detailRow.classList.add('hidden');
-            var btn = row.querySelector('.map-details-toggle');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
-          }
-        }
         if (match) visible++;
       });
 
@@ -230,21 +220,6 @@
         var name = btn.getAttribute('data-preset');
         if (presets[name]) setFromObject(presets[name]);
       });
-    });
-
-    table.addEventListener('click', function (e) {
-      var btn = e.target.closest('.map-details-toggle');
-      if (!btn) return;
-      var targetId = btn.getAttribute('data-target');
-      var detailRow = targetId ? document.getElementById(targetId) : null;
-      if (!detailRow) return;
-      var open = !detailRow.classList.contains('hidden');
-      table.querySelectorAll('.map-details-row').forEach(function (r) { r.classList.add('hidden'); });
-      table.querySelectorAll('.map-details-toggle').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
-      if (!open) {
-        detailRow.classList.remove('hidden');
-        btn.setAttribute('aria-expanded', 'true');
-      }
     });
 
     var params = new URLSearchParams(window.location.search);
