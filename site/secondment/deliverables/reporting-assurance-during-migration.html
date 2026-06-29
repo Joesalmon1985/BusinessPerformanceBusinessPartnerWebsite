@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporting assurance during migration — DRH handover deliverable</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="secondment-nav">
+    <a href="../../six-months-trusted-performance.html">Six-month plan</a> &rarr;
+    <a href="index.html">Handover deliverables</a> &rarr; Reporting assurance during migration
+  </div>
+  <main id="main-content">
+    <div class="hero">
+      <p class="deliverable-badge">Handover deliverable · 3 of 6 · Target M3–M5</p>
+      <h1>Reporting assurance during migration</h1>
+      <p class="hero-lead">Risks we are watching, checks and reconciliation, and confidence before publish — one narrative.</p>
+    </div>
+    <div class="info-box" role="note"><strong>DRH migration context:</strong> Legendary Care (case-based) → PathwayOne (action-based). Parallel run Dec 2025–Jan 2026; Mar 2026 definition crunch.</div>
+    
+    <section class="slide-frame"><h2>A — Risks we are watching</h2>
+    <p>These are not IT tickets — they are reporting <em>meaning</em> risks with named owners. Phase D (Feb–Mar 2026) combines definition drift with two source models.</p>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Status</th><th>Residual</th></tr></thead>
+    <tbody><tr><td>R001</td><td>Definition drift during parallel run</td><td>Performance lead</td><td>Open</td><td>High</td></tr><tr><td>R002</td><td>Dashboard refreshes with wrong meaning</td><td>BI lead</td><td>Open</td><td>High</td></tr><tr><td>R009</td><td>Rejected referral logic changes between old and new systems</td><td>Clinical lead</td><td>Open</td><td>High</td></tr><tr><td>R013</td><td>Dashboard feed succeeds but measure meaning has changed</td><td>Performance lead</td><td>Open</td><td>High</td></tr></tbody></table></div>
+    <details class="definition-detail"><summary>All migration risks (13 rows)</summary>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Status</th><th>Residual</th></tr></thead>
+    <tbody><tr><td>R003</td><td>Weekly referral feed discontinued Feb</td><td>IM&amp;T</td><td>Mitigated</td><td>Low</td></tr><tr><td>R004</td><td>Team code remap incomplete</td><td>Service manager</td><td>Open</td><td>Medium</td></tr><tr><td>R005</td><td>MHSDS-like return uses legacy logic</td><td>Mandatory reporting owner</td><td>Open</td><td>High</td></tr><tr><td>R006</td><td>Duplicate actions in PathwayOne</td><td>BI lead</td><td>Open</td><td>Medium</td></tr><tr><td>R007</td><td>Phase D spans two source models for Mar reporting</td><td>Performance lead</td><td>Open</td><td>Medium</td></tr><tr><td>R008</td><td>Case object no longer exists — pathway logic must be derived</td><td>BI lead</td><td>Open</td><td>High</td></tr><tr><td>R010</td><td>Pathway start date logic changes (access vs first contact)</td><td>Service manager</td><td>Open</td><td>Medium</td></tr><tr><td>R011</td><td>Activity count includes admin actions unless explicitly excluded</td><td>CSDS owner</td><td>Open</td><td>High</td></tr><tr><td>R012</td><td>Local and national definitions diverge post-migration</td><td>Mandatory reporting owner</td><td>Open</td><td>Medium</td></tr></tbody></table></div></details>
+    <p><a href="../../secondment-demo/data/migration_risk_register.csv">migration_risk_register.csv</a></p></section>
+    <section class="slide-frame"><h2>B — Checks and reconciliation</h2>
+    <p>Mar 2026 validation — is the definition chain still intact?</p>
+    <div class="table-wrap"><table><thead><tr><th>Check</th><th>Rule</th><th>Result</th><th>Pass?</th></tr></thead>
+    <tbody><tr><td>VAL-01</td><td>No duplicate ActionId in month</td><td>1 duplicate (DRH-PAT-005663)</td><td>Fail</td></tr><tr><td>VAL-02</td><td>All teams map via crosswalk</td><td>1 INVALID_TEAM row</td><td>Fail</td></tr><tr><td>VAL-03</td><td>Referral count within ±15% of agreed</td><td>+14.9% (154 vs 134)</td><td>Fail</td></tr><tr><td>VAL-04</td><td>Orphan cases without actions post-cutover</td><td>3.2%</td><td>Pass</td></tr><tr><td>VAL-05</td><td>Admin actions excluded from activity</td><td>2 admin rows flagged</td><td>Pass</td></tr><tr><td>VAL-06</td><td>MHSDS-like matches agreed referrals</td><td>154 submitted (dashboard)</td><td>Fail</td></tr></tbody></table></div>
+    <h3>Reconciliation by team — Mar 2026</h3>
+    <div class="table-wrap"><table><thead><tr><th>Team</th><th>Old</th><th>New default</th><th>Agreed</th><th>Dashboard</th></tr></thead>
+    <tbody><tr><td>AA-MH-NORTH-01</td><td>42</td><td>48</td><td>38</td><td>44</td></tr><tr><td>AA-MH-SOUTH-01</td><td>38</td><td>45</td><td>36</td><td>41</td></tr><tr><td>AA-MH-EAST-01</td><td>35</td><td>40</td><td>33</td><td>37</td></tr><tr><td>AA-CRISIS-01</td><td>22</td><td>25</td><td>20</td><td>23</td></tr><tr><td>AA-PCL-01</td><td>14</td><td>10</td><td>7</td><td>9</td></tr><tr><td>TOTAL</td><td>151</td><td>168</td><td>134</td><td>154</td></tr></tbody></table></div>
+    <p class="analysis-narrative">VAL-03 and VAL-06 failed: dashboard still refreshes (+14.9% vs agreed) but OPT-C shows −11%. Publication held until definition chain is signed off.</p>
+    <p><a href="../definition-migration.html#slide-dm-reconcile">Definition migration reconciliation</a> ·
+    <a href="../source-to-report.html?preset=low-confidence">Low-confidence rows in map</a> ·
+    <a href="../../secondment-demo/data/validation_checks_register.csv">validation_checks_register.csv</a></p></section>
+    <section class="slide-frame"><h2>C — Confidence and publish decisions</h2>
+    <div class="confidence-ladder">
+    <span class="confidence-step confidence-step--high">High — definition chain signed off</span>
+    <span class="confidence-step confidence-step--medium">Medium — owner confirmation required</span>
+    <span class="confidence-step confidence-step--low">Low — do not use for Board</span>
+    <span class="confidence-step confidence-step--blocked">Do not use — chain broken or unvalidated</span></div>
+    <p>During phase D, default to Medium or below for any KPI touching both Legendary Care and PathwayOne.</p>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Confidence</th><th>Fallback</th><th>Publish decision</th></tr></thead>
+    <tbody><tr><td>Executive MH dashboard</td><td>Low</td><td>Manual reconciliation pack</td><td>Withhold from Board</td></tr><tr><td>MHSDS-like monthly</td><td>Medium</td><td>Legacy pipeline fallback</td><td>Submit 134 not 154</td></tr><tr><td>Local demand-capacity pack</td><td>High</td><td>n/a</td><td>Safe for service review</td></tr><tr><td>Waiting list risk report</td><td>Medium</td><td>Old case stock comparison</td><td>Use with definition caveat</td></tr></tbody></table></div>
+    <div class="sign-off-block"><strong>Mar 2026 actions:</strong> Executive dashboard withheld from Board (Low). MHSDS-like submit 134 not 154. Demand-capacity pack safe for service review.</div>
+    <p><a href="../reports/data-quality-confidence.html">Formatted confidence report</a> ·
+    <a href="../../secondment-demo/data/reporting_confidence_register.csv">reporting_confidence_register.csv</a></p></section>
+    <section class="deliverable-plain-english" aria-labelledby="plain-reporting-assurance-during-migration"><h2 id="plain-reporting-assurance-during-migration">In plain English</h2><p>This is the safety checklist for reporting during the IT migration. First we list what could go wrong and who owns each risk. Then we show the checks we ran and whether the numbers still match what we agreed. Finally we say which reports are safe to publish, which need a caveat, and which we withheld from the Board. It replaces three separate registers that were saying the same thing in different ways.</p></section>
+    <nav class="deliverable-nav" aria-label="Deliverable navigation">
+      <a href="source-to-report-map.html">&larr; Previous: Source-to-report map</a>
+      <a href="index.html">All deliverables</a>
+      <a href="demand-capacity-productivity.html">Next: Demand Capacity Productivity &rarr;</a>
+    </nav>
+  </main>
+  <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only.</p></div></footer>
+  <script src="../../assets/site.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-report_name,confidence_level,as_at_month,fallback_route,usage_note
-Executive MH dashboard,Low,2026-03,Manual reconciliation pack,Do not use for Board without sign-off
-MHSDS-like monthly,Medium,2026-03,Legacy pipeline fallback,Owner confirmation required
-Local demand-capacity pack,High,2026-04,n/a,Suitable for service review
-Waiting list risk report,Medium,2026-03,Old case stock comparison,Flag definition change
+report_name,confidence_level,as_at_month,fallback_route,usage_note,publish_decision
+Executive MH dashboard,Low,2026-03,Manual reconciliation pack,Do not use for Board without sign-off,Withhold from Board
+MHSDS-like monthly,Medium,2026-03,Legacy pipeline fallback,Owner confirmation required,Submit 134 not 154
+Local demand-capacity pack,High,2026-04,n/a,Suitable for service review,Safe for service review
+Waiting list risk report,Medium,2026-03,Old case stock comparison,Flag definition change,Use with definition caveat

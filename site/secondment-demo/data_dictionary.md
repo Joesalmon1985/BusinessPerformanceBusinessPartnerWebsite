@@ -79,8 +79,13 @@ See `data_manifest.csv` for grain, row counts and linked HTML pages.
 | `local_demand_access_pack_metrics.csv` | Local pack metrics from same fact | `secondment/reports/local-demand-capacity-pack.html` |
 | `reporting_requirements_map.csv` | Stakeholder questions and KPI refs | `secondment/deliverables/source-to-report-map.html` |
 | `report_catalogue.csv` | Report names, owners, confidence | `secondment/deliverables/source-to-report-map.html` |
-| `validation_checks_register.csv` | Pre-publish validation rules and Mar 2026 results | `secondment/deliverables/validation-and-reconciliation.html` |
-| `reconciliation_detail_mar2026.csv` | Team/vignette build-up of 154 vs 134 | `secondment/deliverables/validation-and-reconciliation.html` |
+| `validation_checks_register.csv` | Pre-publish validation rules and Mar 2026 results | `secondment/deliverables/reporting-assurance-during-migration.html` |
+| `reconciliation_detail_mar2026.csv` | Team/vignette build-up of 154 vs 134 | `secondment/deliverables/reporting-assurance-during-migration.html` |
+| `migration_risk_register.csv` | Reporting meaning risks during migration | `secondment/deliverables/reporting-assurance-during-migration.html` |
+| `reporting_confidence_register.csv` | Confidence levels and publish decisions | `secondment/deliverables/reporting-assurance-during-migration.html` |
+| `demand_capacity_weekly.csv` | Weekly demand, capacity, backlog and wait metrics | `secondment/deliverables/demand-capacity-productivity.html` |
+| `demand_capacity_insights.csv` | Analysis insights with status and suggested actions | `secondment/deliverables/demand-capacity-productivity.html` |
+| `ideas_under_test_register.csv` | Ideas tested, promoted, parked or dismissed | `secondment/deliverables/ideas-under-test.html` |
 | `productivity_by_team.csv` | Contacts per WTE by team and week | `secondment/deliverables/demand-capacity-productivity.html` |
 | `improvement_benefits_tracker.csv` | Benefits linked to six-month outcomes | `secondment/deliverables/index.html` |
 | `handover_documentation_register.csv` | Document register for M6 handover | `secondment/deliverables/index.html` |

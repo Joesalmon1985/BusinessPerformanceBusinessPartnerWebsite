@@ -1,0 +1,6 @@
+insight_id,headline,evidence,suggested_action,status,owner,week
+INS-01,South team agency spend up 15% but contacts/WTE flat,"AA-MH-SOUTH-01 WFA 0.82 vs North 0.92; agency £4,400 vs £3,500; contacts/WTE 38 vs 39",Roster review before further agency hire — discuss with South CMHT lead,Promoted,Service manager,2026-W21
+INS-02,DNA rate rising with median wait — recovery slots pilot,DNA 8%→11% W10–W21; median wait stable at 12d but long-wait count +32,Pilot DNA recovery slots in South team; review after 4 weeks,Under test,Clinical lead,2026-W21
+INS-03,Naive 4-week backlog forecast unreliable during definition change,Forecast overshot by 18% when dashboard referrals used instead of OPT-C,Dismiss forecast for Board; revisit post OPT-C sign-off (M5),Dismissed,Performance lead,2026-W18
+INS-04,INVALID_TEAM rows inflate East waiting stock,VAL-02 fail; 1 INVALID_TEAM row maps to AA-MH-EAST-01 waiting count,Fix crosswalk before capacity meeting — do not allocate agency on bad stock,Promoted,BI lead,2026-W21
+INS-05,Caseload mix shift needs agreed KPI-07 before action,Open vs waiting ratio changed post-migration; KPI-07 still Draft,Park workforce modelling until caseload definition signed off,Parked,Performance lead,2026-W21

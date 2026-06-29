@@ -919,6 +919,102 @@ body.page-register .nav-list {
   font-size: 0.9rem;
 }
 
+.principle-page-hero {
+  display: grid;
+  grid-template-columns: minmax(12rem, 280px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin: 1rem 0 1.5rem;
+}
+
+.principle-cartoon {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid #d8dde0;
+}
+
+.principle-cartoon--hub {
+  max-height: 140px;
+  width: auto;
+  object-fit: contain;
+}
+
+.principle-section {
+  margin: 1.5rem 0;
+}
+
+.principle-section > h2 {
+  margin-top: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--nhs-pale-grey, #f0f4f5);
+}
+
+.principle-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.principle-hub-card {
+  background: var(--nhs-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-top: 4px solid var(--nhs-blue);
+}
+
+.principle-hub-card h3 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.principle-hub-card p {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+  flex-grow: 1;
+}
+
+.principle-hub-support {
+  font-size: 0.8rem;
+  color: var(--nhs-dark-grey, #425563);
+  margin: 0.5rem 0;
+}
+
+.principle-practice-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.principle-practice-links article {
+  background: var(--nhs-pale-grey, #f0f4f5);
+  border-left: 4px solid var(--nhs-blue);
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.principle-practice-links h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+}
+
+.principle-practice-links p {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.principle-role-note {
+  font-size: 0.85rem;
+  color: var(--nhs-dark-grey, #425563);
+  margin-top: 0.5rem;
+}
+
 .compare-panel {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1584,6 +1680,14 @@ body.page-source-map main {
     grid-template-columns: 1fr;
   }
 
+  .principle-hub-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .principle-page-hero {
+    grid-template-columns: 1fr;
+  }
+
   .compare-panel {
     grid-template-columns: 1fr;
   }
@@ -1598,6 +1702,103 @@ body.page-source-map main {
   .roadmap-timeline {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.kpi-headline-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.kpi-headline {
+  background: var(--nhs-pale-grey, #f0f4f5);
+  border-left: 4px solid var(--nhs-blue, #005eb8);
+  padding: 0.75rem 1rem;
+}
+
+.kpi-headline-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--nhs-dark-blue, #003087);
+}
+
+.kpi-headline-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--nhs-dark-grey, #425563);
+}
+
+.insight-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.insight-card {
+  border: 1px solid #d8dde0;
+  border-radius: 4px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.insight-card h3 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.insight-card-meta {
+  font-size: 0.75rem;
+  margin: 0 0 0.5rem;
+}
+
+.insight-card--promoted {
+  border-left: 4px solid #007f3b;
+}
+
+.insight-card--under-test {
+  border-left: 4px solid #ed8b00;
+}
+
+.insight-card--parked {
+  border-left: 4px solid #768692;
+}
+
+.insight-card--dismissed {
+  border-left: 4px solid #d5281b;
+  opacity: 0.85;
+}
+
+.idea-status {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.idea-status--promoted {
+  background: #cce2d8;
+  color: #005a30;
+}
+
+.idea-status--test {
+  background: #fff0d3;
+  color: #8a4b00;
+}
+
+.idea-status--parked {
+  background: #e8edee;
+  color: #425563;
+}
+
+.idea-status--dismissed {
+  background: #f5d7d4;
+  color: #8a1538;
 }
 
 @media print {

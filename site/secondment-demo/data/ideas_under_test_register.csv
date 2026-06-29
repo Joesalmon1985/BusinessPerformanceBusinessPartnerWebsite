@@ -1,0 +1,11 @@
+idea_id,idea_name,hypothesis,test_method,outcome,status,month,linked_artefact
+IDEA-01,Weekly demand/capacity pack,Service managers need one weekly view not spreadsheets,Prototype with 2 CMHT leads for 6 weeks,Replaced spreadsheet; promoted to deliverable,Promoted,M4,demand-capacity-productivity
+IDEA-02,Reporting assurance single pack,"Risk, validation and confidence belong in one narrative",Merge three registers; review with BI + performance leads,Reduced overlap; clearer publish gate,Promoted,M3,reporting-assurance-during-migration
+IDEA-03,4-week backlog forecasting,Simple linear forecast supports agency planning,Forecast W18–W21 using dashboard referrals,18% overshoot during definition change — dismissed,Dismissed,M4,demand_capacity_insights.csv
+IDEA-04,SPC on referral counts,Control charts detect definition drift early,Pilot chart on Mar weekly referrals,Too noisy during migration — park until OPT-C signed,Parked,M4,kpi-definitions-register
+IDEA-05,Manager 1:1 performance conversation guide,Structured conversations improve underperforming teams,Pilot guide with 2 CMHT leads; template + prompts,South team pilot in progress,Under test,M4,ideas-under-test
+IDEA-06,DNA recovery slot analysis,Targeted recovery slots reduce DNA without extra WTE,Link DNA trend to wait times; pilot in South,Linked to INS-02; 4-week pilot agreed,Under test,M4,demand_capacity_insights.csv
+IDEA-07,RosterFlow capacity integration,Roster data improves WFA index accuracy,Join RosterFlow hours to weekly pack,Blocked on PathwayOne stabilisation,Parked,M5,demand-capacity-productivity
+IDEA-08,PIP / underperformance support pathway,Productivity variance flags need structured HR pathway,Pair contacts/WTE outliers with conversation guide,Pilot with HR BP; not yet scaled,Under test,M4,ideas-under-test
+IDEA-09,Trust-wide MH demand forecast,Statistical forecast supports directorate planning,Review time-series after 6 months clean data,Parked — definition noise invalidates model,Parked,M5,six-months-trusted-performance
+IDEA-10,Board slide confidence column,Leaders need explicit confidence on each headline,Add column to senior brief template; Mar 2026 draft,Embedded in senior brief; dashboard withheld,Promoted,M5,senior-performance-brief

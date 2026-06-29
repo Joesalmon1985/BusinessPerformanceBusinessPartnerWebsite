@@ -11,27 +11,24 @@ OUT = ROOT.parent / "secondment" / "deliverables"
 SOURCE_PAGE_OUT = ROOT.parent / "secondment" / "source-to-report.html"
 
 PAGES = [
-    ("kpi-definitions-register.html", "Agreed KPI and definitions register", "M2", "1 of 7",
+    ("kpi-definitions-register.html", "Agreed KPI and definitions register", "M2", "1 of 6",
      "Layered definitions from service reality through system capture, data logic and sign-off.",
      "index.html", "All deliverables", "source-to-report-map.html"),
-    ("source-to-report-map.html", "Source-to-report map", "M2", "2 of 7",
+    ("source-to-report-map.html", "Source-to-report map", "M2", "2 of 6",
      "Operational chain from service event through source data to management decision — includes report inventory.",
-     "kpi-definitions-register.html", "KPI definitions", "migration-risk-register.html"),
-    ("migration-risk-register.html", "Migration reporting risk register", "M3", "3 of 7",
-     "Owned register of reporting risks — including definition drift, not just feed failure.",
-     "source-to-report-map.html", "Source-to-report map", "validation-and-reconciliation.html"),
-    ("validation-and-reconciliation.html", "Validation checks and reconciliation outputs", "M3–M5", "4 of 7",
-     "Checks that the definition chain is still intact before publish.",
-     "migration-risk-register.html", "Migration risk", "reporting-confidence-model.html"),
-    ("reporting-confidence-model.html", "Reporting confidence model", "M4", "5 of 7",
-     "Four-tier confidence framework with fallback routes during migration.",
-     "validation-and-reconciliation.html", "Validation", "demand-capacity-productivity.html"),
-    ("demand-capacity-productivity.html", "Demand, capacity and productivity insight", "M4", "6 of 7",
-     "Weekly demand/capacity with productivity by team — separating genuine pressure from definition change.",
-     "reporting-confidence-model.html", "Confidence model", "senior-performance-brief.html"),
-    ("senior-performance-brief.html", "Senior performance brief template", "M5", "7 of 7",
+     "kpi-definitions-register.html", "KPI definitions", "reporting-assurance-during-migration.html"),
+    ("reporting-assurance-during-migration.html", "Reporting assurance during migration", "M3–M5", "3 of 6",
+     "Risks we are watching, checks and reconciliation, and confidence before publish — one narrative.",
+     "source-to-report-map.html", "Source-to-report map", "demand-capacity-productivity.html"),
+    ("demand-capacity-productivity.html", "Demand, capacity and productivity insight", "M4", "4 of 6",
+     "Weekly operational analysis with productivity by team and insights that drive service action.",
+     "reporting-assurance-during-migration.html", "Reporting assurance", "senior-performance-brief.html"),
+    ("senior-performance-brief.html", "Senior performance brief template", "M5", "5 of 6",
      "Template sections with Mar 2026 filled example and confidence column.",
-     "demand-capacity-productivity.html", "Demand/capacity", "index.html"),
+     "demand-capacity-productivity.html", "Demand/capacity", "ideas-under-test.html"),
+    ("ideas-under-test.html", "Ideas under test", "M1–M6", "6 of 6",
+     "Portfolio of ideas tested, promoted, parked or dismissed — Test and Scale in practice.",
+     "senior-performance-brief.html", "Senior brief", "index.html"),
 ]
 
 PLAIN_ENGLISH = {
@@ -51,34 +48,20 @@ PLAIN_ENGLISH = {
         "are for, and which business questions they answer. If a figure looks wrong, you can trace "
         "it back without needing to be a data specialist.",
     ),
-    "migration-risk-register.html": (
+    "reporting-assurance-during-migration.html": (
         "In plain English",
-        "This is a live list of things that could go wrong with performance reporting during the "
-        "IT migration — not just “the feed failed”, but “the number looks fine but means something "
-        "different now”. Each risk has an owner and a plan to reduce it. It is reviewed regularly "
-        "while old and new systems run in parallel.",
-    ),
-    "validation-and-reconciliation.html": (
-        "In plain English",
-        "Before we publish performance figures or send them upstairs, these are the checks we run "
-        "to ask: does the number still mean what we think it means? Reconciliation compares the old "
-        "system, the new system, the agreed definition, and what the dashboard shows — side by side. "
-        "If they do not match, we hold publication until people have agreed what to do.",
-    ),
-    "reporting-confidence-model.html": (
-        "In plain English",
-        "This is a simple traffic-light system for how much you can trust a report right now. "
-        "High means signed off and safe to use. Low means the number may update but the meaning has "
-        "not been agreed — so do not put it on a Board slide without checking. It tells senior "
-        "leaders which figures need a caveat and what to use instead.",
+        "This is the safety checklist for reporting during the IT migration. First we list what "
+        "could go wrong and who owns each risk. Then we show the checks we ran and whether the "
+        "numbers still match what we agreed. Finally we say which reports are safe to publish, "
+        "which need a caveat, and which we withheld from the Board. It replaces three separate "
+        "registers that were saying the same thing in different ways.",
     ),
     "demand-capacity-productivity.html": (
         "In plain English",
-        "This is a weekly operational view for service managers: how much demand is coming in, how "
-        "much capacity we have, how long people are waiting, and how productive teams are. It is "
-        "designed for running services day to day — separate from national mandatory returns. It "
-        "helps distinguish real pressure on the ground from numbers that changed because of the "
-        "IT migration.",
+        "This is a weekly operational view for service managers: how much demand is coming in, "
+        "how much capacity we have, how long people are waiting, and how productive teams are. "
+        "The important part is the analysis — what the data suggests we should do differently, "
+        "what we are piloting, and what we ruled out because it would mislead during the migration.",
     ),
     "senior-performance-brief.html": (
         "In plain English",
@@ -88,16 +71,22 @@ PLAIN_ENGLISH = {
         "Mar 2026 example shows how to explain when the dashboard says one thing but the agreed "
         "figure says another.",
     ),
+    "ideas-under-test.html": (
+        "In plain English",
+        "Not every good idea deserves a permanent report or a new dashboard. This register "
+        "records what we tried, what worked, what we parked for later, and what we stopped "
+        "because the data or timing was wrong. It shows I test small before committing — and "
+        "follow through with energy when something proves useful.",
+    ),
 }
 
 INDEX_ROWS = [
     ("M2–M3", "Amber", "Agreed KPI and definitions register", "kpi-definitions-register.html"),
     ("M2", "Draft", "Source-to-report map", "source-to-report-map.html"),
-    ("M3", "Active", "Migration reporting risk register", "migration-risk-register.html"),
-    ("M3–M5", "Active", "Validation checks and reconciliation outputs", "validation-and-reconciliation.html"),
-    ("M4", "Embedded", "Reporting confidence model", "reporting-confidence-model.html"),
+    ("M3–M5", "Active", "Reporting assurance during migration", "reporting-assurance-during-migration.html"),
     ("M4", "Prototype", "Demand, capacity and productivity insight", "demand-capacity-productivity.html"),
     ("M5", "Template ready", "Senior performance brief template", "senior-performance-brief.html"),
+    ("M1–M6", "Tracking", "Ideas under test", "ideas-under-test.html"),
 ]
 
 def esc(s: str) -> str:
@@ -135,7 +124,7 @@ def build_index_page() -> str:
   <main id="main-content">
     <div class="hero">
       <h1>Handover deliverables</h1>
-      <p class="hero-lead">Seven worked examples for Demo Rivers Health (DRH) — Legendary Care to PathwayOne migration. Each artefact shows what I would leave behind, with layered definitions where measures matter.</p>
+      <p class="hero-lead">Six worked examples for Demo Rivers Health (DRH) — Legendary Care to PathwayOne migration. Each artefact shows what I would leave behind, with layered definitions where measures matter.</p>
     </div>
     <section class="slide-frame">
       <h2>Deliverable register</h2>
@@ -147,7 +136,7 @@ def build_index_page() -> str:
           <tbody>{rows}</tbody>
         </table>
       </div>
-      <p>Centrepiece evidence: <a href="../definition-migration.html">definition migration</a> (case-based vs action-based, Mar 2026 reconciliation). Reusable approach: <a href="../../six-months-trusted-performance.html#reusable-approach">ten-step playbook on the six-month plan</a>.</p>
+      <p>Centrepiece evidence: <a href="../definition-migration.html">definition migration</a> (case-based vs action-based, Mar 2026 reconciliation). Reusable approach: <a href="../../six-months-trusted-performance.html#reusable-approach">ten-step playbook</a> · <a href="../../six-months-trusted-performance.html#ideas-under-test">ideas under test</a>.</p>
     </section>
   </main>
   <footer class="site-footer"><div class="footer-inner"><p class="footer-caveat">Synthetic DRH demonstration only. DRH ≠ RDY.</p></div></footer>
@@ -237,21 +226,189 @@ def build_kpi_register_body() -> str:
     <p><a href="../../secondment-demo/data/kpi_definitions_register.csv">kpi_definitions_register.csv</a> · <a href="../../docs-html/secondment-demo/data_dictionary.html">data dictionary</a></p></section>"""
 
 
-def build_migration_risk_body() -> str:
-    rows = read_csv("migration_risk_register.csv")
-    trs = "".join(
+def _status_badge(status: str) -> str:
+    s = (status or "").lower().replace(" ", "-")
+    if "promoted" in s:
+        cls = "idea-status--promoted"
+    elif "test" in s:
+        cls = "idea-status--test"
+    elif "parked" in s:
+        cls = "idea-status--parked"
+    elif "dismissed" in s:
+        cls = "idea-status--dismissed"
+    else:
+        cls = "idea-status--test"
+    return f'<span class="idea-status {cls}">{esc(status)}</span>'
+
+
+def _idea_artefact_link(artefact: str) -> str:
+    links = {
+        "demand-capacity-productivity": "demand-capacity-productivity.html",
+        "reporting-assurance-during-migration": "reporting-assurance-during-migration.html",
+        "kpi-definitions-register": "kpi-definitions-register.html",
+        "senior-performance-brief": "senior-performance-brief.html",
+        "ideas-under-test": "ideas-under-test.html",
+        "demand_capacity_insights.csv": "../../secondment-demo/data/demand_capacity_insights.csv",
+        "six-months-trusted-performance": "../../six-months-trusted-performance.html#ideas-under-test",
+    }
+    href = links.get(artefact, f"../../secondment-demo/data/{artefact}")
+    label = artefact.replace("-", " ").replace(".csv", "").title()
+    if href.endswith(".html") and "/" not in artefact:
+        return f'<a href="{href}">{esc(label)}</a>'
+    return f'<a href="{href}">{esc(artefact)}</a>'
+
+
+def build_reporting_assurance_body() -> str:
+    risks = read_csv("migration_risk_register.csv")
+    featured_ids = {"R001", "R002", "R009", "R013"}
+    featured = [r for r in risks if r["risk_id"] in featured_ids]
+    other = [r for r in risks if r["risk_id"] not in featured_ids]
+    feat_rows = "".join(
         f'<tr><td>{esc(r["risk_id"])}</td><td>{esc(r["risk_description"])}</td>'
         f'<td>{esc(r["owner"])}</td><td>{esc(r["status"])}</td><td>{esc(r["residual_risk"])}</td></tr>'
+        for r in featured
+    )
+    other_rows = "".join(
+        f'<tr><td>{esc(r["risk_id"])}</td><td>{esc(r["risk_description"])}</td>'
+        f'<td>{esc(r["owner"])}</td><td>{esc(r["status"])}</td><td>{esc(r["residual_risk"])}</td></tr>'
+        for r in other
+    )
+    checks = read_csv("validation_checks_register.csv")
+    check_rows = "".join(
+        f'<tr><td>{esc(c["check_id"])}</td><td>{esc(c["rule_description"])}</td>'
+        f'<td>{esc(c["mar2026_result"])}</td><td>{esc(c["pass_fail"])}</td></tr>'
+        for c in checks
+    )
+    recon = read_csv("reconciliation_detail_mar2026.csv")
+    recon_rows = "".join(
+        f'<tr><td>{esc(r["team_code"])}</td><td>{esc(r["old_case_referrals"])}</td>'
+        f'<td>{esc(r["new_action_referrals"])}</td><td>{esc(r["agreed_referrals"])}</td>'
+        f'<td>{esc(r["dashboard_referrals"])}</td></tr>'
+        for r in recon
+    )
+    conf = read_csv("reporting_confidence_register.csv")
+    conf_rows = "".join(
+        f'<tr><td>{esc(c["report_name"])}</td><td>{esc(c["confidence_level"])}</td>'
+        f'<td>{esc(c["fallback_route"])}</td><td>{esc(c.get("publish_decision", ""))}</td></tr>'
+        for c in conf
+    )
+    return f"""
+    <section class="slide-frame"><h2>A — Risks we are watching</h2>
+    <p>These are not IT tickets — they are reporting <em>meaning</em> risks with named owners. Phase D (Feb–Mar 2026) combines definition drift with two source models.</p>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Status</th><th>Residual</th></tr></thead>
+    <tbody>{feat_rows}</tbody></table></div>
+    <details class="definition-detail"><summary>All migration risks ({len(risks)} rows)</summary>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Status</th><th>Residual</th></tr></thead>
+    <tbody>{other_rows}</tbody></table></div></details>
+    <p><a href="../../secondment-demo/data/migration_risk_register.csv">migration_risk_register.csv</a></p></section>
+    <section class="slide-frame"><h2>B — Checks and reconciliation</h2>
+    <p>Mar 2026 validation — is the definition chain still intact?</p>
+    <div class="table-wrap"><table><thead><tr><th>Check</th><th>Rule</th><th>Result</th><th>Pass?</th></tr></thead>
+    <tbody>{check_rows}</tbody></table></div>
+    <h3>Reconciliation by team — Mar 2026</h3>
+    <div class="table-wrap"><table><thead><tr><th>Team</th><th>Old</th><th>New default</th><th>Agreed</th><th>Dashboard</th></tr></thead>
+    <tbody>{recon_rows}</tbody></table></div>
+    <p class="analysis-narrative">VAL-03 and VAL-06 failed: dashboard still refreshes (+14.9% vs agreed) but OPT-C shows −11%. Publication held until definition chain is signed off.</p>
+    <p><a href="../definition-migration.html#slide-dm-reconcile">Definition migration reconciliation</a> ·
+    <a href="../source-to-report.html?preset=low-confidence">Low-confidence rows in map</a> ·
+    <a href="../../secondment-demo/data/validation_checks_register.csv">validation_checks_register.csv</a></p></section>
+    <section class="slide-frame"><h2>C — Confidence and publish decisions</h2>
+    <div class="confidence-ladder">
+    <span class="confidence-step confidence-step--high">High — definition chain signed off</span>
+    <span class="confidence-step confidence-step--medium">Medium — owner confirmation required</span>
+    <span class="confidence-step confidence-step--low">Low — do not use for Board</span>
+    <span class="confidence-step confidence-step--blocked">Do not use — chain broken or unvalidated</span></div>
+    <p>During phase D, default to Medium or below for any KPI touching both Legendary Care and PathwayOne.</p>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Confidence</th><th>Fallback</th><th>Publish decision</th></tr></thead>
+    <tbody>{conf_rows}</tbody></table></div>
+    <div class="sign-off-block"><strong>Mar 2026 actions:</strong> Executive dashboard withheld from Board (Low). MHSDS-like submit 134 not 154. Demand-capacity pack safe for service review.</div>
+    <p><a href="../reports/data-quality-confidence.html">Formatted confidence report</a> ·
+    <a href="../../secondment-demo/data/reporting_confidence_register.csv">reporting_confidence_register.csv</a></p></section>"""
+
+
+def build_demand_capacity_body() -> str:
+    weekly = read_csv("demand_capacity_weekly.csv")
+    w21 = next(r for r in weekly if r["week"] == "2026-W21")
+    week_rows = "".join(
+        f'<tr><td>{esc(r["week"].replace("2026-", ""))}</td><td>{esc(r["demand"])}</td>'
+        f'<td>{esc(r["capacity"])}</td><td>{esc(r["backlog"])}</td><td>{esc(r["workforce_availability_index"])}</td>'
+        f'<td>£{int(r["agency_spend_gbp"]):,}</td><td>{esc(r["median_wait_days"])}d</td>'
+        f'<td>{esc(r["opt_c_referrals"])}/{esc(r["dashboard_referrals"])}</td></tr>'
+        for r in weekly
+    )
+    prod = read_csv("productivity_by_team.csv")
+    w14 = {r["team_code"]: r for r in prod if r["week"] == "2026-W14"}
+    w21p = {r["team_code"]: r for r in prod if r["week"] == "2026-W21"}
+    teams = sorted(set(w14) | set(w21p))
+    prod_rows = "".join(
+        f'<tr><td>{esc(t)}</td>'
+        f'<td>{esc(w14.get(t, {}).get("contacts_per_wte", "—"))}</td>'
+        f'<td>{esc(w21p.get(t, {}).get("contacts_per_wte", "—"))}</td>'
+        f'<td>{esc(w21p.get(t, {}).get("wte_available", "—"))}</td>'
+        f'<td>{"£" + f"{int(w21p[t]["agency_spend_gbp"]):,}" if t in w21p and w21p[t].get("agency_spend_gbp") else "—"}</td>'
+        f'<td>{esc(w21p.get(t, {}).get("cost_per_contact", "—"))}</td></tr>'
+        for t in teams
+    )
+    insights = read_csv("demand_capacity_insights.csv")
+    insight_cards = "".join(
+        f'<article class="insight-card insight-card--{esc(r["status"].lower().replace(" ", "-"))}">'
+        f'<p class="insight-card-meta">{_status_badge(r["status"])} · {esc(r["week"])} · {esc(r["owner"])}</p>'
+        f'<h3>{esc(r["headline"])}</h3>'
+        f'<p><strong>Evidence:</strong> {esc(r["evidence"])}</p>'
+        f'<p><strong>Action:</strong> {esc(r["suggested_action"])}</p></article>'
+        for r in insights
+    )
+    return f"""
+    <section class="slide-frame"><h2>Headline indicators — W21</h2>
+    <div class="kpi-headline-row">
+      <div class="kpi-headline"><span class="kpi-headline-value">{esc(w21["backlog"])}</span><span class="kpi-headline-label">Backlog</span></div>
+      <div class="kpi-headline"><span class="kpi-headline-value">{esc(w21["workforce_availability_index"])}</span><span class="kpi-headline-label">Workforce availability</span></div>
+      <div class="kpi-headline"><span class="kpi-headline-value">£{int(w21["agency_spend_gbp"]):,}</span><span class="kpi-headline-label">Agency spend (week)</span></div>
+      <div class="kpi-headline"><span class="kpi-headline-value">{esc(w21["median_wait_days"])}d</span><span class="kpi-headline-label">Median wait</span></div>
+    </div>
+    <p class="analysis-narrative">OPT-C referrals {esc(w21["opt_c_referrals"])} vs dashboard {esc(w21["dashboard_referrals"])} in week — separate genuine demand pressure from definition artefact.</p></section>
+    <section class="slide-frame"><h2>Weekly trend (W06–W21)</h2>
+    <div class="table-wrap"><table><thead><tr><th>Week</th><th>Demand</th><th>Capacity</th><th>Backlog</th><th>WFA</th><th>Agency</th><th>Wait</th><th>OPT-C / dash refs</th></tr></thead>
+    <tbody>{week_rows}</tbody></table></div></section>
+    <section class="slide-frame"><h2>Productivity by team (W14 vs W21)</h2>
+    <div class="table-wrap"><table><thead><tr><th>Team</th><th>Contacts/WTE W14</th><th>Contacts/WTE W21</th><th>WTE W21</th><th>Agency W21</th><th>£/contact W21</th></tr></thead>
+    <tbody>{prod_rows}</tbody></table></div></section>
+    <section class="slide-frame"><h2>Insights from analysis</h2>
+    <p class="analysis-narrative">Analysis turned data into two service conversations, one pilot, and ruled out one forecast we would not trust yet during definition change.</p>
+    <div class="insight-card-grid">{insight_cards}</div>
+    <div class="sign-off-block"><strong>Sign-off:</strong> CMHT service manager — prototype agreed for local use; INS-01 and INS-04 actions in capacity meeting.</div>
+    <p><a href="../reports/local-demand-capacity-pack.html">Formatted demand pack</a> ·
+    <a href="../../secondment-demo/data/demand_capacity_weekly.csv">demand_capacity_weekly.csv</a> ·
+    <a href="../../secondment-demo/data/productivity_by_team.csv">productivity_by_team.csv</a> ·
+    <a href="../../secondment-demo/data/demand_capacity_insights.csv">demand_capacity_insights.csv</a></p></section>"""
+
+
+def build_ideas_under_test_body() -> str:
+    rows = read_csv("ideas_under_test_register.csv")
+    idea_rows = "".join(
+        f'<tr><td>{esc(r["idea_id"])}</td><td>{esc(r["idea_name"])}</td>'
+        f'<td>{_status_badge(r["status"])}</td><td>{esc(r["month"])}</td>'
+        f'<td>{esc(r["outcome"])}</td><td>{_idea_artefact_link(r["linked_artefact"])}</td></tr>'
+        for r in rows
+    )
+    cards = "".join(
+        f'<article class="insight-card insight-card--{esc(r["status"].lower().replace(" ", "-"))}">'
+        f'<p class="insight-card-meta">{_status_badge(r["status"])} · {esc(r["month"])}</p>'
+        f'<h3>{esc(r["idea_name"])}</h3>'
+        f'<p><strong>Hypothesis:</strong> {esc(r["hypothesis"])}</p>'
+        f'<p><strong>Test:</strong> {esc(r["test_method"])}</p>'
+        f'<p><strong>Outcome:</strong> {esc(r["outcome"])}</p>'
+        f'<p>{_idea_artefact_link(r["linked_artefact"])}</p></article>'
         for r in rows
     )
     return f"""
-    <section class="slide-frame"><h2>Migration reporting risk register</h2>
-    <p>Technical feed success does not mean a measure is safe. Phase D (Feb–Mar 2026) combines definition drift with two source models.</p>
-    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Status</th><th>Residual</th></tr></thead>
-    <tbody>{trs}</tbody></table></div>
-    <p class="analysis-narrative">R008–R013 are definition-drift risks: case object gone, rejected-referral logic, pathway start, admin in activity, local/national divergence, dashboard meaning change. Each links to a deliverable artefact.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Performance lead — register reviewed 2026-03-18; residual High risks escalated to directorate.</div>
-    <p><a href="../migration-scenario.html#slide-timeline">Migration timeline</a> · <a href="../../secondment-demo/data/migration_risk_register.csv">CSV</a></p></section>"""
+    <section class="slide-frame">
+    <p>Test and Scale in practice — from <a href="../test-and-scale.html">Test and Scale</a>: probe routes cheaply, promote what works, dismiss what misleads during migration.</p>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Idea</th><th>Status</th><th>Month</th><th>Outcome</th><th>Artefact</th></tr></thead>
+    <tbody>{idea_rows}</tbody></table></div></section>
+    <section class="slide-frame"><h2>Idea cards</h2>
+    <div class="insight-card-grid">{cards}</div>
+    <p><a href="../../secondment-demo/data/ideas_under_test_register.csv">ideas_under_test_register.csv</a></p></section>"""
 
 
 def trunc(s: str, n: int) -> str:
@@ -516,53 +673,6 @@ def build_source_to_report_body() -> str:
 
 
 BODY = {
-    "validation-and-reconciliation.html": """
-    <section class="slide-frame"><h2>Is the definition chain still intact? — Mar 2026 checks</h2>
-    <div class="table-wrap"><table><thead><tr><th>Check</th><th>Rule</th><th>Result</th><th>Pass?</th></tr></thead>
-    <tbody>
-    <tr><td>VAL-01</td><td>No duplicate ActionId</td><td>1 duplicate found</td><td>Fail</td></tr>
-    <tr><td>VAL-02</td><td>Team crosswalk complete</td><td>1 INVALID_TEAM</td><td>Fail</td></tr>
-    <tr><td>VAL-03</td><td>Dashboard within 15% of agreed</td><td>+14.9%</td><td>Fail</td></tr>
-    <tr><td>VAL-06</td><td>MHSDS matches agreed</td><td>154 submitted (dashboard)</td><td>Fail</td></tr>
-    </tbody></table></div></section>
-    <section class="slide-frame"><h2>Reconciliation — Mar 2026</h2>
-    <div class="table-wrap"><table><thead><tr><th>Level</th><th>Old</th><th>New default</th><th>Agreed</th><th>Dashboard</th></tr></thead>
-    <tbody><tr><td>Trust total</td><td>151</td><td>168</td><td>134</td><td>154</td></tr></tbody></table></div>
-    <p class="analysis-narrative">The chain broke at the reporting step: dashboard still refreshes (+2% headline) but agreed OPT-C shows −11%. Validation fails held from publish until definition chain is signed off.</p>
-    <div class="sign-off-block"><strong>Sign-off:</strong> BI lead + performance lead — Mar 2026 reconciliation pending directorate workshop.</div>
-    <p><a href="../definition-migration.html#slide-dm-reconcile">Definition migration reconciliation</a> · <a href="../source-to-report.html?preset=low-confidence">View low-confidence rows in map</a> · <a href="../../secondment-demo/data/validation_checks_register.csv">validation CSV</a></p></section>""",
-    "reporting-confidence-model.html": """
-    <section class="slide-frame"><h2>Confidence framework</h2>
-    <div class="confidence-ladder">
-    <span class="confidence-step confidence-step--high">High — definition chain signed off</span>
-    <span class="confidence-step confidence-step--medium">Medium — owner confirmation required</span>
-    <span class="confidence-step confidence-step--low">Low — do not use for Board</span>
-    <span class="confidence-step confidence-step--blocked">Do not use — chain broken or unvalidated</span></div>
-    <p>During migration phase D, default to Medium or below for any KPI touching both Legendary Care and PathwayOne.</p>
-    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Confidence</th><th>Fallback</th></tr></thead>
-    <tbody>
-    <tr><td>Executive MH dashboard</td><td>Low</td><td>Manual reconciliation pack</td></tr>
-    <tr><td>MHSDS-like</td><td>Medium</td><td>Legacy pipeline fallback</td></tr>
-    <tr><td>Demand-capacity pack</td><td>High</td><td>n/a</td></tr>
-    </tbody></table></div>
-    <div class="sign-off-block"><strong>Sign-off:</strong> Performance lead — executive dashboard flagged Low for Mar 2026.</div>
-    <p><a href="../reports/data-quality-confidence.html">Formatted confidence report</a> · <a href="../../secondment-demo/data/reporting_confidence_register.csv">CSV</a></p></section>""",
-    "demand-capacity-productivity.html": """
-    <section class="slide-frame"><h2>Weekly demand and capacity</h2>
-    <div class="table-wrap"><table><thead><tr><th>Week</th><th>Demand</th><th>Capacity</th><th>Backlog</th><th>WFA</th><th>Referrals</th></tr></thead>
-    <tbody>
-    <tr><td>W10</td><td>185</td><td>180</td><td>125</td><td>0.92</td><td>38</td></tr>
-    <tr><td>W21</td><td>218</td><td>200</td><td>264</td><td>0.82</td><td>48</td></tr>
-    </tbody></table></div>
-    <p class="analysis-narrative">Supports capacity meetings. Separate genuine demand pressure from Mar referral definition artefact — both belong in the senior narrative.</p></section>
-    <section class="slide-frame"><h2>Productivity by team</h2>
-    <div class="table-wrap"><table><thead><tr><th>Team</th><th>Week</th><th>Contacts/WTE</th><th>WTE avail</th></tr></thead>
-    <tbody>
-    <tr><td>AA-MH-NORTH-01</td><td>W21</td><td>39</td><td>14.2</td></tr>
-    <tr><td>AA-MH-SOUTH-01</td><td>W21</td><td>38</td><td>12.9</td></tr>
-    </tbody></table></div>
-    <div class="sign-off-block"><strong>Sign-off:</strong> CMHT service manager — prototype agreed for local use.</div>
-    <p><a href="../reports/local-demand-capacity-pack.html">Formatted demand pack</a> · <a href="../../secondment-demo/data/demand_capacity_weekly.csv">CSV</a></p></section>""",
     "senior-performance-brief.html": """
     <section class="slide-frame"><h2>Template sections</h2>
     <div class="table-wrap"><table><thead><tr><th>Section</th><th>Mar 2026 example</th><th>Confidence</th></tr></thead>
@@ -578,8 +688,10 @@ BODY = {
 
 GENERATORS = {
     "kpi-definitions-register.html": build_kpi_register_body,
-    "migration-risk-register.html": build_migration_risk_body,
     "source-to-report-map.html": build_source_to_report_body,
+    "reporting-assurance-during-migration.html": build_reporting_assurance_body,
+    "demand-capacity-productivity.html": build_demand_capacity_body,
+    "ideas-under-test.html": build_ideas_under_test_body,
 }
 
 TEMPLATE = """<!DOCTYPE html>
@@ -629,6 +741,9 @@ REMOVED_DELIVERABLES = (
     "improvement-benefits-tracker.html",
     "handover-documentation.html",
     "reusable-change-model.html",
+    "migration-risk-register.html",
+    "validation-and-reconciliation.html",
+    "reporting-confidence-model.html",
 )
 
 

@@ -1,9 +1,9 @@
 doc_id,document_name,purpose,owner,location,handover_status
 DOC-01,KPI and definitions register,Agreed measure definitions,Performance lead,deliverables/kpi-definitions-register,Draft
 DOC-02,Source-to-report map,Lineage and sign-off points,BI lead,deliverables/source-to-report-map,Draft
-DOC-03,Migration risk register,Migration reporting risks,Performance lead,deliverables/migration-risk-register,Ready
+DOC-03,Reporting assurance pack,"Risks, checks, confidence and publish decisions",Performance lead,deliverables/reporting-assurance-during-migration,Active
 DOC-04,Source-to-report map,Report inventory and field lineage,BI lead,secondment/source-to-report.html,Draft
-DOC-05,Validation and reconciliation SOP,Monthly checks before publish,BI lead,deliverables/validation-and-reconciliation,Draft
+DOC-05,Validation and reconciliation SOP,Monthly checks before publish,BI lead,deliverables/reporting-assurance-during-migration,Draft
 DOC-06,Data dictionary,Field definitions for DRH demo,BI lead,secondment-demo/data_dictionary.md,Ready
 DOC-07,Change playbook,Reuse for next migration,Performance lead,six-months-trusted-performance.html#reusable-approach,Draft
 DOC-08,Senior brief template,SLT/Board narrative structure,Performance lead,deliverables/senior-performance-brief,Ready

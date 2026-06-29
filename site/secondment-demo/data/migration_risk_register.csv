@@ -1,14 +1,14 @@
 risk_id,risk_description,owner,mitigation,confidence_impact,status,last_reviewed,residual_risk,linked_deliverable
 R001,Definition drift during parallel run,Performance lead,Facilitate agreed KPI register,High,Open,2026-03-15,High,kpi-definitions-register
-R002,Dashboard refreshes with wrong meaning,BI lead,Reconciliation outputs + confidence flags,High,Open,2026-03-20,High,validation-and-reconciliation
-R003,Weekly referral feed discontinued Feb,IM&T,Feed cutover log + fallback extract,Medium,Mitigated,2026-02-28,Low,migration-risk-register
-R004,Team code remap incomplete,Service manager,Crosswalk validation,Medium,Open,2026-03-10,Medium,validation-and-reconciliation
+R002,Dashboard refreshes with wrong meaning,BI lead,Reconciliation outputs + confidence flags,High,Open,2026-03-20,High,reporting-assurance-during-migration
+R003,Weekly referral feed discontinued Feb,IM&T,Feed cutover log + fallback extract,Medium,Mitigated,2026-02-28,Low,reporting-assurance-during-migration
+R004,Team code remap incomplete,Service manager,Crosswalk validation,Medium,Open,2026-03-10,Medium,reporting-assurance-during-migration
 R005,MHSDS-like return uses legacy logic,Mandatory reporting owner,Side-by-side test,High,Open,2026-03-18,High,source-to-report-map
-R006,Duplicate actions in PathwayOne,BI lead,DQ checks on ActionId,Medium,Open,2026-03-12,Medium,validation-and-reconciliation
+R006,Duplicate actions in PathwayOne,BI lead,DQ checks on ActionId,Medium,Open,2026-03-12,Medium,reporting-assurance-during-migration
 R007,Phase D spans two source models for Mar reporting,Performance lead,Agreed OPT-C hybrid definition,High,Open,2026-03-22,Medium,definition-migration
 R008,Case object no longer exists — pathway logic must be derived,BI lead,Episode derivation rules in KPI register,High,Open,2026-03-16,High,kpi-definitions-register
 R009,Rejected referral logic changes between old and new systems,Clinical lead,Rejection-reason crosswalk + service sign-off,High,Open,2026-03-19,High,definition-migration
 R010,Pathway start date logic changes (access vs first contact),Service manager,Facilitated KPI-02 definition + vignette testing,Medium,Open,2026-03-14,Medium,kpi-definitions-register
-R011,Activity count includes admin actions unless explicitly excluded,CSDS owner,KPI-05 exclusion rules + CSDS-like cross-check,High,Open,2026-03-17,High,validation-and-reconciliation
+R011,Activity count includes admin actions unless explicitly excluded,CSDS owner,KPI-05 exclusion rules + CSDS-like cross-check,High,Open,2026-03-17,High,reporting-assurance-during-migration
 R012,Local and national definitions diverge post-migration,Mandatory reporting owner,Document both in register; reconcile monthly,High,Open,2026-03-21,Medium,source-to-report-map
-R013,Dashboard feed succeeds but measure meaning has changed,Performance lead,Confidence model + withhold from Board until signed off,High,Open,2026-03-20,High,reporting-confidence-model
+R013,Dashboard feed succeeds but measure meaning has changed,Performance lead,Confidence model + withhold from Board until signed off,High,Open,2026-03-20,High,reporting-assurance-during-migration
