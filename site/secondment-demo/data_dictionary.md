@@ -85,7 +85,26 @@ See `data_manifest.csv` for grain, row counts and linked HTML pages.
 | `reporting_confidence_register.csv` | Confidence levels and publish decisions | `secondment/deliverables/reporting-assurance-during-migration.html` |
 | `demand_capacity_weekly.csv` | Weekly demand, capacity, backlog and wait metrics | `secondment/deliverables/demand-capacity-productivity.html` |
 | `demand_capacity_insights.csv` | Analysis insights with status and suggested actions | `secondment/deliverables/demand-capacity-productivity.html` |
-| `ideas_under_test_register.csv` | Ideas tested, promoted, parked or dismissed | `secondment/deliverables/ideas-under-test.html` |
+| `ideas_under_test_register.csv` | Ideas tested, promoted, parked or dismissed (expanded plain-English fields) | `secondment/deliverables/ideas-under-test.html` |
+
+### ideas_under_test_register.csv
+
+| Field | Description |
+|-------|-------------|
+| idea_id | IDEA-01 etc. |
+| idea_name | Short title |
+| hypothesis | One-line test proposition (summary) |
+| test_method | Short test description (summary) |
+| outcome | Short outcome label (summary) |
+| status | Promoted / Under test / Parked / Dismissed |
+| month | M1–M6 anchor |
+| linked_artefact | Deliverable or data file this idea links to |
+| problem | Plain-English problem statement |
+| small_test | Limited-scope test (who, how long) |
+| evidence | What would show the idea worked |
+| decision | Management decision the idea supports |
+| next_step | Promote / park / dismiss / continue rationale |
+| scale_safe_when | When safe to scale; `n/a` for dismissed |
 | `productivity_by_team.csv` | Contacts per WTE by team and week | `secondment/deliverables/demand-capacity-productivity.html` |
 | `improvement_benefits_tracker.csv` | Benefits linked to six-month outcomes | `secondment/deliverables/index.html` |
 | `handover_documentation_register.csv` | Document register for M6 handover | `secondment/deliverables/index.html` |

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 5 — Test and Scale (practice)</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body class="page-presentation page-presentation-slide">
+  <main id="main-content" class="presentation-main">
+    <nav class="presentation-nav" aria-label="Slide navigation">
+            <a href="slide-4-test-and-scale-principle.html">← Previous</a>
+            <a href="index.html">Index</a>
+            <a href="slide-6-productive-paranoia-principle.html">Next →</a>
+          
+    </nav>
+
+    <div class="presentation-slide-page">
+      <article class="presentation-deck presentation-deck--slide">
+        <div class="presentation-deck-content">
+          <div class="presentation-deck-meta">
+                  <span>Slide 5 of 8</span>
+                  <span class="slide-timing">~60s</span>
+                </div>
+                <h1>Test and Scale — in practice</h1>
+
+                <p class="slide-main-message">Test definitions and products before embedding — a new data model may not answer the same service question.</p>
+
+                <div class="slide-card-row">
+                  <div class="slide-card">
+                    <h3>Definition migration</h3>
+                    <ul>
+                      <li>Case → action shift</li>
+                      <li>Side-by-side reconcile</li>
+                      <li>Anchor patient vignette</li>
+                    </ul>
+                  </div>
+                  <div class="slide-card">
+                    <h3>MHSDS-like + local pack</h3>
+                    <ul>
+                      <li>Same fact, two products</li>
+                      <li>Test inclusion rules</li>
+                      <li>Compare before publish</li>
+                    </ul>
+                  </div>
+                  <div class="slide-card">
+                    <h3>Ideas under test</h3>
+                    <ul>
+                      <li>Small tests logged</li>
+                      <li>Evidence before scale</li>
+                      <li>Park or promote</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <p><strong>Epic / ADF:</strong></p>
+                <ul>
+                  <li>Workflow capture may change what events exist</li>
+                  <li>ADF refresh on schedule ≠ correct meaning</li>
+                  <li>Test mappings, inclusion rules, validation before sign-off</li>
+                </ul>
+
+                <p class="slide-callout">A new data model may not answer the same service question — even when the pipeline is green.</p>
+        </div>
+      </article>
+      <footer class="presentation-slide-footer">
+        <aside class="slide-evidence">
+                    <strong>Evidence on site</strong>
+                    <ul>
+                      <li><a href="../secondment/definition-migration.html">Definition migration (case vs action)</a></li>
+                      <li><a href="../secondment/reports/mhsds-like-submission.html">MHSDS-like submission</a></li>
+                      <li><a href="../secondment/reports/local-demand-capacity-pack.html">Local demand &amp; capacity pack</a></li>
+                      <li><a href="../secondment/deliverables/ideas-under-test.html">Ideas under test register</a></li>
+                      <li><a href="../secondment/deliverables/source-to-report-map.html">Source-to-report map</a></li>
+                    </ul>
+                  </aside>
+              <div class="slide-speaker-notes">
+                <p class="slide-speaker-notes-label">Speaker notes</p>
+                <div class="slide-speaker-notes-inner">
+                  <p>Walk through three test patterns. Definition migration: when Epic changes how contacts are recorded, “case” and “action” may diverge — test with anchor patients and reconcile before trusting trend lines. MHSDS-like vs local pack: same underlying fact, different inclusion rules — run both in shadow before choosing which goes to the board. Ideas under test: a disciplined register of small experiments with evidence and scale criteria.</p>
+                          <p>Epic and ADF angles: workflow capture changes the events; ADF can be healthy while mappings are wrong. Test mappings, inclusion rules and validation — not just go-live dates.</p>
+                          <p>Keep the quote visible: a new model may not answer the same service question. Offer to show definition-migration vignette if time allows.</p>
+                </div>
+              </div>
+              <div class="slide-delivery-guide">
+                <p class="slide-delivery-guide-label">What this slide delivers — plain English</p>
+                <dl>
+                  <div>
+                    <dt>Definition migration (case → action)</dt>
+                    <dd>Worked example: when a new system records “actions” instead of “cases”, headline counts can move without any real change in care. B&amp;P runs anchor-patient reconciles and publishes an agreed figure alongside the dashboard until definitions align.</dd>
+                  </div>
+                  <div>
+                    <dt>MHSDS-like submission</dt>
+                    <dd>A mandatory-style return built to national rules (inclusion flags, reporting period logic). Tests whether Epic/ADF mappings satisfy external definitions — not just local dashboards.</dd>
+                  </div>
+                  <div>
+                    <dt>Local demand &amp; capacity pack</dt>
+                    <dd>A weekly service-facing product from the <em>same underlying facts</em> but with local inclusion rules (e.g. admin contacts excluded). B&amp;P tests both products in parallel before managers rely on either for capacity decisions.</dd>
+                  </div>
+                  <div>
+                    <dt>Ideas under test register</dt>
+                    <dd>A log of small experiments: problem, test, evidence, decision supported and whether to promote, park or dismiss. Shows disciplined improvement portfolio — not every idea becomes a permanent report.</dd>
+                  </div>
+                  <div>
+                    <dt>Epic / ADF testing angle</dt>
+                    <dd>Workflow capture may create or drop event types; ADF may map fields incorrectly while jobs succeed. B&amp;P signs off meaning and inclusion rules; technical teams sign off pipelines.</dd>
+                  </div>
+                </dl>
+              </div>
+              <p class="slide-visual-note">Suggested visual: definition-migration screenshot as backup; three cards with Epic/ADF bullets in footer strip.</p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

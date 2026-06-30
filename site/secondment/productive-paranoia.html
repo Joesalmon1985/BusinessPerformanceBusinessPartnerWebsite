@@ -21,9 +21,11 @@
     <section class="slide-frame principle-section" aria-labelledby="explained">
       <h2 id="explained">The principle explained</h2>
       <div class="principle-page-hero">
-        <img class="principle-cartoon" src="../assets/images/principles/productive-paranoia.png" width="280" height="280" alt="Cartoon: prepared vigilance expedition metaphor for Productive Paranoia">
+        <figure class="principle-cartoon-figure">
+          <img class="principle-cartoon principle-cartoon--featured" src="../assets/images/principles/productive-paranoia.png" alt="Cartoon: prepared vigilance expedition metaphor for Productive Paranoia">
+        </figure>
         <div>
-          <p>Productive Paranoia means staying <strong>actively prepared for hidden risks</strong>, especially when everything appears to be going well.</p>
+          <p><a href="three-principles.html#productive-paranoia">Productive Paranoia</a> means staying <strong>actively prepared for hidden risks</strong>, especially when everything appears to be going well.</p>
           <p>In the expedition metaphor, the danger is not only the obvious storm. A new explorer may be overwhelmed because they do not understand the terrain. A very experienced explorer may become complacent because the terrain feels familiar. The productive middle is being experienced enough to know what matters, but <strong>alert enough to keep checking</strong>.</p>
           <p>This is not fear. It is prepared vigilance. In performance partnering, the quiet failure mode is a dashboard that still refreshes while the measure no longer means what directors think it means.</p>
           <p class="principle-quote">The dangerous point in migration is when the feed succeeds, the headline updates, and nobody notices the definition has drifted.</p>
@@ -33,40 +35,65 @@
 
     <section class="slide-frame principle-section" aria-labelledby="practice">
       <h2 id="practice">The principle in practice</h2>
-      <p>In the Band 8a role I would use Productive Paranoia to protect <strong>reporting confidence</strong>: must-not-fail reports flagged, fallback routes documented, publish withheld when checks fail, and senior narratives that say explicitly what is safe to use. That supports JD 1.8 validated information, 5.1 monitoring against targets, person spec 2.4 transparency and accountability, and 5.4 analysing complex KPI data from varied sources.</p>
+      <p><a href="three-principles.html#productive-paranoia">Productive Paranoia</a> is how I would protect reporting confidence when migration creates a false sense of safety: feeds green, dashboards updating, meetings continuing as if nothing changed. I would flag must-not-fail reports, document fallback routes, withhold publication when checks fail, and make senior narratives explicit about what is safe to use.</p>
+      <p>This is where the Business &amp; Performance role adds value: not by catching every technical error personally, but by making sure performance judgement does not run ahead of agreed definitions.</p>
 
       <div class="principle-practice-links">
         <article>
           <h3><a href="deliverables/reporting-assurance-during-migration.html">Reporting assurance pack</a></h3>
-          <p>13 migration risks, six validation checks, team-level reconciliation and publish decisions in one narrative — risks → checks → what we published or withheld.</p>
-          <p class="principle-role-note">VAL-03 and VAL-06 failed Mar 2026; executive dashboard withheld from Board.</p>
+          <p><strong>Problem:</strong> Risks, checks and publish rules lived in separate places — easy to update one register and forget the others.</p>
+          <p><strong>What I would do:</strong> Maintain one narrative: thirteen migration risks with owners, six monthly checks with pass/fail, team-level reconciliation, then a publish decision per report.</p>
+          <p><strong>Who:</strong> Performance lead owns the pack; BI runs checks; service managers confirm team rows; directorate sponsor agrees withhold rules.</p>
+          <p><strong>Artefact:</strong> <a href="deliverables/reporting-assurance-during-migration.html">Reporting assurance during migration</a>.</p>
+          <p><strong>Benefit:</strong> March 2026: VAL-03 and VAL-06 fail but the organisation knows why before the Board slide is drafted. <strong>After six months:</strong> Monthly assurance rhythm survives the secondment.</p>
         </article>
         <article>
           <h3><a href="reports/data-quality-confidence.html">Data quality and confidence report</a></h3>
-          <p>Confidence ladder (High / Medium / Low / Do not use) with fallback routes for must-not-fail reports during phase D.</p>
+          <p><strong>Problem:</strong> “High / medium / low” means different things to different people unless the ladder and fallbacks are written down.</p>
+          <p><strong>What I would do:</strong> Apply a simple confidence ladder to each must-not-fail report in phase D, with a documented fallback when confidence is not High.</p>
+          <p><strong>Who:</strong> BI and performance leads maintain; SLT receives the formatted summary before sign-off meetings.</p>
+          <p><strong>Artefact:</strong> <a href="reports/data-quality-confidence.html">Data quality and confidence report</a> plus register CSV.</p>
+          <p><strong>Benefit:</strong> Leaders see which headlines need a “handle with care” conversation. <strong>After six months:</strong> Confidence marking is part of the monthly pack, not a one-off migration slide.</p>
         </article>
         <article>
-          <h3><a href="definition-migration.html#slide-dm-reconcile">Mar 2026 reconciliation</a></h3>
-          <p>Trust total: old 151, new default 168, agreed 134, dashboard 154 — the feed worked; the meaning did not. Submit 134, not 154.</p>
+          <h3><a href="definition-migration.html#slide-dm-reconcile">March 2026 reconciliation</a></h3>
+          <p><strong>Problem:</strong> The executive dashboard shows 154 referrals; agreed OPT-C shows 134; both can be true under different logic — but only one is safe for mandatory submit and Board narrative.</p>
+          <p><strong>What I would do:</strong> Reconcile old case count, new action default, agreed figure and dashboard side by side by team; escalate before anyone presents the dashboard figure as “performance”.</p>
+          <p><strong>Who:</strong> BI builds the table; performance lead facilitates sign-off; mandatory reporting owner decides submit value.</p>
+          <p><strong>Artefact:</strong> Reconciliation in <a href="definition-migration.html#slide-dm-reconcile">definition migration</a> and assurance pack.</p>
+          <p><strong>Benefit:</strong> Prevents a quiet wrong number on a Board slide. <strong>After six months:</strong> Reconciliation template reused monthly until definitions stabilise.</p>
         </article>
         <article>
-          <h3><a href="source-to-report.html?preset=low-confidence">Low-confidence fields in map</a></h3>
-          <p>Filter the source-to-report map to rows that need owner confirmation before use in performance judgement.</p>
+          <h3><a href="source-to-report.html?preset=low-confidence">Low-confidence fields in the map</a></h3>
+          <p><strong>Problem:</strong> Some report fields still refresh but touch both legacy and new sources — easy to use in performance judgement by habit.</p>
+          <p><strong>What I would do:</strong> Filter the source-to-report map to low-confidence rows and require owner confirmation before use in directorate packs.</p>
+          <p><strong>Who:</strong> Report owners per row; BI updates confidence when feeds change; performance lead enforces the gate.</p>
+          <p><strong>Artefact:</strong> <a href="source-to-report.html?preset=low-confidence">Low-confidence preset</a> on the interactive map.</p>
+          <p><strong>Benefit:</strong> Stops “we’ve always used that column” during migration. <strong>After six months:</strong> Confidence flags become standard metadata on new reports.</p>
         </article>
         <article>
-          <h3><a href="migration-scenario.html">Migration scenario timeline</a></h3>
-          <p>Parallel run, feed cutover and phase D risks — prepared fallbacks while the sky is still clear.</p>
+          <h3><a href="migration-scenario.html">Migration scenario and fallbacks</a></h3>
+          <p><strong>Problem:</strong> Parallel run ends, feeds cut over, and teams assume reporting risk ended when IT marked the go-live green.</p>
+          <p><strong>What I would do:</strong> Document phases A–F, feed cutover dates and prepared fallbacks while systems still look stable — including weekly referral feed discontinued in February.</p>
+          <p><strong>Who:</strong> IM&amp;T programme on cutover; performance and BI on reporting fallbacks; service leads on operational continuity.</p>
+          <p><strong>Artefact:</strong> <a href="migration-scenario.html">Migration scenario timeline</a> and risk register extract.</p>
+          <p><strong>Benefit:</strong> Phase D is expected to be messy; surprises are smaller. <strong>After six months:</strong> Timeline becomes the briefing doc for the next programme wave.</p>
         </article>
         <article>
           <h3><a href="deliverables/senior-performance-brief.html">Senior brief confidence column</a></h3>
-          <p>Each section rated for Mar 2026; Board slide withheld where confidence is Low (IDEA-10 promoted).</p>
+          <p><strong>Problem:</strong> Board packs imply every headline is equally trustworthy.</p>
+          <p><strong>What I would do:</strong> Add a confidence rating per section in the senior brief template; withhold the executive dashboard headline from the Board pack when confidence is Low (IDEA-10).</p>
+          <p><strong>Who:</strong> Performance lead drafts; directorate lead agrees what is safe to present; BI confirms technical status.</p>
+          <p><strong>Artefact:</strong> <a href="deliverables/senior-performance-brief.html">Senior performance brief template</a> with March 2026 example.</p>
+          <p><strong>Benefit:</strong> Honest narrative under pressure — “here is what we know and what we do not”. <strong>After six months:</strong> Template and confidence column owned by performance team.</p>
         </article>
       </div>
 
       <div class="info-box" role="note">
-        <strong>Legacy KPIs and the cobra effect:</strong> Long-established internal measures can become targets that distort behaviour — especially during migration when teams over-align to a dashboard that no longer matches agreed logic. Productive Paranoia means being willing to challenge familiar KPIs, renegotiate definitions with services, and accept short-term discomfort so performance judgement stays honest (JD 5.5 pathway redesign; person spec 2.2 managing change).
+        <strong>Legacy KPIs and the cobra effect:</strong> Long-established internal measures can become targets that distort behaviour — especially when teams over-align to a dashboard that no longer matches agreed logic. <a href="three-principles.html#productive-paranoia">Productive Paranoia</a> means being willing to challenge familiar KPIs, renegotiate definitions with services, and accept short-term discomfort so performance judgement stays honest. That is part of pathway and service improvement, not a separate “data project”.
       </div>
 
+      <p>For explicit Band 8a role mapping, see <a href="role-and-roadmap.html#role-map">roadmap and role</a>.</p>
       <p><a href="three-principles.html">&larr; All three principles</a> · <a href="../six-months-trusted-performance.html#slide-approach-roadmap">Back to six-month approach</a></p>
     </section>
   </main>

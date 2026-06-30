@@ -27,7 +27,7 @@ PAGES = [
      "Template sections with Mar 2026 filled example and confidence column.",
      "demand-capacity-productivity.html", "Demand/capacity", "ideas-under-test.html"),
     ("ideas-under-test.html", "Ideas under test", "M1–M6", "6 of 6",
-     "Portfolio of ideas tested, promoted, parked or dismissed — Test and Scale in practice.",
+     "Portfolio of ideas tested, promoted, parked or dismissed — <a href=\"../three-principles.html#test-and-scale\">Test and Scale</a> in practice.",
      "senior-performance-brief.html", "Senior brief", "index.html"),
 ]
 
@@ -73,10 +73,11 @@ PLAIN_ENGLISH = {
     ),
     "ideas-under-test.html": (
         "In plain English",
-        "Not every good idea deserves a permanent report or a new dashboard. This register "
-        "records what we tried, what worked, what we parked for later, and what we stopped "
-        "because the data or timing was wrong. It shows I test small before committing — and "
-        "follow through with energy when something proves useful.",
+        "This is a visible list of improvement ideas I would try in a real secondment — not "
+        "every suggestion becomes a permanent dashboard. For each idea it records what problem "
+        "we were solving, what small test we ran, what evidence we looked for, and whether to "
+        "promote, park or stop. That is Test and Scale in practice: test cheaply, scale only "
+        "when managers actually use the output to make decisions.",
     ),
 }
 
@@ -248,11 +249,22 @@ def _idea_artefact_link(artefact: str) -> str:
         "kpi-definitions-register": "kpi-definitions-register.html",
         "senior-performance-brief": "senior-performance-brief.html",
         "ideas-under-test": "ideas-under-test.html",
+        "source-to-report-map": "source-to-report-map.html",
+        "deliverables/index": "index.html",
         "demand_capacity_insights.csv": "../../secondment-demo/data/demand_capacity_insights.csv",
         "six-months-trusted-performance": "../../six-months-trusted-performance.html#ideas-under-test",
     }
     href = links.get(artefact, f"../../secondment-demo/data/{artefact}")
-    label = artefact.replace("-", " ").replace(".csv", "").title()
+    labels = {
+        "demand-capacity-productivity": "Demand capacity pack",
+        "reporting-assurance-during-migration": "Reporting assurance pack",
+        "kpi-definitions-register": "KPI definitions register",
+        "senior-performance-brief": "Senior performance brief",
+        "ideas-under-test": "Ideas under test",
+        "source-to-report-map": "Source-to-report map",
+        "deliverables/index": "Deliverables register",
+    }
+    label = labels.get(artefact, artefact.replace("-", " ").replace(".csv", "").replace("/", " — ").title())
     if href.endswith(".html") and "/" not in artefact:
         return f'<a href="{href}">{esc(label)}</a>'
     return f'<a href="{href}">{esc(artefact)}</a>'
@@ -388,23 +400,51 @@ def build_ideas_under_test_body() -> str:
     idea_rows = "".join(
         f'<tr><td>{esc(r["idea_id"])}</td><td>{esc(r["idea_name"])}</td>'
         f'<td>{_status_badge(r["status"])}</td><td>{esc(r["month"])}</td>'
-        f'<td>{esc(r["outcome"])}</td><td>{_idea_artefact_link(r["linked_artefact"])}</td></tr>'
+        f'<td>{esc(r.get("decision", ""))}</td></tr>'
         for r in rows
     )
     cards = "".join(
         f'<article class="insight-card insight-card--{esc(r["status"].lower().replace(" ", "-"))}">'
-        f'<p class="insight-card-meta">{_status_badge(r["status"])} · {esc(r["month"])}</p>'
+        f'<p class="insight-card-meta">{_status_badge(r["status"])} · {esc(r["month"])} · {esc(r["idea_id"])}</p>'
         f'<h3>{esc(r["idea_name"])}</h3>'
-        f'<p><strong>Hypothesis:</strong> {esc(r["hypothesis"])}</p>'
-        f'<p><strong>Test:</strong> {esc(r["test_method"])}</p>'
-        f'<p><strong>Outcome:</strong> {esc(r["outcome"])}</p>'
-        f'<p>{_idea_artefact_link(r["linked_artefact"])}</p></article>'
+        f'<p class="idea-card-field"><strong>Problem:</strong> {esc(r.get("problem", ""))}</p>'
+        f'<p class="idea-card-field"><strong>Small test:</strong> {esc(r.get("small_test", ""))}</p>'
+        f'<p class="idea-card-field"><strong>Evidence:</strong> {esc(r.get("evidence", ""))}</p>'
+        f'<p class="idea-card-field"><strong>Decision it supports:</strong> {esc(r.get("decision", ""))}</p>'
+        f'<p class="idea-card-field"><strong>Next step:</strong> {esc(r.get("next_step", ""))}</p>'
+        + (f'<p class="idea-card-field"><strong>Safe to scale when:</strong> {esc(r["scale_safe_when"])}</p>'
+           if r.get("scale_safe_when") and not r["scale_safe_when"].startswith("n/a") else "")
+        + f'<p>{_idea_artefact_link(r["linked_artefact"])}</p></article>'
         for r in rows
     )
     return f"""
     <section class="slide-frame">
-    <p>Test and Scale in practice — from <a href="../test-and-scale.html">Test and Scale</a>: probe routes cheaply, promote what works, dismiss what misleads during migration.</p>
-    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Idea</th><th>Status</th><th>Month</th><th>Outcome</th><th>Artefact</th></tr></thead>
+    <p><a href="../three-principles.html#test-and-scale">Test and Scale</a> in practice: test cheaply with real users, test against evidence, stop ideas that mislead, park what is not ready, promote what improves decisions, scale only when the evidence is strong enough.</p>
+    </section>
+    <section class="slide-frame"><h2>What this register is for</h2>
+    <p>A controlled way to test improvement ideas without turning every suggestion into a permanent report or dashboard. During a six-month secondment there is not time to build everything — there is time to learn what deserves further investment and what should stop.</p>
+    </section>
+    <section class="slide-frame"><h2>How an idea moves through the register</h2>
+    <ul class="idea-status-list">
+      <li><strong>Under test</strong> — limited pilot with named users; scope and duration agreed upfront.</li>
+      <li><strong>Promoted</strong> — evidence strong enough to become a deliverable or regular product with an owner.</li>
+      <li><strong>Parked</strong> — potentially useful, but timing, data quality or dependencies not right yet.</li>
+      <li><strong>Dismissed</strong> — tested and found misleading, not useful, or not worth scaling in current conditions.</li>
+    </ul>
+    </section>
+    <section class="slide-frame"><h2>What makes an idea safe to scale</h2>
+    <ul class="idea-scale-criteria">
+      <li>Service users understand what they are looking at</li>
+      <li>It answers a real decision question — not just “interesting data”</li>
+      <li>Definitions are agreed and stable enough to trust</li>
+      <li>Data confidence is adequate for the decision being made</li>
+      <li>It changes behaviour or decisions — managers actually use it</li>
+      <li>Ownership is clear after the secondment ends</li>
+      <li>The process can be sustained without heroics</li>
+    </ul>
+    </section>
+    <section class="slide-frame"><h2>Summary table</h2>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Idea</th><th>Status</th><th>Month</th><th>Decision supported</th></tr></thead>
     <tbody>{idea_rows}</tbody></table></div></section>
     <section class="slide-frame"><h2>Idea cards</h2>
     <div class="insight-card-grid">{cards}</div>
